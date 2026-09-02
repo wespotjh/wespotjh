@@ -16,3 +16,8 @@ ruvector.db
 .claude/settings.local.json
 .claude-flow/swarm/
 .claude-flow/policy/state.json
+
+# Node
+node_modules/
+.claude-flow/daemon.pid
+.claude-flow/agents/
