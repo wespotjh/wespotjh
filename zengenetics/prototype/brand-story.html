@@ -79,6 +79,18 @@
   .gs .num { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: 36px; color: var(--navy); font-variant-numeric: tabular-nums; }
   .gs span { font-size: 13px; color: var(--sub); }
 
+  /* channels */
+  #channels { background: var(--cream); }
+  .chans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; max-width: 980px; margin: 0 auto; }
+  @media (max-width: 900px) { .chans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .chan { background: #fff; border: 1px solid var(--line); border-radius: 14px; min-height: 92px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 18px 10px; }
+  .chan .mark { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: clamp(15px, 1.8vw, 18px); letter-spacing: 0.02em; }
+  .chan .sub2 { font-size: 11px; color: var(--sub); letter-spacing: 0.06em; }
+  .chan.own { background: var(--navy); border-color: var(--navy); }
+  .chan.own .mark { color: #fff; } .chan.own .sub2 { color: var(--mist); }
+  .chans-note { text-align: center; margin-top: 24px; font-size: 12.5px; color: #8A7A60; }
+
   /* closing */
   #closing { background: repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 90px),
     linear-gradient(180deg, var(--wood), var(--wood-deep)); color: #fff; text-align: center; }
@@ -190,6 +202,25 @@
     <div class="gs"><div class="num">26,961</div><span>누적 리뷰 (평점 4.9)</span></div>
     <div class="gs"><div class="num">92%</div><span>재구매율</span></div>
   </div>
+</section>
+
+<section id="channels">
+  <div class="head">
+    <div class="eyebrow">AVAILABLE AT</div>
+    <h2>이미, 곳곳에 있습니다</h2>
+    <p>온라인과 오프라인 — 늘 지나는 곳에서 젠제네틱스를 만날 수 있습니다.</p>
+  </div>
+  <div class="chans">
+    <div class="chan own"><span class="mark">Zengenetics</span><span class="sub2">공식몰</span></div>
+    <div class="chan"><span class="mark" style="color:#7CB342">OLIVE YOUNG</span><span class="sub2">올리브영</span></div>
+    <div class="chan"><span class="mark" style="color:#E52528">coupang</span><span class="sub2">쿠팡</span></div>
+    <div class="chan"><span class="mark" style="color:#5F0080">Kurly</span><span class="sub2">마켓컬리</span></div>
+    <div class="chan"><span class="mark" style="color:#03C75A">NAVER</span><span class="sub2">스마트스토어</span></div>
+    <div class="chan"><span class="mark" style="color:#B8860B">kakao</span><span class="sub2">카카오톡 스토어</span></div>
+    <div class="chan"><span class="mark" style="color:#2E7D52">＋ 약국</span><span class="sub2">전국 취급 약국</span></div>
+    <div class="chan"><span class="mark" style="color:#8E1F2F">SHINSEGAE</span><span class="sub2">신세계면세점</span></div>
+  </div>
+  <div class="chans-note">※ 워드마크는 자리 표시 — 실구현 시 각 사의 공식 로고 이미지로 교체</div>
 </section>
 
 <section id="closing">
