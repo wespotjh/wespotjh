@@ -618,99 +618,46 @@
     var dip = started && q < 0.10 ? 0.35 + q * 6.5 : 1;
     bodyLabel.opacity = Math.min(1, dip);
 
-    /* pouch pose: a different character per time of day */
+    /* pouch: stands center stage, turning on its vertical axis with the scroll
+       (one full 360° per time of day) — no tearing, ever */
     var fin = smooth(FIN0, FIN1, p);
-    var rz = 0, dy = 0, dx = 0, dz = 0, act = 0;
-    var capT = 0, capDX = 0, capDY = 0, capRZ = 0, capFadeQ = 1;
-    if (started) {
-      if (bIdx === 0) {
-        /* MORNING: coiled hop, powder bursts up like sunrise */
-        var ant = smooth(0.12, 0.20, q) * (1 - smooth(0.20, 0.28, q));   /* lean back first */
-        var hop = smooth(0.20, 0.32, q) * (1 - smooth(0.55, 0.80, q));
-        var tl0 = smooth(0.24, 0.42, q) * (1 - smooth(0.80, 0.96, q));
-        rz = 0.32 * ant - 0.75 * tl0;
-        dy = 1.25 * hop;
-        dx = 0.2 * tl0;
-        dz = 0.5 * hop;
-        act = Math.max(hop, tl0);
-        capT = smooth(0.16, 0.24, q);
-        capDX = -0.6 * capT; capDY = 2.3 * capT; capRZ = 2.6 * capT;   /* pops up-left, spinning */
-        capFadeQ = 1 - smooth(0.24, 0.32, q);
-      } else if (bIdx === 1) {
-        /* EVENING: the one deep, heavy pour */
-        var tl1 = smooth(0.22, 0.52, q) * (1 - smooth(0.82, 0.98, q));
-        rz = -1.75 * tl1;
-        dy = 1.7 * tl1;
-        dx = 0.45 * tl1;
-        dz = 0.8 * tl1;
-        act = tl1;
-        capT = smooth(0.16, 0.30, q);
-        capDX = 0.9 * capT; capDY = 1.1 * capT; capRZ = -1.4 * capT;   /* twists off to the right */
-        capFadeQ = 1 - smooth(0.28, 0.38, q);
-      } else {
-        /* NIGHT: lies down slowly, powder drifts out like mist */
-        var lay = smooth(0.20, 0.58, q) * (1 - smooth(0.86, 1.0, q));
-        rz = -1.38 * lay;
-        dy = 0.42 * lay;                                                /* stays low, near the wood */
-        dx = 0.95 * lay;
-        dz = 0.3 * lay;
-        act = lay;
-        capT = smooth(0.30, 0.50, q);
-        capDX = 1.4 * capT; capDY = 0.15 * capT; capRZ = -0.4 * capT;  /* slides off gently */
-        capFadeQ = 1 - smooth(0.46, 0.58, q);
-      }
-    }
-    var idleRot = Math.sin(t * 0.5) * 0.1 + mouseX * 0.22;
-    pouch.rotation.y = idleRot * (1 - act * 0.7);
-    pouch.rotation.z = rz;
-    pouch.position.y = -2.45 + dy + Math.sin(t * 0.9) * 0.02 * (1 - act);
-    pouch.position.x = dx - 2.3 * fin;
-    pouch.position.z = 0.4 + dz - 0.4 * fin;
+    pouch.rotation.y = t * 0.12 + p * Math.PI * 6 + mouseX * 0.3;
+    pouch.rotation.z = Math.sin(t * 0.6) * 0.015;
+    pouch.position.y = -2.45 + Math.sin(t * 0.9) * 0.02;
+    pouch.position.x = -2.3 * fin;
+    pouch.position.z = 0.4 - 0.4 * fin;
     var shrink = 1 - fin * 0.22;
     pouch.scale.set(shrink, shrink, shrink);
-
-    cap.position.y = 2.18 + capDY;
-    cap.position.x = capDX;
-    cap.rotation.z = capRZ;
-    var capOp = started ? Math.min(dip, capFadeQ) : 1;
+    var capOp = started ? dip : 1;
     for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
 
-    /* powder: each particle pours during its beat, rests on the table, then joins its stream */
-    var mouthX = pouch.position.x + Math.cos(pouch.rotation.z + Math.PI / 2) * 2.0 * shrink;
-    var mouthY = pouch.position.y + Math.sin(pouch.rotation.z + Math.PI / 2) * 2.9 * shrink;
+    /* powder: rises from the bottom, spirals around the turning pouch,
+       settles at its base — then joins its stream in the finale */
     var split = smooth(FIN0, FIN1, p);
     var attr = geo.attributes.position.array;
+    /* per-time character: morning lively, evening steady, night slow & wide */
+    var swirlP = [ { h: 2.6, w: 1.1, r: 1.15 }, { h: 2.1, w: 0.6, r: 0.95 }, { h: 1.6, w: 0.35, r: 1.5 } ];
     for (var i2 = 0; i2 < N; i2++) {
       var md = meta[i2];
       var pbeat = beatOfSt[md.st];
       var bt = beats[pbeat];
       var bq = clamp01((p - bt.s) / (bt.e - bt.s));
-      var pourStart = pbeat === 0 ? 0.24 : (pbeat === 1 ? 0.30 : 0.44);
-      var fp = clamp01((bq - pourStart - md.d * 0.35) / 0.45);
+      var fp = clamp01((bq - 0.18 - md.d * 0.45) / 0.6);
       var x3, y3, z3;
       if (fp <= 0) { attr[i2 * 3 + 1] = -50; continue; }
+      var sw = swirlP[pbeat];
       if (fp < 1) {
-        if (pbeat === 0) {
-          /* morning burst: fountain up, then fall */
-          x3 = mouthX + md.jx * (0.4 + fp * 2.4);
-          y3 = mouthY + (2.0 * md.s) * fp - 4.6 * fp * fp;
-          z3 = pouch.position.z + md.jz * (0.4 + fp * 1.2);
-        } else if (pbeat === 1) {
-          /* evening pour: heavy straight fall */
-          x3 = mouthX + md.jx * (0.25 + fp * 0.9);
-          y3 = mouthY - fp * fp * (2.6 + md.s * 1.4);
-          z3 = pouch.position.z + md.jz * (0.3 + fp);
-        } else {
-          /* night mist: slides out sideways, sinks slowly, drifting */
-          x3 = mouthX + fp * (1.4 * md.s) + md.jx * 0.5 + Math.sin(t * 0.8 + md.ph * 7) * 0.06 * fp;
-          y3 = mouthY - fp * (1.5 + md.s * 0.5) + Math.sin(t * 1.1 + md.ph * 5) * 0.04 * fp;
-          z3 = pouch.position.z + md.jz * (0.4 + fp * 1.4);
-        }
-        if (y3 < -2.32) y3 = -2.32 + Math.abs(md.jz) * 0.08;
+        var ang = md.ph * 6.283 + t * sw.w + fp * 2.2;
+        var rad = (0.85 + Math.abs(md.jx) * sw.r) * (1 + fp * 0.35);
+        x3 = pouch.position.x + Math.cos(ang) * rad;
+        z3 = pouch.position.z + Math.sin(ang) * rad * 0.45;
+        /* rise from below the table, arc up alongside the pouch, sink back to its base */
+        y3 = -2.35 + Math.sin(fp * Math.PI) * sw.h * md.s - (1 - fp) * 0.9;
+        if (y3 < -2.9) y3 = -2.9;
       } else {
-        /* three little piles, one per time of day */
-        var pileX = pbeat === 0 ? 1.15 : (pbeat === 1 ? 0.4 : -0.35);
-        var pileW = pbeat === 2 ? 1.9 : 1.4;
+        /* settles into three soft piles at the base */
+        var pileX = pbeat === 0 ? 1.05 : (pbeat === 1 ? 0 : -1.05);
+        var pileW = pbeat === 2 ? 1.6 : 1.2;
         x3 = pileX + md.jx * pileW;
         y3 = -2.32 + Math.abs(md.jz) * 0.08 + md.d * 0.05;
         z3 = 0.4 + md.jz * 0.9;
