@@ -14,7 +14,6 @@
     --line: #E4DECF;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: auto; }
   body {
     margin: 0;
     background: var(--paper);
@@ -22,175 +21,127 @@
     font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', system-ui, sans-serif;
     overflow-x: hidden;
   }
-  .serif { font-family: 'Noto Serif KR', 'Apple SD Gothic Neo', serif; }
-  a { color: var(--navy); }
-  a:hover { color: var(--navy-deep); }
+  a { color: var(--navy); } a:hover { color: var(--navy-deep); }
 
-  /* ---------- HERO (pinned scroll scene) ---------- */
-  #hero-track { position: relative; height: 480vh; background: var(--navy-deep); }
+  /* ---------- HERO: day-to-night journey + pouch (pinned) ---------- */
+  #hero-track { position: relative; height: 720vh; background: var(--navy-deep); }
   body.reduced #hero-track, body.no3d #hero-track { height: 100vh; }
-  #hero-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  #hero-stage { position: sticky; top: 0; height: 100vh; overflow: hidden;
+    background: linear-gradient(180deg, #8FA8D9, #F8D9AC); }
   #scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
   .gnb {
     position: absolute; top: 0; left: 0; right: 0; z-index: 30;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 22px clamp(20px, 4vw, 56px);
-    color: #fff;
+    padding: 20px clamp(18px, 4vw, 56px); color: #fff;
+    text-shadow: 0 1px 12px rgba(11, 22, 51, 0.35);
   }
-  .gnb .logo { font-weight: 900; font-size: 20px; letter-spacing: 0.03em; font-family: 'Noto Serif KR', serif; }
-  .gnb nav { display: flex; gap: clamp(14px, 2.4vw, 34px); font-size: 14.5px; color: var(--mist); }
-  .gnb nav span { cursor: pointer; } .gnb nav span:hover { color: #fff; }
-  .gnb .util { display: flex; gap: 18px; font-size: 13.5px; color: var(--mist); }
+  .gnb .logo { font-weight: 900; font-size: 19px; letter-spacing: 0.03em; font-family: 'Noto Serif KR', serif; }
+  .gnb nav { display: flex; gap: clamp(14px, 2.4vw, 34px); font-size: 14.5px; }
+  .gnb nav span { cursor: pointer; opacity: 0.85; } .gnb nav span:hover { opacity: 1; }
+  .gnb .util { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; }
   @media (max-width: 760px) { .gnb nav { display: none; } }
 
   .cap {
     position: absolute; z-index: 20; left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center; gap: 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
     text-align: center; color: #fff; pointer-events: none;
     opacity: 0; transform: translateY(24px);
     will-change: opacity, transform;
+    padding: 0 22px;
+    text-shadow: 0 2px 20px rgba(11, 22, 51, 0.45);
   }
-  .cap .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: var(--sand); }
-  .cap h1 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(34px, 5vw, 64px); line-height: 1.28; text-wrap: balance; }
-  .cap h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(26px, 3.6vw, 46px); line-height: 1.3; text-wrap: balance; }
-  .cap p { margin: 0; font-size: clamp(14px, 1.4vw, 17px); line-height: 1.7; color: var(--mist); }
-  .cap .cta { pointer-events: auto; margin-top: 6px; display: inline-flex; align-items: center; gap: 10px;
-    background: #fff; color: var(--navy); font-weight: 700; font-size: 15.5px; padding: 15px 34px; border-radius: 4px; cursor: pointer; }
+  .cap .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.24em; color: var(--sand); }
+  .cap h1 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(29px, 5vw, 62px); line-height: 1.3; text-wrap: balance; word-break: keep-all; }
+  .cap h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(24px, 3.6vw, 44px); line-height: 1.32; text-wrap: balance; word-break: keep-all; }
+  .cap p { margin: 0; font-size: clamp(13.5px, 1.4vw, 16.5px); line-height: 1.7; max-width: min(88vw, 620px); word-break: keep-all; }
+  .cap .cta { pointer-events: auto; margin-top: 4px; display: inline-flex; align-items: center;
+    background: #fff; color: var(--navy); font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 4px; cursor: pointer; text-shadow: none; min-height: 44px; }
   .cap .cta:hover { background: var(--sand); }
 
-  #cap0 { top: 16vh; }
-  #cap1 { top: 12vh; }
-  #cap2 { top: 12vh; }
-  #cap3 { bottom: 7vh; }
-  #cap3 .streams { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(880px, 92vw); }
-  #cap3 .stream-label { display: flex; flex-direction: column; gap: 6px; align-items: center; }
-  #cap3 .stream-label b { font-family: 'Noto Serif KR', serif; font-size: clamp(17px, 2vw, 24px); font-weight: 900; }
-  #cap3 .stream-label i { font-style: normal; font-size: clamp(11px, 1.2vw, 13.5px); color: var(--mist); }
-  #cap3 .dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 4px; }
+  .jchips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 4px; }
+  .jchip { display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 8px 15px;
+    font-size: 12.5px; font-weight: 700; background: rgba(255,255,255,0.16); color: #fff;
+    border: 1px solid rgba(255,255,255,0.45); backdrop-filter: blur(4px); text-shadow: none; }
+  .jchip .cdot { width: 8px; height: 8px; border-radius: 50%; }
 
-  #scroll-hint { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 20;
-    color: var(--mist); font-size: 11px; letter-spacing: 0.3em; opacity: 0.9; }
-  #scroll-hint::after { content: ""; display: block; width: 1px; height: 34px; background: var(--mist); margin: 10px auto 0; animation: drip 1.8s ease-in-out infinite; }
+  #capA { top: 14vh; }
+  #capM, #capE, #capN, #capP { top: 11vh; }
+  #capS { bottom: 6vh; }
+  #capS .streams { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: min(880px, 94vw); }
+  #capS .stream-label { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+  #capS .stream-label b { font-family: 'Noto Serif KR', serif; font-size: clamp(15px, 2vw, 23px); font-weight: 900; }
+  #capS .stream-label i { font-style: normal; font-size: clamp(10.5px, 1.2vw, 13px); color: var(--mist); }
+  #capS .dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 2px; }
+
+  #scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20;
+    color: #fff; font-size: 10.5px; letter-spacing: 0.3em; opacity: 0.9; text-shadow: 0 1px 10px rgba(11,22,51,0.4); }
+  #scroll-hint::after { content: ""; display: block; width: 1px; height: 32px; background: #fff; margin: 9px auto 0; animation: drip 1.8s ease-in-out infinite; }
   @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 60% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(1); opacity: 0; } }
 
-  /* no-3d fallback hero */
+  /* no-3d fallback */
   #fallback-hero { display: none; position: absolute; inset: 0; z-index: 5; align-items: flex-end; justify-content: center; padding-bottom: 11vh; }
   body.no3d #fallback-hero { display: flex; }
   body.no3d #scene { display: none; }
-  body.no3d #cap0 { opacity: 1; transform: none; top: 11vh; }
+  body.no3d #hero-stage { background: linear-gradient(180deg, #10204a, #16295c 70%, #B98D5F); }
+  body.no3d #capA { opacity: 1; transform: none; top: 11vh; }
   body.no3d #fallback-hero svg { height: min(34vh, 300px); width: auto; }
 
   /* ---------- SECTIONS ---------- */
-  section { padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 72px); }
-  .sec-head { display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; margin-bottom: clamp(40px, 5vw, 64px); }
+  section { padding: clamp(68px, 9vw, 116px) clamp(18px, 5vw, 72px); }
+  .sec-head { display: flex; flex-direction: column; gap: 13px; align-items: center; text-align: center; margin-bottom: clamp(36px, 5vw, 60px); }
   .sec-head .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: var(--wood-deep); }
-  .sec-head h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; color: var(--navy); font-size: clamp(28px, 3.4vw, 44px); line-height: 1.3; text-wrap: balance; }
-  .sec-head p { margin: 0; font-size: 15.5px; color: #5A6072; line-height: 1.7; }
+  .sec-head h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; color: var(--navy); font-size: clamp(27px, 3.4vw, 42px); line-height: 1.32; text-wrap: balance; }
+  .sec-head p { margin: 0; font-size: 15px; color: #5A6072; line-height: 1.7; }
 
   /* products */
   #products { background: var(--paper); }
-  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 1240px; margin: 0 auto; }
-  @media (max-width: 900px) { .cards { grid-template-columns: 1fr; max-width: 460px; } }
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 1240px; margin: 0 auto; }
+  @media (max-width: 900px) { .cards { grid-template-columns: 1fr; max-width: 440px; } }
   .card {
-    border-radius: 18px; padding: 34px 26px 30px; color: #fff;
-    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    border-radius: 18px; padding: 32px 24px 28px; color: #fff;
+    display: flex; flex-direction: column; align-items: center; gap: 13px;
     background: linear-gradient(175deg, var(--navy-soft), var(--navy) 55%, var(--navy-deep));
     transition: transform 0.35s ease, box-shadow 0.35s ease;
   }
   .card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(11, 22, 51, 0.35); }
-  .card .pill { border: 1px solid var(--sand); color: var(--sand); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; padding: 5px 12px; border-radius: 999px; }
-  .card h3 { margin: 2px 0 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 23px; }
+  .card .time { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; color: var(--sand); display: flex; align-items: center; gap: 7px; }
+  .card .time::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tdot, #fff); }
+  .card h3 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 22px; }
   .card .pain { font-size: 13.5px; color: var(--mist); }
   .card .price { font-size: 14px; color: var(--mist); }
   .card .price b { color: #fff; font-size: 16px; }
-  .card .buy { margin-top: 4px; background: #fff; color: var(--navy); font-weight: 700; font-size: 14.5px;
-    padding: 13px 34px; border-radius: 999px; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+  .card .buy { margin-top: 2px; background: #fff; color: var(--navy); font-weight: 700; font-size: 14.5px;
+    padding: 12px 32px; border-radius: 999px; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
   .card .buy:hover { background: var(--sand); }
 
-  /* CSS-3D rotating pouch */
-  .pouch-wrap { perspective: 700px; height: 250px; display: flex; align-items: flex-end; justify-content: center; margin: 8px 0 4px; }
-  .pouch { position: relative; width: 88px; height: 234px; transform-style: preserve-3d; animation: pouchspin 9s linear infinite; }
+  .pouch-wrap { perspective: 700px; height: 244px; display: flex; align-items: flex-end; justify-content: center; margin: 6px 0 2px; }
+  .pouch { position: relative; width: 86px; height: 228px; transform-style: preserve-3d; animation: pouchspin 9s linear infinite; }
   .card:hover .pouch { animation-duration: 3.5s; }
   .pouch .face { position: absolute; inset: 0; border-radius: 8px 8px 10px 10px; backface-visibility: hidden;
-    display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px 8px 14px; }
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 15px 8px 13px; }
   .pouch .front, .pouch .back { background: linear-gradient(180deg, #F6F2E9 0%, #FFFFFF 30%, #EFEAE0 100%); color: var(--navy); box-shadow: inset 0 0 0 1px rgba(22,41,92,0.12); }
   .pouch .front { transform: translateZ(7px); } .pouch .back { transform: rotateY(180deg) translateZ(7px); }
   .pouch .edge { position: absolute; top: 0; bottom: 0; width: 14px; background: var(--sand); border-radius: 4px; }
   .pouch .edge.l { left: -7px; transform: rotateY(-90deg); } .pouch .edge.r { right: -7px; transform: rotateY(90deg); }
   .pouch .notch { width: 100%; border-top: 2px dashed rgba(22,41,92,0.35); padding-top: 8px; font-size: 8px; letter-spacing: 0.2em; text-align: center; color: rgba(22,41,92,0.55); }
-  .pouch .name { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 13px; letter-spacing: 0.06em; text-align: center; line-height: 1.5; }
-  .pouch .mg { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .pouch .brand { font-size: 9px; letter-spacing: 0.24em; font-weight: 700; color: var(--wood-deep); }
+  .pouch .name { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 12.5px; letter-spacing: 0.05em; text-align: center; line-height: 1.5; }
+  .pouch .mg { font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .pouch .brand { font-size: 8.5px; letter-spacing: 0.24em; font-weight: 700; color: var(--wood-deep); }
   @keyframes pouchspin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-
-  .cards-note { text-align: center; margin-top: 34px; font-size: 14px; color: #5A6072; }
-
-  /* day flow: morning to night */
-  #day { background: linear-gradient(180deg, #F3EDE0, #EFE6D4); }
-  .daychart { max-width: 980px; margin: 0 auto clamp(48px, 6vw, 72px); background: #FFFFFF; border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px 30px; }
-  .dc-row { display: grid; grid-template-columns: 96px 1fr; gap: 18px; align-items: center; }
-  .dc-row + .dc-row { margin-top: 12px; }
-  .dc-row .who { font-size: 13.5px; font-weight: 700; color: var(--navy); text-align: right; }
-  .dc-head { margin-bottom: 6px; align-items: end; }
-  .dc-head .times { display: grid; grid-template-columns: repeat(4, 1fr); }
-  .dc-head .times span { text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #8A7A60; padding-bottom: 8px; }
-  .dc-head .times .night { color: var(--navy); }
-  .dc-band { grid-column: 2; height: 8px; border-radius: 999px; background: linear-gradient(90deg, #F6CFA0 0%, #FDEBD2 22%, #DDEBF2 45%, #8FA0C4 70%, #16295C 88%, #0B1633 100%); }
-  .lane {
-    position: relative; height: 46px; border-radius: 8px;
-    background-image:
-      linear-gradient(90deg, rgba(22,41,92,0.10) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(22,41,92,0.10) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(22,41,92,0.10) 1px, transparent 1px);
-    background-repeat: no-repeat;
-    background-position: 25% 0, 50% 0, 75% 0;
-    background-size: 1px 100%, 1px 100%, 1px 100%;
-  }
-  .bar { position: absolute; top: 5px; bottom: 5px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 14px; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; }
-  .bar .bdot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
-  .dc-note { margin-top: 16px; text-align: right; font-size: 12px; color: #8A7A60; }
-  @media (max-width: 700px) {
-    .daychart { padding: 18px 14px 20px; }
-    .dc-row { grid-template-columns: 64px 1fr; gap: 10px; }
-    .dc-row .who { font-size: 11.5px; }
-    .bar { font-size: 10.5px; padding: 0 8px; gap: 5px; }
-    .dc-head .times span { font-size: 10.5px; }
-  }
-  .moments { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; max-width: 1040px; margin: 0 auto; }
-  @media (max-width: 900px) { .moments { grid-template-columns: 1fr; max-width: 460px; } }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-  .chip { display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; background: #F3EDE0; color: var(--navy); border: 1px solid var(--line); }
-  .chip .cdot { width: 8px; height: 8px; border-radius: 50%; }
-  .moment { border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; background: #fff; transition: transform 0.35s ease, box-shadow 0.35s ease; }
-  .moment:hover { transform: translateY(-6px); box-shadow: 0 22px 44px rgba(90, 70, 40, 0.22); }
-  .moment .scene { height: 300px; position: relative; overflow: hidden; }
-  .moment .scene svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .moment .word { padding: 26px 26px 30px; display: flex; flex-direction: column; gap: 8px; }
-  .moment .word .en { font-size: 11.5px; font-weight: 700; letter-spacing: 0.24em; color: var(--wood-deep); }
-  .moment .word b { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 21px; color: var(--navy); }
-  .moment .word span { font-size: 14px; color: #5A6072; line-height: 1.7; }
-  .rhythm-note { text-align: center; margin-top: 36px; font-size: 13.5px; color: #8A7A60; }
+  .cards-note { text-align: center; margin-top: 30px; font-size: 13.5px; color: #5A6072; }
 
   /* trust */
   #trust { background: var(--navy); color: #fff; }
   #trust .sec-head .eyebrow { color: var(--sand); }
   #trust .sec-head h2 { color: #fff; }
-  .trust-row { display: flex; justify-content: center; gap: clamp(36px, 7vw, 96px); flex-wrap: wrap; }
-  .trust-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-  .trust-item .num { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 40px; font-variant-numeric: tabular-nums; }
-  .trust-item span { font-size: 13.5px; color: var(--mist); }
-  .review-quote { max-width: 720px; margin: 48px auto 0; text-align: center; font-size: 16.5px; line-height: 1.9; color: var(--mist); }
+  .trust-row { display: flex; justify-content: center; gap: clamp(30px, 7vw, 96px); flex-wrap: wrap; }
+  .trust-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .trust-item .num { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 38px; font-variant-numeric: tabular-nums; }
+  .trust-item span { font-size: 13px; color: var(--mist); }
+  .review-quote { max-width: 700px; margin: 44px auto 0; text-align: center; font-size: 16px; line-height: 1.9; color: var(--mist); }
   .review-quote em { font-style: normal; color: #fff; }
-  .review-src { margin-top: 14px; text-align: center; font-size: 12.5px; color: #7E8DB4; }
-
-  /* routine */
-  .routines { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; max-width: 1000px; margin: 0 auto; }
-  @media (max-width: 800px) { .routines { grid-template-columns: 1fr; } }
-  .routine { border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 30px 28px; display: flex; flex-direction: column; gap: 8px; }
-  .routine .tag { font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: var(--wood-deep); }
-  .routine b { font-size: 17.5px; }
-  .routine span { font-size: 14px; color: #5A6072; line-height: 1.7; }
+  .review-src { margin-top: 12px; text-align: center; font-size: 12px; color: #7E8DB4; }
 
   /* closing */
   #closing {
@@ -199,13 +150,13 @@
       linear-gradient(180deg, var(--wood), var(--wood-deep));
     color: #fff; text-align: center;
   }
-  #closing h2 { margin: 0 0 18px; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(30px, 4vw, 50px); line-height: 1.35; }
-  #closing p { margin: 0 0 26px; color: #F4EAD9; font-size: 15.5px; }
-  #closing .cta { display: inline-flex; background: var(--navy); color: #fff; font-weight: 700; font-size: 15.5px; padding: 16px 42px; border-radius: 4px; cursor: pointer; min-height: 44px; align-items: center; }
+  #closing h2 { margin: 0 0 16px; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(29px, 4vw, 48px); line-height: 1.35; }
+  #closing p { margin: 0 0 24px; color: #F4EAD9; font-size: 15px; }
+  #closing .cta { display: inline-flex; background: var(--navy); color: #fff; font-weight: 700; font-size: 15px; padding: 15px 40px; border-radius: 4px; cursor: pointer; min-height: 44px; align-items: center; }
   #closing .cta:hover { background: var(--navy-deep); }
 
-  footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12.5px; line-height: 1.9; padding: 44px clamp(20px, 5vw, 72px); display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  footer .logo { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 17px; color: #fff; margin-bottom: 10px; }
+  footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12px; line-height: 1.9; padding: 40px clamp(18px, 5vw, 72px); display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
+  footer .logo { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 8px; }
 
   @media (prefers-reduced-motion: reduce) {
     .pouch { animation: none; }
@@ -223,25 +174,48 @@
       <div class="util"><span>로그인</span><span>Cart</span></div>
     </header>
 
-    <div class="cap" id="cap0">
+    <div class="cap" id="capA">
       <div class="eyebrow">MORNING TO NIGHT MINERALS</div>
       <h1>오늘의 한 포가<br>하루를 결정합니다</h1>
-      <p>칼륨 · 마그네슘 · 비타민B — 몸의 리듬을 되찾는 하루 한 포</p>
+      <p>아침부터 밤까지 — 몸의 리듬을 되찾는 하루 한 포</p>
       <div class="cta">내 리듬 찾기</div>
     </div>
 
-    <div class="cap" id="cap1">
-      <div class="eyebrow">EASY-CUT</div>
-      <h2>손끝으로, 3초</h2>
+    <div class="cap" id="capM">
+      <div class="eyebrow">MORNING</div>
+      <h2>가볍게 여는 아침</h2>
+      <p>어젯밤의 짠 기운은 내보내고, 하루의 시동을 겁니다.</p>
+      <div class="jchips">
+        <span class="jchip"><span class="cdot" style="background:#FFD9A0"></span>비타민B 한 포 · 시동</span>
+        <span class="jchip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 부은 아침</span>
+      </div>
+    </div>
+
+    <div class="cap" id="capE">
+      <div class="eyebrow">EVENING</div>
+      <h2>하루의 끝,<br>무거워진 몸</h2>
+      <p>짜게 먹은 저녁일수록, 그냥 잠들지 마세요.</p>
+      <div class="jchips">
+        <span class="jchip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 저녁 식사 후</span>
+      </div>
+    </div>
+
+    <div class="cap" id="capN">
+      <div class="eyebrow">NIGHT</div>
+      <h2>깊이 회복하는 밤</h2>
+      <p>뭉친 몸을 풀고, 내일의 나를 준비합니다.</p>
+      <div class="jchips">
+        <span class="jchip"><span class="cdot" style="background:#E9DCC6"></span>마그네슘 한 포 · 자기 전</span>
+      </div>
+    </div>
+
+    <div class="cap" id="capP">
+      <div class="eyebrow">EASY-CUT · 3 SECONDS</div>
+      <h2>그리고, 한 포</h2>
       <p>물 없이 어디서든. 뜯는 순간, 하루가 정돈됩니다.</p>
     </div>
 
-    <div class="cap" id="cap2">
-      <div class="eyebrow">WATERLESS POWDER</div>
-      <h2>쏟아지는 건 가루가 아니라<br>몸의 리듬입니다</h2>
-    </div>
-
-    <div class="cap" id="cap3">
+    <div class="cap" id="capS">
       <div class="streams">
         <div class="stream-label"><div class="dot" style="background:#A9C2FF"></div><b>붓기 · 칼륨</b><i>나트륨 OUT, 아침 얼굴이 달라진다</i></div>
         <div class="stream-label"><div class="dot" style="background:#E9DCC6"></div><b>리커버리 · 마그네슘</b><i>뭉친 몸과 얕은 잠을 풀어낸다</i></div>
@@ -269,8 +243,8 @@
     <p>고민에 이름을 붙였습니다. 성분이 아니라 결과로 고르세요.</p>
   </div>
   <div class="cards">
-    <div class="card">
-      <div class="pill">POTASSIUM 525mg</div>
+    <div class="card" style="--tdot:#A9C2FF">
+      <div class="time">아침 · 저녁 — 하루 어디서든</div>
       <h3>붓기 부스터 · 칼륨</h3>
       <div class="pain">아침마다 얼굴이 퉁퉁 붓는다면</div>
       <div class="pouch-wrap"><div class="pouch">
@@ -281,8 +255,8 @@
       <div class="price"><s style="opacity:0.55">45,000</s> <b>34,900원</b> · 20포</div>
       <div class="buy">Shop Now</div>
     </div>
-    <div class="card">
-      <div class="pill">MAGNESIUM</div>
+    <div class="card" style="--tdot:#E9DCC6">
+      <div class="time">밤 — 자기 전 한 포</div>
       <h3>리커버리 · 마그네슘</h3>
       <div class="pain">자고 일어나도 개운하지 않다면</div>
       <div class="pouch-wrap"><div class="pouch">
@@ -293,8 +267,8 @@
       <div class="price"><s style="opacity:0.55">49,000</s> <b>37,900원</b> · 20포</div>
       <div class="buy">Shop Now</div>
     </div>
-    <div class="card">
-      <div class="pill">VITAMIN B COMPLEX</div>
+    <div class="card" style="--tdot:#FFD9A0">
+      <div class="time">아침 — 하루의 시동</div>
       <h3>활력 · 비타민B</h3>
       <div class="pain">오후 3시면 방전된다면</div>
       <div class="pouch-wrap"><div class="pouch">
@@ -307,98 +281,6 @@
     </div>
   </div>
   <div class="cards-note">데이팩(6포) 14,000원부터 · 세트 구성 시 최대 27% 할인</div>
-</section>
-
-<section id="day">
-  <div class="sec-head">
-    <div class="eyebrow">MORNING TO NIGHT</div>
-    <h2>아침의 몸과 저녁의 몸은<br>다릅니다</h2>
-    <p>하루의 흐름에 맞춰, 필요한 순간에 한 포.</p>
-  </div>
-
-  <div class="daychart">
-    <div class="dc-row dc-head">
-      <div></div>
-      <div>
-        <div class="times"><span>아침</span><span>낮</span><span>저녁</span><span class="night">밤</span></div>
-        <div class="dc-band" style="grid-column:auto"></div>
-      </div>
-    </div>
-    <div class="dc-row">
-      <div class="who">비타민B</div>
-      <div class="lane"><div class="bar" style="left:0; width:25%; background:#FFD9A0; color:#6B4A16"><span class="bdot" style="background:#B97A1E"></span>아침 한 포</div></div>
-    </div>
-    <div class="dc-row">
-      <div class="who">칼륨</div>
-      <div class="lane"><div class="bar" style="left:0; width:100%; background:#C9D6F5; color:#16295C"><span class="bdot" style="background:#16295C"></span>하루 어디서든 — 짜게 먹은 날엔 꼭</div></div>
-    </div>
-    <div class="dc-row">
-      <div class="who">마그네슘</div>
-      <div class="lane"><div class="bar" style="left:50%; width:50%; background:#16295C; color:#E9DCC6"><span class="bdot" style="background:#E9DCC6"></span>자기 전 한 포</div></div>
-    </div>
-    <div class="dc-note">한 칸 = 하루의 1/4 · 자세한 복용 시점은 제품 상세에서</div>
-  </div>
-
-  <div class="moments">
-    <div class="moment">
-      <div class="scene">
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs>
-            <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#FDEBD2"></stop><stop offset="0.55" stop-color="#F6CFA0"></stop><stop offset="1" stop-color="#E3A96F"></stop>
-            </linearGradient>
-            <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stop-color="#FFF6E3"></stop><stop offset="0.7" stop-color="#FFDFA6"></stop><stop offset="1" stop-color="#FFDFA6" stop-opacity="0"></stop>
-            </radialGradient>
-          </defs>
-          <rect width="400" height="300" fill="url(#dawn)"></rect>
-          <circle cx="200" cy="212" r="120" fill="url(#sun)" opacity="0.9"></circle>
-          <circle cx="200" cy="212" r="52" fill="#FFF3DA"></circle>
-          <rect y="230" width="400" height="70" fill="#D99C63" opacity="0.55"></rect>
-          <rect y="252" width="400" height="48" fill="#C9884F" opacity="0.6"></rect>
-          <ellipse cx="118" cy="96" rx="58" ry="12" fill="#FFFFFF" opacity="0.5"></ellipse>
-          <ellipse cx="296" cy="66" rx="44" ry="10" fill="#FFFFFF" opacity="0.4"></ellipse>
-        </svg>
-      </div>
-      <div class="word">
-        <div class="en">MORNING</div><b>가볍게 여는 아침</b>
-        <span>어젯밤의 짠 기운은 내보내고, 하루의 시동을 겁니다.</span>
-        <div class="chips">
-          <span class="chip"><span class="cdot" style="background:#FFD9A0"></span>비타민B 한 포 · 시동</span>
-          <span class="chip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 부은 아침</span>
-        </div>
-      </div>
-    </div>
-    <div class="moment">
-      <div class="scene">
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs>
-            <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#0B1633"></stop><stop offset="0.7" stop-color="#16295C"></stop><stop offset="1" stop-color="#24397A"></stop>
-            </linearGradient>
-          </defs>
-          <rect width="400" height="300" fill="url(#night)"></rect>
-          <circle cx="300" cy="80" r="40" fill="#F4EBD7"></circle>
-          <circle cx="286" cy="70" r="36" fill="#16295C"></circle>
-          <circle cx="86" cy="60" r="2" fill="#FFFFFF" opacity="0.9"></circle>
-          <circle cx="150" cy="110" r="1.6" fill="#FFFFFF" opacity="0.7"></circle>
-          <circle cx="52" cy="150" r="1.8" fill="#FFFFFF" opacity="0.8"></circle>
-          <circle cx="214" cy="52" r="1.4" fill="#FFFFFF" opacity="0.6"></circle>
-          <circle cx="356" cy="170" r="1.8" fill="#FFFFFF" opacity="0.7"></circle>
-          <path d="M0 246 Q 130 224 260 246 T 400 240 L 400 300 L 0 300 Z" fill="#0A1228" opacity="0.85"></path>
-        </svg>
-      </div>
-      <div class="word">
-        <div class="en">EVENING &amp; NIGHT</div><b>깊이 회복하는 밤</b>
-        <span>뭉친 몸을 풀고, 내일의 나를 준비합니다.</span>
-        <div class="chips">
-          <span class="chip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 짜게 먹은 저녁</span>
-          <span class="chip"><span class="cdot" style="background:#E9DCC6"></span>마그네슘 한 포 · 자기 전</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="rhythm-note">위 장면들은 실제 라이프스타일 촬영 컷으로 교체될 자리입니다 — 톤 가이드: 자연광, 우드, 여백.</div>
 </section>
 
 <section id="trust">
@@ -437,29 +319,97 @@
 (function () {
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) document.body.classList.add('reduced');
-
   if (typeof THREE === 'undefined') { document.body.classList.add('no3d'); return; }
 
+  var stage = document.getElementById('hero-stage');
   var canvas = document.getElementById('scene');
   var renderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
   } catch (e) { document.body.classList.add('no3d'); return; }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
 
   var scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0B1633);
-  scene.fog = new THREE.Fog(0x0B1633, 10, 24);
-
-  var camera = new THREE.PerspectiveCamera(40, 1, 0.1, 60);
+  var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 80);
   camera.position.set(0, 0.7, 9.4);
   camera.lookAt(0, 0.1, 0);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.65));
-  var key = new THREE.DirectionalLight(0xffffff, 0.85); key.position.set(4, 7, 6); scene.add(key);
-  var warm = new THREE.PointLight(0xB98D5F, 0.7, 18); warm.position.set(-3, -1, 4); scene.add(warm);
+  var amb = new THREE.AmbientLight(0xffffff, 0.75); scene.add(amb);
+  var key = new THREE.DirectionalLight(0xffffff, 0.8); key.position.set(4, 7, 6); scene.add(key);
+  var warm = new THREE.PointLight(0xB98D5F, 0.6, 18); warm.position.set(-3, -1, 4); scene.add(warm);
 
-  /* ---- wood table (procedural texture) ---- */
+  /* ---- sky palette keyframes: [p, topColor, bottomColor] ---- */
+  var skyKeys = [
+    [0.00, [0x8F, 0xA8, 0xD9], [0xF8, 0xD9, 0xAC]],
+    [0.16, [0xA9, 0xCB, 0xE8], [0xF0, 0xE8, 0xD2]],
+    [0.34, [0x5A, 0x6B, 0xA6], [0xE0, 0xA9, 0x7A]],
+    [0.50, [0x16, 0x29, 0x5C], [0x2A, 0x37, 0x66]],
+    [0.62, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]],
+    [1.00, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]]
+  ];
+  function skyAt(p) {
+    var a = skyKeys[0], b = skyKeys[skyKeys.length - 1];
+    for (var i = 0; i < skyKeys.length - 1; i++) {
+      if (p >= skyKeys[i][0] && p <= skyKeys[i + 1][0]) { a = skyKeys[i]; b = skyKeys[i + 1]; break; }
+    }
+    var t = (p - a[0]) / (b[0] - a[0] || 1);
+    function mix(c1, c2) {
+      return 'rgb(' + Math.round(c1[0] + (c2[0] - c1[0]) * t) + ',' + Math.round(c1[1] + (c2[1] - c1[1]) * t) + ',' + Math.round(c1[2] + (c2[2] - c1[2]) * t) + ')';
+    }
+    return [mix(a[1], b[1]), mix(a[2], b[2])];
+  }
+
+  /* ---- ground: rolling hills that darken at night ---- */
+  var groundMat = new THREE.MeshStandardMaterial({ color: 0xB98D5F, roughness: 0.95 });
+  var ground = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), groundMat);
+  ground.scale.set(1.6, 0.35, 1);
+  ground.position.set(0, -11.2, -6);
+  scene.add(ground);
+
+  /* ---- sun & moon ---- */
+  var sun = new THREE.Mesh(new THREE.SphereGeometry(0.85, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xFFF3DA, transparent: true }));
+  scene.add(sun);
+  var sunGlow = new THREE.PointLight(0xFFE9C0, 1.0, 30); scene.add(sunGlow);
+  var moon = new THREE.Mesh(new THREE.SphereGeometry(0.62, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xF4EBD7, transparent: true, opacity: 0 }));
+  scene.add(moon);
+
+  /* ---- clouds (soft sprites) ---- */
+  function cloudTexture() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 128;
+    var g = c.getContext('2d');
+    var grad = g.createRadialGradient(128, 64, 8, 128, 64, 64);
+    grad.addColorStop(0, 'rgba(255,255,255,0.95)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad; g.fillRect(0, 0, 256, 128);
+    return new THREE.CanvasTexture(c);
+  }
+  var cloudTex = cloudTexture();
+  var clouds = [];
+  for (var ci = 0; ci < 5; ci++) {
+    var cm = new THREE.SpriteMaterial({ map: cloudTex, transparent: true, opacity: 0.75, depthWrite: false });
+    var sp = new THREE.Sprite(cm);
+    sp.scale.set(4.5 + ci, 1.6 + ci * 0.2, 1);
+    sp.position.set(-6 + ci * 3.1, 2.2 + (ci % 3) * 0.9, -4 - ci);
+    sp.userData.speed = 0.08 + ci * 0.03;
+    scene.add(sp); clouds.push(sp);
+  }
+
+  /* ---- stars ---- */
+  var starN = 260;
+  var starGeo = new THREE.BufferGeometry();
+  var starPos = new Float32Array(starN * 3);
+  for (var si = 0; si < starN; si++) {
+    starPos[si * 3] = (Math.random() - 0.5) * 34;
+    starPos[si * 3 + 1] = Math.random() * 14 + 0.5;
+    starPos[si * 3 + 2] = -8 - Math.random() * 10;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  var starMat = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.07, transparent: true, opacity: 0, depthWrite: false });
+  scene.add(new THREE.Points(starGeo, starMat));
+
+  /* ---- wood table (for the pouch finale) ---- */
   function woodTexture() {
     var c = document.createElement('canvas'); c.width = 512; c.height = 256;
     var g = c.getContext('2d');
@@ -475,17 +425,15 @@
       for (var x = 0; x <= 512; x += 64) g.lineTo(x, y + Math.sin(x * 0.02 + i) * 4);
       g.stroke();
     }
-    for (var p = 0; p < 5; p++) { g.strokeStyle = 'rgba(60,38,18,0.35)'; g.lineWidth = 2; var px = 90 * p + 40; g.beginPath(); g.moveTo(px, 0); g.lineTo(px, 256); g.stroke(); }
-    var t = new THREE.CanvasTexture(c); return t;
+    for (var p2 = 0; p2 < 5; p2++) { g.strokeStyle = 'rgba(60,38,18,0.35)'; g.lineWidth = 2; var px = 90 * p2 + 40; g.beginPath(); g.moveTo(px, 0); g.lineTo(px, 256); g.stroke(); }
+    return new THREE.CanvasTexture(c);
   }
-  var table = new THREE.Mesh(
-    new THREE.BoxGeometry(20, 0.4, 7),
-    new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: 0.85 })
-  );
+  var tableMat = new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: 0.85, transparent: true, opacity: 0 });
+  var table = new THREE.Mesh(new THREE.BoxGeometry(20, 0.4, 7), tableMat);
   table.position.set(0, -2.65, -0.4);
   scene.add(table);
 
-  /* ---- pouch label textures ---- */
+  /* ---- pouch ---- */
   function labelTexture() {
     var c = document.createElement('canvas'); c.width = 256; c.height = 640;
     var g = c.getContext('2d');
@@ -513,49 +461,40 @@
     g.fillText('EASY CUT', 128, 56);
     return new THREE.CanvasTexture(c);
   }
-
   var pouch = new THREE.Group();
-  var sideMat = new THREE.MeshStandardMaterial({ color: 0xE9DCC6, roughness: 0.6 });
-  var bodyLabel = new THREE.MeshStandardMaterial({ map: labelTexture(), roughness: 0.5 });
+  var sideMat = new THREE.MeshStandardMaterial({ color: 0xE9DCC6, roughness: 0.6, transparent: true });
+  var bodyLabel = new THREE.MeshStandardMaterial({ map: labelTexture(), roughness: 0.5, transparent: true });
   var body = new THREE.Mesh(new THREE.BoxGeometry(1.15, 2.9, 0.34),
     [sideMat, sideMat, sideMat, sideMat, bodyLabel, bodyLabel]);
   body.position.y = -0.95;
   pouch.add(body);
-
   var capMatFace = new THREE.MeshStandardMaterial({ map: capTexture(), roughness: 0.6, transparent: true });
   var capMatSide = new THREE.MeshStandardMaterial({ color: 0xE0D2B8, roughness: 0.6, transparent: true });
   var cap = new THREE.Mesh(new THREE.BoxGeometry(1.17, 0.46, 0.36),
     [capMatSide, capMatSide, capMatSide, capMatSide, capMatFace, capMatFace]);
   cap.position.y = 0.73;
   pouch.add(cap);
-  pouch.position.set(0, 0, 0);
+  pouch.visible = false;
   scene.add(pouch);
 
-  /* ---- particles ---- */
-  var N = 1400;
+  /* ---- powder particles ---- */
+  var narrowGuess = window.innerWidth / window.innerHeight < 0.85;
+  var N = narrowGuess ? 900 : 1400;
   var geo = new THREE.BufferGeometry();
   var pos = new Float32Array(N * 3);
   var col = new Float32Array(N * 3);
   var meta = [];
   var streamCols = [[0.66, 0.76, 1.0], [0.91, 0.86, 0.78], [1.0, 0.85, 0.63]];
-  var streamX = [-2.7, 0, 2.7];
+  var streamX = narrowGuess ? [-1.55, 0, 1.55] : [-2.7, 0, 2.7];
   for (var i = 0; i < N; i++) {
-    meta.push({
-      d: Math.random() * 0.5,
-      s: 0.7 + Math.random() * 0.6,
-      jx: (Math.random() - 0.5),
-      jz: (Math.random() - 0.5) * 0.5,
-      st: i % 3,
-      ph: Math.random()
-    });
+    meta.push({ d: Math.random() * 0.5, s: 0.7 + Math.random() * 0.6, jx: (Math.random() - 0.5), jz: (Math.random() - 0.5) * 0.5, st: i % 3, ph: Math.random() });
     pos[i * 3 + 1] = -50;
     col[i * 3] = 0.96; col[i * 3 + 1] = 0.95; col[i * 3 + 2] = 0.9;
   }
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-  var pmat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.0, depthWrite: false });
-  var points = new THREE.Points(geo, pmat);
-  scene.add(points);
+  var pmat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0, depthWrite: false });
+  scene.add(new THREE.Points(geo, pmat));
 
   /* ---- helpers ---- */
   function clamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
@@ -563,18 +502,18 @@
   function lerp(a, b, t) { return a + (b - a) * t; }
 
   var track = document.getElementById('hero-track');
-  var caps = [document.getElementById('cap0'), document.getElementById('cap1'), document.getElementById('cap2'), document.getElementById('cap3')];
+  var capA = document.getElementById('capA'), capM = document.getElementById('capM'),
+      capE = document.getElementById('capE'), capN2 = document.getElementById('capN'),
+      capP = document.getElementById('capP'), capS = document.getElementById('capS');
   var hint = document.getElementById('scroll-hint');
 
-  function capFade(el, o, dy) {
+  function capFade(el, o) {
     el.style.opacity = o.toFixed(3);
-    el.style.transform = 'translateY(' + (dy * (1 - o)).toFixed(1) + 'px)';
+    el.style.transform = 'translateY(' + (24 * (1 - o)).toFixed(1) + 'px)';
   }
 
-  var pTarget = 0, pNow = 0;
-  var mouseX = 0;
+  var pTarget = 0, pNow = 0, mouseX = 0;
   window.addEventListener('mousemove', function (e) { mouseX = (e.clientX / window.innerWidth - 0.5); }, { passive: true });
-
   function onScroll() {
     if (reduced) { pTarget = 0; return; }
     var rect = track.getBoundingClientRect();
@@ -597,78 +536,123 @@
 
   var clock = new THREE.Clock();
 
+  /* timeline (p 0..1):
+     0.00-0.08 rest (dawn) · 0.08-0.30 morning->noon · 0.30-0.48 dusk
+     0.48-0.60 night settles · 0.60-0.70 pouch descends · 0.70-0.78 tear
+     0.76-0.90 pour · 0.88-0.98 split */
   function frame() {
     requestAnimationFrame(frame);
     var t = clock.getElapsedTime();
     pNow += (pTarget - pNow) * 0.09;
     var p = pNow;
 
-    /* phase weights */
-    var tear = smooth(0.16, 0.30, p);
-    var pour = smooth(0.28, 0.60, p);
-    var split = smooth(0.58, 0.82, p);
-    var land = smooth(0.80, 0.97, p);
+    /* sky */
+    var sky = skyAt(p);
+    stage.style.background = 'linear-gradient(180deg, ' + sky[0] + ', ' + sky[1] + ')';
 
-    /* pouch motion */
+    var nightF = smooth(0.40, 0.58, p);
+
+    /* sun: arc across the sky from dawn to dusk */
+    var sunP = clamp01(p / 0.46);
+    sun.position.set(lerp(-6.5, 6.5, sunP), -0.5 + Math.sin(sunP * Math.PI) * 5.2, -7);
+    sun.material.opacity = 1 - smooth(0.42, 0.50, p);
+    sunGlow.position.copy(sun.position);
+    sunGlow.intensity = (1 - nightF) * 1.0;
+    var warmth = smooth(0.26, 0.44, p) * (1 - nightF);
+    sun.material.color.setRGB(1, 0.95 - warmth * 0.25, 0.85 - warmth * 0.4);
+
+    /* moon rises at night */
+    var moonP = smooth(0.46, 0.60, p);
+    moon.position.set(lerp(5.5, 2.8, moonP), lerp(-0.5, 4.0, moonP), -7);
+    moon.material.opacity = moonP * (1 - smooth(0.94, 1.0, p));
+    starMat.opacity = nightF * 0.95;
+
+    /* clouds drift, fade at night */
+    for (var c2 = 0; c2 < clouds.length; c2++) {
+      var sp = clouds[c2];
+      sp.position.x += Math.sin(t * 0.1 + c2) * 0.001 + sp.userData.speed * 0.004;
+      if (sp.position.x > 10) sp.position.x = -10;
+      sp.material.opacity = 0.75 * (1 - nightF * 0.92);
+    }
+
+    /* ground sinks away as night falls; wood table fades in for the finale */
+    ground.position.y = -11.2 - smooth(0.5, 0.66, p) * 5;
+    var gShade = 1 - nightF * 0.55;
+    groundMat.color.setRGB(0.72 * gShade, 0.55 * gShade, 0.37 * gShade);
+    var tableF = smooth(0.58, 0.68, p);
+    tableMat.opacity = tableF;
+    table.position.y = lerp(-4.4, -2.65, tableF);
+
+    /* ambient dims into night */
+    amb.intensity = lerp(0.75, 0.55, nightF);
+    key.intensity = lerp(0.8, 0.55, nightF);
+
+    /* pouch: descend, then tear/pour/split */
+    var appear = smooth(0.60, 0.70, p);
+    pouch.visible = appear > 0.01;
+    var tear = smooth(0.70, 0.78, p);
+    var pour = smooth(0.76, 0.90, p);
+    var split = smooth(0.88, 0.98, p);
+
     var idleRot = Math.sin(t * 0.5) * 0.12 + mouseX * 0.25;
     pouch.rotation.y = idleRot * (1 - tear) + lerp(0, 0.35, tear);
     pouch.rotation.z = lerp(0, -1.95, tear);
-    pouch.position.y = lerp(0, 2.1, tear) + Math.sin(t * 0.9) * 0.03 * (1 - tear);
-    pouch.position.x = lerp(0, 0.55, tear) - lerp(0, 3.4, land);
-    pouch.position.z = lerp(0, 1.2, tear) - lerp(0, 0.8, land);
-    var shrink = 1 - land * 0.3;
+    var dropY = lerp(6.5, 0, appear * appear);
+    pouch.position.y = dropY + lerp(0, 2.1, tear) + Math.sin(t * 0.9) * 0.03 * (1 - tear);
+    pouch.position.x = lerp(0, 0.55, tear) - lerp(0, 2.6, split);
+    pouch.position.z = lerp(0, 1.2, tear) - lerp(0, 0.6, split);
+    var shrink = 1 - split * 0.25;
     pouch.scale.set(shrink, shrink, shrink);
+    var pouchOp = appear;
+    sideMat.opacity = pouchOp; bodyLabel.opacity = pouchOp;
 
-    /* cap tear-off */
-    var tearCap = smooth(0.18, 0.27, p);
+    var tearCap = smooth(0.71, 0.77, p);
     cap.position.y = 0.73 + tearCap * 1.1;
     cap.position.x = tearCap * 0.9;
     cap.rotation.z = -tearCap * 1.4;
-    var capOp = 1 - smooth(0.24, 0.31, p);
+    var capOp = Math.min(pouchOp, 1 - smooth(0.755, 0.79, p));
     for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
 
-    /* mouth world position (approx, follows tilted pouch) */
+    /* powder */
     var mx = pouch.position.x + Math.cos(pouch.rotation.z + Math.PI / 2) * 1.45 * shrink;
     var my = pouch.position.y + Math.sin(pouch.rotation.z + Math.PI / 2) * 1.45 * shrink;
-
-    /* particles */
     pmat.opacity = pour > 0 ? Math.min(0.95, pour * 2) : 0;
     var attr = geo.attributes.position.array;
     var cattr = geo.attributes.color.array;
-    for (var i = 0; i < N; i++) {
-      var md = meta[i];
-      var fp = clamp01((pour - md.d * 0.55) / 0.45);         /* individual fall progress */
+    for (var i2 = 0; i2 < N; i2++) {
+      var md = meta[i2];
+      var fp = clamp01((pour - md.d * 0.55) / 0.45);
       var fx = mx + md.jx * (0.25 + fp * 0.9);
       var fy = my - fp * fp * (3.4 + md.s * 1.6);
       var fz = pouch.position.z + md.jz * (0.3 + fp);
-      /* stream target: flowing column */
       var flow = (md.ph + t * 0.22) % 1;
       var sx = streamX[md.st] + md.jx * 0.5 + Math.sin(t * 1.4 + md.ph * 9) * 0.07;
       var sy = 1.5 - flow * 4.0;
       var sz = md.jz * 0.8;
-      var vis = fp > 0 ? 1 : 0;
-      attr[i * 3] = lerp(fx, sx, split);
-      attr[i * 3 + 1] = vis ? lerp(fy, sy, split) : -50;
-      attr[i * 3 + 2] = lerp(fz, sz, split);
+      attr[i2 * 3] = lerp(fx, sx, split);
+      attr[i2 * 3 + 1] = fp > 0 ? lerp(fy, sy, split) : -50;
+      attr[i2 * 3 + 2] = lerp(fz, sz, split);
       var sc = streamCols[md.st];
-      cattr[i * 3] = lerp(0.96, sc[0], split);
-      cattr[i * 3 + 1] = lerp(0.95, sc[1], split);
-      cattr[i * 3 + 2] = lerp(0.9, sc[2], split);
+      cattr[i2 * 3] = lerp(0.96, sc[0], split);
+      cattr[i2 * 3 + 1] = lerp(0.95, sc[1], split);
+      cattr[i2 * 3 + 2] = lerp(0.9, sc[2], split);
     }
     geo.attributes.position.needsUpdate = true;
     geo.attributes.color.needsUpdate = true;
 
     /* captions */
-    capFade(caps[0], 1 - smooth(0.10, 0.20, p), 24);
-    capFade(caps[1], smooth(0.17, 0.24, p) * (1 - smooth(0.30, 0.38, p)), 24);
-    capFade(caps[2], smooth(0.36, 0.44, p) * (1 - smooth(0.54, 0.62, p)), 24);
-    capFade(caps[3], smooth(0.66, 0.76, p), 24);
-    hint.style.opacity = (1 - smooth(0.02, 0.08, p)).toFixed(2);
+    capFade(capA, 1 - smooth(0.06, 0.12, p));
+    capFade(capM, smooth(0.11, 0.17, p) * (1 - smooth(0.26, 0.33, p)));
+    capFade(capE, smooth(0.33, 0.40, p) * (1 - smooth(0.46, 0.52, p)));
+    capFade(capN2, smooth(0.50, 0.56, p) * (1 - smooth(0.60, 0.66, p)));
+    capFade(capP, smooth(0.64, 0.70, p) * (1 - smooth(0.76, 0.82, p)));
+    capFade(capS, smooth(0.90, 0.96, p));
+    hint.style.opacity = (1 - smooth(0.02, 0.07, p)).toFixed(2);
 
     /* camera drift */
     camera.position.x = mouseX * 0.4;
-    camera.position.y = 0.7 - p * 0.3;
-    camera.lookAt(0, 0.1 - p * 0.4, 0);
+    camera.position.y = 0.7 - p * 0.25;
+    camera.lookAt(0, 0.1 - p * 0.35, 0);
 
     renderer.render(scene, camera);
   }
