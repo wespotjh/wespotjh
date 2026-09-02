@@ -23,8 +23,8 @@
   }
   a { color: var(--navy); } a:hover { color: var(--navy-deep); }
 
-  /* ---------- HERO: day-to-night journey + pouch (pinned) ---------- */
-  #hero-track { position: relative; height: 720vh; background: var(--navy-deep); }
+  /* ---------- HERO: one pouch through the day (pinned) ---------- */
+  #hero-track { position: relative; height: 460vh; background: var(--navy-deep); }
   body.reduced #hero-track, body.no3d #hero-track { height: 100vh; }
   #hero-stage { position: sticky; top: 0; height: 100vh; overflow: hidden;
     background: linear-gradient(180deg, #8FA8D9, #F8D9AC); }
@@ -44,7 +44,7 @@
 
   .cap {
     position: absolute; z-index: 20; left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    display: flex; flex-direction: column; align-items: center; gap: 13px;
     text-align: center; color: #fff; pointer-events: none;
     opacity: 0; transform: translateY(24px);
     will-change: opacity, transform;
@@ -52,21 +52,21 @@
     text-shadow: 0 2px 20px rgba(11, 22, 51, 0.45);
   }
   .cap .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.24em; color: var(--sand); }
-  .cap h1 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(29px, 5vw, 62px); line-height: 1.3; text-wrap: balance; word-break: keep-all; }
-  .cap h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(24px, 3.6vw, 44px); line-height: 1.32; text-wrap: balance; word-break: keep-all; }
+  .cap h1 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(29px, 5vw, 60px); line-height: 1.3; text-wrap: balance; word-break: keep-all; }
+  .cap h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(24px, 3.6vw, 42px); line-height: 1.32; text-wrap: balance; word-break: keep-all; }
   .cap p { margin: 0; font-size: clamp(13.5px, 1.4vw, 16.5px); line-height: 1.7; max-width: min(88vw, 620px); word-break: keep-all; }
   .cap .cta { pointer-events: auto; margin-top: 4px; display: inline-flex; align-items: center;
     background: #fff; color: var(--navy); font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 4px; cursor: pointer; text-shadow: none; min-height: 44px; }
   .cap .cta:hover { background: var(--sand); }
 
-  .jchips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 4px; }
+  .jchips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 2px; }
   .jchip { display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 8px 15px;
     font-size: 12.5px; font-weight: 700; background: rgba(255,255,255,0.16); color: #fff;
     border: 1px solid rgba(255,255,255,0.45); backdrop-filter: blur(4px); text-shadow: none; }
   .jchip .cdot { width: 8px; height: 8px; border-radius: 50%; }
 
-  #capA { top: 14vh; }
-  #capM, #capE, #capN, #capP { top: 11vh; }
+  #capA { top: 13vh; }
+  #capM, #capE, #capN { top: 10vh; }
   #capS { bottom: 6vh; }
   #capS .streams { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: min(880px, 94vw); }
   #capS .stream-label { display: flex; flex-direction: column; gap: 5px; align-items: center; }
@@ -78,6 +78,21 @@
     color: #fff; font-size: 10.5px; letter-spacing: 0.3em; opacity: 0.9; text-shadow: 0 1px 10px rgba(11,22,51,0.4); }
   #scroll-hint::after { content: ""; display: block; width: 1px; height: 32px; background: #fff; margin: 9px auto 0; animation: drip 1.8s ease-in-out infinite; }
   @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 60% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* persistent mini buy bar */
+  #ctabar {
+    position: fixed; left: 50%; bottom: 14px; z-index: 90;
+    transform: translate(-50%, 90px); transition: transform 0.4s ease;
+    width: min(440px, calc(100vw - 28px));
+    background: var(--navy); color: #fff; border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(11, 22, 51, 0.4);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 18px; cursor: pointer; min-height: 48px;
+  }
+  #ctabar.show { transform: translate(-50%, 0); }
+  #ctabar span { font-size: 13.5px; color: var(--mist); }
+  #ctabar b { font-size: 14px; color: #fff; white-space: nowrap; }
+  #ctabar:hover { background: var(--navy-deep); }
 
   /* no-3d fallback */
   #fallback-hero { display: none; position: absolute; inset: 0; z-index: 5; align-items: flex-end; justify-content: center; padding-bottom: 11vh; }
@@ -91,7 +106,7 @@
   section { padding: clamp(68px, 9vw, 116px) clamp(18px, 5vw, 72px); }
   .sec-head { display: flex; flex-direction: column; gap: 13px; align-items: center; text-align: center; margin-bottom: clamp(36px, 5vw, 60px); }
   .sec-head .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: var(--wood-deep); }
-  .sec-head h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; color: var(--navy); font-size: clamp(27px, 3.4vw, 42px); line-height: 1.32; text-wrap: balance; }
+  .sec-head h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; color: var(--navy); font-size: clamp(27px, 3.4vw, 42px); line-height: 1.32; text-wrap: balance; word-break: keep-all; }
   .sec-head p { margin: 0; font-size: 15px; color: #5A6072; line-height: 1.7; }
 
   /* products */
@@ -155,12 +170,13 @@
   #closing .cta { display: inline-flex; background: var(--navy); color: #fff; font-weight: 700; font-size: 15px; padding: 15px 40px; border-radius: 4px; cursor: pointer; min-height: 44px; align-items: center; }
   #closing .cta:hover { background: var(--navy-deep); }
 
-  footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12px; line-height: 1.9; padding: 40px clamp(18px, 5vw, 72px); display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
+  footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12px; line-height: 1.9; padding: 40px clamp(18px, 5vw, 72px) 84px; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
   footer .logo { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 8px; }
 
   @media (prefers-reduced-motion: reduce) {
     .pouch { animation: none; }
     #scroll-hint::after { animation: none; }
+    #ctabar { transition: none; }
   }
 </style>
 
@@ -177,42 +193,29 @@
     <div class="cap" id="capA">
       <div class="eyebrow">MORNING TO NIGHT MINERALS</div>
       <h1>오늘의 한 포가<br>하루를 결정합니다</h1>
-      <p>아침부터 밤까지 — 몸의 리듬을 되찾는 하루 한 포</p>
+      <p>아침부터 밤까지, 시간마다 필요한 포가 다릅니다</p>
       <div class="cta">내 리듬 찾기</div>
     </div>
 
     <div class="cap" id="capM">
       <div class="eyebrow">MORNING</div>
-      <h2>가볍게 여는 아침</h2>
-      <p>어젯밤의 짠 기운은 내보내고, 하루의 시동을 겁니다.</p>
+      <h2>아침은, 비타민B</h2>
+      <p>하루의 시동. 오후 3시의 방전을 미리 끊습니다.</p>
       <div class="jchips">
-        <span class="jchip"><span class="cdot" style="background:#FFD9A0"></span>비타민B 한 포 · 시동</span>
-        <span class="jchip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 부은 아침</span>
+        <span class="jchip"><span class="cdot" style="background:#FFD9A0"></span>부은 아침이라면 칼륨을 함께</span>
       </div>
     </div>
 
     <div class="cap" id="capE">
       <div class="eyebrow">EVENING</div>
-      <h2>하루의 끝,<br>무거워진 몸</h2>
-      <p>짜게 먹은 저녁일수록, 그냥 잠들지 마세요.</p>
-      <div class="jchips">
-        <span class="jchip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 저녁 식사 후</span>
-      </div>
+      <h2>저녁은, 칼륨</h2>
+      <p>짜게 먹은 날일수록 — 나트륨은 오늘 내보내야 내일이 가볍습니다.</p>
     </div>
 
     <div class="cap" id="capN">
       <div class="eyebrow">NIGHT</div>
-      <h2>깊이 회복하는 밤</h2>
-      <p>뭉친 몸을 풀고, 내일의 나를 준비합니다.</p>
-      <div class="jchips">
-        <span class="jchip"><span class="cdot" style="background:#E9DCC6"></span>마그네슘 한 포 · 자기 전</span>
-      </div>
-    </div>
-
-    <div class="cap" id="capP">
-      <div class="eyebrow">EASY-CUT · 3 SECONDS</div>
-      <h2>그리고, 한 포</h2>
-      <p>물 없이 어디서든. 뜯는 순간, 하루가 정돈됩니다.</p>
+      <h2>밤은, 마그네슘</h2>
+      <p>뭉친 몸을 풀고 깊이 잠듭니다. 내일의 나를 위해.</p>
     </div>
 
     <div class="cap" id="capS">
@@ -314,8 +317,24 @@
   </div>
 </footer>
 
+<div id="ctabar"><span>가볍게 시작 — 데이팩 6포 14,000원</span><b>보러가기 →</b></div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
+(function () {
+  /* persistent buy bar (works with or without 3D) */
+  var bar = document.getElementById('ctabar');
+  bar.addEventListener('click', function () {
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+  });
+  function barCheck() {
+    var show = window.scrollY > window.innerHeight * 0.6;
+    bar.classList.toggle('show', show);
+  }
+  window.addEventListener('scroll', barCheck, { passive: true });
+  barCheck();
+})();
+
 (function () {
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) document.body.classList.add('reduced');
@@ -333,19 +352,18 @@
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 80);
   camera.position.set(0, 0.7, 9.4);
-  camera.lookAt(0, 0.1, 0);
+  camera.lookAt(0, -0.4, 0);
 
   var amb = new THREE.AmbientLight(0xffffff, 0.75); scene.add(amb);
   var key = new THREE.DirectionalLight(0xffffff, 0.8); key.position.set(4, 7, 6); scene.add(key);
   var warm = new THREE.PointLight(0xB98D5F, 0.6, 18); warm.position.set(-3, -1, 4); scene.add(warm);
 
-  /* ---- sky palette keyframes: [p, topColor, bottomColor] ---- */
+  /* ---- sky palette: dawn -> noon -> dusk -> night ---- */
   var skyKeys = [
     [0.00, [0x8F, 0xA8, 0xD9], [0xF8, 0xD9, 0xAC]],
-    [0.16, [0xA9, 0xCB, 0xE8], [0xF0, 0xE8, 0xD2]],
-    [0.34, [0x5A, 0x6B, 0xA6], [0xE0, 0xA9, 0x7A]],
-    [0.50, [0x16, 0x29, 0x5C], [0x2A, 0x37, 0x66]],
-    [0.62, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]],
+    [0.20, [0xA9, 0xCB, 0xE8], [0xF0, 0xE8, 0xD2]],
+    [0.42, [0x5A, 0x6B, 0xA6], [0xE0, 0xA9, 0x7A]],
+    [0.60, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]],
     [1.00, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]]
   ];
   function skyAt(p) {
@@ -360,11 +378,11 @@
     return [mix(a[1], b[1]), mix(a[2], b[2])];
   }
 
-  /* ---- ground: rolling hills that darken at night ---- */
+  /* ---- horizon hills ---- */
   var groundMat = new THREE.MeshStandardMaterial({ color: 0xB98D5F, roughness: 0.95 });
   var ground = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), groundMat);
   ground.scale.set(1.6, 0.35, 1);
-  ground.position.set(0, -11.2, -6);
+  ground.position.set(0, -11.4, -7);
   scene.add(ground);
 
   /* ---- sun & moon ---- */
@@ -376,7 +394,7 @@
     new THREE.MeshBasicMaterial({ color: 0xF4EBD7, transparent: true, opacity: 0 }));
   scene.add(moon);
 
-  /* ---- clouds (soft sprites) ---- */
+  /* ---- clouds ---- */
   function cloudTexture() {
     var c = document.createElement('canvas'); c.width = 256; c.height = 128;
     var g = c.getContext('2d');
@@ -388,10 +406,10 @@
   var cloudTex = cloudTexture();
   var clouds = [];
   for (var ci = 0; ci < 5; ci++) {
-    var cm = new THREE.SpriteMaterial({ map: cloudTex, transparent: true, opacity: 0.75, depthWrite: false });
+    var cm = new THREE.SpriteMaterial({ map: cloudTex, transparent: true, opacity: 0.7, depthWrite: false });
     var sp = new THREE.Sprite(cm);
     sp.scale.set(4.5 + ci, 1.6 + ci * 0.2, 1);
-    sp.position.set(-6 + ci * 3.1, 2.2 + (ci % 3) * 0.9, -4 - ci);
+    sp.position.set(-6 + ci * 3.1, 2.6 + (ci % 3) * 0.9, -5 - ci);
     sp.userData.speed = 0.08 + ci * 0.03;
     scene.add(sp); clouds.push(sp);
   }
@@ -409,7 +427,7 @@
   var starMat = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.07, transparent: true, opacity: 0, depthWrite: false });
   scene.add(new THREE.Points(starGeo, starMat));
 
-  /* ---- wood table (for the pouch finale) ---- */
+  /* ---- wood table: present from frame one ---- */
   function woodTexture() {
     var c = document.createElement('canvas'); c.width = 512; c.height = 256;
     var g = c.getContext('2d');
@@ -428,13 +446,13 @@
     for (var p2 = 0; p2 < 5; p2++) { g.strokeStyle = 'rgba(60,38,18,0.35)'; g.lineWidth = 2; var px = 90 * p2 + 40; g.beginPath(); g.moveTo(px, 0); g.lineTo(px, 256); g.stroke(); }
     return new THREE.CanvasTexture(c);
   }
-  var tableMat = new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: 0.85, transparent: true, opacity: 0 });
+  var tableMat = new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: 0.85 });
   var table = new THREE.Mesh(new THREE.BoxGeometry(20, 0.4, 7), tableMat);
   table.position.set(0, -2.65, -0.4);
   scene.add(table);
 
-  /* ---- pouch ---- */
-  function labelTexture() {
+  /* ---- product label textures (one per time of day) ---- */
+  function makeLabel(eng, big, sub, accent) {
     var c = document.createElement('canvas'); c.width = 256; c.height = 640;
     var g = c.getContext('2d');
     var grad = g.createLinearGradient(0, 0, 0, 640);
@@ -444,13 +462,19 @@
     g.beginPath(); g.moveTo(0, 74); g.lineTo(256, 74); g.stroke(); g.setLineDash([]);
     g.fillStyle = '#8A6239'; g.font = '700 22px sans-serif'; g.textAlign = 'center';
     g.fillText('Z E N G E N E T I C S', 128, 46);
-    g.fillStyle = '#16295C'; g.font = '900 44px sans-serif';
-    g.fillText('POTASSIUM', 128, 300);
-    g.font = '700 64px sans-serif'; g.fillText('525mg', 128, 386);
+    g.fillStyle = accent; g.fillRect(88, 330, 80, 6);
+    g.fillStyle = '#16295C'; g.font = '900 40px sans-serif';
+    g.fillText(eng, 128, 300);
+    g.font = '700 52px sans-serif'; g.fillText(big, 128, 400);
     g.font = '500 26px sans-serif'; g.fillStyle = 'rgba(22,41,92,0.75)';
-    g.fillText('붓기 부스터 · 20 STICKS', 128, 560);
-    return new THREE.CanvasTexture(c);
+    g.fillText(sub, 128, 560);
+    var t = new THREE.CanvasTexture(c); return t;
   }
+  var labels = [
+    makeLabel('VITAMIN B', 'B1·B6·B12', '활력 · 20 STICKS', '#DFA94E'),
+    makeLabel('POTASSIUM', '525mg', '붓기 부스터 · 20 STICKS', '#5F7FD9'),
+    makeLabel('MAGNESIUM', '400mg', '리커버리 · 20 STICKS', '#C9B18A')
+  ];
   function capTexture() {
     var c = document.createElement('canvas'); c.width = 256; c.height = 96;
     var g = c.getContext('2d');
@@ -461,39 +485,45 @@
     g.fillText('EASY CUT', 128, 56);
     return new THREE.CanvasTexture(c);
   }
+
+  /* ---- the one pouch, standing on the table from the start ---- */
   var pouch = new THREE.Group();
-  var sideMat = new THREE.MeshStandardMaterial({ color: 0xE9DCC6, roughness: 0.6, transparent: true });
-  var bodyLabel = new THREE.MeshStandardMaterial({ map: labelTexture(), roughness: 0.5, transparent: true });
+  var sideMat = new THREE.MeshStandardMaterial({ color: 0xE9DCC6, roughness: 0.6, transparent: true, opacity: 1 });
+  var bodyLabel = new THREE.MeshStandardMaterial({ map: labels[0], roughness: 0.5, transparent: true, opacity: 1 });
   var body = new THREE.Mesh(new THREE.BoxGeometry(1.15, 2.9, 0.34),
     [sideMat, sideMat, sideMat, sideMat, bodyLabel, bodyLabel]);
-  body.position.y = -0.95;
+  body.position.y = 0.5;   /* group origin at table top */
   pouch.add(body);
   var capMatFace = new THREE.MeshStandardMaterial({ map: capTexture(), roughness: 0.6, transparent: true });
   var capMatSide = new THREE.MeshStandardMaterial({ color: 0xE0D2B8, roughness: 0.6, transparent: true });
   var cap = new THREE.Mesh(new THREE.BoxGeometry(1.17, 0.46, 0.36),
     [capMatSide, capMatSide, capMatSide, capMatSide, capMatFace, capMatFace]);
-  cap.position.y = 0.73;
+  cap.position.y = 2.18;
   pouch.add(cap);
-  pouch.visible = false;
+  pouch.position.set(0, -2.45, 0.4);
   scene.add(pouch);
 
-  /* ---- powder particles ---- */
+  /* ---- powder particles: pour per beat, rest on table, then split ---- */
   var narrowGuess = window.innerWidth / window.innerHeight < 0.85;
   var N = narrowGuess ? 900 : 1400;
   var geo = new THREE.BufferGeometry();
   var pos = new Float32Array(N * 3);
   var col = new Float32Array(N * 3);
   var meta = [];
+  /* stream order on screen: 칼륨(blue) / 마그네슘(sand) / 비타민B(gold) */
   var streamCols = [[0.66, 0.76, 1.0], [0.91, 0.86, 0.78], [1.0, 0.85, 0.63]];
+  var beatOfSt = { 0: 1, 1: 2, 2: 0 };   /* blue->evening, sand->night, gold->morning */
   var streamX = narrowGuess ? [-1.55, 0, 1.55] : [-2.7, 0, 2.7];
   for (var i = 0; i < N; i++) {
-    meta.push({ d: Math.random() * 0.5, s: 0.7 + Math.random() * 0.6, jx: (Math.random() - 0.5), jz: (Math.random() - 0.5) * 0.5, st: i % 3, ph: Math.random() });
+    var st = i % 3;
+    meta.push({ d: Math.random() * 0.5, s: 0.7 + Math.random() * 0.6, jx: (Math.random() - 0.5), jz: (Math.random() - 0.5) * 0.5, st: st, ph: Math.random() });
     pos[i * 3 + 1] = -50;
-    col[i * 3] = 0.96; col[i * 3 + 1] = 0.95; col[i * 3 + 2] = 0.9;
+    var sc0 = streamCols[st];
+    col[i * 3] = sc0[0]; col[i * 3 + 1] = sc0[1]; col[i * 3 + 2] = sc0[2];
   }
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-  var pmat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0, depthWrite: false });
+  var pmat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.95, depthWrite: false });
   scene.add(new THREE.Points(geo, pmat));
 
   /* ---- helpers ---- */
@@ -501,10 +531,14 @@
   function smooth(a, b, v) { var t = clamp01((v - a) / (b - a)); return t * t * (3 - 2 * t); }
   function lerp(a, b, t) { return a + (b - a) * t; }
 
+  /* beats: morning(vitB) / evening(potassium) / night(magnesium) */
+  var beats = [ { s: 0.10, e: 0.30 }, { s: 0.36, e: 0.56 }, { s: 0.60, e: 0.80 } ];
+  var FIN0 = 0.84, FIN1 = 0.97;
+
   var track = document.getElementById('hero-track');
   var capA = document.getElementById('capA'), capM = document.getElementById('capM'),
       capE = document.getElementById('capE'), capN2 = document.getElementById('capN'),
-      capP = document.getElementById('capP'), capS = document.getElementById('capS');
+      capS = document.getElementById('capS');
   var hint = document.getElementById('scroll-hint');
 
   function capFade(el, o) {
@@ -535,124 +569,120 @@
   resize(); onScroll();
 
   var clock = new THREE.Clock();
+  var currentLabel = 0;
 
-  /* timeline (p 0..1):
-     0.00-0.08 rest (dawn) · 0.08-0.30 morning->noon · 0.30-0.48 dusk
-     0.48-0.60 night settles · 0.60-0.70 pouch descends · 0.70-0.78 tear
-     0.76-0.90 pour · 0.88-0.98 split */
   function frame() {
     requestAnimationFrame(frame);
     var t = clock.getElapsedTime();
     pNow += (pTarget - pNow) * 0.09;
     var p = pNow;
 
-    /* sky */
+    /* sky, sun, moon, stars, clouds */
     var sky = skyAt(p);
     stage.style.background = 'linear-gradient(180deg, ' + sky[0] + ', ' + sky[1] + ')';
-
-    var nightF = smooth(0.40, 0.58, p);
-
-    /* sun: arc across the sky from dawn to dusk */
-    var sunP = clamp01(p / 0.46);
-    sun.position.set(lerp(-6.5, 6.5, sunP), -0.5 + Math.sin(sunP * Math.PI) * 5.2, -7);
-    sun.material.opacity = 1 - smooth(0.42, 0.50, p);
+    var nightF = smooth(0.44, 0.60, p);
+    var sunP = clamp01(p / 0.52);
+    sun.position.set(lerp(-6.5, 6.5, sunP), -0.8 + Math.sin(sunP * Math.PI) * 5.4, -8);
+    sun.material.opacity = 1 - smooth(0.46, 0.54, p);
     sunGlow.position.copy(sun.position);
     sunGlow.intensity = (1 - nightF) * 1.0;
-    var warmth = smooth(0.26, 0.44, p) * (1 - nightF);
+    var warmth = smooth(0.30, 0.48, p) * (1 - nightF);
     sun.material.color.setRGB(1, 0.95 - warmth * 0.25, 0.85 - warmth * 0.4);
-
-    /* moon rises at night */
-    var moonP = smooth(0.46, 0.60, p);
-    moon.position.set(lerp(5.5, 2.8, moonP), lerp(-0.5, 4.0, moonP), -7);
-    moon.material.opacity = moonP * (1 - smooth(0.94, 1.0, p));
+    var moonP = smooth(0.52, 0.64, p);
+    moon.position.set(lerp(5.5, 3.0, moonP), lerp(-0.5, 4.2, moonP), -8);
+    moon.material.opacity = moonP;
     starMat.opacity = nightF * 0.95;
-
-    /* clouds drift, fade at night */
     for (var c2 = 0; c2 < clouds.length; c2++) {
       var sp = clouds[c2];
-      sp.position.x += Math.sin(t * 0.1 + c2) * 0.001 + sp.userData.speed * 0.004;
+      sp.position.x += sp.userData.speed * 0.004;
       if (sp.position.x > 10) sp.position.x = -10;
-      sp.material.opacity = 0.75 * (1 - nightF * 0.92);
+      sp.material.opacity = 0.7 * (1 - nightF * 0.92);
     }
-
-    /* ground sinks away as night falls; wood table fades in for the finale */
-    ground.position.y = -11.2 - smooth(0.5, 0.66, p) * 5;
     var gShade = 1 - nightF * 0.55;
     groundMat.color.setRGB(0.72 * gShade, 0.55 * gShade, 0.37 * gShade);
-    var tableF = smooth(0.58, 0.68, p);
-    tableMat.opacity = tableF;
-    table.position.y = lerp(-4.4, -2.65, tableF);
-
-    /* ambient dims into night */
+    var wShade = 1 - nightF * 0.35;
+    tableMat.color.setRGB(wShade, wShade, wShade);
     amb.intensity = lerp(0.75, 0.55, nightF);
     key.intensity = lerp(0.8, 0.55, nightF);
 
-    /* pouch: descend, then tear/pour/split */
-    var appear = smooth(0.60, 0.70, p);
-    pouch.visible = appear > 0.01;
-    var tear = smooth(0.70, 0.78, p);
-    var pour = smooth(0.76, 0.90, p);
-    var split = smooth(0.88, 0.98, p);
+    /* which beat is (or was last) active */
+    var bIdx = 0, q = 0;
+    for (var b = 0; b < 3; b++) {
+      if (p >= beats[b].s) { bIdx = b; q = clamp01((p - beats[b].s) / (beats[b].e - beats[b].s)); }
+    }
+    var started = p >= beats[0].s;
 
-    var idleRot = Math.sin(t * 0.5) * 0.12 + mouseX * 0.25;
-    pouch.rotation.y = idleRot * (1 - tear) + lerp(0, 0.35, tear);
-    pouch.rotation.z = lerp(0, -1.95, tear);
-    var dropY = lerp(6.5, 0, appear * appear);
-    pouch.position.y = dropY + lerp(0, 2.1, tear) + Math.sin(t * 0.9) * 0.03 * (1 - tear);
-    pouch.position.x = lerp(0, 0.55, tear) - lerp(0, 2.6, split);
-    pouch.position.z = lerp(0, 1.2, tear) - lerp(0, 0.6, split);
-    var shrink = 1 - split * 0.25;
+    /* label swap at each beat start (with a quick dip) */
+    var wantLabel = started ? bIdx : 0;
+    if (wantLabel !== currentLabel) { currentLabel = wantLabel; bodyLabel.map = labels[currentLabel]; bodyLabel.needsUpdate = true; }
+    var dip = started && q < 0.10 ? 0.35 + q * 6.5 : 1;
+    bodyLabel.opacity = Math.min(1, dip);
+
+    /* pouch pose: idle sway; per-beat tilt-and-pour, then back upright */
+    var tiltQ = started ? smooth(0.22, 0.5, q) * (1 - smooth(0.82, 0.98, q)) : 0;
+    var fin = smooth(FIN0, FIN1, p);
+    var idleRot = Math.sin(t * 0.5) * 0.1 + mouseX * 0.22;
+    pouch.rotation.y = idleRot * (1 - tiltQ * 0.7);
+    pouch.rotation.z = -1.65 * tiltQ;
+    pouch.position.y = -2.45 + 1.7 * tiltQ + Math.sin(t * 0.9) * 0.02;
+    pouch.position.x = 0.45 * tiltQ - 2.3 * fin;
+    pouch.position.z = 0.4 + 0.8 * tiltQ - 0.4 * fin;
+    var shrink = 1 - fin * 0.22;
     pouch.scale.set(shrink, shrink, shrink);
-    var pouchOp = appear;
-    sideMat.opacity = pouchOp; bodyLabel.opacity = pouchOp;
 
-    var tearCap = smooth(0.71, 0.77, p);
-    cap.position.y = 0.73 + tearCap * 1.1;
-    cap.position.x = tearCap * 0.9;
-    cap.rotation.z = -tearCap * 1.4;
-    var capOp = Math.min(pouchOp, 1 - smooth(0.755, 0.79, p));
+    /* cap: on for each fresh pouch, tears off early in the beat */
+    var capT = started ? smooth(0.16, 0.30, q) : 0;
+    cap.position.y = 2.18 + capT * 1.1;
+    cap.position.x = capT * 0.9;
+    cap.rotation.z = -capT * 1.4;
+    var capOp = started ? Math.min(dip, 1 - smooth(0.28, 0.38, q)) : 1;
+    if (!started) capOp = 1;
     for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
 
-    /* powder */
-    var mx = pouch.position.x + Math.cos(pouch.rotation.z + Math.PI / 2) * 1.45 * shrink;
-    var my = pouch.position.y + Math.sin(pouch.rotation.z + Math.PI / 2) * 1.45 * shrink;
-    pmat.opacity = pour > 0 ? Math.min(0.95, pour * 2) : 0;
+    /* powder: each particle pours during its beat, rests on the table, then joins its stream */
+    var mouthX = pouch.position.x + Math.cos(pouch.rotation.z + Math.PI / 2) * 2.0 * shrink;
+    var mouthY = pouch.position.y + Math.sin(pouch.rotation.z + Math.PI / 2) * 2.9 * shrink;
+    var split = smooth(FIN0, FIN1, p);
     var attr = geo.attributes.position.array;
-    var cattr = geo.attributes.color.array;
     for (var i2 = 0; i2 < N; i2++) {
       var md = meta[i2];
-      var fp = clamp01((pour - md.d * 0.55) / 0.45);
-      var fx = mx + md.jx * (0.25 + fp * 0.9);
-      var fy = my - fp * fp * (3.4 + md.s * 1.6);
-      var fz = pouch.position.z + md.jz * (0.3 + fp);
+      var bt = beats[beatOfSt[md.st]];
+      var bq = clamp01((p - bt.s) / (bt.e - bt.s));
+      var fp = clamp01((bq - 0.30 - md.d * 0.35) / 0.45);
+      var x3, y3, z3;
+      if (fp <= 0) { attr[i2 * 3 + 1] = -50; continue; }
+      if (fp < 1) {
+        x3 = mouthX + md.jx * (0.25 + fp * 0.9);
+        y3 = mouthY - fp * fp * (2.6 + md.s * 1.4);
+        z3 = pouch.position.z + md.jz * (0.3 + fp);
+        if (y3 < -2.32) y3 = -2.32 + Math.abs(md.jz) * 0.08;
+      } else {
+        x3 = 0.75 + md.jx * 1.5;
+        y3 = -2.32 + Math.abs(md.jz) * 0.08 + md.d * 0.05;
+        z3 = 0.4 + md.jz * 0.9;
+      }
       var flow = (md.ph + t * 0.22) % 1;
       var sx = streamX[md.st] + md.jx * 0.5 + Math.sin(t * 1.4 + md.ph * 9) * 0.07;
       var sy = 1.5 - flow * 4.0;
       var sz = md.jz * 0.8;
-      attr[i2 * 3] = lerp(fx, sx, split);
-      attr[i2 * 3 + 1] = fp > 0 ? lerp(fy, sy, split) : -50;
-      attr[i2 * 3 + 2] = lerp(fz, sz, split);
-      var sc = streamCols[md.st];
-      cattr[i2 * 3] = lerp(0.96, sc[0], split);
-      cattr[i2 * 3 + 1] = lerp(0.95, sc[1], split);
-      cattr[i2 * 3 + 2] = lerp(0.9, sc[2], split);
+      attr[i2 * 3] = lerp(x3, sx, split);
+      attr[i2 * 3 + 1] = lerp(y3, sy, split);
+      attr[i2 * 3 + 2] = lerp(z3, sz, split);
     }
     geo.attributes.position.needsUpdate = true;
-    geo.attributes.color.needsUpdate = true;
 
     /* captions */
-    capFade(capA, 1 - smooth(0.06, 0.12, p));
-    capFade(capM, smooth(0.11, 0.17, p) * (1 - smooth(0.26, 0.33, p)));
-    capFade(capE, smooth(0.33, 0.40, p) * (1 - smooth(0.46, 0.52, p)));
-    capFade(capN2, smooth(0.50, 0.56, p) * (1 - smooth(0.60, 0.66, p)));
-    capFade(capP, smooth(0.64, 0.70, p) * (1 - smooth(0.76, 0.82, p)));
-    capFade(capS, smooth(0.90, 0.96, p));
+    capFade(capA, 1 - smooth(0.06, 0.11, p));
+    capFade(capM, smooth(0.11, 0.16, p) * (1 - smooth(0.28, 0.34, p)));
+    capFade(capE, smooth(0.37, 0.42, p) * (1 - smooth(0.54, 0.59, p)));
+    capFade(capN2, smooth(0.61, 0.66, p) * (1 - smooth(0.78, 0.83, p)));
+    capFade(capS, smooth(0.87, 0.93, p));
     hint.style.opacity = (1 - smooth(0.02, 0.07, p)).toFixed(2);
 
-    /* camera drift */
+    /* camera */
     camera.position.x = mouseX * 0.4;
     camera.position.y = 0.7 - p * 0.25;
-    camera.lookAt(0, 0.1 - p * 0.35, 0);
+    camera.lookAt(0, -0.4 - p * 0.2, 0);
 
     renderer.render(scene, camera);
   }
