@@ -165,9 +165,17 @@
       linear-gradient(180deg, var(--wood), var(--wood-deep));
     color: #fff; text-align: center;
   }
-  #closing h2 { margin: 0 0 16px; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(29px, 4vw, 48px); line-height: 1.35; }
-  #closing p { margin: 0 0 24px; color: #F4EAD9; font-size: 15px; }
-  #closing .cta { display: inline-flex; background: var(--navy); color: #fff; font-weight: 700; font-size: 15px; padding: 15px 40px; border-radius: 4px; cursor: pointer; min-height: 44px; align-items: center; }
+  #closing h2 { margin: 0 0 12px; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(29px, 4vw, 48px); line-height: 1.35; }
+  #closing p { margin: 0 0 34px; color: #F4EAD9; font-size: 15px; }
+  .benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 960px; margin: 0 auto 34px; }
+  @media (max-width: 820px) { .benefits { grid-template-columns: 1fr; max-width: 400px; } }
+  .benefit { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); border-radius: 14px;
+    padding: 24px 20px; display: flex; flex-direction: column; gap: 7px; text-align: center; backdrop-filter: blur(3px); }
+  .benefit .bwho { font-size: 11.5px; font-weight: 700; letter-spacing: 0.14em; color: #F4EAD9; display: flex; align-items: center; justify-content: center; gap: 7px; }
+  .benefit .bwho::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--bdot, #fff); }
+  .benefit b { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(17px, 1.8vw, 21px); line-height: 1.4; }
+  #closing .cta { display: inline-flex; flex-direction: column; gap: 3px; background: var(--navy); color: #fff; font-weight: 700; font-size: 16px; padding: 16px 44px; border-radius: 6px; cursor: pointer; min-height: 44px; align-items: center; }
+  #closing .cta small { font-weight: 500; font-size: 12px; color: var(--mist); }
   #closing .cta:hover { background: var(--navy-deep); }
 
   footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12px; line-height: 1.9; padding: 40px clamp(18px, 5vw, 72px) 84px; display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
@@ -301,9 +309,14 @@
 </section>
 
 <section id="closing">
-  <h2>오늘부터,<br>나트륨 내보내기</h2>
-  <p>가볍게 시작하세요. 6포 데이팩이 있습니다.</p>
-  <div class="cta">데이팩으로 시작하기 · 14,000원</div>
+  <h2>오늘부터, 가볍게</h2>
+  <p>하루의 세 가지 일을, 세 개의 포가 맡습니다.</p>
+  <div class="benefits">
+    <div class="benefit" style="--bdot:#A9C2FF"><div class="bwho">칼륨</div><b>오늘의 나트륨<br>내보내기</b></div>
+    <div class="benefit" style="--bdot:#FFD9A0"><div class="bwho">비타민B</div><b>영양소를<br>에너지로 전환</b></div>
+    <div class="benefit" style="--bdot:#E9DCC6"><div class="bwho">마그네슘</div><b>내일을 위한<br>회복</b></div>
+  </div>
+  <div class="cta">생애 첫 구매 체험판 — 데이팩 1+1 · 8,900원<small>부담 없이 6포씩, 두 가지를 먼저 겪어보세요</small></div>
 </section>
 
 <footer>
@@ -317,7 +330,7 @@
   </div>
 </footer>
 
-<div id="ctabar"><span>가볍게 시작 — 데이팩 6포 14,000원</span><b>보러가기 →</b></div>
+<div id="ctabar"><span>생애 첫 구매 체험판 — 데이팩 1+1</span><b>8,900원 →</b></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
@@ -620,14 +633,12 @@
 
     /* pouch: stands center stage, turning on its vertical axis with the scroll
        (one full 360° per time of day) — no tearing, ever */
-    var fin = smooth(FIN0, FIN1, p);
     pouch.rotation.y = t * 0.12 + p * Math.PI * 6 + mouseX * 0.3;
     pouch.rotation.z = Math.sin(t * 0.6) * 0.015;
     pouch.position.y = -2.45 + Math.sin(t * 0.9) * 0.02;
-    pouch.position.x = -2.3 * fin;
-    pouch.position.z = 0.4 - 0.4 * fin;
-    var shrink = 1 - fin * 0.22;
-    pouch.scale.set(shrink, shrink, shrink);
+    pouch.position.x = 0;
+    pouch.position.z = 0.4;
+    pouch.scale.set(1, 1, 1);
     var capOp = started ? dip : 1;
     for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
 
@@ -665,7 +676,7 @@
       var flow = (md.ph + t * 0.22) % 1;
       var sx = streamX[md.st] + md.jx * 0.5 + Math.sin(t * 1.4 + md.ph * 9) * 0.07;
       var sy = 1.5 - flow * 4.0;
-      var sz = md.jz * 0.8;
+      var sz = -1.6 + md.jz * 0.8;   /* streams flow behind the pouch */
       attr[i2 * 3] = lerp(x3, sx, split);
       attr[i2 * 3 + 1] = lerp(y3, sy, split);
       attr[i2 * 3 + 2] = lerp(z3, sz, split);
