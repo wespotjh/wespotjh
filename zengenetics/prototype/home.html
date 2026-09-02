@@ -126,10 +126,26 @@
 
   .cards-note { text-align: center; margin-top: 34px; font-size: 14px; color: #5A6072; }
 
-  /* wellness rhythm */
-  #rhythm { background: linear-gradient(180deg, #F3EDE0, #EFE6D4); }
-  .moments { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 1240px; margin: 0 auto; }
+  /* day flow: morning to night */
+  #day { background: linear-gradient(180deg, #F3EDE0, #EFE6D4); }
+  .dayline { max-width: 1000px; margin: 0 auto clamp(40px, 5vw, 56px); }
+  .dayline .band { height: 14px; border-radius: 999px; background: linear-gradient(90deg, #F6CFA0 0%, #FDEBD2 22%, #DDEBF2 45%, #8FA0C4 70%, #16295C 88%, #0B1633 100%); }
+  .dayline .marks { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #8A7A60; }
+  .dayline .marks .night { color: var(--navy); }
+  .spans { max-width: 1000px; margin: 0 auto clamp(48px, 6vw, 72px); display: flex; flex-direction: column; gap: 12px; }
+  .span-row { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 16px; }
+  .span-row .who { font-size: 13.5px; font-weight: 700; color: var(--navy); text-align: right; }
+  .span-row .lane { position: relative; height: 34px; }
+  .span-row .bar { position: absolute; top: 0; bottom: 0; border-radius: 999px; display: flex; align-items: center; padding: 0 16px; font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; }
+  @media (max-width: 700px) {
+    .span-row { grid-template-columns: 74px 1fr; }
+    .span-row .bar { font-size: 11px; padding: 0 10px; }
+  }
+  .moments { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; max-width: 1040px; margin: 0 auto; }
   @media (max-width: 900px) { .moments { grid-template-columns: 1fr; max-width: 460px; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; background: #F3EDE0; color: var(--navy); border: 1px solid var(--line); }
+  .chip .cdot { width: 8px; height: 8px; border-radius: 50%; }
   .moment { border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; background: #fff; transition: transform 0.35s ease, box-shadow 0.35s ease; }
   .moment:hover { transform: translateY(-6px); box-shadow: 0 22px 44px rgba(90, 70, 40, 0.22); }
   .moment .scene { height: 300px; position: relative; overflow: hidden; }
@@ -192,16 +208,16 @@
     </header>
 
     <div class="cap" id="cap0">
-      <div class="eyebrow">POWDERY DAILY ROUTINE</div>
+      <div class="eyebrow">MORNING TO NIGHT MINERALS</div>
       <h1>오늘의 한 포가<br>하루를 결정합니다</h1>
-      <p>칼륨 · 마그네슘 · 비타민B — 몸의 리듬을 되찾는 미네랄 루틴</p>
-      <div class="cta">내 루틴 찾기</div>
+      <p>칼륨 · 마그네슘 · 비타민B — 몸의 리듬을 되찾는 하루 한 포</p>
+      <div class="cta">내 리듬 찾기</div>
     </div>
 
     <div class="cap" id="cap1">
       <div class="eyebrow">EASY-CUT</div>
       <h2>손끝으로, 3초</h2>
-      <p>물 없이 어디서든. 뜯는 순간 루틴이 시작됩니다.</p>
+      <p>물 없이 어디서든. 뜯는 순간, 하루가 정돈됩니다.</p>
     </div>
 
     <div class="cap" id="cap2">
@@ -232,7 +248,7 @@
 
 <section id="products">
   <div class="sec-head">
-    <div class="eyebrow">DAILY ROUTINE</div>
+    <div class="eyebrow">DAILY MINERALS</div>
     <h2>몸의 리듬은,<br>미네랄에서 시작됩니다</h2>
     <p>고민에 이름을 붙였습니다. 성분이 아니라 결과로 고르세요.</p>
   </div>
@@ -255,7 +271,7 @@
       <div class="pain">자고 일어나도 개운하지 않다면</div>
       <div class="pouch-wrap"><div class="pouch">
         <div class="face front"><div class="notch">EASY CUT</div><div class="name">MAGNESIUM<br>마그네슘</div><div class="mg">400<small>mg</small></div><div class="brand">ZENGENETICS</div></div>
-        <div class="face back"><div class="notch">EASY CUT</div><div class="name">리커버리<br>루틴</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="face back"><div class="notch">EASY CUT</div><div class="name">리커버리</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
         <div class="edge l"></div><div class="edge r"></div>
       </div></div>
       <div class="price"><s style="opacity:0.55">49,000</s> <b>37,900원</b> · 20포</div>
@@ -267,7 +283,7 @@
       <div class="pain">오후 3시면 방전된다면</div>
       <div class="pouch-wrap"><div class="pouch">
         <div class="face front"><div class="notch">EASY CUT</div><div class="name">VITAMIN B<br>비타민B군</div><div class="mg">B12<small>+</small></div><div class="brand">ZENGENETICS</div></div>
-        <div class="face back"><div class="notch">EASY CUT</div><div class="name">활력<br>루틴</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="face back"><div class="notch">EASY CUT</div><div class="name">활력</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
         <div class="edge l"></div><div class="edge r"></div>
       </div></div>
       <div class="price"><s style="opacity:0.55">49,000</s> <b>37,900원</b> · 20포</div>
@@ -277,12 +293,33 @@
   <div class="cards-note">데이팩(6포) 14,000원부터 · 세트 구성 시 최대 27% 할인</div>
 </section>
 
-<section id="rhythm">
+<section id="day">
   <div class="sec-head">
-    <div class="eyebrow">WELLNESS RHYTHM</div>
-    <h2>하루의 균형을 위한<br>웰니스 루틴</h2>
-    <p>Reset · Recharge · Recover — 하루의 세 순간에 한 포씩.</p>
+    <div class="eyebrow">MORNING TO NIGHT</div>
+    <h2>아침의 몸과 저녁의 몸은<br>다릅니다</h2>
+    <p>하루의 흐름에 맞춰, 필요한 순간에 한 포.</p>
   </div>
+
+  <div class="dayline">
+    <div class="band"></div>
+    <div class="marks"><span>아침</span><span>낮</span><span>저녁</span><span class="night">밤</span></div>
+  </div>
+
+  <div class="spans">
+    <div class="span-row">
+      <div class="who">비타민B</div>
+      <div class="lane"><div class="bar" style="left:0; width:30%; background:#FFD9A0; color:#6B4A16">아침 한 포 — 하루의 시동</div></div>
+    </div>
+    <div class="span-row">
+      <div class="who">칼륨</div>
+      <div class="lane"><div class="bar" style="left:0; width:100%; background:#C9D6F5; color:#16295C">아침이든 저녁이든 — 짜게 먹은 날은 잊지 말고</div></div>
+    </div>
+    <div class="span-row">
+      <div class="who">마그네슘</div>
+      <div class="lane"><div class="bar" style="left:62%; width:38%; background:#16295C; color:#E9DCC6">자기 전 한 포 — 깊은 회복</div></div>
+    </div>
+  </div>
+
   <div class="moments">
     <div class="moment">
       <div class="scene">
@@ -304,25 +341,14 @@
           <ellipse cx="296" cy="66" rx="44" ry="10" fill="#FFFFFF" opacity="0.4"></ellipse>
         </svg>
       </div>
-      <div class="word"><div class="en">MORNING · RESET</div><b>가볍게 시작하는 아침</b><span>어젯밤의 짠 기운을 내보내고, 가벼운 얼굴로 하루를 엽니다.</span></div>
-    </div>
-    <div class="moment">
-      <div class="scene">
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs>
-            <linearGradient id="day" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#DDEBF2"></stop><stop offset="0.6" stop-color="#EFE9D8"></stop><stop offset="1" stop-color="#E5D6BB"></stop>
-            </linearGradient>
-          </defs>
-          <rect width="400" height="300" fill="url(#day)"></rect>
-          <circle cx="322" cy="58" r="34" fill="#FFF7E0" opacity="0.9"></circle>
-          <path d="M0 210 Q 100 168 200 206 T 400 198 L 400 300 L 0 300 Z" fill="#CBB68E" opacity="0.55"></path>
-          <path d="M0 238 Q 120 208 240 236 T 400 230 L 400 300 L 0 300 Z" fill="#B98D5F" opacity="0.5"></path>
-          <ellipse cx="96" cy="80" rx="52" ry="11" fill="#FFFFFF" opacity="0.7"></ellipse>
-          <ellipse cx="210" cy="112" rx="40" ry="9" fill="#FFFFFF" opacity="0.55"></ellipse>
-        </svg>
+      <div class="word">
+        <div class="en">MORNING</div><b>가볍게 여는 아침</b>
+        <span>어젯밤의 짠 기운은 내보내고, 하루의 시동을 겁니다.</span>
+        <div class="chips">
+          <span class="chip"><span class="cdot" style="background:#FFD9A0"></span>비타민B 한 포 · 시동</span>
+          <span class="chip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 부은 아침</span>
+        </div>
       </div>
-      <div class="word"><div class="en">AFTERNOON · RECHARGE</div><b>처지지 않는 오후</b><span>오후 3시, 방전 대신 한 포. 하루의 페이스를 지킵니다.</span></div>
     </div>
     <div class="moment">
       <div class="scene">
@@ -343,7 +369,14 @@
           <path d="M0 246 Q 130 224 260 246 T 400 240 L 400 300 L 0 300 Z" fill="#0A1228" opacity="0.85"></path>
         </svg>
       </div>
-      <div class="word"><div class="en">NIGHT · RECOVER</div><b>깊이 회복하는 밤</b><span>뭉친 몸을 풀고, 내일을 위해 깊이 잠듭니다.</span></div>
+      <div class="word">
+        <div class="en">EVENING &amp; NIGHT</div><b>깊이 회복하는 밤</b>
+        <span>뭉친 몸을 풀고, 내일의 나를 준비합니다.</span>
+        <div class="chips">
+          <span class="chip"><span class="cdot" style="background:#A9C2FF"></span>칼륨 한 포 · 짜게 먹은 저녁</span>
+          <span class="chip"><span class="cdot" style="background:#E9DCC6"></span>마그네슘 한 포 · 자기 전</span>
+        </div>
+      </div>
     </div>
   </div>
   <div class="rhythm-note">위 장면들은 실제 라이프스타일 촬영 컷으로 교체될 자리입니다 — 톤 가이드: 자연광, 우드, 여백.</div>
@@ -361,17 +394,6 @@
   </div>
   <div class="review-quote">"짜게 먹은 다음 날 아침이 달라졌어요. <em>이제 거울 보는 게 무섭지 않아요.</em>"</div>
   <div class="review-src">실제 구매 후기 中 · 알파리뷰 연동 예정 영역</div>
-</section>
-
-<section id="routine-sec">
-  <div class="sec-head">
-    <div class="eyebrow">YOUR ROUTINE</div>
-    <h2>언제, 어떻게 먹나요?</h2>
-  </div>
-  <div class="routines">
-    <div class="routine"><div class="tag">TYPE A · 아침에 얼굴이 붓는 타입</div><b>저녁 식사 후 칼륨 한 포, 자기 전 마그네슘 한 포</b><span>짜게 먹은 날은 잊지 말고. 아침 거울이 달라집니다.</span></div>
-    <div class="routine"><div class="tag">TYPE B · 오후에 방전되는 타입</div><b>아침 비타민B 한 포로 시작하는 하루</b><span>B1 · B2 · B6 · B12 다이렉트 충전. 오후 3시가 두렵지 않게.</span></div>
-  </div>
 </section>
 
 <section id="closing">
