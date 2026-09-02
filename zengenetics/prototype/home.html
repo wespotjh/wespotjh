@@ -128,18 +128,34 @@
 
   /* day flow: morning to night */
   #day { background: linear-gradient(180deg, #F3EDE0, #EFE6D4); }
-  .dayline { max-width: 1000px; margin: 0 auto clamp(40px, 5vw, 56px); }
-  .dayline .band { height: 14px; border-radius: 999px; background: linear-gradient(90deg, #F6CFA0 0%, #FDEBD2 22%, #DDEBF2 45%, #8FA0C4 70%, #16295C 88%, #0B1633 100%); }
-  .dayline .marks { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #8A7A60; }
-  .dayline .marks .night { color: var(--navy); }
-  .spans { max-width: 1000px; margin: 0 auto clamp(48px, 6vw, 72px); display: flex; flex-direction: column; gap: 12px; }
-  .span-row { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 16px; }
-  .span-row .who { font-size: 13.5px; font-weight: 700; color: var(--navy); text-align: right; }
-  .span-row .lane { position: relative; height: 34px; }
-  .span-row .bar { position: absolute; top: 0; bottom: 0; border-radius: 999px; display: flex; align-items: center; padding: 0 16px; font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; }
+  .daychart { max-width: 980px; margin: 0 auto clamp(48px, 6vw, 72px); background: #FFFFFF; border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px 30px; }
+  .dc-row { display: grid; grid-template-columns: 96px 1fr; gap: 18px; align-items: center; }
+  .dc-row + .dc-row { margin-top: 12px; }
+  .dc-row .who { font-size: 13.5px; font-weight: 700; color: var(--navy); text-align: right; }
+  .dc-head { margin-bottom: 6px; align-items: end; }
+  .dc-head .times { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .dc-head .times span { text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: #8A7A60; padding-bottom: 8px; }
+  .dc-head .times .night { color: var(--navy); }
+  .dc-band { grid-column: 2; height: 8px; border-radius: 999px; background: linear-gradient(90deg, #F6CFA0 0%, #FDEBD2 22%, #DDEBF2 45%, #8FA0C4 70%, #16295C 88%, #0B1633 100%); }
+  .lane {
+    position: relative; height: 46px; border-radius: 8px;
+    background-image:
+      linear-gradient(90deg, rgba(22,41,92,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22,41,92,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22,41,92,0.10) 1px, transparent 1px);
+    background-repeat: no-repeat;
+    background-position: 25% 0, 50% 0, 75% 0;
+    background-size: 1px 100%, 1px 100%, 1px 100%;
+  }
+  .bar { position: absolute; top: 5px; bottom: 5px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 14px; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+  .bar .bdot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .dc-note { margin-top: 16px; text-align: right; font-size: 12px; color: #8A7A60; }
   @media (max-width: 700px) {
-    .span-row { grid-template-columns: 74px 1fr; }
-    .span-row .bar { font-size: 11px; padding: 0 10px; }
+    .daychart { padding: 18px 14px 20px; }
+    .dc-row { grid-template-columns: 64px 1fr; gap: 10px; }
+    .dc-row .who { font-size: 11.5px; }
+    .bar { font-size: 10.5px; padding: 0 8px; gap: 5px; }
+    .dc-head .times span { font-size: 10.5px; }
   }
   .moments { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; max-width: 1040px; margin: 0 auto; }
   @media (max-width: 900px) { .moments { grid-template-columns: 1fr; max-width: 460px; } }
@@ -300,24 +316,27 @@
     <p>하루의 흐름에 맞춰, 필요한 순간에 한 포.</p>
   </div>
 
-  <div class="dayline">
-    <div class="band"></div>
-    <div class="marks"><span>아침</span><span>낮</span><span>저녁</span><span class="night">밤</span></div>
-  </div>
-
-  <div class="spans">
-    <div class="span-row">
+  <div class="daychart">
+    <div class="dc-row dc-head">
+      <div></div>
+      <div>
+        <div class="times"><span>아침</span><span>낮</span><span>저녁</span><span class="night">밤</span></div>
+        <div class="dc-band" style="grid-column:auto"></div>
+      </div>
+    </div>
+    <div class="dc-row">
       <div class="who">비타민B</div>
-      <div class="lane"><div class="bar" style="left:0; width:30%; background:#FFD9A0; color:#6B4A16">아침 한 포 — 하루의 시동</div></div>
+      <div class="lane"><div class="bar" style="left:0; width:25%; background:#FFD9A0; color:#6B4A16"><span class="bdot" style="background:#B97A1E"></span>아침 한 포</div></div>
     </div>
-    <div class="span-row">
+    <div class="dc-row">
       <div class="who">칼륨</div>
-      <div class="lane"><div class="bar" style="left:0; width:100%; background:#C9D6F5; color:#16295C">아침이든 저녁이든 — 짜게 먹은 날은 잊지 말고</div></div>
+      <div class="lane"><div class="bar" style="left:0; width:100%; background:#C9D6F5; color:#16295C"><span class="bdot" style="background:#16295C"></span>하루 어디서든 — 짜게 먹은 날엔 꼭</div></div>
     </div>
-    <div class="span-row">
+    <div class="dc-row">
       <div class="who">마그네슘</div>
-      <div class="lane"><div class="bar" style="left:62%; width:38%; background:#16295C; color:#E9DCC6">자기 전 한 포 — 깊은 회복</div></div>
+      <div class="lane"><div class="bar" style="left:50%; width:50%; background:#16295C; color:#E9DCC6"><span class="bdot" style="background:#E9DCC6"></span>자기 전 한 포</div></div>
     </div>
+    <div class="dc-note">한 칸 = 하루의 1/4 · 자세한 복용 시점은 제품 상세에서</div>
   </div>
 
   <div class="moments">
