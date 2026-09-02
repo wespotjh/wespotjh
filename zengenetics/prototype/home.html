@@ -1,0 +1,572 @@
+<title>젠제네틱스 홈 프로토타입</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --navy-deep: #0B1633;
+    --navy: #16295C;
+    --navy-soft: #24397A;
+    --paper: #FAF8F3;
+    --ink: #1B2233;
+    --mist: #C8D2E8;
+    --wood: #B98D5F;
+    --wood-deep: #8A6239;
+    --sand: #E9DCC6;
+    --line: #E4DECF;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Noto Serif KR', 'Apple SD Gothic Neo', serif; }
+  a { color: var(--navy); }
+  a:hover { color: var(--navy-deep); }
+
+  /* ---------- HERO (pinned scroll scene) ---------- */
+  #hero-track { position: relative; height: 480vh; background: var(--navy-deep); }
+  body.reduced #hero-track, body.no3d #hero-track { height: 100vh; }
+  #hero-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  #scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .gnb {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px clamp(20px, 4vw, 56px);
+    color: #fff;
+  }
+  .gnb .logo { font-weight: 900; font-size: 20px; letter-spacing: 0.03em; font-family: 'Noto Serif KR', serif; }
+  .gnb nav { display: flex; gap: clamp(14px, 2.4vw, 34px); font-size: 14.5px; color: var(--mist); }
+  .gnb nav span { cursor: pointer; } .gnb nav span:hover { color: #fff; }
+  .gnb .util { display: flex; gap: 18px; font-size: 13.5px; color: var(--mist); }
+  @media (max-width: 760px) { .gnb nav { display: none; } }
+
+  .cap {
+    position: absolute; z-index: 20; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 18px;
+    text-align: center; color: #fff; pointer-events: none;
+    opacity: 0; transform: translateY(24px);
+    will-change: opacity, transform;
+  }
+  .cap .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: var(--sand); }
+  .cap h1 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(34px, 5vw, 64px); line-height: 1.28; text-wrap: balance; }
+  .cap h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(26px, 3.6vw, 46px); line-height: 1.3; text-wrap: balance; }
+  .cap p { margin: 0; font-size: clamp(14px, 1.4vw, 17px); line-height: 1.7; color: var(--mist); }
+  .cap .cta { pointer-events: auto; margin-top: 6px; display: inline-flex; align-items: center; gap: 10px;
+    background: #fff; color: var(--navy); font-weight: 700; font-size: 15.5px; padding: 15px 34px; border-radius: 4px; cursor: pointer; }
+  .cap .cta:hover { background: var(--sand); }
+
+  #cap0 { top: 16vh; }
+  #cap1 { top: 12vh; }
+  #cap2 { top: 12vh; }
+  #cap3 { bottom: 7vh; }
+  #cap3 .streams { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(880px, 92vw); }
+  #cap3 .stream-label { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  #cap3 .stream-label b { font-family: 'Noto Serif KR', serif; font-size: clamp(17px, 2vw, 24px); font-weight: 900; }
+  #cap3 .stream-label i { font-style: normal; font-size: clamp(11px, 1.2vw, 13.5px); color: var(--mist); }
+  #cap3 .dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 4px; }
+
+  #scroll-hint { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 20;
+    color: var(--mist); font-size: 11px; letter-spacing: 0.3em; opacity: 0.9; }
+  #scroll-hint::after { content: ""; display: block; width: 1px; height: 34px; background: var(--mist); margin: 10px auto 0; animation: drip 1.8s ease-in-out infinite; }
+  @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 60% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* no-3d fallback hero */
+  #fallback-hero { display: none; position: absolute; inset: 0; z-index: 5; align-items: flex-end; justify-content: center; padding-bottom: 11vh; }
+  body.no3d #fallback-hero { display: flex; }
+  body.no3d #scene { display: none; }
+  body.no3d #cap0 { opacity: 1; transform: none; top: 11vh; }
+  body.no3d #fallback-hero svg { height: min(34vh, 300px); width: auto; }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 72px); }
+  .sec-head { display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; margin-bottom: clamp(40px, 5vw, 64px); }
+  .sec-head .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: var(--wood-deep); }
+  .sec-head h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 900; color: var(--navy); font-size: clamp(28px, 3.4vw, 44px); line-height: 1.3; text-wrap: balance; }
+  .sec-head p { margin: 0; font-size: 15.5px; color: #5A6072; line-height: 1.7; }
+
+  /* products */
+  #products { background: var(--paper); }
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 1240px; margin: 0 auto; }
+  @media (max-width: 900px) { .cards { grid-template-columns: 1fr; max-width: 460px; } }
+  .card {
+    border-radius: 18px; padding: 34px 26px 30px; color: #fff;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    background: linear-gradient(175deg, var(--navy-soft), var(--navy) 55%, var(--navy-deep));
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(11, 22, 51, 0.35); }
+  .card .pill { border: 1px solid var(--sand); color: var(--sand); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; padding: 5px 12px; border-radius: 999px; }
+  .card h3 { margin: 2px 0 0; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 23px; }
+  .card .pain { font-size: 13.5px; color: var(--mist); }
+  .card .price { font-size: 14px; color: var(--mist); }
+  .card .price b { color: #fff; font-size: 16px; }
+  .card .buy { margin-top: 4px; background: #fff; color: var(--navy); font-weight: 700; font-size: 14.5px;
+    padding: 13px 34px; border-radius: 999px; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+  .card .buy:hover { background: var(--sand); }
+
+  /* CSS-3D rotating pouch */
+  .pouch-wrap { perspective: 700px; height: 250px; display: flex; align-items: flex-end; justify-content: center; margin: 8px 0 4px; }
+  .pouch { position: relative; width: 88px; height: 234px; transform-style: preserve-3d; animation: pouchspin 9s linear infinite; }
+  .card:hover .pouch { animation-duration: 3.5s; }
+  .pouch .face { position: absolute; inset: 0; border-radius: 8px 8px 10px 10px; backface-visibility: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px 8px 14px; }
+  .pouch .front, .pouch .back { background: linear-gradient(180deg, #F6F2E9 0%, #FFFFFF 30%, #EFEAE0 100%); color: var(--navy); box-shadow: inset 0 0 0 1px rgba(22,41,92,0.12); }
+  .pouch .front { transform: translateZ(7px); } .pouch .back { transform: rotateY(180deg) translateZ(7px); }
+  .pouch .edge { position: absolute; top: 0; bottom: 0; width: 14px; background: var(--sand); border-radius: 4px; }
+  .pouch .edge.l { left: -7px; transform: rotateY(-90deg); } .pouch .edge.r { right: -7px; transform: rotateY(90deg); }
+  .pouch .notch { width: 100%; border-top: 2px dashed rgba(22,41,92,0.35); padding-top: 8px; font-size: 8px; letter-spacing: 0.2em; text-align: center; color: rgba(22,41,92,0.55); }
+  .pouch .name { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 13px; letter-spacing: 0.06em; text-align: center; line-height: 1.5; }
+  .pouch .mg { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .pouch .brand { font-size: 9px; letter-spacing: 0.24em; font-weight: 700; color: var(--wood-deep); }
+  @keyframes pouchspin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+  .cards-note { text-align: center; margin-top: 34px; font-size: 14px; color: #5A6072; }
+
+  /* evidence */
+  #evidence { background: linear-gradient(180deg, #F3EDE0, #EFE6D4); }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 1180px; margin: 0 auto; }
+  @media (max-width: 900px) { .stats { grid-template-columns: 1fr; max-width: 460px; } }
+  .stat { background: #fff; border-radius: 14px; padding: 34px 30px; display: flex; flex-direction: column; gap: 10px; }
+  .stat .num { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 46px; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .stat b { font-size: 16px; }
+  .stat span { font-size: 14px; color: #5A6072; line-height: 1.65; }
+
+  /* trust */
+  #trust { background: var(--navy); color: #fff; }
+  #trust .sec-head .eyebrow { color: var(--sand); }
+  #trust .sec-head h2 { color: #fff; }
+  .trust-row { display: flex; justify-content: center; gap: clamp(36px, 7vw, 96px); flex-wrap: wrap; }
+  .trust-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .trust-item .num { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 40px; font-variant-numeric: tabular-nums; }
+  .trust-item span { font-size: 13.5px; color: var(--mist); }
+  .review-quote { max-width: 720px; margin: 48px auto 0; text-align: center; font-size: 16.5px; line-height: 1.9; color: var(--mist); }
+  .review-quote em { font-style: normal; color: #fff; }
+  .review-src { margin-top: 14px; text-align: center; font-size: 12.5px; color: #7E8DB4; }
+
+  /* routine */
+  .routines { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; max-width: 1000px; margin: 0 auto; }
+  @media (max-width: 800px) { .routines { grid-template-columns: 1fr; } }
+  .routine { border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 30px 28px; display: flex; flex-direction: column; gap: 8px; }
+  .routine .tag { font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; color: var(--wood-deep); }
+  .routine b { font-size: 17.5px; }
+  .routine span { font-size: 14px; color: #5A6072; line-height: 1.7; }
+
+  /* closing */
+  #closing {
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 90px),
+      linear-gradient(180deg, var(--wood), var(--wood-deep));
+    color: #fff; text-align: center;
+  }
+  #closing h2 { margin: 0 0 18px; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(30px, 4vw, 50px); line-height: 1.35; }
+  #closing p { margin: 0 0 26px; color: #F4EAD9; font-size: 15.5px; }
+  #closing .cta { display: inline-flex; background: var(--navy); color: #fff; font-weight: 700; font-size: 15.5px; padding: 16px 42px; border-radius: 4px; cursor: pointer; min-height: 44px; align-items: center; }
+  #closing .cta:hover { background: var(--navy-deep); }
+
+  footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12.5px; line-height: 1.9; padding: 44px clamp(20px, 5vw, 72px); display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  footer .logo { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 17px; color: #fff; margin-bottom: 10px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pouch { animation: none; }
+    #scroll-hint::after { animation: none; }
+  }
+</style>
+
+<div id="hero-track">
+  <div id="hero-stage">
+    <canvas id="scene"></canvas>
+
+    <header class="gnb">
+      <div class="logo">Zengenetics</div>
+      <nav><span>Store</span><span>브랜드 스토리</span><span>복용법</span><span>리뷰</span><span>고객센터</span></nav>
+      <div class="util"><span>로그인</span><span>Cart</span></div>
+    </header>
+
+    <div class="cap" id="cap0">
+      <div class="eyebrow">POWDERY DAILY ROUTINE</div>
+      <h1>오늘의 한 포가<br>하루를 결정합니다</h1>
+      <p>칼륨 · 마그네슘 · 비타민B — 몸의 리듬을 되찾는 미네랄 루틴</p>
+      <div class="cta">내 루틴 찾기</div>
+    </div>
+
+    <div class="cap" id="cap1">
+      <div class="eyebrow">EASY-CUT</div>
+      <h2>손끝으로, 3초</h2>
+      <p>물 없이 어디서든. 뜯는 순간 루틴이 시작됩니다.</p>
+    </div>
+
+    <div class="cap" id="cap2">
+      <div class="eyebrow">WATERLESS POWDER</div>
+      <h2>쏟아지는 건 가루가 아니라<br>몸의 리듬입니다</h2>
+    </div>
+
+    <div class="cap" id="cap3">
+      <div class="streams">
+        <div class="stream-label"><div class="dot" style="background:#A9C2FF"></div><b>붓기 · 칼륨</b><i>나트륨 OUT, 아침 얼굴이 달라진다</i></div>
+        <div class="stream-label"><div class="dot" style="background:#E9DCC6"></div><b>리커버리 · 마그네슘</b><i>뭉친 몸과 얕은 잠을 풀어낸다</i></div>
+        <div class="stream-label"><div class="dot" style="background:#FFD9A0"></div><b>활력 · 비타민B</b><i>오후 3시의 방전을 끊는다</i></div>
+      </div>
+    </div>
+
+    <div id="fallback-hero">
+      <svg width="150" height="360" viewBox="0 0 150 360" fill="none" aria-hidden="true">
+        <rect x="5" y="330" width="140" height="12" rx="4" fill="#B98D5F"></rect>
+        <rect x="45" y="60" width="60" height="270" rx="10" fill="#F6F2E9"></rect>
+        <line x1="45" y1="92" x2="105" y2="92" stroke="#16295C" stroke-width="2" stroke-dasharray="5 4" opacity="0.4"></line>
+        <text x="75" y="200" fill="#16295C" font-size="13" font-weight="700" text-anchor="middle">ZEN</text>
+      </svg>
+    </div>
+
+    <div id="scroll-hint">SCROLL</div>
+  </div>
+</div>
+
+<section id="products">
+  <div class="sec-head">
+    <div class="eyebrow">DAILY ROUTINE</div>
+    <h2>몸의 리듬은,<br>미네랄에서 시작됩니다</h2>
+    <p>고민에 이름을 붙였습니다. 성분이 아니라 결과로 고르세요.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="pill">POTASSIUM 525mg</div>
+      <h3>붓기 부스터 · 칼륨</h3>
+      <div class="pain">아침마다 얼굴이 퉁퉁 붓는다면</div>
+      <div class="pouch-wrap"><div class="pouch">
+        <div class="face front"><div class="notch">EASY CUT</div><div class="name">POTASSIUM<br>칼륨</div><div class="mg">525<small>mg</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="face back"><div class="notch">EASY CUT</div><div class="name">붓기<br>부스터</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="edge l"></div><div class="edge r"></div>
+      </div></div>
+      <div class="price"><s style="opacity:0.55">45,000</s> <b>34,900원</b> · 20포</div>
+      <div class="buy">Shop Now</div>
+    </div>
+    <div class="card">
+      <div class="pill">MAGNESIUM</div>
+      <h3>리커버리 · 마그네슘</h3>
+      <div class="pain">자고 일어나도 개운하지 않다면</div>
+      <div class="pouch-wrap"><div class="pouch">
+        <div class="face front"><div class="notch">EASY CUT</div><div class="name">MAGNESIUM<br>마그네슘</div><div class="mg">400<small>mg</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="face back"><div class="notch">EASY CUT</div><div class="name">리커버리<br>루틴</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="edge l"></div><div class="edge r"></div>
+      </div></div>
+      <div class="price"><s style="opacity:0.55">49,000</s> <b>37,900원</b> · 20포</div>
+      <div class="buy">Shop Now</div>
+    </div>
+    <div class="card">
+      <div class="pill">VITAMIN B COMPLEX</div>
+      <h3>활력 · 비타민B</h3>
+      <div class="pain">오후 3시면 방전된다면</div>
+      <div class="pouch-wrap"><div class="pouch">
+        <div class="face front"><div class="notch">EASY CUT</div><div class="name">VITAMIN B<br>비타민B군</div><div class="mg">B12<small>+</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="face back"><div class="notch">EASY CUT</div><div class="name">활력<br>루틴</div><div class="mg">20<small>ea</small></div><div class="brand">ZENGENETICS</div></div>
+        <div class="edge l"></div><div class="edge r"></div>
+      </div></div>
+      <div class="price"><s style="opacity:0.55">49,000</s> <b>37,900원</b> · 20포</div>
+      <div class="buy">Shop Now</div>
+    </div>
+  </div>
+  <div class="cards-note">데이팩(6포) 14,000원부터 · 세트 구성 시 최대 27% 할인</div>
+</section>
+
+<section id="evidence">
+  <div class="sec-head">
+    <div class="eyebrow">EVIDENCE</div>
+    <h2>숫자로 말하겠습니다</h2>
+    <p>모델 없이, 근거로만.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num">3.3배</div><b>짜게 먹는 대한민국</b><span>나트륨 섭취량, 권장 기준 대비 3.3배.<br>출처: 질병관리본부</span></div>
+    <div class="stat"><div class="num">525mg</div><b>칼륨 단일 설계</b><span>FDA 기준 칼륨 단일 525mg.<br>독일 Jungbunzlauer 원료 · 콜마비앤에이치 제조 · HACCP</span></div>
+    <div class="stat"><div class="num">3초</div><b>물 없이, 바로</b><span>이지컷 + 워터리스 분말.<br>어디서든 뜯어서 털어 넣는 3초 흡수 설계</span></div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="sec-head">
+    <div class="eyebrow">PROVEN</div>
+    <h2>기록이 대신 말합니다</h2>
+  </div>
+  <div class="trust-row">
+    <div class="trust-item"><div class="num">4.9</div><span>평점 · 리뷰 26,961건</span></div>
+    <div class="trust-item"><div class="num">92%</div><span>재구매율</span></div>
+    <div class="trust-item"><div class="num">1위</div><span>올리브영 · 쿠팡 [기간 각주]</span></div>
+  </div>
+  <div class="review-quote">"짜게 먹은 다음 날 아침이 달라졌어요. <em>이제 거울 보는 게 무섭지 않아요.</em>"</div>
+  <div class="review-src">실제 구매 후기 中 · 알파리뷰 연동 예정 영역</div>
+</section>
+
+<section id="routine-sec">
+  <div class="sec-head">
+    <div class="eyebrow">YOUR ROUTINE</div>
+    <h2>언제, 어떻게 먹나요?</h2>
+  </div>
+  <div class="routines">
+    <div class="routine"><div class="tag">TYPE A · 아침에 얼굴이 붓는 타입</div><b>저녁 식사 후 칼륨 한 포, 자기 전 마그네슘 한 포</b><span>짜게 먹은 날은 잊지 말고. 아침 거울이 달라집니다.</span></div>
+    <div class="routine"><div class="tag">TYPE B · 오후에 방전되는 타입</div><b>아침 비타민B 한 포로 시작하는 하루</b><span>B1 · B2 · B6 · B12 다이렉트 충전. 오후 3시가 두렵지 않게.</span></div>
+  </div>
+</section>
+
+<section id="closing">
+  <h2>오늘부터,<br>나트륨 내보내기</h2>
+  <p>가볍게 시작하세요. 6포 데이팩이 있습니다.</p>
+  <div class="cta">데이팩으로 시작하기 · 14,000원</div>
+</section>
+
+<footer>
+  <div>
+    <div class="logo">Zengenetics</div>
+    (주)위스팟바이오랩 · 대표 이지훈 · 사업자등록번호 376-88-03498<br>
+    통신판매업신고 2026-서울강남-00903 · 개인정보처리방침 · 이용약관 · 이용안내
+  </div>
+  <div style="text-align:right">
+    CS 070-8872-1337 (평일 10:00–18:00)<br>wespot@wespot.co.kr
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+(function () {
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) document.body.classList.add('reduced');
+
+  if (typeof THREE === 'undefined') { document.body.classList.add('no3d'); return; }
+
+  var canvas = document.getElementById('scene');
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+  } catch (e) { document.body.classList.add('no3d'); return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  var scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0B1633);
+  scene.fog = new THREE.Fog(0x0B1633, 10, 24);
+
+  var camera = new THREE.PerspectiveCamera(40, 1, 0.1, 60);
+  camera.position.set(0, 0.7, 9.4);
+  camera.lookAt(0, 0.1, 0);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+  var key = new THREE.DirectionalLight(0xffffff, 0.85); key.position.set(4, 7, 6); scene.add(key);
+  var warm = new THREE.PointLight(0xB98D5F, 0.7, 18); warm.position.set(-3, -1, 4); scene.add(warm);
+
+  /* ---- wood table (procedural texture) ---- */
+  function woodTexture() {
+    var c = document.createElement('canvas'); c.width = 512; c.height = 256;
+    var g = c.getContext('2d');
+    var grad = g.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, '#B98D5F'); grad.addColorStop(1, '#8A6239');
+    g.fillStyle = grad; g.fillRect(0, 0, 512, 256);
+    for (var i = 0; i < 46; i++) {
+      g.strokeStyle = 'rgba(90,58,30,' + (0.05 + Math.random() * 0.12) + ')';
+      g.lineWidth = 1 + Math.random() * 2;
+      g.beginPath();
+      var y = Math.random() * 256;
+      g.moveTo(0, y);
+      for (var x = 0; x <= 512; x += 64) g.lineTo(x, y + Math.sin(x * 0.02 + i) * 4);
+      g.stroke();
+    }
+    for (var p = 0; p < 5; p++) { g.strokeStyle = 'rgba(60,38,18,0.35)'; g.lineWidth = 2; var px = 90 * p + 40; g.beginPath(); g.moveTo(px, 0); g.lineTo(px, 256); g.stroke(); }
+    var t = new THREE.CanvasTexture(c); return t;
+  }
+  var table = new THREE.Mesh(
+    new THREE.BoxGeometry(20, 0.4, 7),
+    new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: 0.85 })
+  );
+  table.position.set(0, -2.65, -0.4);
+  scene.add(table);
+
+  /* ---- pouch label textures ---- */
+  function labelTexture() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 640;
+    var g = c.getContext('2d');
+    var grad = g.createLinearGradient(0, 0, 0, 640);
+    grad.addColorStop(0, '#F6F2E9'); grad.addColorStop(0.35, '#FFFFFF'); grad.addColorStop(1, '#EDE7DA');
+    g.fillStyle = grad; g.fillRect(0, 0, 256, 640);
+    g.strokeStyle = 'rgba(22,41,92,0.4)'; g.setLineDash([10, 8]); g.lineWidth = 3;
+    g.beginPath(); g.moveTo(0, 74); g.lineTo(256, 74); g.stroke(); g.setLineDash([]);
+    g.fillStyle = '#8A6239'; g.font = '700 22px sans-serif'; g.textAlign = 'center';
+    g.fillText('Z E N G E N E T I C S', 128, 46);
+    g.fillStyle = '#16295C'; g.font = '900 44px sans-serif';
+    g.fillText('POTASSIUM', 128, 300);
+    g.font = '700 64px sans-serif'; g.fillText('525mg', 128, 386);
+    g.font = '500 26px sans-serif'; g.fillStyle = 'rgba(22,41,92,0.75)';
+    g.fillText('붓기 부스터 · 20 STICKS', 128, 560);
+    return new THREE.CanvasTexture(c);
+  }
+  function capTexture() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 96;
+    var g = c.getContext('2d');
+    g.fillStyle = '#E9DCC6'; g.fillRect(0, 0, 256, 96);
+    g.strokeStyle = 'rgba(22,41,92,0.45)'; g.setLineDash([10, 8]); g.lineWidth = 4;
+    g.beginPath(); g.moveTo(0, 88); g.lineTo(256, 88); g.stroke();
+    g.fillStyle = '#8A6239'; g.font = '700 26px sans-serif'; g.textAlign = 'center';
+    g.fillText('EASY CUT', 128, 56);
+    return new THREE.CanvasTexture(c);
+  }
+
+  var pouch = new THREE.Group();
+  var sideMat = new THREE.MeshStandardMaterial({ color: 0xE9DCC6, roughness: 0.6 });
+  var bodyLabel = new THREE.MeshStandardMaterial({ map: labelTexture(), roughness: 0.5 });
+  var body = new THREE.Mesh(new THREE.BoxGeometry(1.15, 2.9, 0.34),
+    [sideMat, sideMat, sideMat, sideMat, bodyLabel, bodyLabel]);
+  body.position.y = -0.95;
+  pouch.add(body);
+
+  var capMatFace = new THREE.MeshStandardMaterial({ map: capTexture(), roughness: 0.6, transparent: true });
+  var capMatSide = new THREE.MeshStandardMaterial({ color: 0xE0D2B8, roughness: 0.6, transparent: true });
+  var cap = new THREE.Mesh(new THREE.BoxGeometry(1.17, 0.46, 0.36),
+    [capMatSide, capMatSide, capMatSide, capMatSide, capMatFace, capMatFace]);
+  cap.position.y = 0.73;
+  pouch.add(cap);
+  pouch.position.set(0, 0, 0);
+  scene.add(pouch);
+
+  /* ---- particles ---- */
+  var N = 1400;
+  var geo = new THREE.BufferGeometry();
+  var pos = new Float32Array(N * 3);
+  var col = new Float32Array(N * 3);
+  var meta = [];
+  var streamCols = [[0.66, 0.76, 1.0], [0.91, 0.86, 0.78], [1.0, 0.85, 0.63]];
+  var streamX = [-2.7, 0, 2.7];
+  for (var i = 0; i < N; i++) {
+    meta.push({
+      d: Math.random() * 0.5,
+      s: 0.7 + Math.random() * 0.6,
+      jx: (Math.random() - 0.5),
+      jz: (Math.random() - 0.5) * 0.5,
+      st: i % 3,
+      ph: Math.random()
+    });
+    pos[i * 3 + 1] = -50;
+    col[i * 3] = 0.96; col[i * 3 + 1] = 0.95; col[i * 3 + 2] = 0.9;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  var pmat = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.0, depthWrite: false });
+  var points = new THREE.Points(geo, pmat);
+  scene.add(points);
+
+  /* ---- helpers ---- */
+  function clamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+  function smooth(a, b, v) { var t = clamp01((v - a) / (b - a)); return t * t * (3 - 2 * t); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  var track = document.getElementById('hero-track');
+  var caps = [document.getElementById('cap0'), document.getElementById('cap1'), document.getElementById('cap2'), document.getElementById('cap3')];
+  var hint = document.getElementById('scroll-hint');
+
+  function capFade(el, o, dy) {
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = 'translateY(' + (dy * (1 - o)).toFixed(1) + 'px)';
+  }
+
+  var pTarget = 0, pNow = 0;
+  var mouseX = 0;
+  window.addEventListener('mousemove', function (e) { mouseX = (e.clientX / window.innerWidth - 0.5); }, { passive: true });
+
+  function onScroll() {
+    if (reduced) { pTarget = 0; return; }
+    var rect = track.getBoundingClientRect();
+    var total = track.offsetHeight - window.innerHeight;
+    pTarget = total > 0 ? clamp01(-rect.top / total) : 0;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  function resize() {
+    var w = canvas.clientWidth || window.innerWidth;
+    var h = canvas.clientHeight || window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    var narrow = w / h < 0.85;
+    streamX = narrow ? [-1.55, 0, 1.55] : [-2.7, 0, 2.7];
+  }
+  window.addEventListener('resize', resize);
+  resize(); onScroll();
+
+  var clock = new THREE.Clock();
+
+  function frame() {
+    requestAnimationFrame(frame);
+    var t = clock.getElapsedTime();
+    pNow += (pTarget - pNow) * 0.09;
+    var p = pNow;
+
+    /* phase weights */
+    var tear = smooth(0.16, 0.30, p);
+    var pour = smooth(0.28, 0.60, p);
+    var split = smooth(0.58, 0.82, p);
+    var land = smooth(0.80, 0.97, p);
+
+    /* pouch motion */
+    var idleRot = Math.sin(t * 0.5) * 0.12 + mouseX * 0.25;
+    pouch.rotation.y = idleRot * (1 - tear) + lerp(0, 0.35, tear);
+    pouch.rotation.z = lerp(0, -1.95, tear);
+    pouch.position.y = lerp(0, 2.1, tear) + Math.sin(t * 0.9) * 0.03 * (1 - tear);
+    pouch.position.x = lerp(0, 0.55, tear) - lerp(0, 3.4, land);
+    pouch.position.z = lerp(0, 1.2, tear) - lerp(0, 0.8, land);
+    var shrink = 1 - land * 0.3;
+    pouch.scale.set(shrink, shrink, shrink);
+
+    /* cap tear-off */
+    var tearCap = smooth(0.18, 0.27, p);
+    cap.position.y = 0.73 + tearCap * 1.1;
+    cap.position.x = tearCap * 0.9;
+    cap.rotation.z = -tearCap * 1.4;
+    var capOp = 1 - smooth(0.24, 0.31, p);
+    for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
+
+    /* mouth world position (approx, follows tilted pouch) */
+    var mx = pouch.position.x + Math.cos(pouch.rotation.z + Math.PI / 2) * 1.45 * shrink;
+    var my = pouch.position.y + Math.sin(pouch.rotation.z + Math.PI / 2) * 1.45 * shrink;
+
+    /* particles */
+    pmat.opacity = pour > 0 ? Math.min(0.95, pour * 2) : 0;
+    var attr = geo.attributes.position.array;
+    var cattr = geo.attributes.color.array;
+    for (var i = 0; i < N; i++) {
+      var md = meta[i];
+      var fp = clamp01((pour - md.d * 0.55) / 0.45);         /* individual fall progress */
+      var fx = mx + md.jx * (0.25 + fp * 0.9);
+      var fy = my - fp * fp * (3.4 + md.s * 1.6);
+      var fz = pouch.position.z + md.jz * (0.3 + fp);
+      /* stream target: flowing column */
+      var flow = (md.ph + t * 0.22) % 1;
+      var sx = streamX[md.st] + md.jx * 0.5 + Math.sin(t * 1.4 + md.ph * 9) * 0.07;
+      var sy = 1.5 - flow * 4.0;
+      var sz = md.jz * 0.8;
+      var vis = fp > 0 ? 1 : 0;
+      attr[i * 3] = lerp(fx, sx, split);
+      attr[i * 3 + 1] = vis ? lerp(fy, sy, split) : -50;
+      attr[i * 3 + 2] = lerp(fz, sz, split);
+      var sc = streamCols[md.st];
+      cattr[i * 3] = lerp(0.96, sc[0], split);
+      cattr[i * 3 + 1] = lerp(0.95, sc[1], split);
+      cattr[i * 3 + 2] = lerp(0.9, sc[2], split);
+    }
+    geo.attributes.position.needsUpdate = true;
+    geo.attributes.color.needsUpdate = true;
+
+    /* captions */
+    capFade(caps[0], 1 - smooth(0.10, 0.20, p), 24);
+    capFade(caps[1], smooth(0.17, 0.24, p) * (1 - smooth(0.30, 0.38, p)), 24);
+    capFade(caps[2], smooth(0.36, 0.44, p) * (1 - smooth(0.54, 0.62, p)), 24);
+    capFade(caps[3], smooth(0.66, 0.76, p), 24);
+    hint.style.opacity = (1 - smooth(0.02, 0.08, p)).toFixed(2);
+
+    /* camera drift */
+    camera.position.x = mouseX * 0.4;
+    camera.position.y = 0.7 - p * 0.3;
+    camera.lookAt(0, 0.1 - p * 0.4, 0);
+
+    renderer.render(scene, camera);
+  }
+  frame();
+})();
+</script>
