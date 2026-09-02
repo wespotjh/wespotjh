@@ -1,0 +1,213 @@
+<title>젠제네틱스 브랜드 스토리</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --navy-deep: #0B1633; --navy: #16295C; --navy-soft: #24397A;
+    --paper: #FAF8F3; --cream: #F3EDE0; --ink: #1B2233; --sub: #5A6072; --mist: #C8D2E8;
+    --wood: #B98D5F; --wood-deep: #8A6239; --sand: #E9DCC6; --line: #E4DECF;
+    --orange: #F97316; --pink: #E11D48; --purple: #7C5CD9;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', system-ui, sans-serif; overflow-x: hidden; }
+  a { color: var(--navy); } a:hover { color: var(--navy-deep); }
+  h1, h2, h3, .plex { font-family: 'IBM Plex Sans KR', 'Noto Sans KR', sans-serif; font-weight: 700; }
+
+  .gnb { display: flex; align-items: center; justify-content: space-between;
+    padding: 18px clamp(18px, 4vw, 56px); position: absolute; top: 0; left: 0; right: 0; z-index: 30; color: #fff; }
+  .gnb .logo { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: 19px; }
+  .gnb nav { display: flex; gap: clamp(14px, 2.4vw, 34px); font-size: 14px; opacity: 0.9; }
+  .gnb nav span { cursor: pointer; } .gnb nav .on { border-bottom: 2px solid var(--sand); padding-bottom: 3px; }
+  .gnb .util { display: flex; gap: 16px; font-size: 13px; opacity: 0.85; }
+  @media (max-width: 760px) { .gnb nav { display: none; } }
+
+  /* hero */
+  #hero { position: relative; background: linear-gradient(180deg, #0B1633 0%, #16295C 62%, #3A2E6E 88%, #B98D5F 130%);
+    color: #fff; text-align: center; padding: clamp(120px, 16vw, 190px) 24px clamp(80px, 10vw, 130px);
+    display: flex; flex-direction: column; align-items: center; gap: 20px; overflow: hidden; }
+  #hero .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.26em; color: var(--sand); }
+  #hero h1 { margin: 0; font-size: clamp(30px, 5.4vw, 58px); line-height: 1.35; text-wrap: balance; word-break: keep-all; }
+  #hero p { margin: 0; font-size: clamp(14px, 1.5vw, 17px); line-height: 1.8; color: var(--mist); max-width: 560px; word-break: keep-all; }
+  #hero .stars i { position: absolute; border-radius: 50%; background: #fff; opacity: 0.7; }
+
+  section { padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 72px); }
+  .head { display: flex; flex-direction: column; gap: 13px; align-items: center; text-align: center; margin-bottom: clamp(36px, 5vw, 60px); }
+  .head .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: 0.24em; color: var(--wood-deep); }
+  .head h2 { margin: 0; color: var(--navy); font-size: clamp(26px, 3.4vw, 42px); line-height: 1.35; text-wrap: balance; word-break: keep-all; }
+  .head p { margin: 0; font-size: 15px; color: var(--sub); line-height: 1.8; max-width: 640px; word-break: keep-all; }
+
+  /* origin */
+  #origin { background: var(--paper); }
+  .origin-quote { max-width: 760px; margin: 0 auto; text-align: center; }
+  .origin-quote .big { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; color: var(--navy);
+    font-size: clamp(22px, 3vw, 34px); line-height: 1.55; word-break: keep-all; }
+  .origin-quote .big em { font-style: normal; color: var(--wood-deep); }
+  .origin-quote .body { margin-top: 26px; font-size: 15.5px; color: var(--sub); line-height: 1.95; word-break: keep-all; }
+
+  /* principles */
+  #principles { background: var(--cream); }
+  .prins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; max-width: 1180px; margin: 0 auto; }
+  @media (max-width: 900px) { .prins { grid-template-columns: 1fr; max-width: 460px; } }
+  .prin { background: #fff; border-radius: 16px; padding: 34px 28px; display: flex; flex-direction: column; gap: 12px; }
+  .prin .no { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.18em; color: var(--wood-deep); }
+  .prin h3 { margin: 0; font-size: 21px; color: var(--navy); line-height: 1.4; word-break: keep-all; }
+  .prin p { margin: 0; font-size: 14px; color: var(--sub); line-height: 1.8; word-break: keep-all; }
+  .prin .dots { display: flex; gap: 6px; margin-top: 4px; }
+  .prin .dots i { width: 9px; height: 9px; border-radius: 50%; }
+
+  /* global */
+  #global { background: var(--navy); color: #fff; }
+  #global .head .eyebrow { color: var(--sand); }
+  #global .head h2 { color: #fff; }
+  #global .head p { color: var(--mist); }
+  .fourteen { text-align: center; margin-bottom: 36px; }
+  .fourteen .n { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: clamp(72px, 12vw, 128px); line-height: 1; }
+  .fourteen .l { margin-top: 6px; font-size: 13.5px; letter-spacing: 0.2em; color: var(--mist); }
+  .countries { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; max-width: 780px; margin: 0 auto; }
+  .country { border: 1px solid rgba(255,255,255,0.35); border-radius: 999px; padding: 9px 16px; font-size: 13px; color: var(--mist); }
+  .country.kr { background: #fff; color: var(--navy); font-weight: 700; border-color: #fff; }
+  .global-note { max-width: 620px; margin: 40px auto 0; text-align: center; font-size: 15px; line-height: 1.9; color: var(--mist); word-break: keep-all; }
+  .global-note em { font-style: normal; color: #fff; font-weight: 700; }
+
+  /* grit */
+  #grit { background: var(--paper); }
+  .grit-line { max-width: 700px; margin: 0 auto; text-align: center; }
+  .grit-line .big { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; color: var(--navy); font-size: clamp(21px, 2.8vw, 31px); line-height: 1.55; word-break: keep-all; }
+  .grit-line .body { margin-top: 18px; font-size: 15px; color: var(--sub); line-height: 1.9; word-break: keep-all; }
+  .grit-stats { display: flex; justify-content: center; gap: clamp(30px, 7vw, 90px); flex-wrap: wrap; margin-top: 44px; }
+  .gs { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .gs .num { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: 36px; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .gs span { font-size: 13px; color: var(--sub); }
+
+  /* closing */
+  #closing { background: repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 90px),
+    linear-gradient(180deg, var(--wood), var(--wood-deep)); color: #fff; text-align: center; }
+  #closing h2 { margin: 0 0 14px; font-size: clamp(27px, 3.8vw, 46px); line-height: 1.4; word-break: keep-all; }
+  #closing p { margin: 0 0 28px; color: #F4EAD9; font-size: 15px; line-height: 1.8; }
+  #closing .tri { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+  #closing .tchip { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.4); border-radius: 999px; padding: 9px 17px; font-size: 13px; font-weight: 700; }
+  #closing .tchip i { width: 9px; height: 9px; border-radius: 50%; font-style: normal; }
+  #closing .cta { display: inline-flex; background: var(--navy); color: #fff; font-weight: 700; font-size: 15.5px;
+    padding: 16px 44px; border-radius: 6px; cursor: pointer; min-height: 48px; align-items: center; }
+  #closing .cta:hover { background: var(--navy-deep); }
+
+  footer { background: var(--navy-deep); color: #7E8DB4; font-size: 12px; line-height: 1.9;
+    padding: 40px clamp(18px, 5vw, 72px); display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
+  footer .logo { font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 700; font-size: 16px; color: #fff; margin-bottom: 8px; }
+</style>
+
+<div id="hero">
+  <div class="stars">
+    <i style="left:12%; top:18%; width:2px; height:2px"></i>
+    <i style="left:78%; top:12%; width:2.5px; height:2.5px"></i>
+    <i style="left:64%; top:30%; width:1.5px; height:1.5px"></i>
+    <i style="left:28%; top:36%; width:2px; height:2px"></i>
+    <i style="left:88%; top:42%; width:1.5px; height:1.5px"></i>
+    <i style="left:8%; top:52%; width:2px; height:2px"></i>
+  </div>
+  <header class="gnb">
+    <div class="logo">Zengenetics</div>
+    <nav><span>Store</span><span class="on">브랜드 스토리</span><span>복용법</span><span>리뷰</span><span>고객센터</span></nav>
+    <div class="util"><span>로그인</span><span>Cart</span></div>
+  </header>
+  <div class="eyebrow">BRAND STORY</div>
+  <h1>오늘의 컨디션이<br>삶의 질을 결정합니다</h1>
+  <p>젠제네틱스는 이 한 문장의 믿음에서 시작되었습니다.<br>일상의 균형을 과학으로 설계하는 글로벌 웰니스 브랜드.</p>
+</div>
+
+<section id="origin">
+  <div class="head"><div class="eyebrow">WHY WE EXIST</div></div>
+  <div class="origin-quote">
+    <div class="big">유행은 계절마다 바뀌지만,<br>하루의 컨디션은 <em>매일의 문제</em>입니다.</div>
+    <div class="body">
+      우리는 반짝하는 유행 성분을 쫓지 않습니다.<br>
+      부은 아침, 처지는 오후, 풀리지 않는 밤 — 누구에게나 반복되는 일상의 문제를<br>
+      과학적 근거 위에서, 하루의 흐름에 맞게 풀어냅니다.<br>
+      그렇게 만든 한 포가 매일을 바꾼다고 믿습니다.
+    </div>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="head">
+    <div class="eyebrow">HOW WE WORK</div>
+    <h2>세 가지 원칙</h2>
+  </div>
+  <div class="prins">
+    <div class="prin">
+      <div class="no">PRINCIPLE 01</div>
+      <h3>성분이 아니라,<br>결과로 말합니다</h3>
+      <p>어려운 성분표 대신 고민에 이름을 붙입니다. 붓기·활력·회복 — 필요한 순간이 곧 제품의 이름입니다.</p>
+      <div class="dots"><i style="background:var(--orange)"></i><i style="background:var(--pink)"></i><i style="background:var(--purple)"></i></div>
+    </div>
+    <div class="prin">
+      <div class="no">PRINCIPLE 02</div>
+      <h3>근거 위에서만<br>말합니다</h3>
+      <p>독일 Jungbunzlauer·미국 AIC 원료, 콜마비앤에이치 제조, HACCP·GMP 인증. 원료부터 함량까지 숫자로 공개할 수 있는 것만 만듭니다.</p>
+      <div class="dots"><i style="background:var(--navy)"></i></div>
+    </div>
+    <div class="prin">
+      <div class="no">PRINCIPLE 03</div>
+      <h3>하루의 리듬을<br>설계합니다</h3>
+      <p>아침의 몸과 저녁의 몸은 다릅니다. 시간마다 필요한 것을 한 포에 담아, 하루 전체의 균형을 설계합니다.</p>
+      <div class="dots"><i style="background:var(--wood)"></i></div>
+    </div>
+  </div>
+</section>
+
+<section id="global">
+  <div class="head">
+    <div class="eyebrow">GLOBAL &amp; YET GROUNDED</div>
+    <h2>한국에서 시작해,<br>지금은 전 세계로</h2>
+  </div>
+  <div class="fourteen">
+    <div class="n">14</div>
+    <div class="l">COUNTRIES &amp; COUNTING</div>
+  </div>
+  <div class="countries">
+    <span class="country kr">🇰🇷 한국</span>
+    <span class="country">대만</span><span class="country">홍콩</span><span class="country">중국</span>
+    <span class="country">싱가포르</span><span class="country">인도네시아</span><span class="country">라오스</span>
+    <span class="country">일본</span><span class="country">베트남</span><span class="country">미국</span>
+    <span class="country">캐나다</span><span class="country">독일</span><span class="country">네덜란드</span>
+    <span class="country">브라질</span><span class="country">멕시코</span>
+  </div>
+  <div class="global-note">
+    국경과 언어가 달라도, 부은 아침과 무거운 밤은 같습니다.<br>
+    우리는 성분을 파는 회사가 아니라 <em>세계 어디서든 통하는 기준</em>을 만드는 회사로 성장하고 있습니다.
+  </div>
+</section>
+
+<section id="grit">
+  <div class="head"><div class="eyebrow">GROUNDED GROWTH</div></div>
+  <div class="grit-line">
+    <div class="big">화려한 투자 유치 대신,<br>본질에 집중한 실행으로 여기까지 왔습니다.</div>
+    <div class="body">외부 투자 없이 자생적으로 성장해 온 힘 — 좋은 제품을 만들고,<br>정직하게 팔고, 다시 좋은 제품에 쏟는 단순한 반복이 우리의 방식입니다.</div>
+  </div>
+  <div class="grit-stats">
+    <div class="gs"><div class="num">14개국</div><span>수출 · 진출</span></div>
+    <div class="gs"><div class="num">26,961</div><span>누적 리뷰 (평점 4.9)</span></div>
+    <div class="gs"><div class="num">92%</div><span>재구매율</span></div>
+  </div>
+</section>
+
+<section id="closing">
+  <h2>당신의 하루에서<br>다시 시작합니다</h2>
+  <p>아침부터 밤까지 — 시간마다 필요한 한 포를 준비했습니다.</p>
+  <div class="tri">
+    <span class="tchip"><i style="background:var(--orange)"></i>붓기 · 칼륨</span>
+    <span class="tchip"><i style="background:var(--pink)"></i>활력 · 비타민B</span>
+    <span class="tchip"><i style="background:var(--purple)"></i>회복 · 마그네슘</span>
+  </div>
+  <div class="cta">제품 보러 가기</div>
+</section>
+
+<footer>
+  <div>
+    <div class="logo">Zengenetics</div>
+    (주)위스팟바이오랩 · 대표 이지훈 · 사업자등록번호 376-88-03498<br>
+    통신판매업신고 2026-서울강남-00903 · 개인정보처리방침 · 이용약관 · 이용안내
+  </div>
+  <div style="text-align:right">CS 070-8872-1337 (평일 10:00–18:00)<br>wespot@wespot.co.kr</div>
+</footer>
