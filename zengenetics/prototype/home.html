@@ -59,11 +59,8 @@
   #bw4 { color: #FFFFFF; font-size: clamp(64px, 16vw, 210px); top: 26%; }
   /* mobile: giant words shrink to fit the viewport instead of clipping */
   @media (max-width: 760px) {
-    .bigword { font-size: 15vw; }
+    .bigword { font-size: 16.5vw; }   /* one size for every word — big, but never clipped */
     #bw0 { font-size: 30vw; }
-    #bwD { font-size: 25vw; }
-    #bw3 { font-size: 21vw; }
-    #bw4 { font-size: 14.5vw; }
   }
 
   /* spec callout chips: white pill + connector line (UV400 / POLARIZED style) */
@@ -806,8 +803,10 @@
     el.style.transform = 'translateY(' + (24 * (1 - o)).toFixed(1) + 'px)';
   }
   function word(el, o, drift, sc) {
+    var s = sc || 1;
+    if (skyXF < 1) s = 1 + (s - 1) * 0.3;   /* mobile: soften the zoom so words stay inside the frame */
     el.style.opacity = o.toFixed(3);
-    el.style.transform = 'translate(calc(-50% + ' + drift.toFixed(2) + 'vw), -50%) scale(' + (sc || 1).toFixed(3) + ')';
+    el.style.transform = 'translate(calc(-50% + ' + drift.toFixed(2) + 'vw), -50%) scale(' + s.toFixed(3) + ')';
   }
   function chipFade(list, s, e, p) {
     for (var i = 0; i < list.length; i++) {
@@ -927,11 +926,27 @@
 
     /* pouch: stands center stage, turning on its vertical axis with the scroll
        (one full 360° per time of day) — no tearing, ever */
-    pouch.rotation.y = t * 0.12 + p * Math.PI * 6 + mouseX * 0.3;
-    pouch.rotation.z = Math.sin(t * 0.6) * 0.015;
-    /* finale: lift off the table and shrink a touch so the stream labels stay clear */
+    /* rotation with character: one quick showy spin as each time of day begins,
+       then the pouch faces front — each beat sways in its own rhythm */
+    var qs1 = clamp01((p - 0.08) / 0.18), qs2 = clamp01((p - 0.44) / 0.16), qs3 = clamp01((p - 0.64) / 0.16);
+    var spins = smooth(0, 0.35, qs1) + smooth(0, 0.35, qs2) + smooth(0, 0.35, qs3) + smooth(0.85, 0.95, p);
+    var w1 = smooth(0.08, 0.13, p) * (1 - smooth(0.24, 0.30, p));
+    var w2 = smooth(0.44, 0.49, p) * (1 - smooth(0.58, 0.63, p));
+    var w3 = smooth(0.64, 0.69, p) * (1 - smooth(0.78, 0.84, p));
+    pouch.rotation.y = mouseX * 0.3 + Math.PI * 2 * spins
+      + Math.sin(t * 0.9) * 0.07 * w1      /* morning: lively jiggle */
+      + Math.sin(t * 0.25) * 0.16 * w2     /* evening: slow cruising sway */
+      + Math.sin(t * 0.15) * 0.22 * w3     /* night: dreamy drift */
+      + Math.sin(t * 0.5) * 0.08;          /* idle breath so it never freezes */
+    pouch.rotation.z = Math.sin(t * 1.3) * 0.035 * w1
+      + (0.04 + Math.sin(t * 0.35) * 0.02) * w2
+      + Math.sin(t * 0.4) * 0.02 * w3
+      + Math.sin(t * 0.6) * 0.012;
+    /* finale: lift off and shrink a touch so the stream labels stay clear */
     var fin = smooth(0.85, 0.93, p);
-    pouch.position.y = -2.45 + fin * 1.45 - (1 - introF) * 0.9 + Math.sin(t * 0.9) * 0.02;
+    pouch.position.y = -2.45 + fin * 1.45 - (1 - introF) * 0.9
+      + Math.sin(t * 1.6) * 0.03 * w1 + Math.sin(t * 0.9) * 0.02 * w2 + Math.sin(t * 0.45) * 0.06 * w3
+      + Math.sin(t * 0.9) * 0.02;
     pouch.position.x = 0;
     pouch.position.z = 0.4;
     var psc = 1 - fin * 0.2;
