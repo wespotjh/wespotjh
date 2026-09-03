@@ -46,3 +46,24 @@
 | evening2-03.jpg | blue hour 맨해튼 스카이라인, 보랏빛 황혼과 달 | https://images.unsplash.com/photo-1514565131-fce0801e5785?w=1400&q=80 | Unsplash |
 | evening2-04.jpg | blue hour 도시 전경 — 해진 직후 도시 불빛 | https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=1400&q=80 | Unsplash |
 | evening2-05.jpg | 해질녘 도심 거리 — 차량 불빛과 젖은 도로의 반사, 퇴근길 무드 | https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1400&q=80 | Unsplash |
+
+## 3차 수집 — 낮(팀워크·회의)·저녁(차안 퇴근길·식당 창)
+
+- 수집일: 2026-09-03
+- 출처: 전부 Unsplash (Unsplash License — 상업적 사용 무료, 크레딧 불요)
+- 다운로드 파라미터: `?w=1400&q=80` (최대 폭 1400px, JPEG q80, 각 500KB 이하로 PIL 검증)
+- 사람 등장 컷은 뒷모습/손/원경/부분 크롭만 선별 — 저장 전 전 컷을 열어 얼굴이 크게 식별되는 컷이 없는지 확인 (얼굴이 뚜렷한 후보는 전부 제외)
+
+| 파일 | 내용 | 원본 이미지 URL | 출처 |
+|---|---|---|---|
+| noon3-01.jpg | 햇살 드는 회의 테이블에 둘러앉은 팀 — 손·펜·노트 중심, 얼굴은 프레임 밖으로 크롭 | https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1400&q=80 | Unsplash |
+| noon3-02.jpg | 테이블 위 두 사람의 손·서류·노트북 — 문서 검토 협업 (얼굴 없음) | https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80 | Unsplash |
+| noon3-03.jpg | 회의 중 설명하는 손동작 클로즈업, 노트북·노트 — 배경 인물은 아웃포커스 | https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1400&q=80 | Unsplash |
+| noon3-04.jpg | 회의 테이블 탑뷰 — 노트북 치는 손·커피·전화기 (얼굴 없음) | https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1400&q=80 | Unsplash |
+| noon3-05.jpg | 밝은 대형 오피스에서 협업하는 사람들 — 원경이라 인물 작게 | https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=1400&q=80 | Unsplash |
+| noon3-06.jpg | 유리 너머로 본 테이블 미팅 — 뒷모습·손짓, 흑백 무드 | https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1400&q=80 | Unsplash |
+| evening3-01.jpg | 운전석 뒷자리 시점 — 핸들 잡은 손과 차창 밖 노을빛 도시 보케, 퇴근길 | https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80 | Unsplash |
+| evening3-02.jpg | 해질녘 도심 고속도로 — 차량 불빛 궤적과 스카이라인, 퇴근길 교통 | https://images.unsplash.com/photo-1473042904451-00171c69419d?w=1400&q=80 | Unsplash |
+| evening3-03.jpg | 대시보드 너머 빗방울 맺힌 차창 — 핸들 위 손만 보이는 차 안 시점 | https://images.unsplash.com/photo-1462396881884-de2c07cb95ed?w=1400&q=80 | Unsplash |
+| evening3-04.jpg | 밤거리에서 본 식당 창 — 'RELAX' 레터링과 따뜻한 조명, 창 너머 실루엣 손님들 | https://images.unsplash.com/photo-1481833761820-0509d3217039?w=1400&q=80 | Unsplash |
+| evening3-05.jpg | 따뜻한 조명의 저녁 식탁 클로즈업 — 요리·와인잔, 인물은 손만 | https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80 | Unsplash |
