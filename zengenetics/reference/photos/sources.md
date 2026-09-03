@@ -87,3 +87,25 @@
 | evening4-08.jpg | 주황 노을 하늘 아래 버스·차량 실루엣 (대중교통 퇴근길, 얼굴 없음) | https://images.unsplash.com/photo-1559976244-e1ddbb50c83c?w=1400&q=80 | Unsplash |
 | evening4-09.jpg | 해질녘 한국 거리 — 붉게 물든 황혼 하늘과 간판 불빛, 보행자는 원경 실루엣 (도보 퇴근길) | https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1400&q=80 | Unsplash |
 | evening4-10.jpg | 자전거 핸들 너머 노을 지는 거리 — 핸들 잡은 손만 보이는 1인칭 귀갓길 | https://images.unsplash.com/photo-1475666675596-cca2035b3d79?w=1400&q=80 | Unsplash |
+
+## 5차 수집 — 아침 침실·기상(morning5)과 ALL DAY 피날레 트와일라잇 하늘(allday5)
+
+- 수집일: 2026-09-03
+- 출처: 전부 Unsplash (Unsplash License — 상업적 사용 무료, 크레딧 불요)
+- 다운로드 파라미터: `?w=1400&q=80` (최대 폭 1400px, JPEG q80, 각 500KB 이하로 PIL 검증 — allday5-05만 원본이 초과해 q75로 재압축)
+- 전 컷을 저장 전에 열어 확인 — 인물은 뒷모습/실루엣만, 얼굴이 식별되는 컷 없음 (얼굴 노출 후보는 전부 제외)
+- morning은 마젠타/핑크 그레이드가 얹힐 예정이라 밝고 따뜻한 컷 위주, allday는 상단에 타이포 여백이 있는 와이드 스카이 위주로 선별
+
+| 파일 | 내용 | 원본 이미지 URL | 출처 |
+|---|---|---|---|
+| morning5-01.jpg | 아침 햇살이 벽·침구에 쏟아지는 화이트 침실 — 창빛 패치가 헤드보드에 드리움 (인물 없음) | https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=1400&q=80 | Unsplash |
+| morning5-02.jpg | 커튼 사이로 아침 빛이 쏟아지는 창가 침실 — 흰 침구와 역광 창 (인물 없음) | https://images.unsplash.com/photo-1444201983204-c43cbd584d93?w=1400&q=80 | Unsplash |
+| morning5-03.jpg | 창으로 환한 빛이 드는 보태니컬 침실 — 세이지 그린 침구와 주황 쿠션, 산뜻한 아침 톤 | https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=1400&q=80 | Unsplash |
+| morning5-04.jpg | 큰 창 두 개로 빛이 들어오는 밝은 침실 — 흰 이불 침대 정면 컷 (인물 없음) | https://images.unsplash.com/photo-1540518614846-7eded433c457?w=1400&q=80 | Unsplash |
+| morning5-05.jpg | 떠오르는 해를 향해 두 팔을 활짝 편 뒷모습 실루엣 — 기지개 켜며 맞는 하루의 시작 | https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1400&q=80 | Unsplash |
+| morning5-06.jpg | 아침 햇살이 번지는 산 위 바위에 앉아 능선을 바라보는 뒷모습 — 밝은 역광, 얼굴 없음 | https://images.unsplash.com/photo-1484627147104-f5197bcd6651?w=1400&q=80 | Unsplash |
+| allday5-01.jpg | 주황→보라로 넘어가는 황혼 그라데이션 하늘 — 나무 실루엣 지평선, 상단 타이포 여백 넓음 | https://images.unsplash.com/photo-1472120435266-53107fd0c44a?w=1400&q=80 | Unsplash |
+| allday5-02.jpg | 보랏빛 구름과 금빛 수평선의 해질녘 바다 — 낮에서 밤으로 넘어가는 트와일라잇 해안 | https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=1400&q=80 | Unsplash |
+| allday5-03.jpg | 피치빛 하늘 아래 겹겹이 물러나는 산맥 실루엣 — 고요한 황혼 그라데이션 (세로 컷) | https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=80 | Unsplash |
+| allday5-04.jpg | 해가 진 직후 숲 실루엣 위로 별과 은하수가 뜨기 시작한 하늘 — 지평선에 잔광, 와이드 | https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?w=1400&q=80 | Unsplash |
+| allday5-05.jpg | 트와일라잇 별하늘 아래 후지산과 호수 반영 — 웅장하고 고요한 세로 스카이, 상단 여백 | https://images.unsplash.com/photo-1436891620584-47fd0e565afb?w=1400&q=80 | Unsplash |
