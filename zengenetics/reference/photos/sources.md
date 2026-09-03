@@ -67,3 +67,23 @@
 | evening3-03.jpg | 대시보드 너머 빗방울 맺힌 차창 — 핸들 위 손만 보이는 차 안 시점 | https://images.unsplash.com/photo-1462396881884-de2c07cb95ed?w=1400&q=80 | Unsplash |
 | evening3-04.jpg | 밤거리에서 본 식당 창 — 'RELAX' 레터링과 따뜻한 조명, 창 너머 실루엣 손님들 | https://images.unsplash.com/photo-1481833761820-0509d3217039?w=1400&q=80 | Unsplash |
 | evening3-05.jpg | 따뜻한 조명의 저녁 식탁 클로즈업 — 요리·와인잔, 인물은 손만 | https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80 | Unsplash |
+
+## 4차 수집 — 저녁 퇴근길 집중 (차안/대중교통/도보)
+
+- 수집일: 2026-09-03
+- 출처: 전부 Unsplash (Unsplash License — 상업적 사용 무료, 크레딧 불요)
+- 다운로드 파라미터: `?w=1400&q=80` (최대 폭 1400px, JPEG q80, 각 500KB 이하로 PIL 검증)
+- 전 컷을 저장 전 미리보기로 열어 확인 — 인물은 원경 실루엣/손/뒷모습만, 얼굴이 식별되는 컷 없음
+
+| 파일 | 내용 | 원본 이미지 URL | 출처 |
+|---|---|---|---|
+| evening4-01.jpg | 차 안 앞유리 너머 — 분홍·금빛 노을 하늘 아래 고속도로와 앞차들, 대시보드 하단 살짝 (퇴근길 운전 시점) | https://images.unsplash.com/photo-1675015848849-b2004f8b13a2?w=1400&q=80 | Unsplash |
+| evening4-02.jpg | 차창 밖으로 본 주황·분홍 노을 하늘과 도로 위 차량 테일라이트 (차 안 시점, 얼굴 없음) | https://images.unsplash.com/photo-1678913661977-8b80841a0404?w=1400&q=80 | Unsplash |
+| evening4-03.jpg | 사이드미러에 비친 금빛 석양 — 어두워지는 배경과 미러 속 골든아워 대비 | https://images.unsplash.com/photo-1755123754204-214d9da7ee0c?w=1400&q=80 | Unsplash |
+| evening4-04.jpg | 골든아워 도심 거리 — 앞차 뒷모습과 붉은 테일라이트, 따뜻한 보케 (3인칭 퇴근길) | https://images.unsplash.com/photo-1493238792000-8113da705763?w=1400&q=80 | Unsplash |
+| evening4-05.jpg | 석양빛이 쏟아지는 도심 대로 — 퇴근 차량 행렬과 금빛 건물 (시드니, 인물은 원경) | https://images.unsplash.com/photo-1556435879-22a63c33f036?w=1400&q=80 | Unsplash |
+| evening4-06.jpg | 골든아워 기차역 플랫폼 — 지는 해와 캐리어 끄는 사람 원경 실루엣 (기차 퇴근길) | https://images.unsplash.com/photo-1569903415032-cc92fcb0fc5c?w=1400&q=80 | Unsplash |
+| evening4-07.jpg | 기차 창밖으로 본 들판 위 노을 — 창틀 너머 금빛 해 (기차 통근 시점) | https://images.unsplash.com/photo-1672728910757-4806a041baee?w=1400&q=80 | Unsplash |
+| evening4-08.jpg | 주황 노을 하늘 아래 버스·차량 실루엣 (대중교통 퇴근길, 얼굴 없음) | https://images.unsplash.com/photo-1559976244-e1ddbb50c83c?w=1400&q=80 | Unsplash |
+| evening4-09.jpg | 해질녘 한국 거리 — 붉게 물든 황혼 하늘과 간판 불빛, 보행자는 원경 실루엣 (도보 퇴근길) | https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=1400&q=80 | Unsplash |
+| evening4-10.jpg | 자전거 핸들 너머 노을 지는 거리 — 핸들 잡은 손만 보이는 1인칭 귀갓길 | https://images.unsplash.com/photo-1475666675596-cca2035b3d79?w=1400&q=80 | Unsplash |
