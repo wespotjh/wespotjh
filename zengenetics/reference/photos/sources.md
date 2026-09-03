@@ -25,3 +25,24 @@
 | night-04.jpg | 보랏빛 밤하늘과 은하수, 산 능선 | https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1400&q=80 | Unsplash |
 
 참고: Unsplash 검색 페이지가 봇 차단으로 접근 불가하여, 사진별 작가 페이지 URL 대신 원본 이미지 CDN URL(images.unsplash.com)을 기록함. 각 이미지는 저장 전 PIL로 열어 무결성·내용을 확인함.
+
+## 2차 수집 — 낮(카페 워크)·저녁(도시 황혼)
+
+- 수집일: 2026-09-03
+- 출처: 전부 Unsplash (Unsplash License — 상업적 사용 무료, 크레딧 불요)
+- 다운로드 파라미터: `?w=1400&q=80` (최대 폭 1400px, JPEG q80, 각 500KB 이하로 확인)
+- 사람 등장 컷은 뒷모습/손/원경만 선별 (얼굴이 크게 나오는 컷 제외)
+
+| 파일 | 내용 | 원본 이미지 URL | 출처 |
+|---|---|---|---|
+| noon2-01.jpg | 창가 자연광의 밝은 데스크, 노트북·모니터·커피잔·식물 | https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1400&q=80 | Unsplash |
+| noon2-02.jpg | 카페 창가 나무 테이블 위 노트북·커피·손글씨 메모 | https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1400&q=80 | Unsplash |
+| noon2-03.jpg | 우드 데스크 플랫레이 — 노트북·커피·노트·펜 | https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=1400&q=80 | Unsplash |
+| noon2-04.jpg | 노트북으로 일하는 손 클로즈업 (얼굴 없음) | https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1400&q=80 | Unsplash |
+| noon2-05.jpg | 식물이 우거진 밝은 카페 창가 테이블, 커피·프렌치프레스 | https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1400&q=80 | Unsplash |
+| noon2-06.jpg | 우드톤 카페 내부 전경 (인물은 원경으로 작게) | https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1400&q=80 | Unsplash |
+| evening2-01.jpg | 석양빛이 물든 시카고 스카이라인과 호수, 골든아워 | https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80 | Unsplash |
+| evening2-02.jpg | 골든아워 도심 — 빌딩 사이 거리로 스며드는 석양 | https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=1400&q=80 | Unsplash |
+| evening2-03.jpg | blue hour 맨해튼 스카이라인, 보랏빛 황혼과 달 | https://images.unsplash.com/photo-1514565131-fce0801e5785?w=1400&q=80 | Unsplash |
+| evening2-04.jpg | blue hour 도시 전경 — 해진 직후 도시 불빛 | https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=1400&q=80 | Unsplash |
+| evening2-05.jpg | 해질녘 도심 거리 — 차량 불빛과 젖은 도로의 반사, 퇴근길 무드 | https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1400&q=80 | Unsplash |
