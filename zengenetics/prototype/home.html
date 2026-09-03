@@ -597,30 +597,6 @@
   var starMat = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.07, transparent: true, opacity: 0, depthWrite: false });
   scene.add(new THREE.Points(starGeo, starMat));
 
-  /* ---- wood table: present from frame one ---- */
-  function woodTexture() {
-    var c = document.createElement('canvas'); c.width = 512; c.height = 256;
-    var g = c.getContext('2d');
-    var grad = g.createLinearGradient(0, 0, 0, 256);
-    grad.addColorStop(0, '#B98D5F'); grad.addColorStop(1, '#8A6239');
-    g.fillStyle = grad; g.fillRect(0, 0, 512, 256);
-    for (var i = 0; i < 46; i++) {
-      g.strokeStyle = 'rgba(90,58,30,' + (0.05 + Math.random() * 0.12) + ')';
-      g.lineWidth = 1 + Math.random() * 2;
-      g.beginPath();
-      var y = Math.random() * 256;
-      g.moveTo(0, y);
-      for (var x = 0; x <= 512; x += 64) g.lineTo(x, y + Math.sin(x * 0.02 + i) * 4);
-      g.stroke();
-    }
-    for (var p2 = 0; p2 < 5; p2++) { g.strokeStyle = 'rgba(60,38,18,0.35)'; g.lineWidth = 2; var px = 90 * p2 + 40; g.beginPath(); g.moveTo(px, 0); g.lineTo(px, 256); g.stroke(); }
-    return new THREE.CanvasTexture(c);
-  }
-  var tableMat = new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: 0.85 });
-  var table = new THREE.Mesh(new THREE.BoxGeometry(20, 0.4, 7), tableMat);
-  table.position.set(0, -2.65, -0.4);
-  scene.add(table);
-
   /* ---- product label textures (one per time of day) ---- */
   function makeLabel(eng, big, sub, accent) {
     var c = document.createElement('canvas'); c.width = 256; c.height = 640;
@@ -922,8 +898,6 @@
     }
 
     starMat.opacity = nightF * 0.95 * (1 - smooth(0.84, 0.92, p) * 0.7);
-    var wShade = 1 - nightF * 0.3;
-    tableMat.color.setRGB(wShade, wShade, wShade);
     amb.intensity = lerp(0.75, 0.6, nightF);
     key.intensity = lerp(0.8, 0.6, nightF);
 
