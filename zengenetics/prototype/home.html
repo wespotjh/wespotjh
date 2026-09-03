@@ -1,5 +1,5 @@
 <title>젠제네틱스 홈 프로토타입</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
   :root {
     --navy-deep: #0B1633;
@@ -27,8 +27,48 @@
   #hero-track { position: relative; height: 460vh; background: var(--navy-deep); }
   body.reduced #hero-track, body.no3d #hero-track { height: 100vh; }
   #hero-stage { position: sticky; top: 0; height: 100vh; overflow: hidden;
-    background: linear-gradient(180deg, #8FA8D9, #F8D9AC); }
-  #scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    background: linear-gradient(180deg, #0B1633 0%, #223066 58%, #0B1633 100%); }
+  #scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 10; }
+
+  /* giant display words — type world behind the product (reference style) */
+  .bigword {
+    position: absolute; z-index: 5; left: 50%; top: 30%;
+    transform: translate(-50%, -50%);
+    font-family: 'Archivo Black', 'IBM Plex Sans KR', 'Noto Sans KR', sans-serif;
+    font-weight: 700; font-size: clamp(80px, 24vw, 300px);
+    letter-spacing: -0.015em; white-space: nowrap; line-height: 1;
+    opacity: 0; pointer-events: none; user-select: none;
+    will-change: opacity, transform;
+  }
+  #bw0 { color: #FFFFFF; font-size: clamp(110px, 34vw, 380px); top: 34%; }
+  #bw1 { color: #FFB9CD; }
+  #bw2 { color: #FFD2A8; }
+  #bw3 { color: #CFC2FF; font-size: clamp(96px, 30vw, 340px); }
+  #bw4 { color: #FFFFFF; font-size: clamp(64px, 16vw, 210px); top: 26%; }
+
+  /* spec callout chips: white pill + connector line (UV400 / POLARIZED style) */
+  .callouts { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+  .chip {
+    position: absolute; display: inline-flex; align-items: center;
+    background: rgba(255,255,255,0.96); color: #131A2E;
+    font-size: clamp(10.5px, 1.15vw, 13px); font-weight: 700; letter-spacing: 0.02em;
+    padding: 8px 14px; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+    opacity: 0; will-change: opacity, transform; white-space: nowrap;
+  }
+  .chip::after {
+    content: ""; position: absolute; top: 50%; width: 28px; height: 1px;
+    background: rgba(255,255,255,0.7);
+  }
+  .chip.cl::after { left: 100%; }
+  .chip.cr::after { right: 100%; }
+
+  /* beat progress dashes (carousel style) */
+  #dashes { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 21; display: flex; gap: 7px; }
+  #dashes span { width: 16px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.35);
+    transition: width 0.3s ease, background 0.3s ease; }
+  #dashes span.on { width: 34px; background: #fff; }
 
   .gnb {
     position: absolute; top: 0; left: 0; right: 0; z-index: 30;
@@ -67,14 +107,21 @@
 
   #capA { top: 13vh; }
   #capM, #capE, #capN { top: 10vh; }
-  #capS { bottom: 6vh; }
+  #capS { bottom: 10vh; }
+  #capS .pills { display: flex; gap: 10px; margin-top: 12px; pointer-events: auto; }
+  #capS .pill { background: #fff; color: var(--navy); font-weight: 700; font-size: 13.5px;
+    padding: 12px 28px; border-radius: 999px; cursor: pointer; text-shadow: none;
+    min-height: 44px; display: flex; align-items: center; }
+  #capS .pill:hover { background: var(--sand); }
+  #capS .pill.ghost { background: rgba(255,255,255,0.14); color: #fff; border: 1px solid rgba(255,255,255,0.55); }
+  #capS .pill.ghost:hover { background: rgba(255,255,255,0.26); }
   #capS .streams { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: min(880px, 94vw); }
   #capS .stream-label { display: flex; flex-direction: column; gap: 5px; align-items: center; }
-  #capS .stream-label b { font-family: 'IBM Plex Sans KR', 'Noto Sans KR', sans-serif; font-size: clamp(15px, 2vw, 23px); font-weight: 700; }
+  #capS .stream-label b { font-family: 'IBM Plex Sans KR', 'Noto Sans KR', sans-serif; font-size: clamp(15px, 2vw, 23px); font-weight: 700; word-break: keep-all; }
   #capS .stream-label i { font-style: normal; font-size: clamp(10.5px, 1.2vw, 13px); color: var(--mist); }
   #capS .dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 2px; }
 
-  #scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20;
+  #scroll-hint { position: absolute; bottom: 58px; left: 50%; transform: translateX(-50%); z-index: 20;
     color: #fff; font-size: 10.5px; letter-spacing: 0.3em; opacity: 0.9; text-shadow: 0 1px 10px rgba(11,22,51,0.4); }
   #scroll-hint::after { content: ""; display: block; width: 1px; height: 32px; background: #fff; margin: 9px auto 0; animation: drip 1.8s ease-in-out infinite; }
   @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 60% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(1); opacity: 0; } }
@@ -100,6 +147,8 @@
   body.no3d #scene { display: none; }
   body.no3d #hero-stage { background: linear-gradient(180deg, #10204a, #16295c 70%, #B98D5F); }
   body.no3d #capA { opacity: 1; transform: none; top: 11vh; }
+  body.no3d #bw0 { opacity: 0.1; }
+  body.no3d .callouts, body.no3d #dashes { display: none; }
   body.no3d #fallback-hero svg { height: min(34vh, 300px); width: auto; }
 
   /* ---------- SECTIONS ---------- */
@@ -190,7 +239,31 @@
 
 <div id="hero-track">
   <div id="hero-stage">
+    <div class="bigword" id="bw0">하루</div>
+    <div class="bigword" id="bw1">MORNING</div>
+    <div class="bigword" id="bw2">EVENING</div>
+    <div class="bigword" id="bw3">NIGHT</div>
+    <div class="bigword" id="bw4">ALL&nbsp;DAY</div>
+
     <canvas id="scene"></canvas>
+
+    <div class="callouts" id="coM">
+      <span class="chip cl" style="left:6%; top:37%">B1 · B6 · B12</span>
+      <span class="chip cr" style="right:6%; top:31%">물 없이 3초</span>
+      <span class="chip cr" style="right:9%; top:56%">GMP 인증</span>
+    </div>
+    <div class="callouts" id="coE">
+      <span class="chip cl" style="left:6%; top:33%">POTASSIUM 525mg</span>
+      <span class="chip cr" style="right:7%; top:38%">짜게 먹은 날</span>
+      <span class="chip cl" style="left:9%; top:58%">아침 · 저녁 어디서든</span>
+    </div>
+    <div class="callouts" id="coN">
+      <span class="chip cl" style="left:6%; top:36%">MAGNESIUM 400mg</span>
+      <span class="chip cr" style="right:6%; top:30%">그레이프향</span>
+      <span class="chip cr" style="right:9%; top:57%">미국 AIC 원료</span>
+    </div>
+
+    <div id="dashes"><span class="on"></span><span></span><span></span><span></span><span></span></div>
 
     <header class="gnb">
       <div class="logo">Zengenetics</div>
@@ -206,7 +279,6 @@
     </div>
 
     <div class="cap" id="capM">
-      <div class="eyebrow">MORNING</div>
       <h2>아침은, 비타민B</h2>
       <p>하루의 시동. 오후 3시의 방전을 미리 끊습니다.</p>
       <div class="jchips">
@@ -215,13 +287,11 @@
     </div>
 
     <div class="cap" id="capE">
-      <div class="eyebrow">EVENING</div>
       <h2>저녁은, 칼륨</h2>
       <p>짜게 먹은 날일수록 — 나트륨은 오늘 내보내야 내일이 가볍습니다.</p>
     </div>
 
     <div class="cap" id="capN">
-      <div class="eyebrow">NIGHT</div>
       <h2>밤은, 마그네슘</h2>
       <p>뭉친 몸을 풀고 깊이 잠듭니다. 내일의 나를 위해.</p>
     </div>
@@ -232,6 +302,7 @@
         <div class="stream-label"><div class="dot" style="background:#B9A5F0"></div><b>리커버리 · 마그네슘</b><i>뭉친 몸과 얕은 잠을 풀어낸다</i></div>
         <div class="stream-label"><div class="dot" style="background:#FF8FA3"></div><b>활력 · 비타민B</b><i>오후 3시의 방전을 끊는다</i></div>
       </div>
+      <div class="pills"><div class="pill" id="pillShop">SHOP NOW</div><div class="pill ghost">브랜드 스토리</div></div>
     </div>
 
     <div id="fallback-hero">
@@ -340,6 +411,10 @@
   bar.addEventListener('click', function () {
     document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
   });
+  var pillShop = document.getElementById('pillShop');
+  if (pillShop) pillShop.addEventListener('click', function () {
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+  });
   function barCheck() {
     var show = window.scrollY > window.innerHeight * 0.6;
     bar.classList.toggle('show', show);
@@ -371,61 +446,51 @@
   var key = new THREE.DirectionalLight(0xffffff, 0.8); key.position.set(4, 7, 6); scene.add(key);
   var warm = new THREE.PointLight(0xB98D5F, 0.6, 18); warm.position.set(-3, -1, 4); scene.add(warm);
 
-  /* ---- sky palette: dawn -> noon -> dusk -> night ---- */
-  var skyKeys = [
-    [0.00, [0x8F, 0xA8, 0xD9], [0xF8, 0xD9, 0xAC]],
-    [0.20, [0xA9, 0xCB, 0xE8], [0xF0, 0xE8, 0xD2]],
-    [0.42, [0x5A, 0x6B, 0xA6], [0xE0, 0xA9, 0x7A]],
-    [0.60, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]],
-    [1.00, [0x0B, 0x16, 0x33], [0x16, 0x29, 0x5C]]
+  /* ---- color worlds: navy dawn -> magenta morning -> orange evening -> purple night -> navy finale ---- */
+  var W = [
+    [0.00, [11, 22, 51], [34, 48, 102], [255, 201, 138]],
+    [0.09, [11, 22, 51], [34, 48, 102], [255, 201, 138]],
+    [0.16, [61, 10, 38], [190, 28, 84], [255, 109, 155]],
+    [0.30, [61, 10, 38], [190, 28, 84], [255, 109, 155]],
+    [0.43, [64, 22, 8], [239, 104, 22], [255, 157, 77]],
+    [0.56, [64, 22, 8], [239, 104, 22], [255, 157, 77]],
+    [0.66, [17, 9, 42], [88, 40, 168], [150, 130, 255]],
+    [0.80, [17, 9, 42], [88, 40, 168], [150, 130, 255]],
+    [0.90, [11, 22, 51], [22, 41, 92], [126, 141, 180]],
+    [1.00, [11, 22, 51], [22, 41, 92], [126, 141, 180]]
   ];
-  function skyAt(p) {
-    var a = skyKeys[0], b = skyKeys[skyKeys.length - 1];
-    for (var i = 0; i < skyKeys.length - 1; i++) {
-      if (p >= skyKeys[i][0] && p <= skyKeys[i + 1][0]) { a = skyKeys[i]; b = skyKeys[i + 1]; break; }
+  function worldAt(p) {
+    var a = W[0], b = W[W.length - 1];
+    for (var i = 0; i < W.length - 1; i++) {
+      if (p >= W[i][0] && p <= W[i + 1][0]) { a = W[i]; b = W[i + 1]; break; }
     }
-    var t = (p - a[0]) / (b[0] - a[0] || 1);
+    var t0 = (p - a[0]) / (b[0] - a[0] || 1);
+    var t = t0 * t0 * (3 - 2 * t0);
     function mix(c1, c2) {
-      return 'rgb(' + Math.round(c1[0] + (c2[0] - c1[0]) * t) + ',' + Math.round(c1[1] + (c2[1] - c1[1]) * t) + ',' + Math.round(c1[2] + (c2[2] - c1[2]) * t) + ')';
+      return [c1[0] + (c2[0] - c1[0]) * t, c1[1] + (c2[1] - c1[1]) * t, c1[2] + (c2[2] - c1[2]) * t];
     }
-    return [mix(a[1], b[1]), mix(a[2], b[2])];
+    return [mix(a[1], b[1]), mix(a[2], b[2]), mix(a[3], b[3])];
   }
+  function rgbStr(c) { return 'rgb(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ')'; }
 
-  /* ---- horizon hills ---- */
-  var groundMat = new THREE.MeshStandardMaterial({ color: 0xB98D5F, roughness: 0.95 });
-  var ground = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), groundMat);
-  ground.scale.set(1.6, 0.35, 1);
-  ground.position.set(0, -11.4, -7);
-  scene.add(ground);
-
-  /* ---- sun & moon ---- */
-  var sun = new THREE.Mesh(new THREE.SphereGeometry(0.85, 32, 32),
-    new THREE.MeshBasicMaterial({ color: 0xFFF3DA, transparent: true }));
-  scene.add(sun);
-  var sunGlow = new THREE.PointLight(0xFFE9C0, 1.0, 30); scene.add(sunGlow);
-  var moon = new THREE.Mesh(new THREE.SphereGeometry(0.62, 32, 32),
-    new THREE.MeshBasicMaterial({ color: 0xF4EBD7, transparent: true, opacity: 0 }));
-  scene.add(moon);
-
-  /* ---- clouds ---- */
-  function cloudTexture() {
-    var c = document.createElement('canvas'); c.width = 256; c.height = 128;
+  /* ---- glow orb behind the pouch (the reference's centered sun) ---- */
+  function orbTexture() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 256;
     var g = c.getContext('2d');
-    var grad = g.createRadialGradient(128, 64, 8, 128, 64, 64);
-    grad.addColorStop(0, 'rgba(255,255,255,0.95)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = grad; g.fillRect(0, 0, 256, 128);
+    var grad = g.createRadialGradient(128, 128, 10, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.28, 'rgba(255,255,255,0.55)');
+    grad.addColorStop(0.6, 'rgba(255,255,255,0.16)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad; g.fillRect(0, 0, 256, 256);
     return new THREE.CanvasTexture(c);
   }
-  var cloudTex = cloudTexture();
-  var clouds = [];
-  for (var ci = 0; ci < 5; ci++) {
-    var cm = new THREE.SpriteMaterial({ map: cloudTex, transparent: true, opacity: 0.7, depthWrite: false });
-    var sp = new THREE.Sprite(cm);
-    sp.scale.set(4.5 + ci, 1.6 + ci * 0.2, 1);
-    sp.position.set(-6 + ci * 3.1, 2.6 + (ci % 3) * 0.9, -5 - ci);
-    sp.userData.speed = 0.08 + ci * 0.03;
-    scene.add(sp); clouds.push(sp);
-  }
+  var orbMat = new THREE.SpriteMaterial({ map: orbTexture(), transparent: true, opacity: 0.9, depthWrite: false });
+  var orb = new THREE.Sprite(orbMat);
+  orb.position.set(0, 0.6, -6.5);
+  orb.scale.set(9, 9, 1);
+  scene.add(orb);
+  var orbLight = new THREE.PointLight(0xFFE9C0, 0.45, 24); orbLight.position.set(0, 2.2, -3.5); scene.add(orbLight);
 
   /* ---- stars ---- */
   var starN = 260;
@@ -553,10 +618,28 @@
       capE = document.getElementById('capE'), capN2 = document.getElementById('capN'),
       capS = document.getElementById('capS');
   var hint = document.getElementById('scroll-hint');
+  var bws = [0, 1, 2, 3, 4].map(function (i) { return document.getElementById('bw' + i); });
+  var chipsM = document.querySelectorAll('#coM .chip');
+  var chipsE = document.querySelectorAll('#coE .chip');
+  var chipsN = document.querySelectorAll('#coN .chip');
+  var dashEls = document.querySelectorAll('#dashes span');
+  var dashIdx = 0;
 
   function capFade(el, o) {
     el.style.opacity = o.toFixed(3);
     el.style.transform = 'translateY(' + (24 * (1 - o)).toFixed(1) + 'px)';
+  }
+  function word(el, o, drift) {
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = 'translate(calc(-50% + ' + drift.toFixed(2) + 'vw), -50%)';
+  }
+  function chipFade(list, s, e, p) {
+    for (var i = 0; i < list.length; i++) {
+      var d = i * 0.025;
+      var o = smooth(s + d, s + d + 0.04, p) * (1 - smooth(e - 0.02, e + 0.02, p));
+      list[i].style.opacity = o.toFixed(3);
+      list[i].style.transform = 'translateY(' + (10 * (1 - o)).toFixed(1) + 'px)';
+    }
   }
 
   var pTarget = 0, pNow = 0, mouseX = 0;
@@ -590,33 +673,21 @@
     pNow += (pTarget - pNow) * 0.09;
     var p = pNow;
 
-    /* sky, sun, moon, stars, clouds */
-    var sky = skyAt(p);
-    stage.style.background = 'linear-gradient(180deg, ' + sky[0] + ', ' + sky[1] + ')';
-    var nightF = smooth(0.44, 0.60, p);
-    var sunP = clamp01(p / 0.52);
-    sun.position.set(lerp(-6.5, 6.5, sunP), -0.8 + Math.sin(sunP * Math.PI) * 5.4, -8);
-    sun.material.opacity = 1 - smooth(0.46, 0.54, p);
-    sunGlow.position.copy(sun.position);
-    sunGlow.intensity = (1 - nightF) * 1.0;
-    var warmth = smooth(0.30, 0.48, p) * (1 - nightF);
-    sun.material.color.setRGB(1, 0.95 - warmth * 0.25, 0.85 - warmth * 0.4);
-    var moonP = smooth(0.52, 0.64, p);
-    moon.position.set(lerp(5.5, 3.0, moonP), lerp(-0.5, 4.2, moonP), -8);
-    moon.material.opacity = moonP;
-    starMat.opacity = nightF * 0.95;
-    for (var c2 = 0; c2 < clouds.length; c2++) {
-      var sp = clouds[c2];
-      sp.position.x += sp.userData.speed * 0.004;
-      if (sp.position.x > 10) sp.position.x = -10;
-      sp.material.opacity = 0.7 * (1 - nightF * 0.92);
-    }
-    var gShade = 1 - nightF * 0.55;
-    groundMat.color.setRGB(0.72 * gShade, 0.55 * gShade, 0.37 * gShade);
-    var wShade = 1 - nightF * 0.35;
+    /* color world: bg gradient with a bright band behind the product, orb, lights */
+    var wd = worldAt(p);
+    stage.style.background = 'linear-gradient(180deg,' + rgbStr(wd[0]) + ' 0%,' + rgbStr(wd[1]) + ' 58%,' + rgbStr(wd[0]) + ' 100%)';
+    orbMat.color.setRGB(wd[2][0] / 255, wd[2][1] / 255, wd[2][2] / 255);
+    var pulse = 1 + Math.sin(t * 1.1) * 0.02;
+    var orbBase = 9 - smooth(0.84, 0.95, p) * 3;
+    orb.scale.set(orbBase * pulse, orbBase * pulse, 1);
+    orbMat.opacity = 0.92 - smooth(0.84, 0.95, p) * 0.45;
+    orbLight.color.setRGB(wd[2][0] / 255, wd[2][1] / 255, wd[2][2] / 255);
+    var nightF = smooth(0.58, 0.66, p);
+    starMat.opacity = nightF * 0.95 * (1 - smooth(0.84, 0.92, p) * 0.7);
+    var wShade = 1 - nightF * 0.3;
     tableMat.color.setRGB(wShade, wShade, wShade);
-    amb.intensity = lerp(0.75, 0.55, nightF);
-    key.intensity = lerp(0.8, 0.55, nightF);
+    amb.intensity = lerp(0.75, 0.6, nightF);
+    key.intensity = lerp(0.8, 0.6, nightF);
 
     /* which beat is (or was last) active */
     var bIdx = 0, q = 0;
@@ -635,10 +706,13 @@
        (one full 360° per time of day) — no tearing, ever */
     pouch.rotation.y = t * 0.12 + p * Math.PI * 6 + mouseX * 0.3;
     pouch.rotation.z = Math.sin(t * 0.6) * 0.015;
-    pouch.position.y = -2.45 + Math.sin(t * 0.9) * 0.02;
+    /* finale: lift off the table and shrink a touch so the stream labels stay clear */
+    var fin = smooth(0.85, 0.93, p);
+    pouch.position.y = -2.45 + fin * 1.45 + Math.sin(t * 0.9) * 0.02;
     pouch.position.x = 0;
     pouch.position.z = 0.4;
-    pouch.scale.set(1, 1, 1);
+    var psc = 1 - fin * 0.2;
+    pouch.scale.set(psc, psc, psc);
     var capOp = started ? dip : 1;
     for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
 
@@ -690,6 +764,26 @@
     capFade(capN2, smooth(0.61, 0.66, p) * (1 - smooth(0.78, 0.83, p)));
     capFade(capS, smooth(0.87, 0.93, p));
     hint.style.opacity = (1 - smooth(0.02, 0.07, p)).toFixed(2);
+
+    /* giant words: crossfade + slow horizontal drift, one per world */
+    var q1 = clamp01((p - 0.10) / 0.20), q2 = clamp01((p - 0.36) / 0.20), q3 = clamp01((p - 0.60) / 0.20);
+    word(bws[0], 0.12 * (1 - smooth(0.06, 0.12, p)), 0);
+    word(bws[1], 0.55 * smooth(0.11, 0.16, p) * (1 - smooth(0.29, 0.35, p)), (0.5 - q1) * 10);
+    word(bws[2], 0.55 * smooth(0.37, 0.42, p) * (1 - smooth(0.55, 0.60, p)), (0.5 - q2) * 10);
+    word(bws[3], 0.50 * smooth(0.61, 0.66, p) * (1 - smooth(0.79, 0.84, p)), (0.5 - q3) * 10);
+    word(bws[4], 0.14 * smooth(0.88, 0.93, p), 0);
+
+    /* spec callout chips, staggered per beat */
+    chipFade(chipsM, 0.13, 0.31, p);
+    chipFade(chipsE, 0.39, 0.57, p);
+    chipFade(chipsN, 0.63, 0.81, p);
+
+    /* progress dashes */
+    var di = p < 0.10 ? 0 : p < 0.36 ? 1 : p < 0.60 ? 2 : p < 0.84 ? 3 : 4;
+    if (di !== dashIdx) {
+      dashIdx = di;
+      for (var dd = 0; dd < dashEls.length; dd++) dashEls[dd].classList.toggle('on', dd === di);
+    }
 
     /* camera */
     camera.position.x = mouseX * 0.4;
