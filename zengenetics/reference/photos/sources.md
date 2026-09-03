@@ -109,3 +109,26 @@
 | allday5-03.jpg | 피치빛 하늘 아래 겹겹이 물러나는 산맥 실루엣 — 고요한 황혼 그라데이션 (세로 컷) | https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=80 | Unsplash |
 | allday5-04.jpg | 해가 진 직후 숲 실루엣 위로 별과 은하수가 뜨기 시작한 하늘 — 지평선에 잔광, 와이드 | https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?w=1400&q=80 | Unsplash |
 | allday5-05.jpg | 트와일라잇 별하늘 아래 후지산과 호수 반영 — 웅장하고 고요한 세로 스카이, 상단 여백 | https://images.unsplash.com/photo-1436891620584-47fd0e565afb?w=1400&q=80 | Unsplash |
+
+## 6차 수집 — 아침 새(morning6)와 ALL DAY 활력 실루엣(allday6)
+
+- 수집일: 2026-09-03
+- 출처: 전부 Unsplash (Unsplash License — 상업적 사용 무료, 크레딧 불요)
+- 다운로드 파라미터: `?w=1400&q=80` (최대 폭 1400px, JPEG q80, 각 500KB 이하로 PIL 검증)
+- 전 컷을 저장 전에 열어 확인 — 인물은 전부 역광 실루엣이라 얼굴 식별 불가 (얼굴이 보이는 후보는 전부 제외)
+- morning은 마젠타 그레이드가 얹힐 예정이라 밝고 산뜻한 새 컷 위주, allday는 상단 타이포 여백이 넓은 와이드 스카이 실루엣 위주로 선별
+
+| 파일 | 내용 | 원본 이미지 URL | 출처 |
+|---|---|---|---|
+| morning6-01.jpg | 나뭇가지 끝에 앉은 물총새 — 청록·주황 깃털, 초록 보케 배경의 산뜻한 아침 톤 | https://images.unsplash.com/photo-1444464666168-49d633b86797?w=1400&q=80 | Unsplash |
+| morning6-02.jpg | 이끼 낀 가지 위에서 부리를 벌리고 노래하는 울새(로빈) 클로즈업 — 밝은 배경 | https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?w=1400&q=80 | Unsplash |
+| morning6-03.jpg | 벚꽃 가지에 앉은 동박새 — 파란 하늘과 분홍 꽃봉오리, 화사한 봄 아침 | https://images.unsplash.com/photo-1480044965905-02098d419e96?w=1400&q=80 | Unsplash |
+| morning6-04.jpg | 그루터기에 앉은 물총새 — 금빛으로 번지는 따뜻한 배경, 골든 모닝 라이트 | https://images.unsplash.com/photo-1486365227551-f3f90034a57c?w=1400&q=80 | Unsplash |
+| morning6-05.jpg | 금빛 새벽 하늘을 나는 새들 — 지평선 위 역광 실루엣, 하늘 여백 넓음 | https://images.unsplash.com/photo-1646815912873-31ce58ac74ab?w=1400&q=80 | Unsplash |
+| morning6-06.jpg | 아침 해 아래 금빛 돔 위로 날아오르는 새떼 — 파랑→금빛 그라데이션 하늘 | https://images.unsplash.com/photo-1516477173607-7ea60164df72?w=1400&q=80 | Unsplash |
+| allday6-01.jpg | 환한 하늘을 배경으로 뛰어오르는 사람 실루엣 — 수평선 위 점프, 하늘 여백 아주 넓음 | https://images.unsplash.com/photo-1746210836811-2dfaaedf4de9?w=1400&q=80 | Unsplash |
+| allday6-02.jpg | 노을 바다 앞에서 팔다리를 활짝 펴고 점프하는 실루엣 — 주황 하늘과 돛단배 (보라카이) | https://images.unsplash.com/photo-1584432213673-7eabf4d05304?w=1400&q=80 | Unsplash |
+| allday6-03.jpg | 금빛 안개 낀 언덕 위 두 팔 든 여섯 친구 실루엣 — 해를 등진 단체 컷 | https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?w=1400&q=80 | Unsplash |
+| allday6-04.jpg | 핑크→주황 트와일라잇 하늘 아래 두 팔 번쩍 든 사람들 실루엣 — 상단 타이포 여백 최대 | https://images.unsplash.com/photo-1612322778677-8bb0b658ce8a?w=1400&q=80 | Unsplash |
+| allday6-05.jpg | 해질녘 해변에서 카트휠(옆돌기) 하는 실루엣 — 보랏빛 트와일라잇 무드 | https://images.unsplash.com/photo-1630482228356-8a0853fb8fb2?w=1400&q=80 | Unsplash |
+| allday6-06.jpg | 금빛 노을 하늘 아래 바위 능선을 성큼 뛰어 건너는 실루엣 — 러닝/도약 무드 | https://images.unsplash.com/photo-1726521812762-32386ad8842a?w=1400&q=80 | Unsplash |
