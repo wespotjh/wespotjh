@@ -926,28 +926,21 @@
 
     /* pouch: stands center stage, turning on its vertical axis with the scroll
        (one full 360° per time of day) — no tearing, ever */
-    /* rotation with character: one quick showy spin as each time of day begins,
-       then the pouch faces front — each beat sways in its own rhythm */
-    var qs1 = clamp01((p - 0.08) / 0.18), qs2 = clamp01((p - 0.44) / 0.16), qs3 = clamp01((p - 0.64) / 0.16);
-    var spins = smooth(0, 0.35, qs1) + smooth(0, 0.35, qs2) + smooth(0, 0.35, qs3) + smooth(0.85, 0.95, p);
-    var w1 = smooth(0.08, 0.13, p) * (1 - smooth(0.24, 0.30, p));
-    var w2 = smooth(0.44, 0.49, p) * (1 - smooth(0.58, 0.63, p));
-    var w3 = smooth(0.64, 0.69, p) * (1 - smooth(0.78, 0.84, p));
-    pouch.rotation.y = mouseX * 0.3 + Math.PI * 2 * spins
-      + Math.sin(t * 0.9) * 0.07 * w1      /* morning: lively jiggle */
-      + Math.sin(t * 0.25) * 0.16 * w2     /* evening: slow cruising sway */
-      + Math.sin(t * 0.15) * 0.22 * w3     /* night: dreamy drift */
-      + Math.sin(t * 0.5) * 0.08;          /* idle breath so it never freezes */
-    pouch.rotation.z = Math.sin(t * 1.3) * 0.035 * w1
-      + (0.04 + Math.sin(t * 0.35) * 0.02) * w2
-      + Math.sin(t * 0.4) * 0.02 * w3
-      + Math.sin(t * 0.6) * 0.012;
+    /* rotation: the original scroll-linked turntable speed — untouched.
+       Dynamism comes from FRAMING instead: each scene composes differently. */
+    pouch.rotation.y = t * 0.12 + p * Math.PI * 6 + mouseX * 0.3;
+    var w1 = smooth(0.08, 0.14, p) * (1 - smooth(0.24, 0.31, p));
+    var w2 = smooth(0.44, 0.50, p) * (1 - smooth(0.58, 0.64, p));
+    var w3 = smooth(0.64, 0.70, p) * (1 - smooth(0.78, 0.85, p));
+    pouch.rotation.z = Math.sin(t * 0.6) * 0.015 + 0.09 * w2;   /* evening: diagonal cruise lean */
+    pouch.rotation.x = -0.07 * w3;                              /* night: restful lean back */
     /* finale: lift off and shrink a touch so the stream labels stay clear */
     var fin = smooth(0.85, 0.93, p);
-    pouch.position.y = -2.45 + fin * 1.45 - (1 - introF) * 0.9
-      + Math.sin(t * 1.6) * 0.03 * w1 + Math.sin(t * 0.9) * 0.02 * w2 + Math.sin(t * 0.45) * 0.06 * w3
-      + Math.sin(t * 0.9) * 0.02;
-    pouch.position.x = 0;
+    pouch.position.y = -2.45 + fin * 1.45 - (1 - introF) * 0.9 + Math.sin(t * 0.9) * 0.02;
+    /* framing: each scene composes differently — morning right of center,
+       evening left with the lean, night dead center */
+    var offX = skyXF < 1 ? 0.45 : 0.75;
+    pouch.position.x = offX * w1 - offX * w2;
     pouch.position.z = 0.4;
     var psc = 1 - fin * 0.2;
     pouch.scale.set(psc, psc, psc);
@@ -994,7 +987,7 @@
     dustMat.opacity = 0.3 + trans * 0.25 + zi * 0.12;
 
     /* contact shadow: leans away from the sun, releases as the pouch lifts */
-    shadow.position.x = -sun.position.x * 0.04;
+    shadow.position.x = pouch.position.x - sun.position.x * 0.04;
     var shSc = (1 - fin * 0.4) * (1 - zi * 0.1);
     shadow.scale.set(shSc, shSc, 1);
     shadowMat.opacity = 0.85 * (1 - fin * 0.55) * introF;
@@ -1083,11 +1076,12 @@
       for (var dd = 0; dd < dashEls.length; dd++) dashEls[dd].classList.toggle('on', dd === di);
     }
 
-    /* camera: pushes in on the label mid-beat, pulls wide for the finale */
-    camera.position.x = mouseX * 0.4 + Math.sin(t * 0.3) * 0.05;
+    /* camera: pushes in mid-beat, orbits opposite the pouch offset (three-quarter views),
+       and drops low for an up-shot at night; pulls wide for the finale */
+    camera.position.x = mouseX * 0.4 + Math.sin(t * 0.3) * 0.05 - 0.7 * w1 + 0.7 * w2;
     camera.position.z = 9.4 - zi * 2.1 + smooth(0.84, 0.95, p) * 1.3;
-    camera.position.y = 0.7 - p * 0.25 - zi * 0.5;
-    camera.lookAt(0, -0.4 - p * 0.2 - zi * 0.55, 0);
+    camera.position.y = 0.7 - p * 0.25 - zi * 0.5 - 0.9 * w3;
+    camera.lookAt(pouch.position.x * 0.5, -0.4 - p * 0.2 - zi * 0.55 + 0.45 * w3, 0);
 
     renderer.render(scene, camera);
   }
