@@ -485,12 +485,63 @@
     g.fillStyle = grad; g.fillRect(0, 0, 256, 256);
     return new THREE.CanvasTexture(c);
   }
-  var orbMat = new THREE.SpriteMaterial({ map: orbTexture(), transparent: true, opacity: 0.9, depthWrite: false });
-  var orb = new THREE.Sprite(orbMat);
-  orb.position.set(0, 0.6, -6.5);
-  orb.scale.set(9, 9, 1);
-  scene.add(orb);
+  /* a proper sun: crisp disc + soft halo */
+  function sunTexture() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 256;
+    var g = c.getContext('2d');
+    var grad = g.createRadialGradient(128, 128, 8, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.2, 'rgba(255,255,255,0.98)');
+    grad.addColorStop(0.26, 'rgba(255,255,255,0.4)');
+    grad.addColorStop(0.55, 'rgba(255,255,255,0.13)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad; g.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  }
+  /* a crescent moon with a soft glow */
+  function moonTexture() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 256;
+    var g = c.getContext('2d');
+    var halo = g.createRadialGradient(128, 128, 20, 128, 128, 128);
+    halo.addColorStop(0, 'rgba(255,255,255,0.35)');
+    halo.addColorStop(0.5, 'rgba(255,255,255,0.1)');
+    halo.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = halo; g.fillRect(0, 0, 256, 256);
+    g.fillStyle = 'rgba(255,255,255,0.98)';
+    g.beginPath(); g.arc(128, 128, 52, 0, 6.283); g.fill();
+    g.globalCompositeOperation = 'destination-out';
+    g.beginPath(); g.arc(158, 108, 48, 0, 6.283); g.fill();
+    g.globalCompositeOperation = 'source-over';
+    return new THREE.CanvasTexture(c);
+  }
+
+  /* the sun: rises at dawn on the left, arcs overhead, sets right at dusk */
+  var sunMat = new THREE.SpriteMaterial({ map: sunTexture(), transparent: true, opacity: 0.95, depthWrite: false });
+  var sun = new THREE.Sprite(sunMat);
+  sun.position.set(-2.5, -0.5, -9);
+  sun.scale.set(7, 7, 1);
+  scene.add(sun);
+
+  /* the moon: rises when the world turns purple */
+  var moonMat = new THREE.SpriteMaterial({ map: moonTexture(), transparent: true, opacity: 0, depthWrite: false, color: 0xEDE8FF });
+  var moon = new THREE.Sprite(moonMat);
+  moon.position.set(2.4, -2.6, -9);
+  moon.scale.set(3.4, 3.4, 1);
+  scene.add(moon);
+
   var orbLight = new THREE.PointLight(0xFFE9C0, 0.45, 24); orbLight.position.set(0, 2.2, -3.5); scene.add(orbLight);
+
+  /* soft rolling hills on the horizon — the sun sets behind them */
+  var hillMatFar = new THREE.MeshBasicMaterial({ color: 0x101c3d });
+  var hillFar = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), hillMatFar);
+  hillFar.scale.set(1.7, 0.35, 1);
+  hillFar.position.set(-3, -10.55, -7.5);
+  scene.add(hillFar);
+  var hillMatNear = new THREE.MeshBasicMaterial({ color: 0x0c1630 });
+  var hillNear = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), hillMatNear);
+  hillNear.scale.set(1.6, 0.35, 1);
+  hillNear.position.set(4, -10.85, -6.5);
+  scene.add(hillNear);
 
   /* ---- stars ---- */
   var starN = 260;
@@ -642,7 +693,7 @@
     }
   }
 
-  var pTarget = 0, pNow = 0, mouseX = 0;
+  var pTarget = 0, pNow = 0, mouseX = 0, skyXF = 1;
   window.addEventListener('mousemove', function (e) { mouseX = (e.clientX / window.innerWidth - 0.5); }, { passive: true });
   function onScroll() {
     if (reduced) { pTarget = 0; return; }
@@ -660,6 +711,7 @@
     camera.updateProjectionMatrix();
     var narrow = w / h < 0.85;
     streamX = narrow ? [-1.55, 0, 1.55] : [-2.7, 0, 2.7];
+    skyXF = narrow ? 0.5 : 1;   /* portrait sees a narrow slice of sky — pull the arc in */
   }
   window.addEventListener('resize', resize);
   resize(); onScroll();
@@ -673,16 +725,41 @@
     pNow += (pTarget - pNow) * 0.09;
     var p = pNow;
 
-    /* color world: bg gradient with a bright band behind the product, orb, lights */
+    /* color world: bg gradient with a bright band at the horizon, lights */
     var wd = worldAt(p);
     stage.style.background = 'linear-gradient(180deg,' + rgbStr(wd[0]) + ' 0%,' + rgbStr(wd[1]) + ' 58%,' + rgbStr(wd[0]) + ' 100%)';
-    orbMat.color.setRGB(wd[2][0] / 255, wd[2][1] / 255, wd[2][2] / 255);
-    var pulse = 1 + Math.sin(t * 1.1) * 0.02;
-    var orbBase = 9 - smooth(0.84, 0.95, p) * 3;
-    orb.scale.set(orbBase * pulse, orbBase * pulse, 1);
-    orbMat.opacity = 0.92 - smooth(0.84, 0.95, p) * 0.45;
-    orbLight.color.setRGB(wd[2][0] / 255, wd[2][1] / 255, wd[2][2] / 255);
     var nightF = smooth(0.58, 0.66, p);
+
+    /* the sun tells the time: dawn left -> overhead -> dusk right, setting behind the hills */
+    var pulse = 1 + Math.sin(t * 1.1) * 0.02;
+    var sunP = clamp01(p / 0.58);
+    var th = lerp(2.85, 0.25, sunP);
+    var setDrop = smooth(0.52, 0.62, p) * 1.6;
+    sun.position.set(Math.cos(th) * 5.2 * skyXF, -2.0 + Math.sin(th) * 5.3 - setDrop, -9);
+    var sunSize = (6 + (1 - Math.sin(th)) * 3) * pulse;
+    sun.scale.set(sunSize, sunSize, 1);
+    sunMat.color.setRGB(
+      wd[2][0] / 255 + (1 - wd[2][0] / 255) * 0.45,
+      wd[2][1] / 255 + (1 - wd[2][1] / 255) * 0.45,
+      wd[2][2] / 255 + (1 - wd[2][2] / 255) * 0.45);
+    sunMat.opacity = 0.95 * (1 - smooth(0.58, 0.65, p));
+
+    /* the moon rises from behind the hills with the purple world */
+    var moonP = smooth(0.60, 0.72, p);
+    moon.position.set(lerp(3.9, 2.4, moonP) * skyXF, lerp(-2.6, 2.7, moonP), -9);
+    var moonSize = 3.4 * pulse;
+    moon.scale.set(moonSize, moonSize, 1);
+    moonMat.opacity = moonP * (1 - smooth(0.86, 0.93, p) * 0.4);
+
+    /* scene light follows whoever is in the sky */
+    orbLight.color.setRGB(wd[2][0] / 255, wd[2][1] / 255, wd[2][2] / 255);
+    orbLight.intensity = 0.45 * (1 - nightF) + 0.3 * nightF;
+    orbLight.position.x = lerp(sun.position.x, moon.position.x, nightF) * 0.4;
+
+    /* horizon hills: silhouettes in a deep shade of the current world */
+    hillMatFar.color.setRGB(wd[0][0] / 255 * 0.72 + 0.02, wd[0][1] / 255 * 0.72 + 0.02, wd[0][2] / 255 * 0.72 + 0.05);
+    hillMatNear.color.setRGB(wd[0][0] / 255 * 0.5, wd[0][1] / 255 * 0.5, wd[0][2] / 255 * 0.5 + 0.03);
+
     starMat.opacity = nightF * 0.95 * (1 - smooth(0.84, 0.92, p) * 0.7);
     var wShade = 1 - nightF * 0.3;
     tableMat.color.setRGB(wShade, wShade, wShade);
