@@ -132,3 +132,20 @@
 | allday6-04.jpg | 핑크→주황 트와일라잇 하늘 아래 두 팔 번쩍 든 사람들 실루엣 — 상단 타이포 여백 최대 | https://images.unsplash.com/photo-1612322778677-8bb0b658ce8a?w=1400&q=80 | Unsplash |
 | allday6-05.jpg | 해질녘 해변에서 카트휠(옆돌기) 하는 실루엣 — 보랏빛 트와일라잇 무드 | https://images.unsplash.com/photo-1630482228356-8a0853fb8fb2?w=1400&q=80 | Unsplash |
 | allday6-06.jpg | 금빛 노을 하늘 아래 바위 능선을 성큼 뛰어 건너는 실루엣 — 러닝/도약 무드 | https://images.unsplash.com/photo-1726521812762-32386ad8842a?w=1400&q=80 | Unsplash |
+
+## 7차 수집 — 아침 사과(morning7)
+
+- 수집일: 2026-09-03
+- 출처: 전부 Unsplash (Unsplash License — 상업적 사용 무료, 크레딧 불요)
+- 다운로드 파라미터: `?w=1400&q=80` (최대 폭 1400px, JPEG q80, 각 500KB 이하로 PIL 검증 — morning7-04만 원본이 초과해 q72로 재압축)
+- 전 컷을 저장 전에 열어 확인 — 인물은 손만 등장(morning7-03), 얼굴이 식별되는 컷 없음
+- 히어로 "아침" 장면용 — 마젠타 그레이드가 얹힐 예정이라 밝고 신선한 "하루의 시작" 톤 위주로 선별
+
+| 파일 | 내용 | 원본 이미지 URL | 출처 |
+|---|---|---|---|
+| morning7-01.jpg | 윤기 나는 빨간 사과 가득 클로즈업 — 탑뷰, 신선하고 생기 있는 레드 톤 | https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=1400&q=80 | Unsplash |
+| morning7-02.jpg | 밝은 회색 배경 위 분홍빛 사과 한 알 — 미니멀, 밝은 톤 (타이포 여백 넓음) | https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=1400&q=80 | Unsplash |
+| morning7-03.jpg | 손바닥 위에 올린 잎 달린 빨간 사과 — 과수원 초록 보케 배경, 얼굴 없음 | https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=1400&q=80 | Unsplash |
+| morning7-04.jpg | 아침 햇살 받은 과수원 나뭇가지의 빨간 사과들 — 골든라이트, 파란 하늘 | https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?w=1400&q=80 | Unsplash |
+| morning7-05.jpg | 식탁 그릇의 초록·빨간 사과들 — 우드 테이블과 직조 매트, 내추럴 무드 | https://images.unsplash.com/photo-1589217157232-464b505b197f?w=1400&q=80 | Unsplash |
+| morning7-06.jpg | 초록 사과와 조각 플랫레이 — 테라코타 배경, 산뜻하고 미니멀한 상차림 | https://images.unsplash.com/photo-1590005354167-6da97870c757?w=1400&q=80 | Unsplash |
