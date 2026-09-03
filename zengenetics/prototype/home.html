@@ -864,14 +864,14 @@
 
     /* photo crossfade: dawn -> noon -> dusk drive -> night sky */
     bgEls[0].style.opacity = (1 - smooth(0.27, 0.33, p)).toFixed(3);
-    bgEls[1].style.opacity = (smooth(0.27, 0.33, p) * (1 - smooth(0.41, 0.47, p))).toFixed(3);
-    bgEls[2].style.opacity = (smooth(0.41, 0.47, p) * (1 - smooth(0.61, 0.67, p))).toFixed(3);
+    bgEls[1].style.opacity = (smooth(0.27, 0.33, p) * (1 - smooth(0.40, 0.45, p))).toFixed(3);
+    bgEls[2].style.opacity = (smooth(0.40, 0.45, p) * (1 - smooth(0.61, 0.67, p))).toFixed(3);
     bgEls[3].style.opacity = smooth(0.61, 0.67, p).toFixed(3);
 
-    /* color-world grade painted over the photo */
+    /* color-world grade painted over the photo — light enough to let the photo breathe */
     var wd = worldAt(p);
     function rgbaStr(c, a) { return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + a + ')'; }
-    bgGrade.style.background = 'linear-gradient(180deg,' + rgbaStr(wd[0], 0.72) + ' 0%,' + rgbaStr(wd[1], 0.4) + ' 55%,' + rgbaStr(wd[0], 0.86) + ' 100%)';
+    bgGrade.style.background = 'linear-gradient(180deg,' + rgbaStr(wd[0], 0.52) + ' 0%,' + rgbaStr(wd[1], 0.26) + ' 55%,' + rgbaStr(wd[0], 0.8) + ' 100%)';
     var nightF = smooth(0.62, 0.70, p);
 
     /* the sun tells the time: dawn left -> overhead -> dusk right */
@@ -932,7 +932,10 @@
     var wantLabel = started ? bIdx : 0;
     if (wantLabel !== currentLabel) { currentLabel = wantLabel; bodyLabel.map = labels[currentLabel]; bodyLabel.needsUpdate = true; }
     var dip = started && q < 0.10 ? 0.35 + q * 6.5 : 1;
-    bodyLabel.opacity = Math.min(1, dip);
+    /* the pouch stays hidden through the intro — it enters with MORNING */
+    var introF = smooth(0.06, 0.10, p);
+    bodyLabel.opacity = Math.min(1, dip) * introF;
+    sideMat.opacity = introF;
 
     /* pouch: stands center stage, turning on its vertical axis with the scroll
        (one full 360° per time of day) — no tearing, ever */
@@ -940,12 +943,12 @@
     pouch.rotation.z = Math.sin(t * 0.6) * 0.015;
     /* finale: lift off the table and shrink a touch so the stream labels stay clear */
     var fin = smooth(0.85, 0.93, p);
-    pouch.position.y = -2.45 + fin * 1.45 + Math.sin(t * 0.9) * 0.02;
+    pouch.position.y = -2.45 + fin * 1.45 - (1 - introF) * 0.9 + Math.sin(t * 0.9) * 0.02;
     pouch.position.x = 0;
     pouch.position.z = 0.4;
     var psc = 1 - fin * 0.2;
     pouch.scale.set(psc, psc, psc);
-    var capOp = started ? dip : 1;
+    var capOp = (started ? dip : 1) * introF;
     for (var m = 0; m < cap.material.length; m++) cap.material[m].opacity = capOp;
 
     /* ---- dynamics: beat zoom factor + transition energy ---- */
@@ -991,7 +994,7 @@
     shadow.position.x = -sun.position.x * 0.04;
     var shSc = (1 - fin * 0.4) * (1 - zi * 0.1);
     shadow.scale.set(shSc, shSc, 1);
-    shadowMat.opacity = 0.85 * (1 - fin * 0.55);
+    shadowMat.opacity = 0.85 * (1 - fin * 0.55) * introF;
 
     /* finale satellites: the other two pouches tilt in beside the hero */
     var satX = skyXF < 1 ? 1.5 : 2.5;
