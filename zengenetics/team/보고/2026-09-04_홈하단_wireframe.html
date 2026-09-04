@@ -1,0 +1,130 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<title>홈 하단 와이어프레임 390</title>
+<style>
+  body{margin:0;background:#e9e7e3;font-family:system-ui,'Noto Sans KR',sans-serif;display:flex;justify-content:center}
+  #frame{width:390px;background:#fff;outline:1px solid #999}
+  .sec{border-bottom:2px dashed #bbb;padding:18px 16px;position:relative}
+  .tag{position:absolute;top:6px;right:8px;background:#c0392b;color:#fff;font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700}
+  .box{background:#d7d5d1;border:1px solid #aaa;color:#555;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;border-radius:6px}
+  .note{font-size:10.5px;color:#c0392b;border:1px dashed #c0392b;border-radius:4px;padding:5px 7px;margin-top:8px;background:#fdf3f2;line-height:1.45}
+  h4{margin:0 0 4px;font-size:13px;color:#333}
+  .sub{font-size:10.5px;color:#888;margin-bottom:10px}
+  .h-ghost{opacity:.45}
+  .chiprow{display:flex;gap:6px;margin:10px 0}
+  .chip{flex:1;border:1px solid #888;border-radius:99px;font-size:10px;text-align:center;padding:6px 0;color:#555;background:#eee}
+  .chip.on{background:#555;color:#fff;font-weight:700}
+  .cardrow{display:flex;flex-direction:column;gap:10px}
+  .kf{border:1px solid #999;border-radius:8px;margin-top:10px;padding:10px;background:#f4f3f1}
+  .kf b{font-size:11px;color:#333;display:block;margin-bottom:6px}
+  .stage{position:relative;height:300px;background:#dfddd9;border:1px solid #aaa;border-radius:8px;overflow:hidden}
+  .giant{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:64px;font-weight:800;color:#cfcdc9;letter-spacing:.05em}
+  .canv{position:absolute;left:50%;transform:translateX(-50%);width:200px;border:2px solid #777;background:#c9c7c3;color:#444;font-size:11px;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:4px}
+  .pouch{position:absolute;left:50%;transform:translateX(-50%);width:44px;height:120px;background:#b3b1ad;border:1px solid #777;border-radius:20px/12px;color:#333;font-size:9px;display:flex;align-items:center;justify-content:center}
+  .cap{position:absolute;bottom:8px;width:100%;text-align:center;font-size:10px;color:#666}
+</style></head><body>
+<div id="frame">
+
+  <!-- 컨텍스트: 히어로 (개편 범위 아님) -->
+  <div class="sec h-ghost">
+    <span class="tag" style="background:#7f8c8d">범위 밖</span>
+    <h4>히어로 (완료 · 변경 없음)</h4>
+    <div class="box" style="height:120px">스크롤 애니메이션 히어로<br>… 피날레 ALL DAY까지 …</div>
+  </div>
+
+  <!-- ① products -->
+  <div class="sec">
+    <span class="tag">① products 유지+정돈</span>
+    <h4>제품 카드 3종</h4>
+    <div class="sub">"몸의 리듬은, 미네랄에서 시작됩니다" — 기존 유지</div>
+    <div class="cardrow">
+      <div class="box" style="height:96px;flex-direction:column;gap:3px"><b style="font-size:10px;letter-spacing:.2em">RESET</b>붓기 부스터 · 칼륨<br><span style="font-size:10px">포 이미지 · 가격 · Shop Now</span></div>
+      <div class="box" style="height:96px;flex-direction:column;gap:3px"><b style="font-size:10px;letter-spacing:.2em">RECHARGE</b>활력 · 비타민B<br><span style="font-size:10px">포 이미지 · 가격 · Shop Now</span></div>
+      <div class="box" style="height:96px;flex-direction:column;gap:3px"><b style="font-size:10px;letter-spacing:.2em">RECOVER</b>리커버리 · 마그네슘<br><span style="font-size:10px">포 이미지 · 가격 · Shop Now</span></div>
+    </div>
+    <div class="note">신규: 카드 상단 RRR 영문 라벨(대표님 확정 매핑). 가격·할인 표기는 공홈 대조 전 현행 유지.</div>
+  </div>
+
+  <!-- ② showcase -->
+  <div class="sec" style="background:#faf9f7">
+    <span class="tag">② showcase 신설 · 주인공</span>
+    <h4>3D 박스 쇼케이스 — sticky 100svh 무대 + 320vh 스크롤 트랙</h4>
+    <div class="sub">아래 3장 = 같은 화면의 스크롤 진행도별 상태 (실제로는 한 화면이 고정된 채 스크럽됨)</div>
+
+    <div class="chiprow">
+      <div class="chip on">RESET · 칼륨</div><div class="chip">RECHARGE · 비타민B</div><div class="chip">RECOVER · 마그네슘</div>
+    </div>
+
+    <div class="kf"><b>키프레임 A — 진입 (progress 0)</b>
+      <div class="stage" style="height:260px">
+        <div class="giant">OPEN</div>
+        <div class="canv" style="height:200px;top:24px">캔버스 330×330<br>box20 닫힘 (frame 01)</div>
+        <div class="cap">"스무 번의 하루를 담았습니다"</div>
+      </div>
+    </div>
+
+    <div class="kf"><b>키프레임 B — 열리는 중 (progress ~0.5 · frame 12)</b>
+      <div class="stage" style="height:260px">
+        <div class="giant">OPEN</div>
+        <div class="canv" style="height:200px;top:24px">플립탑 뒤로 젖혀지는 중<br>안쪽 Zengenetics™ 인쇄 노출</div>
+        <div class="cap">스크롤 = 열림 진행도 (0~70% 구간 / 24프레임 스크럽)</div>
+      </div>
+    </div>
+
+    <div class="kf"><b>키프레임 C — 포 부상 (progress 0.7→1.0)</b>
+      <div class="stage" style="height:300px">
+        <div class="giant" style="top:56%">OPEN</div>
+        <div class="pouch" style="top:14px">포<br>(DOM)</div>
+        <div class="canv" style="height:180px;top:96px">열린 박스 (frame 24 고정)</div>
+        <div class="cap">"RESET — 오늘 쌓인 것을 내보내는 시간" + 미니 CTA</div>
+      </div>
+    </div>
+
+    <div class="note">칩 탭 → 시퀀스 세트 교체(크로스페이드 0.3s, 프레임 인덱스 유지) + 배경 틴트·캡션 전환.<br>
+    배경: 밝은 뉴트럴 + 활성 제품 액센트 5~8% 틴트. 포는 세로 스탠딩(확정사항 ⑤).<br>
+    에셋: 660×660 WebP q80, 제품당 24f ≈ 0.7MB — 칼륨 선로드, 나머지 idle 백로드. 2D 캔버스 스왑(three.js 불사용).</div>
+  </div>
+
+  <!-- ③ trust -->
+  <div class="sec">
+    <span class="tag">③ trust 유지+각주</span>
+    <h4>신뢰 수치</h4>
+    <div class="sub">"기록이 대신 말합니다"</div>
+    <div style="display:flex;gap:8px">
+      <div class="box" style="flex:1;height:64px;flex-direction:column">4.9<br><span style="font-size:9px">평점·리뷰</span></div>
+      <div class="box" style="flex:1;height:64px;flex-direction:column">92%<br><span style="font-size:9px">재구매율</span></div>
+      <div class="box" style="flex:1;height:64px;flex-direction:column">1위<br><span style="font-size:9px">올리브영·쿠팡</span></div>
+    </div>
+    <div class="box" style="height:26px;margin-top:8px;font-size:9px;background:#eceae7">각주: 올리브영 2026.03.22 09~10시 · 쿠팡 2026.07.27~08.25 (대표님 확인 후 활성화)</div>
+    <div class="note">"1위"는 각주 없이 노출 금지. 4.9/26,961/92%는 출처 확정 전 — 오픈 전 필수 해결.</div>
+  </div>
+
+  <!-- ④ reviews -->
+  <div class="sec">
+    <span class="tag">④ reviews 분리 신설</span>
+    <h4>후기 — 가로 스냅 스크롤</h4>
+    <div style="display:flex;gap:8px;overflow:hidden">
+      <div class="box" style="min-width:280px;height:88px">인용 카드 1 (80vw)<br>"짜게 먹은 다음 날 아침이…"</div>
+      <div class="box" style="min-width:80px;height:88px">카드 2<br>(연동 후)</div>
+    </div>
+    <div class="box" style="height:22px;margin-top:8px;font-size:9px;background:#eceae7">실제 구매 후기 中 · 알파리뷰 연동 예정 영역</div>
+    <div class="note">연동 전까지 인용 1건만 — 후기 창작 금지.</div>
+  </div>
+
+  <!-- ⑤ closing -->
+  <div class="sec">
+    <span class="tag">⑤ closing 축소</span>
+    <h4>클로징 오퍼</h4>
+    <div class="box" style="height:34px">"오늘부터, 가볍게" + 한 줄 요약 (benefits 3열 → 1줄로 축소)</div>
+    <div class="box" style="height:66px;margin-top:8px;background:#c9c7c3;font-weight:700">체험판 CTA 카드 (전폭)<br>생애 첫 구매 데이팩 1+1 · 8,900원</div>
+    <div class="note">가격 3건은 공홈 대조 전 현행 유지. CTA가 주인공.</div>
+  </div>
+
+  <!-- footer -->
+  <div class="sec" style="border-bottom:none">
+    <span class="tag" style="background:#7f8c8d">유지</span>
+    <div class="box" style="height:48px;font-size:10px">푸터 (사업자 정보 · CS)</div>
+    <div class="box" style="height:30px;margin-top:8px;background:#555;color:#fff;font-size:10px">고정 ctabar — 체험판 1+1 · 8,900원 →</div>
+  </div>
+
+</div>
+</body></html>
