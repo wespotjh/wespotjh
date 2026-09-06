@@ -24,6 +24,12 @@
   function boot() {
   if (typeof window.gtag !== 'function') return;
 
+  /* 우리 속성으로만 보낸다.
+   * 라이브에는 SEO 고급설정 '코드 직접입력'이 넣은 두 번째 GA4(G-84HNK1MRBG)와
+   * GTM(GTM-5W5PV3CD)이 같이 떠 있다. send_to 를 안 쓰면 gtag 는 페이지에 설정된
+   * 모든 측정ID로 이벤트를 뿌린다 — 남의 속성까지 오염된다. */
+  var ZG_ID = 'G-GZHFY596SS';
+
   /* 모든 이벤트에 공통으로 붙는 파라미터 */
   gtag('set', { zg_ver: ZG_VER });
 
@@ -33,13 +39,12 @@
   function send(name, params) {
     if (sent[name]) return;
     sent[name] = 1;
-    params = params || {};
-    params.zg_ver = ZG_VER;
-    gtag('event', name, params);
+    sendAlways(name, params);
   }
   function sendAlways(name, params) {
     params = params || {};
     params.zg_ver = ZG_VER;
+    params.send_to = ZG_ID;
     gtag('event', name, params);
   }
   function n(v) {                                   /* "34,900원" → 34900 */
