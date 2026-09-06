@@ -21,8 +21,3 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 }
 </script>
-
-<span itemscope="" itemtype="https://schema.org/Organization">
-<link itemprop="url" href="https://zengenetics.co.kr">
-<a itemprop="sameAs" href="https://www.instagram.com/official.zengenetics/"></a>
-</span>

@@ -19,11 +19,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <!-- SEO 메타 태그: 붓기파우더 관련 키워드 삽입 -->
+<title>젠제네틱스｜건강한 파우더리 데일리 루틴</title>
+
 <meta name="description" content="하루 2포로 붓기 제거 루틴 완성! 붓기가루, 붓기파우더, 붓기캔디, 붓기제거 키워드로 입소문난 젠제네틱스 공식 사이트입니다. 성분 최소주의 설계로 빠르고 안전한 붓기 관리.">
 
 <meta name="keywords" content="마그네슘, 비타민B, 비타민B군, 비타민B 컴플렉스, 붓기가루, 붓기파우더, 붓기캔디, 붓기제거, 붓기빼는법, 칼륨, 젠제네틱스, 건강기능식품, 데이팩, 붓기영양제">
 
 
+<!-- Canonical 설정 -->
+<link rel="canonical" href="https://zengenetics.co.kr/">        
 <!-- Facebook Channel Site Verification -->
 <meta name="facebook-domain-verification" content="g53fdl254soww3ko0n1f2ui50xsqeb" />
 <!-- Facebook Channel Site Verification -->
