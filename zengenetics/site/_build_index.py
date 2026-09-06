@@ -5,9 +5,9 @@ OUT = '/home/user/wespotjh/zengenetics/site/index.html'
 
 PAGES = [
  dict(g='홈 · 브랜드', items=[
-   dict(k='home', nm='홈', dek='모닝→올데이 히어로 · 제품 3종 · 세트 · 실적 · FAQ',
+   dict(k='home', nm='홈', dek='히어로 · 제품 3종 · 세트 3종 · 실적 · FAQ — 상품 카드에서 각 페이지로 연결',
         url='https://claude.ai/code/artifact/9656f1c2-3dd7-4f5f-b9a8-a26d74b25be8',
-        st='대표님 컨펌 완료', tone='ok', tag='home.html'),
+        st='피그마 수정 반영 완료', tone='ok', tag='home.html'),
    dict(k='brand-story', nm='브랜드 스토리 「하루를 고르게」', dek='zen 웰니스·명상 톤 10장 · 이미지 위 제목',
         url='https://claude.ai/code/artifact/1fd7a5ca-973c-4731-b9db-af263ab98343',
         st='마지막 확인 대기', tone='wait', tag='brand-story.html'),
@@ -24,7 +24,7 @@ PAGES = [
         st='리뷰 수 훅 교체 필요', tone='wait', tag='product-magnesium.html'),
  ]),
  dict(g='세트 3종 — 신규', items=[
-   dict(k='product-set-kmb', nm='칼마비 건강 루틴', dek='143,000 → 107,500 · 25% · 상세 15장 + 하루 루틴',
+   dict(k='product-set-kmb', nm='칼마비 건강 루틴', dek='143,000 → 107,500 · 25% · 상세 15장 + 하루 루틴 · 3박스',
         url='https://claude.ai/code/artifact/abe7bfbd-cce3-478c-97d4-526284dd94e0',
         st='신규', tone='new', tag='product-set-kmb.html'),
    dict(k='product-set-swell', nm='붓기 부스터', dek='139,000 → 104,000 · 25% · 상세 25장 + 하루 루틴',
@@ -104,7 +104,7 @@ HTML = """<!doctype html><html><head><meta charset=utf8><meta name=viewport cont
   <h1>지금까지 만든 페이지 전부</h1>
   <p>카드를 누르면 실제 페이지가 새 탭에서 열립니다. 전부 모바일 기준으로 만들었고,
      아직 <b>라이브(zengenetics.co.kr)에는 올리지 않았습니다.</b></p>
-  <div class="meta"><span>총 8장</span><span>세트 3종 신규</span><span>피그마 반영 전</span><span>2026-09-06</span></div>
+  <div class="meta"><span>총 8장</span><span>세트 3종 신규</span><span>피그마 반영 완료</span><span>2026-09-06</span></div>
 </div></header>
 
 <div class="w">
