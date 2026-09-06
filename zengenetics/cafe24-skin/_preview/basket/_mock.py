@@ -140,7 +140,9 @@ CSS = ['layout/basic/css/common.css','layout/basic/css/layout.css','layout/basic
 
 def page(extra_css):
     links = '\n'.join('<link rel="stylesheet" href="../../%s">'%c for c in CSS)
-    if extra_css: links += '\n<link rel="stylesheet" href="../../%s">'%extra_css
+    if extra_css:
+        links += '\n<link rel="stylesheet" href="../../%s">'%extra_css
+        links += '\n<script defer src="../../ds/js/basket.js"></script>'
     return ('<!doctype html><html lang="ko"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             '<title>장바구니 프리뷰</title>\n' + links +
