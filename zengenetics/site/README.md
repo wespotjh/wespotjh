@@ -22,6 +22,7 @@
 | `product-potassium.html` | 칼륨 상품페이지 | https://claude.ai/code/artifact/9ee9223d-6eff-4d2d-8d97-9e50927adbe1 |
 | `product-vitaminb.html` | 비타민B컴플렉스 상품페이지 | https://claude.ai/code/artifact/a95de7da-56b0-43b6-bd19-ac997e830b4a |
 | `product-magnesium.html` | 마그네슘 상품페이지 | https://claude.ai/code/artifact/4cd6d9e9-53fc-45ad-b8fb-6170e3d4e090 |
+| `product-set-kmb.html` | **칼마비 세트** 상품페이지 | https://claude.ai/code/artifact/abe7bfbd-cce3-478c-97d4-526284dd94e0 |
 | `brand-story.html` | 브랜드 스토리 「하루를 고르게」 (구 「적을 수 있는 것만」) | https://claude.ai/code/artifact/1fd7a5ca-973c-4731-b9db-af263ab98343 |
 
 각 파일은 아티팩트 서비스가 감싸는 `<!doctype html>…<head>` 래퍼를 포함한 **라이브 전문 그대로**다.
