@@ -1,0 +1,28 @@
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5W5PV3CD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "젠제네틱스",
+  "url": "https://zengenetics.co.kr",
+  "logo": "https://zengenetics.co.kr/img/meta/logo.png",
+  "description": "성분 최소주의 루틴 건강기능식품 브랜드, 붓기 제거를 위한 붓기파우더, 붓기가루, 붓기캔디 중심 제품 제공",
+  "sameAs": [
+    "https://smartstore.naver.com/emeraude_store",
+    "https://instagram.com/official.zengenetics"
+  ],
+  "brand": {
+    "@type": "Brand",
+    "name": "젠제네틱스"
+  }
+}
+</script>
+
+<span itemscope="" itemtype="https://schema.org/Organization">
+<link itemprop="url" href="https://zengenetics.co.kr">
+<a itemprop="sameAs" href="https://www.instagram.com/official.zengenetics/"></a>
+</span>

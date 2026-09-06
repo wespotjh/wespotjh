@@ -1,0 +1,29 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-84HNK1MRBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-84HNK1MRBG');
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5W5PV3CD');</script>
+<!-- End Google Tag Manager -->
+
+
+
+<!-- SEO 메타 태그: 붓기파우더 관련 키워드 삽입 -->
+<meta name="description" content="하루 2포로 붓기 제거 루틴 완성! 붓기가루, 붓기파우더, 붓기캔디, 붓기제거 키워드로 입소문난 젠제네틱스 공식 사이트입니다. 성분 최소주의 설계로 빠르고 안전한 붓기 관리.">
+
+<meta name="keywords" content="마그네슘, 비타민B, 비타민B군, 비타민B 컴플렉스, 붓기가루, 붓기파우더, 붓기캔디, 붓기제거, 붓기빼는법, 칼륨, 젠제네틱스, 건강기능식품, 데이팩, 붓기영양제">
+
+
+<!-- Facebook Channel Site Verification -->
+<meta name="facebook-domain-verification" content="g53fdl254soww3ko0n1f2ui50xsqeb" />
+<!-- Facebook Channel Site Verification -->
