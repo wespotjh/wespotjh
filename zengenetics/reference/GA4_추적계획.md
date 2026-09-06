@@ -32,7 +32,8 @@ var ZG_VER = '2.001';   // ds/js/ga4.js 최상단 — 개편할 때 이 줄만 �
 | `zg_scroll_depth` | 상세/홈 스크롤 10·25·50·75·90·100% | percent, seconds, page_kind, item_id | ✅ 검증 |
 | `view_cart` | 장바구니 페이지 | value, items[] | ⚠️ **미검증** |
 | `begin_checkout` | 주문서 페이지 도달 | value, checkout_route | ⚠️ **미검증** |
-| `purchase` | 주문완료 페이지 | transaction_id, value | ❌ **템플릿 필요** |
+| `purchase` | 주문완료 페이지 | transaction_id, value, shipping, tax, items[] | ✅ **검증 완료** (2026-09-06 템플릿 수령) |
+| `zg_purchase_repeat_view` | 주문완료 새로고침 | transaction_id | ✅ 검증 |
 | `login` | 카카오 로그인 버튼 클릭 | method='kakao' | ⚠️ 미검증 |
 | `zg_login_view` | 로그인 계열 페이지 진입 | login_page | ⚠️ 미검증 |
 
@@ -75,21 +76,49 @@ var ZG_VER = '2.001';   // ds/js/ga4.js 최상단 — 개편할 때 이 줄만 �
 
 ---
 
-## 4. 아직 막힌 것
+## 4. purchase — 완료 (2026-09-06)
 
-**`purchase` 하나다.** 주문완료 템플릿(`order/order_result.html`)이 작업본에 없다
-(받은 스킨은 `detail.html` / `basket.html` / `login.html` 셋뿐).
-지금 코드의 선택자는 카페24 기본 스킨 기준 **추정**이라,
-값을 못 읽으면 `purchase` 대신 `zg_purchase_unreadable` 을 쏘게 해 뒀다.
-템플릿을 받으면 그 블록만 정확히 다시 잡으면 된다 — 10분이면 된다.
+대표님이 `order/order_result.html` 을 주셔서 추정 선택자를 걷어내고 실제 마크업으로 다시 잡았다.
+목 렌더로 검증 완료. 근거·주의사항: `cafe24-skin/_preview/order_result/README.md`
+
+읽는 값: `transaction_id`(주문번호) · `value`(결제금액) · `shipping`(배송비+지역별) ·
+`tax`(부가세) · `items[]`(상품번호·상품명·옵션·수량·단가)
+
+작업 중 잡은 함정 4개:
+1. `.totalPay` 가 **두 군데** — 결제정보(결제금액)와 적립 혜택(적립 예정금액).
+   `.heading` 이 "결제금액" 인 것만 골라야 한다. 안 그러면 매출 자리에 적립금이 들어간다.
+2. `.ec-base-prdInfo` 가 **네 군데** — 주문상품 3종 + 배송지정보 + 사은품.
+   주문상품 3종만 잡는다. 배송지 것까지 세면 상품이 두 배가 된다.
+3. `배송비` 라벨이 **배송유형 소계 표에도 있고 그쪽이 문서상 먼저 나온다.**
+   `<caption>결제정보 상세</caption>` 표로 범위를 좁혔다. (테스트에서 실제로 틀렸다가 고쳤다)
+4. `.refer` 는 외화 병기(`12,000원 (USD 9.00)`)라 숫자 뽑기 전에 지운다.
+
+**새로고침 중복 차단**: 주문번호를 `localStorage` 에 남겨, 두 번째부터는
+`purchase` 대신 `zg_purchase_repeat_view` 를 쏜다.
+→ **지금 GA4 의 431건이 부풀려졌을 수 있는 이유 중 하나가 이거다.**
 
 ---
 
-## 5. 중복 집계 주의
+## 5. ⚠️ 라이브에 GA4 가 이미 두 개, GTM 까지 돌고 있다 (2026-09-06 실측)
 
-`head.html:2-10`에 gtag 스니펫이 직접 박혀 있다.
-나중에 **카페24 관리자의 GA4 연동 기능을 켜면 태그가 두 벌 돌아 전부 2배로 잡힌다.**
-켤 거면 그 스니펫을 먼저 빼야 한다. 지금은 스니펫 쪽만 쓰는 전제로 만들었다.
+라이브 페이지 소스를 세어 보니:
+
+| 태그 | 어디서 오는가 |
+|---|---|
+| `G-GZHFY596SS` | **우리 스킨** `moa/layout/head.html:2-10` — 우리가 분석해 온 속성(498152534) |
+| `G-84HNK1MRBG` | **스킨에 없다.** 관리자 설정이나 설치된 앱이 주입 |
+| `GTM-5W5PV3CD` | **스킨에 없다.** 위와 같은 자리에서 주입 |
+
+`grep -rn "84HNK1MRBG|GTM-5W5PV3CD" cafe24-skin/` → **0건**. 스킨 파일이 아니다.
+JSON-LD(`aggregateRating 4.8 / reviewCount 413`)와 별도 SEO 메타·`<title>` 도 같은 덩어리에서 주입된다.
+
+**지금 숫자가 2배로 잡히는 상태는 아니다** — 서로 다른 속성이라 각자 센다.
+(498152534 는 page_view 93,707 / 세션 57,962 = 1.6배로 정상 범위)
+
+확인이 필요한 것:
+- `G-84HNK1MRBG` 가 무엇인지 (대행사? 예전 설정? 앱?)
+- `GTM-5W5PV3CD` 안에 `G-GZHFY596SS` 로 보내는 태그가 있는지 → 있으면 그때부터 2배가 된다
+- 카페24 관리자 GA4 연동을 켤 거면 `head.html` 스니펫을 먼저 빼야 한다
 
 ---
 

@@ -236,28 +236,125 @@
    *      값을 못 읽으면 purchase 를 쏘지 않는다 — 틀린 매출을 넣지 않기 위해서다.
    *      (못 쏜 경우 zg_purchase_unreadable 로 남겨 놓아 바로 알 수 있게 한다)
    * ================================================================== */
-  if (/\/order\/order_result\.html/i.test(path)) {
-    var oid = '';
-    var oidEl = document.querySelector('[class*="orderNum"], [id*="order_id"], .order_id');
-    oid = txt(oidEl).replace(/[^0-9A-Za-z\-]/g, '');
-    if (!oid) {
-      var m2 = document.body.innerHTML.match(/\b(\d{8}-\d{7})\b/);   /* 카페24 주문번호 형식 */
-      if (m2) oid = m2[1];
+  var resultRoot = document.querySelector('[module="Order_result"], #mCafe24Order');
+  if (resultRoot && /order_result/i.test(path + ' ' + document.title)) {
+
+    /* 표에서 <th>라벨</th><td>값</td> 을 찾아 숫자만 뽑는다.
+     * .refer 는 외화 병기(예: "(USD 25.00)") 라 반드시 뺀다. */
+    function numFromEl(el) {
+      if (!el) return null;
+      var c = el.cloneNode(true);
+      Array.prototype.forEach.call(c.querySelectorAll('.refer'), function (r) { r.remove(); });
+      var v = n(c.textContent);
+      return v > 0 ? v : null;
     }
-    var payEl = document.querySelector('[class*="totalPay"], [id*="total_price"], .payment strong');
-    var pay = n(txt(payEl));
+    function rowNum(scope, label) {
+      var ths = (scope || document).querySelectorAll('th');
+      for (var i = 0; i < ths.length; i++) {
+        if (txt(ths[i]) === label) {
+          var td = ths[i].parentElement && ths[i].parentElement.querySelector('td');
+          return numFromEl(td);
+        }
+      }
+      return null;
+    }
+
+    /* --- 주문번호: .resultInfo 표의 "주문번호" 행 (템플릿상 {$order_id}) --- */
+    var oid = '';
+    var info = resultRoot.querySelector('.resultInfo');
+    var ths2 = (info || resultRoot).querySelectorAll('th');
+    for (var i2 = 0; i2 < ths2.length; i2++) {
+      if (txt(ths2[i2]) === '주문번호') {
+        var td2 = ths2[i2].parentElement.querySelector('td');
+        oid = txt(td2 && (td2.querySelector('.txtEm') || td2)).replace(/\s+/g, '');
+        break;
+      }
+    }
+
+    /* --- 결제금액 ---
+     * 하단 .totalPay 가 정본이다. 단 "적립 예정금액" 블록도 .totalPay 를 쓰므로
+     * heading 이 정확히 "결제금액" 인 것만 고른다. 없으면 상단 표에서 읽는다. */
+    var pay = null;
+    var pays = resultRoot.querySelectorAll('.totalPay');
+    for (var i3 = 0; i3 < pays.length; i3++) {
+      if (txt(pays[i3].querySelector('.heading')) === '결제금액') {
+        pay = numFromEl(pays[i3].querySelector('strong'));
+        break;
+      }
+    }
+    if (pay === null) pay = rowNum(info, '결제금액');
+
+    /* --- 배송비 / 부가세 ---
+     * 주의: '배송비' 라벨은 배송유형별 소계 표([기본배송] 등)에도 있고 그쪽이 문서상 먼저 나온다.
+     *       반드시 <caption>결제정보 상세</caption> 표 안에서만 읽는다. */
+    var payTable = null;
+    var caps = resultRoot.querySelectorAll('caption');
+    for (var i4 = 0; i4 < caps.length; i4++) {
+      if (txt(caps[i4]) === '결제정보 상세') { payTable = caps[i4].closest('table'); break; }
+    }
+    var shipFee = payTable ? rowNum(payTable, '배송비') : null;
+    var localFee = payTable ? rowNum(payTable, '지역별 배송비') : null;
+    var vat = payTable ? rowNum(payTable, '부가세') : null;
+
+    /* --- 상품 목록 ---
+     * 국내(기본)·개별·해외 주문내역 세 모듈만 본다.
+     * 배송지정보(Order_deliverybindinglist)와 사은품(Order_giftresultlist)은 제외 —
+     * 같은 .ec-base-prdInfo 마크업을 쓰기 때문에 넣으면 중복된다. */
+    var items = [];
+    var lists = resultRoot.querySelectorAll(
+      '[module="Order_normalresultlist"], [module="Order_individualresultlist"], [module="Order_oversearesultlist"]'
+    );
+    Array.prototype.forEach.call(lists, function (list) {
+      Array.prototype.forEach.call(list.querySelectorAll('.ec-base-prdInfo'), function (box) {
+        var link = box.querySelector('.thumbnail a[href*="product_no="], .prdName a[href*="product_no="]');
+        var mm = link ? (link.getAttribute('href') || '').match(/product_no=(\d+)/) : null;
+        var nm = txt(box.querySelector('.prdName'));
+        if (!nm) return;
+
+        var qty = 1, buy = null, variant = '';
+        Array.prototype.forEach.call(box.querySelectorAll('li'), function (li) {
+          var t = txt(li);
+          if (/^수량\s*:/.test(t)) { var q = n(t); if (q > 0) qty = q; }
+          else if (/^상품구매금액\s*:/.test(t) && buy === null) { buy = numFromEl(li); }
+        });
+        var optEl = box.querySelector('p.option');
+        if (optEl) variant = txt(optEl).replace(/\s+/g, ' ');
+
+        items.push({
+          item_id: mm ? mm[1] : '',
+          item_name: nm,
+          item_variant: variant,
+          quantity: qty,
+          price: buy !== null && qty > 0 ? Math.round(buy / qty) : 0
+        });
+      });
+    });
 
     if (oid && pay) {
-      send('purchase', {
-        transaction_id: oid,
-        currency: 'KRW',
-        value: pay
-        /* items 는 템플릿 확보 후 추가 */
-      });
+      /* 새로고침·뒤로가기로 같은 주문이 두 번 잡히는 것을 막는다.
+       * (지금 GA4 의 431건이 부풀려졌을 수 있는 이유 중 하나다) */
+      var key = 'zg_p_' + oid, dup = false;
+      try { dup = !!localStorage.getItem(key); if (!dup) localStorage.setItem(key, '1'); } catch (e) {}
+      if (!dup) {
+        var pp = {
+          transaction_id: oid,
+          currency: 'KRW',
+          value: pay,
+          item_count: items.length
+        };
+        if (shipFee !== null || localFee !== null) pp.shipping = (shipFee || 0) + (localFee || 0);
+        if (vat !== null) pp.tax = vat;
+        if (items.length) pp.items = items;
+        send('purchase', pp);
+      } else {
+        send('zg_purchase_repeat_view', { transaction_id: oid });
+      }
     } else {
+      /* 값을 못 읽으면 매출을 지어내지 않는다. 대신 신호를 남긴다. */
       send('zg_purchase_unreadable', {
         has_order_id: oid ? 1 : 0,
-        has_value: pay ? 1 : 0
+        has_value: pay ? 1 : 0,
+        item_count: items.length
       });
     }
   }
