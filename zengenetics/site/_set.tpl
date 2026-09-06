@@ -35,12 +35,14 @@
 
   <!-- cafe24: 할인율은 스킨 JS(calcDiscountPer)가 계산한다. % 를 타이핑하지 말 것 (규칙 11)
        .off = <span class="discount-per">, .now = {$product_price}, .was = {$product_custom} -->
-  <div class="prow"><span class="off">@@OFF@@</span><span class="now">@@PRICE@@</span><span class="was">@@WAS@@</span></div>
+  @@PRICEROW@@
 
   <div class="badges">@@BADGES@@</div>
 
   <div class="kit n@@KITN@@">@@KIT@@</div>
 </div>
+
+@@OPTIONS@@
 
 <!-- ── 하루 루틴 서사 (대표님 지시 2026-09-06) ── -->
 <div class="rt">
@@ -141,10 +143,11 @@
   @@TYPEJS@@
 
   /* 가격 — cafe24 상품등록 값. 이식 시 {$product_price}/{$product_custom} 로 치환 */
-  var SET=@@NPRICE@@, SETWAS=@@NWAS@@;
+  var SET=@@NPRICE@@, SETWAS=@@NWAS@@, HASOPT=@@HASOPT@@;
   var ADDS=@@ADDS@@;
   var FREE=50000, SHIPFEE=3500;
   var qty=1, picked={};
+  var optAdd=0;
 
   var ac=el('adds');
   ADDS.forEach(function(a){
@@ -163,17 +166,22 @@
     ac.appendChild(d);
   });
 
-  function paintQty(){ el('qv').textContent=qty; el('qm').disabled=(qty<=1); }
+  function paintQty(){ el('qv').textContent=qty; el('qm').disabled=(qty<=1); el('qp').disabled=(qty>=@@MAXQTY@@); }
   el('qm').addEventListener('click',function(){ if(qty>1){qty--;paintQty();calc();} });
-  el('qp').addEventListener('click',function(){ if(qty<10){qty++;paintQty();calc();} });
+  el('qp').addEventListener('click',function(){ if(qty<@@MAXQTY@@){qty++;paintQty();calc();} });
 
   function calc(){
-    var goods=SET*qty, listSum=SETWAS*qty;
+    var goods=(SET+optAdd)*qty, listSum=(SETWAS+optAdd)*qty;
     ADDS.forEach(function(a){ if(picked[a.id]){ goods+=a.price; listSum+=a.price; } });
     var disc=listSum-goods;
     var ship=(goods>=FREE)?0:SHIPFEE;
-    el('sGoods').textContent=won(listSum);
-    el('sDisc').textContent='−'+won(disc);
+    /* 옵션이 걸린 상품은 옵션마다 정가 기준이 달라, 지어낸 할인액을 보여주지 않는다.
+       실제 값은 cafe24 주문서에서 계산된다. */
+    var rowG=el('sGoods').parentNode, rowD=el('sDisc').parentNode;
+    if(HASOPT || disc<=0){ rowG.hidden=true; rowD.hidden=true; }
+    else { rowG.hidden=false; rowD.hidden=false;
+           el('sGoods').textContent=won(listSum);
+           el('sDisc').textContent='−'+won(disc); }
     el('sShip').textContent = ship? won(ship) : '무료';
     el('sTotal').textContent=won(goods+ship);
     el('barTotal').textContent=won(goods+ship);
@@ -208,6 +216,10 @@
   /* cafe24 이식 시 onclick="{$action_basket}" / "{$action_buy}" 로 바뀐다 */
   el('btnCart').addEventListener('click',function(){ toast(summary()+'를 장바구니에 담았습니다'); });
   el('btnBuy').addEventListener('click',function(){ toast(summary()+' 구매로 넘어갑니다'); });
+
+  /* 처음 선택돼 있는 옵션의 추가금액을 합계에 반영한다 */
+  var _oc=document.getElementById('opt24');
+  if(_oc){ var _s=_oc.querySelector('[aria-checked="true"]'); if(_s) optAdd=Number(_s.dataset.add||0); }
 
   paintQty(); calc();
 })();

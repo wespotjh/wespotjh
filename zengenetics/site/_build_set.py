@@ -90,6 +90,27 @@ EXTRA = """
   .kit .c s{display:block;font-family:var(--f-b);font-size:11px;color:var(--ink-3);
             text-decoration:none;margin-top:3px}
   .rate a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--hair-2)}
+
+  /* 카페24 옵션 선택 (상품에 옵션이 걸린 경우만) */
+  .opt24{padding-block:30px;border-top:1px solid var(--hair)}
+  .opt24 h2{font-size:16px;font-weight:700;letter-spacing:-.015em;margin:0 0 4px}
+  .opt24 .hint{font-size:13px;color:var(--ink-2);margin:0 0 16px;word-break:keep-all}
+  .opt24 .list{display:grid;gap:9px}
+  .opt24 .o{display:grid;grid-template-columns:20px 1fr auto;gap:12px;align-items:center;
+            border:1px solid var(--hair-2);border-radius:13px;padding:14px 15px;background:#fff;
+            cursor:pointer;transition:border-color .16s,box-shadow .16s}
+  .opt24 .o[aria-checked="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+  .opt24 .tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--hair-2);
+               display:grid;place-items:center}
+  .opt24 .o[aria-checked="true"] .tick{border-color:var(--ink);background:var(--ink)}
+  .opt24 .tick i{width:7px;height:7px;border-radius:50%;background:#fff;display:none}
+  .opt24 .o[aria-checked="true"] .tick i{display:block}
+  .opt24 .nm{font-weight:600;font-size:14.5px;letter-spacing:-.015em;word-break:keep-all;line-height:1.5}
+  .opt24 .nm em{display:block;font-style:normal;font-size:12px;color:var(--ink-2);margin-top:3px}
+  .opt24 .pz{text-align:right;font-family:var(--f-d);font-weight:700;font-size:15px;
+             font-variant-numeric:tabular-nums;white-space:nowrap}
+  .opt24 .flag{font-size:10.5px;font-weight:700;color:#fff;background:var(--acc-deep);
+               border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:1px}
 """
 
 # ── 설정 ────────────────────────────────────────────────────────────────
@@ -202,6 +223,142 @@ CFG = {
          ('md','마그네슘 데이팩','2g × 6포 · 맛보기',15000,'magnesium'),
          ('bd','비타민B 데이팩','2g × 6포 · 맛보기',15000,'vitaminb')],
  ),
+
+ # ── 데이팩 3종 · 생애 첫 구매 EVENT (2026-09-06 추가) ──────────────
+ 'dp_k': dict(
+   slug='daypack-potassium', out='product-daypack-potassium.html',
+   doctitle='젠제네틱스 칼륨 데이팩 상품페이지', gnb='칼륨 데이팩',
+   brand='Potassium 525mg · Day pack', h1='칼륨 데이팩',
+   sub='2.5g × 6포 — 하루 두 포로 사흘, 가볍게 시작하는 구성',
+   prd_no=60, price=14000, was=None, off='',
+   accent=('#D9641F','#F6E3D5','#8F3608'), tlline='var(--k)',
+   badges=['6포 구성','하루 두 포','물 없이 3초','HACCP','당류가공품'],
+   kit=[('potassium','칼륨 데이팩','2.5g &times; 6포<br>라임')],
+   rt_h2='사흘, 이렇게 써 보세요',
+   rt_dek='한 포에 262.5mg입니다. 하루 두 포 기준이라 6포는 사흘치입니다.',
+   steps=[
+     dict(cls='k', pouch='potassium', clock='Day &amp; Evening', chip='하루 2포', h='낮과 저녁 &mdash; 칼륨',
+          p='짜게 드신 날에 챙기는 자리입니다. 두 포로 하루 525mg을 채웁니다. 아래 두 타입 중 편한 쪽을 고르시면 됩니다.',
+          meta=['525mg / 하루','라임','당류가공품'], type_after=True),
+   ],
+   rt_foot='사흘 써 보시고 맞으면 20포 한 상자로 넘어가시면 됩니다.',
+   qty_hint='한 상자에 6포가 들어 있습니다. 5만원 미만이면 배송비 3,500원이 붙습니다.',
+   detail_h2='칼륨 데이팩 상세 안내',
+   how='하루 <b>두 포</b>가 기준입니다.<br>뜯어서 그대로 드셔도 되고, 물 한 잔에 타서 드셔도 됩니다.',
+   compose='젠제네틱스 포타슘 칼륨 525mg 다이렉트 데이팩 &middot; 2.5g &times; <b>6포</b> &middot; 라임<br>'
+           '칼륨 262.5mg(1포당) &middot; 독일 Jungbunzlauer 구연산칼륨 &middot; HACCP &middot; 콜마비앤에이치 생산<br>'
+           '20포 정품은 45,000원 &rarr; 34,900원입니다.',
+   note2='*칼륨은 당류가공품이며 건강기능식품이 아닙니다',
+   cartname='칼륨 데이팩',
+   adds=[('md','마그네슘 데이팩','2g × 6포 · 맛보기',15000,'magnesium'),
+         ('bd','비타민B 데이팩','2g × 6포 · 맛보기',15000,'vitaminb'),
+         ('k','젠제네틱스 칼륨 20포','2.5g × 20포 · 라임',34900,'potassium')],
+ ),
+
+ 'dp_m': dict(
+   slug='daypack-magnesium', out='product-daypack-magnesium.html',
+   doctitle='젠제네틱스 마그네슘 데이팩 상품페이지', gnb='마그네슘 데이팩',
+   brand='Magnesium 400mg · Day pack', h1='마그네슘 데이팩',
+   sub='2g × 6포 — 하루 한 포로 엿새, 운동 후와 잠들기 전에',
+   prd_no=61, price=15000, was=None, off='',
+   accent=('#7C21CE','#ECE0FA','#561FAA'), tlline='var(--mg)',
+   badges=['6포 · 엿새치','하루 한 포 400mg','포도향','GMP','건강기능식품'],
+   kit=[('magnesium','마그네슘 데이팩','2g &times; 6포<br>포도향')],
+   rt_h2='엿새, 밤마다 한 포',
+   rt_dek='한 포에 400mg입니다. 하루 한 포면 그날 몫이 끝나서 6포가 엿새치입니다.',
+   steps=[
+     dict(cls='mg', pouch='magnesium', clock='After &amp; Night', chip='하루 1포', h='운동 후, 또는 자기 전 &mdash; 마그네슘',
+          p='다 뛰고 나서, 혹은 하루를 마무리하며 채우는 자리입니다. 한 포에 400mg이라 한 포면 그날 몫을 다 채웁니다.',
+          meta=['400mg / 한 포','포도향','건강기능식품']),
+   ],
+   rt_foot='엿새 써 보시고 맞으면 20포 한 상자로 넘어가시면 됩니다.',
+   qty_hint='한 상자에 6포가 들어 있습니다. 5만원 미만이면 배송비 3,500원이 붙습니다.',
+   detail_h2='마그네슘 데이팩 상세 안내',
+   how='하루 <b>한 포</b>가 기준입니다.<br>뜯어서 그대로 드셔도 되고, 물 한 잔에 타서 드셔도 됩니다.',
+   compose='젠제네틱스 마그네슘 400mg 다이렉트 데이팩 &middot; 2g &times; <b>6포</b> &middot; 포도향<br>'
+           '미국 AIC 원료 &middot; GMP &middot; 콜마비앤에이치 생산 &middot; 건강기능식품<br>'
+           '20포 정품은 49,000원 &rarr; 37,900원입니다.',
+   note2='*마그네슘은 건강기능식품이며, 질병의 예방 및 치료를 위한 의약품이 아닙니다',
+   cartname='마그네슘 데이팩',
+   adds=[('kd','칼륨 데이팩','2.5g × 6포 · 맛보기',14000,'potassium'),
+         ('bd','비타민B 데이팩','2g × 6포 · 맛보기',15000,'vitaminb'),
+         ('m','젠제네틱스 마그네슘 20포','2g × 20포 · 포도향',37900,'magnesium')],
+ ),
+
+ 'dp_b': dict(
+   slug='daypack-vitaminb', out='product-daypack-vitaminb.html',
+   doctitle='젠제네틱스 비타민B 데이팩 상품페이지', gnb='비타민B 데이팩',
+   brand='Vitamin B Complex · Day pack', h1='비타민B 데이팩',
+   sub='2g × 6포 — 하루 한 포로 엿새, 아침마다 한 포',
+   prd_no=62, price=15000, was=None, off='',
+   accent=('#E11553','#FBDCE6','#A50A3C'), tlline='var(--b)',
+   badges=['6포 · 엿새치','B1 · B2 · B6 · B12','사과향','GMP','건강기능식품'],
+   kit=[('vitaminb','비타민B 데이팩','2g &times; 6포<br>사과향')],
+   rt_h2='엿새, 아침마다 한 포',
+   rt_dek='하루 한 포 기준이라 6포가 엿새치입니다. 가방에 넣어 두시면 됩니다.',
+   steps=[
+     dict(cls='b', pouch='vitaminb', clock='Morning', chip='하루 1포', h='아침 &mdash; 비타민B 컴플렉스',
+          p='하루의 시동을 거는 자리입니다. 물 없이 뜯어서 그대로 드셔도 되고, 아침 물 한 잔에 타셔도 됩니다.',
+          meta=['B1 &middot; B2 &middot; B6 &middot; B12','사과향','건강기능식품']),
+   ],
+   rt_foot='엿새 써 보시고 맞으면 20포 한 상자로 넘어가시면 됩니다.',
+   qty_hint='한 상자에 6포가 들어 있습니다. 5만원 미만이면 배송비 3,500원이 붙습니다.',
+   detail_h2='비타민B 데이팩 상세 안내',
+   how='하루 <b>한 포</b>가 기준입니다.<br>뜯어서 그대로 드셔도 되고, 물 한 잔에 타서 드셔도 됩니다.',
+   compose='젠제네틱스 비타민B 컴플렉스 다이렉트 데이팩 &middot; 2g &times; <b>6포</b> &middot; 사과향<br>'
+           'B1 &middot; B2 &middot; B6 &middot; B12 네 가지 &middot; GMP &middot; 콜마비앤에이치 생산 &middot; 건강기능식품<br>'
+           '20포 정품은 49,000원 &rarr; 37,900원입니다.',
+   note2='*비타민B 컴플렉스는 건강기능식품이며, 질병의 예방 및 치료를 위한 의약품이 아닙니다',
+   cartname='비타민B 데이팩',
+   adds=[('kd','칼륨 데이팩','2.5g × 6포 · 맛보기',14000,'potassium'),
+         ('md','마그네슘 데이팩','2g × 6포 · 맛보기',15000,'magnesium'),
+         ('b','젠제네틱스 비타민B 20포','2g × 20포 · 사과향',37900,'vitaminb')],
+ ),
+
+ 'first': dict(
+   slug='first-buy', out='product-first-buy.html',
+   doctitle='젠제네틱스 생애 첫 구매 EVENT 상품페이지', gnb='생애 첫 구매 EVENT',
+   brand='First purchase only', h1='생애 첫 구매 특가',
+   sub='데이팩으로 먼저 써 보시라고 만든 구성입니다 — 계정당 한 번',
+   prd_no=71, price=8900, was=14000, off='36%',
+   accent=('#3757C4','#E4E9F8','#1A2B6B'), tlline='linear-gradient(to bottom,var(--k),var(--mg) 50%,var(--b))',
+   badges=['계정당 한 번','체험형 이벤트','쿠폰 사용 불가','재고 소진 시 종료','물 없이 3초'],
+   kit=[('potassium','칼륨','2.5g &times; 6포<br>라임'),
+        ('magnesium','마그네슘','2g &times; 6포<br>포도향'),
+        ('vitaminb','비타민B','2g &times; 6포<br>사과향')],
+   opt_h2='어느 것부터 써 보시겠어요?',
+   opt_hint='아래 네 가지 중 하나를 고르시면 됩니다. 1+1은 같은 데이팩 두 상자입니다.',
+   options=[
+     dict(nm='붓기파우더(칼륨) 데이팩 2 box', mt='생애 첫 1+1 · 2.5g × 6포 × 2', add=5100, flag='BEST'),
+     dict(nm='붓기파우더(칼륨) 데이팩 1 box', mt='지금 36% · 2.5g × 6포', add=0),
+     dict(nm='마그네슘 데이팩 2 box', mt='생애 첫 1+1 · 2g × 6포 × 2', add=6100),
+     dict(nm='비타민B 컴플렉스 데이팩 2 box', mt='생애 첫 1+1 · 2g × 6포 × 2', add=6100),
+   ],
+   rt_h2='세 가지가 각각 다른 시간에 들어갑니다',
+   rt_dek='고르신 것이 하루의 어디에 들어가는지만 보시면 됩니다.',
+   steps=[
+     dict(cls='b', pouch='vitaminb', clock='Morning', chip='하루 1포', h='아침 &mdash; 비타민B 컴플렉스',
+          p='하루의 시동을 거는 자리입니다. B1 · B2 · B6 · B12 네 가지가 한 포에 들어 있습니다.',
+          meta=['사과향','건강기능식품']),
+     dict(cls='k', pouch='potassium', clock='Day &amp; Evening', chip='하루 2포', h='낮과 저녁 &mdash; 칼륨',
+          p='짜게 드신 날에 챙기는 자리입니다. 한 포에 262.5mg, 두 포로 하루 525mg을 채웁니다.',
+          meta=['라임','당류가공품']),
+     dict(cls='mg', pouch='magnesium', clock='Night', chip='하루 1포', h='자기 전 &mdash; 마그네슘',
+          p='하루를 마무리하는 자리입니다. 한 포에 400mg, 한 포면 그날 몫을 다 채웁니다.',
+          meta=['포도향','건강기능식품']),
+   ],
+   rt_foot='칼륨은 하루 두 포라 6포가 사흘치, 마그네슘과 비타민B는 하루 한 포라 6포가 엿새치입니다.',
+   qty_hint='계정당 한 번만 구매하실 수 있는 상품입니다.', maxqty=1,
+   detail_h2='생애 첫 구매 EVENT 상세 안내',
+   how='비타민B는 아침 <b>한 포</b>, 칼륨은 낮·저녁 <b>두 포</b>, 마그네슘은 자기 전 <b>한 포</b>가 기준입니다.<br>'
+       '셋 다 뜯어서 그대로 드셔도 되고, 물 한 잔에 타서 드셔도 됩니다.',
+   compose='고르신 옵션의 데이팩이 배송됩니다. 각 데이팩은 <b>6포</b> 구성입니다.<br>'
+           '칼륨 2.5g × 6포 · 라임 / 마그네슘 2g × 6포 · 포도향 / 비타민B 2g × 6포 · 사과향<br>'
+           '<b>계정당 한 번</b>만 구매하실 수 있고, <b>쿠폰은 사용하실 수 없습니다.</b> 재고 소진 시 종료될 수 있습니다.',
+   note2='*칼륨은 당류가공품이며 건강기능식품이 아닙니다. 마그네슘과 비타민B 컴플렉스는 건강기능식품입니다',
+   cartname='생애 첫 구매 EVENT',
+   adds=[],
+ ),
 }
 
 TYPE_BLOCK = """
@@ -218,6 +375,21 @@ TYPE_BLOCK = """
         <div class="sl2"><i>SECOND</i><b id="s2">기상 직후 1포</b></div>
       </div>
     </div>
+"""
+
+OPT_JS = """
+  /* 옵션 선택 — 선택한 옵션의 추가금액이 합계에 더해진다 (cafe24 옵션 추가금과 같은 방식) */
+  var oc = document.getElementById('opt24');
+  if (oc) {
+    Array.prototype.forEach.call(oc.children, function (n) {
+      n.addEventListener('click', function () {
+        Array.prototype.forEach.call(oc.children, function (m) { m.setAttribute('aria-checked', 'false'); });
+        n.setAttribute('aria-checked', 'true');
+        optAdd = Number(n.dataset.add || 0);
+        calc();
+      });
+    });
+  }
 """
 
 TYPE_JS = """
@@ -242,6 +414,8 @@ def build(key):
         hero = [enc(SC+'hero1.webp', 1000, 84), enc(SC+'hero2.webp', 1000, 84)]
     else:
         hero = [enc(SC+f'{slug}_hero1.webp', 1000, 84), enc(SC+f'{slug}_hero2.webp', 1000, 84)]
+    if not c.get('adds'):
+        pass
 
     css = cssP.replace('--acc:#D9641F; --acc-soft:#F6E3D5; --acc-deep:#8F3608;',
                        '--acc:%s; --acc-soft:%s; --acc-deep:%s;' % c['accent'])
@@ -270,6 +444,39 @@ def build(key):
         if s.get('type_after'):
             steps += TYPE_BLOCK; has_type = True
 
+    # 가격 행 — 정가=판매가(또는 정가 없음)면 정가·할인율 줄을 넣지 않는다.
+    # cafe24 스킨도 같은 조건에서 product_custom_css 를 displaynone 처리한다.
+    if c.get('was'):
+        pricerow = ('<div class="prow"><span class="off">%s</span>'
+                    '<span class="now">%s</span><span class="was">%s</span></div>'
+                    % (c['off'], '{:,}원'.format(c['price']), '{:,}원'.format(c['was'])))
+    else:
+        pricerow = ('<!-- 정가(product_custom)와 판매가가 같아 정가 줄이 없다.'
+                    ' cafe24 스킨도 이 경우 자동으로 정가 줄을 숨긴다 -->\n'
+                    '  <div class="prow"><span class="now">%s</span></div>'
+                    % '{:,}원'.format(c['price']))
+
+    # 옵션 블록 — cafe24 상품에 옵션이 걸린 경우만
+    if c.get('options'):
+        rows = ''
+        for i, o in enumerate(c['options']):
+            flag = '<span class="flag">%s</span>' % o['flag'] if o.get('flag') else ''
+            rows += ('      <div class="o" role="radio" data-i="%d" data-add="%d" aria-checked="%s">'
+                     '<span class="tick"><i></i></span>'
+                     '<span class="nm">%s%s<em>%s</em></span>'
+                     '<span class="pz">%s</span></div>\n'
+                     % (i, o.get('add', 0), 'true' if i == 0 else 'false',
+                        flag, o['nm'], o['mt'],
+                        ('+' + '{:,}'.format(o['add']) + '원') if o.get('add') else '기본'))
+        options = ('<div class="w opt24">\n'
+                   '  <!-- cafe24: <div module="product_option"> … {$product_option} 으로 치환된다.\n'
+                   '       옵션명·추가금액은 관리자 상품등록 값이라 여기서 지어내지 않는다 -->\n'
+                   '  <h2>%s</h2>\n  <p class="hint">%s</p>\n'
+                   '  <div class="list" id="opt24" role="radiogroup">\n%s  </div>\n</div>'
+                   % (c['opt_h2'], c['opt_hint'], rows))
+    else:
+        options = ''
+
     adds_js = json.dumps([dict(id=a[0], nm=a[1], mt=a[2], price=a[3], img=a[4]) for a in c['adds']],
                          ensure_ascii=False)
 
@@ -277,15 +484,16 @@ def build(key):
     for k, v in dict(
         CSS0=css0, CSS1=css, EXTRA=extra,
         DOCTITLE=c['doctitle'], GNB=c['gnb'], BRAND=c['brand'], H1=c['h1'], SUB=c['sub'],
-        PRDNO=str(c['prd_no']), OFF=c['off'],
-        PRICE='{:,}원'.format(c['price']), WAS='{:,}원'.format(c['was']),
+        PRDNO=str(c['prd_no']), PRICEROW=pricerow, OPTIONS=options,
         BADGES=''.join('<span>%s</span>' % b for b in c['badges']),
         KITN=str(len(c['kit'])), KIT=kit, KITJS=kit_js,
         RTH2=c['rt_h2'], RTDEK=c['rt_dek'], STEPS=steps, STEPJS=step_js, RTFOOT=c['rt_foot'],
-        TYPEJS=(TYPE_JS if has_type else ''),
+        TYPEJS=(TYPE_JS if has_type else '') + (OPT_JS if c.get('options') else ''),
         QTYHINT=c['qty_hint'], DETAILH2=c['detail_h2'], HOW=c['how'], COMPOSE=c['compose'],
         NOTE2=c['note2'], CARTNAME=c['cartname'],
-        NPRICE=str(c['price']), NWAS=str(c['was']), ADDS=adds_js,
+        NPRICE=str(c['price']), NWAS=str(c.get('was') or c['price']),
+        HASOPT=('true' if c.get('options') else 'false'),
+        MAXQTY=str(c.get('maxqty', 10)), ADDS=adds_js,
         STK=json.dumps(stk, ensure_ascii=False), HERO=json.dumps(hero), DET=json.dumps(det),
     ).items():
         html = html.replace('@@%s@@' % k, v)
@@ -299,5 +507,5 @@ TPL = io.open(KMB+'set.tpl', encoding='utf-8').read()
 
 if __name__ == '__main__':
     import sys
-    for k in (sys.argv[1:] or ['kmb','swell','perf']):
+    for k in (sys.argv[1:] or ['kmb','swell','perf','dp_k','dp_m','dp_b','first']):
         build(k)

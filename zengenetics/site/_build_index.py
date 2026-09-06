@@ -5,7 +5,7 @@ OUT = '/home/user/wespotjh/zengenetics/site/index.html'
 
 PAGES = [
  dict(g='홈 · 브랜드', items=[
-   dict(k='home', nm='홈', dek='히어로 · 제품 3종 · 세트 3종 · 실적 · FAQ — 상품 카드에서 각 페이지로 연결',
+   dict(k='home', nm='홈', dek='히어로 · 단품 3 · 데이팩 3 · 세트 3 · 첫구매 — 카드에서 각 페이지로 연결',
         url='https://claude.ai/code/artifact/9656f1c2-3dd7-4f5f-b9a8-a26d74b25be8',
         st='피그마 수정 반영 완료', tone='ok', tag='home.html'),
    dict(k='brand-story', nm='브랜드 스토리 「하루를 고르게」', dek='zen 웰니스·명상 톤 10장 · 이미지 위 제목',
@@ -22,6 +22,20 @@ PAGES = [
    dict(k='product-magnesium', nm='마그네슘', dek='49,000 → 37,900 · 23% · 상세 16장',
         url='https://claude.ai/code/artifact/4cd6d9e9-53fc-45ad-b8fb-6170e3d4e090',
         st='리뷰 수 훅 교체 필요', tone='wait', tag='product-magnesium.html'),
+ ]),
+ dict(g='데이팩 · 첫 구매 — 신규', items=[
+   dict(k='product-first-buy', nm='생애 첫 구매 EVENT', dek='14,000 → 8,900 · 36% · 상세 19장 · 옵션 4종(1+1)',
+        url='https://claude.ai/code/artifact/03ca55f6-b81f-43b3-afec-95695869e1bf',
+        st='신규', tone='new', tag='product-first-buy.html'),
+   dict(k='product-daypack-potassium', nm='칼륨 데이팩', dek='14,000 · 2.5g × 6포 · 하루 두 포로 사흘 · 상세 14장',
+        url='https://claude.ai/code/artifact/a4157239-8087-48d0-9423-ec0d287f8c20',
+        st='신규', tone='new', tag='product-daypack-potassium.html'),
+   dict(k='product-daypack-magnesium', nm='마그네슘 데이팩', dek='15,000 · 2g × 6포 · 하루 한 포로 엿새 · 상세 16장',
+        url='https://claude.ai/code/artifact/4de04db4-4a97-4caa-8904-e52e6527f1da',
+        st='신규', tone='new', tag='product-daypack-magnesium.html'),
+   dict(k='product-daypack-vitaminb', nm='비타민B 데이팩', dek='15,000 · 2g × 6포 · 하루 한 포로 엿새 · 상세 15장',
+        url='https://claude.ai/code/artifact/16a37a90-f6aa-41c3-83bb-9be2e06f97a0',
+        st='신규', tone='new', tag='product-daypack-vitaminb.html'),
  ]),
  dict(g='세트 3종 — 신규', items=[
    dict(k='product-set-kmb', nm='칼마비 건강 루틴', dek='143,000 → 107,500 · 25% · 상세 15장 + 하루 루틴 · 3박스',
@@ -104,13 +118,13 @@ HTML = """<!doctype html><html><head><meta charset=utf8><meta name=viewport cont
   <h1>지금까지 만든 페이지 전부</h1>
   <p>카드를 누르면 실제 페이지가 새 탭에서 열립니다. 전부 모바일 기준으로 만들었고,
      아직 <b>라이브(zengenetics.co.kr)에는 올리지 않았습니다.</b></p>
-  <div class="meta"><span>총 8장</span><span>세트 3종 신규</span><span>피그마 반영 완료</span><span>2026-09-06</span></div>
+  <div class="meta"><span>총 12장</span><span>데이팩·첫구매·세트 7종 신규</span><span>피그마 반영 완료</span><span>2026-09-06</span></div>
 </div></header>
 
 <div class="w">
 @@CARDS@@
 <div class="foot">
-  <b>보시는 순서 제안</b> — 홈 → 브랜드 스토리 → 단품 3종 → 세트 3종.<br>
+  <b>보시는 순서 제안</b> — 홈 → 브랜드 스토리 → 단품 3종 → 데이팩·첫구매 → 세트 3종.<br>
   <b>가격·할인율</b>은 cafe24 상품등록 값 그대로입니다. %는 스킨이 계산하는 자리라 우리가 쓰지 않습니다.<br>
   <b>평점·리뷰 수</b>는 넣지 않았습니다. 알파리뷰 앱이 채울 자리만 비워 뒀습니다.
   단품 3종에는 예전 숫자가 남아 있어 다음에 훅으로 교체합니다.<br>
