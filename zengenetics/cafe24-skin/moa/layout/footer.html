@@ -1,0 +1,177 @@
+<footer module="Layout_footer" class="footer">
+    <div class="footer__inner">
+        <div class="container container--footer flex">
+
+            <div class="footer__column footer__column--company">
+
+                <!-- ⚠️ 하단 로고 : 관리자 > 앱 > 배너매니저앱에서 관리해주세요. -->
+                 <div class="footer__logo" df-banner-code="footer-logo" hidden>
+                     <a class="footer-logo__link" href="{#href}" style="width: {#html};" df-banner-clone>
+                         {#item}
+                     </a>
+                 </div>
+
+                 <!-- 
+                     ⚠️ 회사정보는 '쇼핑몰 관리자 > 쇼핑몰 설정 > 기본 설정 > 내 쇼핑몰 정보' 화면에서 입력하신 정보가 자동 연동 노출되십니다.
+                 -->
+                <div class="footer__info">
+                    <!--@import(/moa/import/footer/company_info.html)-->
+                    <!--@import(/moa/import/footer/copyright.html)-->
+                </div>
+
+            </div>
+
+
+            <div class="footer__info-wrap flex">
+
+                <div class="footer__column">
+
+                    <!-- 🔽 고객센터 제목 : 타이틀을 수정하시려면 '타이틀 작성란'에 원하시는 문구로 수정해주세요. -->
+                    <div class="footer__title eng-font">
+                        <!-- 타이틀 작성란 -->
+                        CS Center
+                    </div>
+
+                    <div class="footer__info">
+                        <!-- 
+                            ⚠️ 고객센터 번호는 '쇼핑몰 관리자 > 쇼핑몰 설정 > 기본 설정 > 내 쇼핑몰 정보' 화면에서 
+								입력하신 대표번호 정보가 자동 연동 노출되십니다.
+                        -->
+                        <p class="footer__txt footer__txt--cs-no">{$phone}</p>
+
+                        <!-- 
+                            ⚠️ 업무시간 정보는 '쇼핑몰 관리자 > 쇼핑몰 설정 > 기본 설정 > 내 쇼핑몰 정보' 화면에서
+								'고객센터정보안내 설정 > CS운영시간' 항목에 입력하신 정보가 자동 연동 노출되십니다.
+                        -->
+                        <p class="footer__txt">{$runtime}</p>
+                    </div>
+
+                </div>
+
+                <div class="footer__column">
+
+                    <!-- 🔽 계좌정보 제목 : 타이틀을 수정하시려면 '타이틀 작성란'에 원하시는 문구로 수정해주세요. -->
+                    <div class="footer__title footer__title--bank">
+                        <!-- 타이틀 작성란 -->
+                        Contact
+                    </div>
+
+                    <div class="footer__info">
+                        <!-- 🔽 계좌정보 작성란 -->
+                        <p class="footer__txt">마케팅 제휴 문의 : wespot@wespot.co.kr</p>
+                        <p class="footer__txt">국내 유통 및 수출 메일 : wespot@wespot.co.kr</p>
+                    </div>
+                    
+                    <div class="display-pc displaynone"><!--@import(/moa/import/footer/policy.html)--></div>
+
+                </div>
+
+                
+                <div class="footer__column footer__column--company text-center displaynone">
+                   
+                     <div class="footer__title footer__title--dropdown flex flex--v-center flex--h-center">
+                        <!-- 🔽 타이틀 작성란 -->
+                        <span class="relative">{$mall_name} 사업자정보</span>
+                     </div>
+                     <!-- 
+                         ⚠️ 회사정보는 '쇼핑몰 관리자 > 쇼핑몰 설정 > 기본 설정 > 내 쇼핑몰 정보' 화면에서
+                         	입력하신 정보가 자동 연동 노출되십니다.
+                     -->
+                    <div class="footer__info">
+                        <!--@import(/moa/import/footer/company_info.html)-->
+                        <div class="display-m"><!--@import(/moa/import/footer/sns.html)--></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+   
+
+    <div class="footer__bottom flex flex--v-center">
+        <div class="container flex flex--v-center">
+            
+         <ul class="policy__list flex flex--v-center">
+
+
+
+             <!-- 🔽 개인정보 처리방침 메뉴 : 메뉴명을 수정하시려면 '메뉴명 작성란'에 원하시는 문구로 수정해주세요. -->
+             <li class="policy__item">
+                 <a href="/member/privacy.html" class="policy__link">
+                 <!-- 메뉴명 작성란 -->
+                 개인정보처리방침
+                 </a>
+             </li>
+
+             <!-- 🔽 이용약관 메뉴 : 메뉴명을 수정하시려면 '메뉴명 작성란'에 원하시는 문구로 수정해주세요. -->
+             <li class="policy__item">
+                 <!-- 메뉴명 작성란 -->
+                 <a href="/member/mall_agreement.html" class="policy__link">이용약관</a>
+             </li>
+
+             <!-- 🔽 이용안내 메뉴 : 메뉴명을 수정하시려면 '메뉴명 작성란'에 원하시는 문구로 수정해주세요. -->
+             <li class="policy__item">
+                 <!-- 메뉴명 작성란 -->
+                 <a href="/shopinfo/guide.html" class="policy__link">이용안내</a>
+             </li>
+
+         </ul>
+         
+         <!-- ⚠️ SNS 메뉴 : 관리자 > 앱 > 배너매니저앱에서 관리해주세요. -->
+         <div class="display-pc"><!--@import(/moa/import/footer/sns.html)--></div>
+         
+         <div class="display-m"><!--@import(/moa/import/footer/copyright.html)--></div>
+         
+        </div>  
+    </div>        
+
+</footer>
+
+<div id="progressPaybar" style="display:none;">
+ <div id="progressPaybarBackground" class="layerProgress"></div>
+ <div id="progressPaybarView">
+     <div class="box">
+         <h3>현재 결제가 진행중입니다.</h3>
+         <p class="txt">
+             본 결제 창은 결제완료 후 자동으로 닫히며,결제 진행 중에 본 결제 창을 닫으시면<br />
+             주문이 되지 않으니 결제 완료 될 때 까지 닫지 마시기 바랍니다.
+         </p>
+         <div class="progressbar"><img src="//img.echosting.cafe24.com/skin/skin/common/img_loading.gif" alt="loading" loading="lazy"></div>
+     </div>
+ </div>
+</div>
+
+
+
+<div module="Layout_multishopShipping">
+ <!--@css(/layout/basic/css/ec-base-layer.css)-->
+ <!--@css(/css/module/layout/multishopShipping.css)-->
+ <!--@js(/js/module/layout/multishopShipping.js)-->
+ <div class="worldshipLayer ec-base-layer typeModal">
+     <div class="header">
+         <h3>WORLD SHIPPING</h3>
+     </div>
+     <div class="content">
+         <p class="desc">PLEASE SELECT THE DESTINATION COUNTRY AND LANGUAGE :</p>
+         <select module="Layout_multishopShippingCountrylist">
+             <option value="{$country_code}"{$country_default_selected}>SHIPPING TO : {$country_name}</option>
+             <option value="{$country_code}"{$country_default_selected}>SHIPPING TO : {$country_name}</option>
+         </select>
+         <select module="Layout_multishopShippingLanguagelist">
+             <option value="{$shop_domain}"{$shop_default_selected}>LANGUAGE : {$shop_language_name}</option>
+             <option value="{$shop_domain}"{$shop_default_selected}>LANGUAGE : {$shop_language_name}</option>
+         </select>
+     </div>
+     <div class="ec-base-button">
+         <a href="#none" class="btnSubmitFix sizeM">GO</a>
+     </div>
+     <a href="#none" class="btnClose">닫기</a>
+ </div>
+</div>
+
+<div id="layoutDimmed" class="dimmed"></div>
+<!--@import(/moa/import/popup/IE_popup.html)-->
+<!--@import(/moa/import/popup/today_view.html)-->
+<div id="chkMoa" module="Layout_footer" class="displaynone chk-moa" data-chk="{$fax}"></div>

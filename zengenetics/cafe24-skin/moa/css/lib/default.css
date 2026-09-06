@@ -1,0 +1,365 @@
+:root {
+    
+    /* 🔽 포인트 색상(회원가입 포인트 아이콘 + 장바구니 아이콘 + 오늘출발 배송 문구) : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --main-color: #082D74;
+    
+    /* 🔽 포인트 색상(페이지 전체 버튼 색상) : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --btn-color: #082D74;
+    
+    /* 🔽 타임세일 카테고리 원형 아이콘 색상 : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --timesale-color: #082D74;
+    
+    /* 🔽 상품 할인율 색상 : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --sale-per-color: #e32e15;
+    
+    /* 🔽 포토리뷰 게시글 별점 색상 (포토리뷰만 적용) : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --review-star-color: rgb(255,184,0);
+    
+    /* 🔽 오늘출발 배송 아이콘 색상 : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --shipping-today-bg: linear-gradient(142deg, #f5c9b9 5%, #ff6c37 53%, #ff6c37 102%);
+    
+    /* 🔽 페이지 배경 색상(어두운 색상은 변경 불가) : 변경하실 색상을 RGB값이나 HEX 코드로 작성해주세요. 🔽 */
+    --bg-color: #fff;
+    
+}
+
+
+html:not(.basic) {
+    opacity: 1;
+}
+
+html.loaded {
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 50px; 
+}
+
+.container--layout {
+    max-width: 1600px;
+}
+
+.clearfix::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.display-m {
+    display: none;
+}
+
+.pull-left {
+	float: left;
+}
+
+.pull-right {
+	float: right;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.inline {
+	font-size: 0;
+}
+
+.inline>*,
+.inline .inline__block {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.relative {
+    position: relative;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.hover-opacity {
+	-webkit-transition: all 0.3s;
+	-ms-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.hover-opacity:hover {
+	opacity: 0.5;
+}
+
+.flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.flex--v-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.flex--h-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.ui-unset {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.company-name {
+    margin-right: -2px;
+}
+    
+.company-name[data-chk="9999"] {
+    font-size: 0;
+}
+
+.company-name[data-chk="9999"]::after {
+    content: '모아스튜디오';
+    font-size: 13px;
+}
+
+@media(max-width: 1024px) {
+    .display-pc {
+        display: none;
+    }
+
+    .display-m {
+        display: block;
+    }
+}
+
+.mCafe24Post .search {
+	opacity: 1;
+  display: block !important;
+  top: 0;
+  left: 0;
+  visibility: visible;
+}
+
+/* coach mark */
+
+body > .header .coach-mark__guide {
+    display: none !important;
+}
+
+.coach-mark {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.85);
+    z-index: 100;
+}
+
+.coach-mark .header__wrap {
+    background: transparent;
+}
+
+.coach-mark .header__top,
+.coach-mark .header__bottom {
+    border: none;
+}
+
+.coach-mark .top-banner *,
+.coach-mark .header * {
+    pointer-events: none;
+}
+
+.coach-mark .coach-mark__icon {
+    width: 30px;
+    height: 30px !important;
+    background: #fff;
+    display: flex !important;
+}
+
+.coach-mark .coach-mark__icon svg {
+    transform: translateY(0px);
+}
+
+.coach-mark .mark {
+    position: relative;
+    background: #fff;
+    padding: 5px;
+}
+
+.coach-mark__guide {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    white-space: nowrap;
+    font-size: 0;
+    line-height: 1;
+}
+
+.coach-mark__arrow {
+    width: 45px;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+.coach-mark__caption {
+    display: block;
+    line-height: 1.5;
+    color: #fff;
+    font-size: 14px;
+}
+
+.coach-mark__title {
+    margin-bottom: 5px;
+}
+
+.coach-mark__guide--event {
+    top: 30px;
+    left: 10px;
+}
+
+.coach-mark__arrow--event {
+    margin-bottom: 0;
+}
+
+.coach-mark__caption--event {
+    position: absolute;
+    left: calc(100% + 5px);
+    top: 28px;
+}
+
+.coach-mark__guide--lookbook {
+    top: -10px;
+    left: calc(100% + 15px);
+}
+
+.coach-mark__arrow--lookbook {
+    margin: 0;
+}
+
+.coach-mark__caption--lookbook {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 15px);
+}
+
+.coach-mark__guide--login {
+    top: -7px;
+    right: calc(100% + 15px);
+    left: auto;
+}
+
+.coach-mark__arrow--login {
+    margin: 0;
+}
+
+.coach-mark__caption--login {
+    position: absolute;
+    top: -5px;
+    right: calc(100% + -15px);
+}
+
+.coach-mark__guide--cart {
+    left: -7px;
+    top: 35px;
+}
+
+.coach-mark__caption--cart {
+    position: absolute;
+    right: 0;
+}
+
+.view-origin {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 600px;
+    margin-left: -300px;
+}
+
+.view-origin__txt {
+    font-size: 18px;
+    color: #fff;
+    margin: 20px 0 35px;
+    line-height: 1.5;
+}
+
+.view-origin__img-txt {
+    width: 594px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.view-origin__img-banner {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.view-origin__btn {
+    border: 2px solid #fff;
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+    color: #fff;
+    margin-top: 35px;
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.coach-mark__point {
+    color: #FFD800;
+}
+
+.coach-mark__shipping {
+    position: absolute;
+    top: 445px;
+    right: -10px;
+}
+
+.view-origin--shipping {
+    top: 180px;
+}
+
+.view-origin--shipping .view-origin__img-txt {
+    width: 438px;
+}
+
+.view-origin__btn--shipping {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+}
+
+@media (max-width: 768px) {
+    .coach-mark {
+        display: none;
+    }
+}

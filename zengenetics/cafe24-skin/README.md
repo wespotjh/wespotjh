@@ -248,3 +248,43 @@ curl -A "Mozilla/5.0" --referer "https://wespotjo.cafe24.com/" \
 
 > `<!--@import(/moa/js/main_js.html)-->` 에 **"삭제 금지"** 주석이 달려 있다. 건드리지 않는다.
 > 메인에도 알파리뷰 CSS 가 인라인으로 들어가 있다 (`.alpha_module_count_container` = 상품 카드의 회색 원 리뷰수).
+
+## 추가 해독 3 (2026-09-06, head / footer / detail_tab / login)
+
+### head.html
+- **GA4 측정 ID `G-GZHFY596SS`** 가 스킨에 직접 박혀 있다 (gtag.js)
+- `viewport` 가 `user-scalable=no` — **모바일에서 확대가 막혀 있다.** 접근성상 손볼 여지 있음(대표님 판단 필요)
+- PG 크로스브라우징용 `no-cache` 메타 3종 — 결제 때문에 들어간 것이라 **건드리지 않는다**
+- `/layout/basic/css/common.css` 에 "쇼핑몰 전체에 영향, 삭제·수정 주의" 주석
+- 폰트는 `/moa/layout/fonts.html` 이 담당 (아직 미확보)
+
+### footer.html
+- **회사정보·고객센터 번호·CS 운영시간은 전부 자동 연동** —
+  `쇼핑몰 설정 → 기본 설정 → 내 쇼핑몰 정보` 에서 바꾸면 화면이 따라온다 (`{$phone}` `{$runtime}` `{$mall_name}`)
+- 하단 로고와 SNS 아이콘은 **배너매니저 앱** (`df-banner-code="footer-logo"`, `/moa/import/footer/sns.html`)
+- 직접 타이핑된 것: `CS Center` / `Contact` 제목, 제휴·수출 메일 2줄
+- **팝업 2종이 여기서 붙는다**: `/moa/import/popup/IE_popup.html`, `/moa/import/popup/today_view.html`(오늘 본 상품)
+- 결제 진행 오버레이 `#progressPaybar` — **결제 중 창 닫힘 방지용. 삭제 금지**
+- 해외배송 국가·언어 선택 레이어(`Layout_multishopShipping`)
+
+### login.html — ⚠️ 앞선 감사 결론을 정정한다
+이전 감사에서 "네이버·구글·애플 로그인은 `displaynone` 이고 onclick 이 비어 있다 =
+카카오만 살아 있다"고 적었는데, **원본 템플릿을 보니 그게 아니다.**
+```html
+<a class="btnNaver {$display_naver|display}" onclick="{$naver_func_login}">네이버 로그인</a>
+<a class="btnGoogle {$display_google|display}" onclick="{$google_func_login}">Google 로그인</a>
+<a class="btnApple {$display_apple|display}" onclick="{$apple_func_login}">Apple 로그인</a>
+```
+버튼은 **전부 정상적으로 들어 있고**, 노출 여부는 cafe24 가 `{$display_*}` 로 결정한다.
+즉 **네이버·구글·애플 로그인은 코드 작업 없이 관리자 설정만으로 켤 수 있다.**
+(라이브 화면에서 안 보였던 것은 그 설정이 꺼져 있기 때문)
+
+- **비회원 구매 버튼도 `{$display_nomember|display}` 로 관리자 설정 제어** — 확인됨
+- 비회원 배송조회 탭이 로그인 화면에 같이 있다 (`MyShop_OrderHistoryNologin`)
+- 로그인 화면 배너는 배너매니저 앱 (`df-banner-code="login-banner"`)
+- 자체 스크립트 `/ds/js/login.js` (348B) 확보
+
+### detail_tab.html
+탭 4개: **리뷰 / 상세정보 / 반품·교환정보 / 상품문의**
+- 리뷰 개수는 여기서도 `alpha_review_count`(알파리뷰), cafe24 `{$review_count}` 는 주석 처리
+- 상품문의 개수는 cafe24 `{$qna_count}` 그대로 사용

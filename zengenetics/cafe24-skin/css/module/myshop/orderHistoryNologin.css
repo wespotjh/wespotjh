@@ -1,0 +1,9 @@
+.top-banner,
+.header,
+.footer {
+    display: none;
+}
+
+.xans-myshop-orderhistorynologin { display:none; }
+
+.xans-myshop-orderhistorynologin.typeNew { padding:40px 0 0; }
