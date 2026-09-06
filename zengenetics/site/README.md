@@ -20,7 +20,7 @@
 |---|---|---|
 | `home.html` | 홈 (전체 연결본) | https://claude.ai/code/artifact/9656f1c2-3dd7-4f5f-b9a8-a26d74b25be8 |
 | `product-potassium.html` | 칼륨 상품페이지 | https://claude.ai/code/artifact/9ee9223d-6eff-4d2d-8d97-9e50927adbe1 |
-| `brand-story.html` | 브랜드 스토리 「적을 수 있는 것만」 | https://claude.ai/code/artifact/1fd7a5ca-973c-4731-b9db-af263ab98343 |
+| `brand-story.html` | 브랜드 스토리 「하루를 고르게」 (구 「적을 수 있는 것만」) | https://claude.ai/code/artifact/1fd7a5ca-973c-4731-b9db-af263ab98343 |
 
 각 파일은 아티팩트 서비스가 감싸는 `<!doctype html>…<head>` 래퍼를 포함한 **라이브 전문 그대로**다.
 
@@ -35,3 +35,4 @@
 
 - `zengenetics/prototype/home.html` — 09-04 커밋 `30de191` 에서 멈춘 옛 계보. 아티팩트 `247e23e7-…` 가 이 파일을 가리킨다.
 - 2026-09-06 오전 이 옛 파일 위에 진행된 히어로 재작업(홍시아 설계 → 이도현 구현)도 같은 이유로 폐기. 설계·구현 보고서는 `team/보고/` 에 근거로만 남긴다.
+- ⚠️ 그 히어로 재작업분은 커밋 `24f9f43` 에 **QA FAIL 상태 그대로** 들어가 있다 (신아린 판정: 데스크톱 CTA 미노출 등 7건). `prototype/` 은 어차피 폐기이므로 고치지 않는다. **이 파일을 되살려 쓰지 말 것.**
