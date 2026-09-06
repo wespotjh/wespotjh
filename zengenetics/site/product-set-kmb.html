@@ -184,8 +184,13 @@
      white-space:nowrap;max-width:88vw}
   .toast.on{opacity:1;transform:translate(-50%,0)}
 
-  /* ── 하루 루틴 (세트 전용) ───────────────────────────── */
   :root{ --k:#D9641F; --mg:#6D4FC9; --b:#D9285A; }
+  /* 세트 히어로는 대표님이 만드신 배너라 꽉 채워 보여준다 */
+  .gal .sl{height:auto;padding:0}
+  .gal .sl img{max-width:100%;width:100%;max-height:none;filter:none;display:block}
+  .gal .dots{bottom:10px}
+
+  /* ── 하루 루틴 ─────────────────────────────────────── */
   .rt{padding-block:34px;border-top:1px solid var(--hair);background:var(--bg-2)}
   .rt .lab{display:block;text-align:center;margin-bottom:9px}
   .rt h2{font-size:clamp(20px,5.4vw,24px);font-weight:700;letter-spacing:-.025em;
@@ -201,7 +206,7 @@
            box-shadow:0 0 0 1.5px currentColor;margin-top:5px}
   .st .pouch{width:34px;height:88px;object-fit:contain;
              filter:drop-shadow(0 5px 8px rgba(30,22,12,.16))}
-  .st .when{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+  .st .when{display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap}
   .st .clock{font-family:var(--f-m);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
              color:currentColor;font-weight:500}
   .st .chip{font-size:11px;font-weight:700;letter-spacing:-.01em;color:#fff;
@@ -233,8 +238,9 @@
   .rt .foot{margin-top:14px;font-size:12px;color:var(--ink-3);text-align:center;
             line-height:1.75;word-break:keep-all}
 
-  /* 세트 구성 요약 */
-  .kit{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+  /* 세트 구성 카드 */
+  .kit{display:grid;gap:8px;margin-top:16px}
+  .kit.n2{grid-template-columns:repeat(2,1fr)} .kit.n3{grid-template-columns:repeat(3,1fr)}
   .kit .c{border:1px solid var(--hair);border-radius:13px;background:#fff;padding:13px 10px;text-align:center}
   .kit .c img{width:26px;height:72px;object-fit:contain;margin-bottom:8px}
   .kit .c em{display:block;font-style:normal;font-size:12.5px;font-weight:700;letter-spacing:-.015em}
@@ -253,8 +259,8 @@
 
 <div class="gal">
   <div class="rail" id="rail">
-    <div class="sl"><img id="g1" alt="젠제네틱스 칼마비 세트 박스"></div>
-    <div class="sl"><img id="g2" alt="칼륨 · 마그네슘 · 비타민B 구성"></div>
+    <div class="sl"><img id="g1" alt="칼마비 건강 루틴 세트"></div>
+    <div class="sl"><img id="g2" alt="칼마비 건강 루틴 구성"></div>
   </div>
   <div class="dots" id="dots"><i class="on"></i><i></i></div>
 </div>
@@ -266,36 +272,29 @@
   <!-- cafe24: {$simple_desc} -->
   <p class="sub">칼륨 20포 &middot; 마그네슘 20포 &middot; 비타민B 20포 &mdash; 세 박스 한 상자</p>
 
-  <!-- 리뷰는 알파리뷰 앱이 채운다. 숫자를 여기에 쓰지 않는다 (대표님 2026-09-06)
-       cafe24 이식 시: <div class="alpha_widget" data-code="8d644bd9" data-value="{$product_no}"></div> -->
+  <!-- 리뷰는 알파리뷰 앱이 채운다. 숫자를 여기에 쓰지 않는다 (CLAUDE.md 규칙 13)
+       cafe24 이식: <div class="alpha_widget" data-code="8d644bd9" data-value="{$product_no}"></div>
+       이 상품의 product_no = 98 -->
   <div class="rate"><a href="#reviews">고객 리뷰 보기 <span class="alpha_review_count"></span></a></div>
 
-  <!-- cafe24: 할인율은 스킨 JS(calcDiscountPer)가 계산한다. % 를 타이핑하지 말 것.
+  <!-- cafe24: 할인율은 스킨 JS(calcDiscountPer)가 계산한다. % 를 타이핑하지 말 것 (규칙 11)
        .off = <span class="discount-per">, .now = {$product_price}, .was = {$product_custom} -->
   <div class="prow"><span class="off">25%</span><span class="now">107,500원</span><span class="was">143,000원</span></div>
 
-  <div class="badges">
-    <span>세 가지를 한 번에</span><span>배송비 무료</span><span>Kolmar BNH 생산</span>
-    <span>HACCP</span><span>스틱 분말</span>
-  </div>
+  <div class="badges"><span>세 가지를 한 번에</span><span>배송비 무료</span><span>Kolmar BNH 생산</span><span>HACCP</span><span>스틱 분말</span></div>
 
-  <div class="kit">
-    <div class="c"><img id="k1" alt=""><em>칼륨</em><s>2.5g &times; 20포<br>라임</s></div>
-    <div class="c"><img id="k2" alt=""><em>마그네슘</em><s>2g &times; 20포<br>포도향</s></div>
-    <div class="c"><img id="k3" alt=""><em>비타민B</em><s>2g &times; 20포<br>사과향</s></div>
-  </div>
+  <div class="kit n3"><div class="c"><img id="k1" alt=""><em>칼륨</em><s>2.5g &times; 20포<br>라임</s></div><div class="c"><img id="k2" alt=""><em>마그네슘</em><s>2g &times; 20포<br>포도향</s></div><div class="c"><img id="k3" alt=""><em>비타민B</em><s>2g &times; 20포<br>사과향</s></div></div>
 </div>
 
-<!-- ── 하루 루틴 서사 (대표님 지시 2026-09-06: 어떤 시간에 어떻게 먹는지) ── -->
+<!-- ── 하루 루틴 서사 (대표님 지시 2026-09-06) ── -->
 <div class="rt">
  <div class="w">
-  <span class="lab">Your day</span>
+  <span class="lab">Your routine</span>
   <h2>세 가지를 하루 어디에 넣으시나요</h2>
   <p class="dek">따로 챙기실 것 없습니다. 아침에 하나, 낮에 둘, 자기 전에 하나입니다.</p>
-
   <div class="tl">
     <div class="st b">
-      <div class="pin"><span class="dot"></span><img class="pouch" id="p3" alt=""></div>
+      <div class="pin"><span class="dot"></span><img class="pouch" id="p1" alt=""></div>
       <div>
         <div class="when"><span class="clock">Morning</span><span class="chip">하루 1포</span></div>
         <h3>아침 &mdash; 비타민B 컴플렉스</h3>
@@ -305,7 +304,7 @@
     </div>
 
     <div class="st k">
-      <div class="pin"><span class="dot"></span><img class="pouch" id="p1" alt=""></div>
+      <div class="pin"><span class="dot"></span><img class="pouch" id="p2" alt=""></div>
       <div>
         <div class="when"><span class="clock">Day &amp; Evening</span><span class="chip">하루 2포</span></div>
         <h3>낮과 저녁 &mdash; 칼륨</h3>
@@ -329,7 +328,7 @@
     </div>
 
     <div class="st mg">
-      <div class="pin"><span class="dot"></span><img class="pouch" id="p2" alt=""></div>
+      <div class="pin"><span class="dot"></span><img class="pouch" id="p3" alt=""></div>
       <div>
         <div class="when"><span class="clock">Night</span><span class="chip">하루 1포</span></div>
         <h3>밤 &mdash; 마그네슘</h3>
@@ -337,8 +336,7 @@
         <div class="meta"><span>400mg / 한 포</span><span>포도향</span><span>건강기능식품</span></div>
       </div>
     </div>
-  </div>
-
+</div>
   <p class="foot">칼륨은 하루 두 포 기준이라 20포가 열흘분,<br>마그네슘과 비타민B는 하루 한 포라 각각 스무날분입니다.</p>
  </div>
 </div>
@@ -355,7 +353,7 @@
 
 <div class="w blk">
   <h2>같이 담을까요?</h2>
-  <p class="hint">며칠씩 나눠 드셔 보는 데이팩입니다. 고르시면 아래 합계에 바로 더해집니다.</p>
+  <p class="hint">고르시면 아래 합계에 바로 더해집니다. 따로 고르실 것은 없습니다.</p>
   <div class="adds" id="adds"></div>
 
   <div class="ship">
@@ -391,14 +389,10 @@
       <div class="a">받으신 날부터 <b>7일 이내</b>에 고객센터(070-8872-1337)로 연락 주세요.<br>
       다만 개봉하셨거나 사용하신 제품, 그리고 포장이 훼손되어 다시 판매하기 어려운 경우에는 어려울 수 있습니다.</div></details>
     <details><summary>먹는 방법</summary>
-      <div class="a">비타민B <b>하루 한 포</b>, 칼륨 <b>하루 두 포</b>, 마그네슘 <b>하루 한 포</b>가 기준입니다.<br>
-      셋 다 뜯어서 그대로 드셔도 되고, 물 한 잔에 타서 드셔도 됩니다.<br>
+      <div class="a">비타민B <b>하루 한 포</b>, 칼륨 <b>하루 두 포</b>, 마그네슘 <b>하루 한 포</b>가 기준입니다.<br>셋 다 뜯어서 그대로 드셔도 되고, 물 한 잔에 타서 드셔도 됩니다.<br>
       임신 중이거나 수유 중이신 분, 어린이, 약을 드시는 분은 미리 의사나 약사와 상의해 주세요.</div></details>
     <details><summary>세트 구성</summary>
-      <div class="a">젠제네틱스 포타슘 칼륨 525mg 다이렉트 &middot; 2.5g &times; 20포(50g) &middot; 라임<br>
-      젠제네틱스 마그네슘 400mg &middot; 2g &times; 20포 &middot; 포도향<br>
-      젠제네틱스 비타민B 컴플렉스 &middot; 2g &times; 20포 &middot; 사과향<br>
-      낱개로 사시면 45,000원 + 49,000원 + 49,000원 = 143,000원입니다.<br>
+      <div class="a">젠제네틱스 포타슘 칼륨 525mg 다이렉트 &middot; 2.5g &times; 20포(50g) &middot; 라임<br>젠제네틱스 마그네슘 400mg &middot; 2g &times; 20포 &middot; 포도향<br>젠제네틱스 비타민B 컴플렉스 &middot; 2g &times; 20포 &middot; 사과향<br>낱개로 사시면 45,000원 + 49,000원 + 49,000원 = 143,000원입니다.<br>
       자세한 원재료명과 영양정보는 위 상세 안내 하단의 제품 표시사항을 확인해 주세요.</div></details>
   </div>
   <p class="note">*화면 연출은 제품 이미지이며, 섭취에 따른 효과를 나타내지 않습니다<br>
@@ -423,7 +417,6 @@
   var won=function(n){return n.toLocaleString('ko-KR')+'원'};
   var el=function(i){return document.getElementById(i)};
 
-  /* 갤러리 */
   el('g1').src=H[0]; el('g2').src=H[1];
   var rail=el('rail'), dots=el('dots').children;
   rail.addEventListener('scroll',function(){
@@ -431,11 +424,9 @@
     for(var k=0;k<dots.length;k++) dots[k].classList.toggle('on',k===i);
   },{passive:true});
 
-  /* 포 이미지 — 세트 구성 카드 + 루틴 타임라인 */
-  el('k1').src=S.potassium.v; el('k2').src=S.magnesium.v; el('k3').src=S.vitaminb.v;
-  el('p1').src=S.potassium.v; el('p2').src=S.magnesium.v; el('p3').src=S.vitaminb.v;
-
-  /* 칼륨 A/B 타입 — 상세페이지 루틴 안내와 같은 기준 */
+  el('k1').src=S.potassium.v;el('k2').src=S.magnesium.v;el('k3').src=S.vitaminb.v;
+  el('p1').src=S.vitaminb.v;el('p2').src=S.potassium.v;el('p3').src=S.magnesium.v;
+  
   var TYPE={ A:['자기 전 1포','기상 직후 1포'], B:['출근 전 1포','오후 3시 1포'] };
   function setType(t){
     el('tA').setAttribute('aria-selected', t==='A'?'true':'false');
@@ -446,13 +437,10 @@
   el('tB').addEventListener('click',function(){setType('B')});
   setType('A');
 
-  /* 가격 — cafe24 상품등록 값. 이식 시 {$product_price}/{$product_custom} 로 치환한다 */
+
+  /* 가격 — cafe24 상품등록 값. 이식 시 {$product_price}/{$product_custom} 로 치환 */
   var SET=107500, SETWAS=143000;
-  var ADDS=[
-    {id:'kd', nm:'칼륨 데이팩',    mt:'2.5g × 6포 · 맛보기', price:14000, was:0,     img:function(){return S.potassium.v}},
-    {id:'md', nm:'마그네슘 데이팩', mt:'2g × 6포 · 맛보기',   price:15000, was:0,     img:function(){return S.magnesium.v}},
-    {id:'bd', nm:'비타민B 데이팩',  mt:'2g × 6포 · 맛보기',   price:15000, was:0,     img:function(){return S.vitaminb.v}}
-  ];
+  var ADDS=[{"id": "kd", "nm": "칼륨 데이팩", "mt": "2.5g × 6포 · 맛보기", "price": 14000, "img": "potassium"}, {"id": "md", "nm": "마그네슘 데이팩", "mt": "2g × 6포 · 맛보기", "price": 15000, "img": "magnesium"}, {"id": "bd", "nm": "비타민B 데이팩", "mt": "2g × 6포 · 맛보기", "price": 15000, "img": "vitaminb"}];
   var FREE=50000, SHIPFEE=3500;
   var qty=1, picked={};
 
@@ -463,8 +451,8 @@
     d.innerHTML='<span class="box"><i>&#10003;</i></span>'+
       '<span class="th"><img alt=""></span>'+
       '<span><span class="nm">'+a.nm+'</span><span class="mt">'+a.mt+'</span></span>'+
-      '<span class="pz">'+won(a.price)+(a.was?'<s>'+won(a.was)+'</s>':'')+'</span>';
-    d.querySelector('img').src=a.img();
+      '<span class="pz">'+won(a.price)+'</span>';
+    d.querySelector('img').src=S[a.img].v;
     d.addEventListener('click',function(){
       picked[a.id]=!picked[a.id];
       d.setAttribute('aria-checked', picked[a.id]?'true':'false');
@@ -479,25 +467,21 @@
 
   function calc(){
     var goods=SET*qty, listSum=SETWAS*qty;
-    ADDS.forEach(function(a){ if(picked[a.id]){ goods+=a.price; listSum+=(a.was||a.price); } });
+    ADDS.forEach(function(a){ if(picked[a.id]){ goods+=a.price; listSum+=a.price; } });
     var disc=listSum-goods;
     var ship=(goods>=FREE)?0:SHIPFEE;
-    var total=goods+ship;
-
     el('sGoods').textContent=won(listSum);
-    el('sDisc').textContent='&minus;'.replace('&minus;','\u2212')+won(disc);
+    el('sDisc').textContent='−'+won(disc);
     el('sShip').textContent = ship? won(ship) : '무료';
-    el('sTotal').textContent=won(total);
-    el('barTotal').textContent=won(total);
-
+    el('sTotal').textContent=won(goods+ship);
+    el('barTotal').textContent=won(goods+ship);
     var t=el('shipT'), b=el('shipB');
     if(!ship){
       t.className='t done'; t.textContent='5만원을 넘겨서 배송비가 없습니다.';
       b.className='done'; b.style.width='100%';
     }else{
-      var left=FREE-goods;
       t.className='t';
-      t.innerHTML='<em>'+won(left)+'</em> 더 담으시면 배송비가 없습니다.';
+      t.innerHTML='<em>'+won(FREE-goods)+'</em> 더 담으시면 배송비가 없습니다.';
       b.className=''; b.style.width=Math.min(100,goods/FREE*100).toFixed(1)+'%';
     }
   }
@@ -516,8 +500,8 @@
     clearTimeout(tm); tm=setTimeout(function(){ t.classList.remove('on'); },2200);
   }
   function summary(){
-    var n=1+ADDS.filter(function(a){return picked[a.id]}).length;
-    return '칼마비 세트 '+qty+'개'+(n>1?' 외 '+(n-1)+'건':'');
+    var n=ADDS.filter(function(a){return picked[a.id]}).length;
+    return '칼마비 세트 '+qty+'개'+(n?' 외 '+n+'건':'');
   }
   /* cafe24 이식 시 onclick="{$action_basket}" / "{$action_buy}" 로 바뀐다 */
   el('btnCart').addEventListener('click',function(){ toast(summary()+'를 장바구니에 담았습니다'); });

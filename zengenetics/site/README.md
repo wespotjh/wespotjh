@@ -22,7 +22,10 @@
 | `product-potassium.html` | 칼륨 상품페이지 | https://claude.ai/code/artifact/9ee9223d-6eff-4d2d-8d97-9e50927adbe1 |
 | `product-vitaminb.html` | 비타민B컴플렉스 상품페이지 | https://claude.ai/code/artifact/a95de7da-56b0-43b6-bd19-ac997e830b4a |
 | `product-magnesium.html` | 마그네슘 상품페이지 | https://claude.ai/code/artifact/4cd6d9e9-53fc-45ad-b8fb-6170e3d4e090 |
-| `product-set-kmb.html` | **칼마비 세트** 상품페이지 | https://claude.ai/code/artifact/abe7bfbd-cce3-478c-97d4-526284dd94e0 |
+| `index.html` | **전체 페이지 목록 (대표님 열람용 랜딩)** | https://claude.ai/code/artifact/f0344bc4-53c7-4a2e-9fed-fe880c721d98 |
+| `product-set-kmb.html` | 칼마비 세트 상품페이지 | https://claude.ai/code/artifact/abe7bfbd-cce3-478c-97d4-526284dd94e0 |
+| `product-set-swell.html` | **붓기 부스터** 세트 상품페이지 | https://claude.ai/code/artifact/3fa36b43-5e8d-46a3-bc9d-57f0aa009c60 |
+| `product-set-performance.html` | **퍼포먼스 부스터** 세트 상품페이지 | https://claude.ai/code/artifact/02650a10-0f76-423b-9141-62ee3fd3b3be |
 | `brand-story.html` | 브랜드 스토리 「하루를 고르게」 (구 「적을 수 있는 것만」) | https://claude.ai/code/artifact/1fd7a5ca-973c-4731-b9db-af263ab98343 |
 
 각 파일은 아티팩트 서비스가 감싸는 `<!doctype html>…<head>` 래퍼를 포함한 **라이브 전문 그대로**다.
@@ -39,3 +42,11 @@
 - `zengenetics/prototype/home.html` — 09-04 커밋 `30de191` 에서 멈춘 옛 계보. 아티팩트 `247e23e7-…` 가 이 파일을 가리킨다.
 - 2026-09-06 오전 이 옛 파일 위에 진행된 히어로 재작업(홍시아 설계 → 이도현 구현)도 같은 이유로 폐기. 설계·구현 보고서는 `team/보고/` 에 근거로만 남긴다.
 - ⚠️ 그 히어로 재작업분은 커밋 `24f9f43` 에 **QA FAIL 상태 그대로** 들어가 있다 (신아린 판정: 데스크톱 CTA 미노출 등 7건). `prototype/` 은 어차피 폐기이므로 고치지 않는다. **이 파일을 되살려 쓰지 말 것.**
+
+## 세트 페이지 빌더
+
+세트 3종(`product-set-*.html`)은 **한 소스에서 생성**된다.
+- 템플릿 `_set.tpl` · 빌더 `_build_set.py` (설정 CFG 안에 3종 값이 다 있다)
+- 상세 이미지는 `assets/detail/set-{kmb,swell,performance}/` (공홈 게시 순서 그대로, `_source_urls.txt` 동봉)
+- 문구·가격을 고칠 땐 **빌더의 CFG를 고치고 다시 돌린다.** HTML을 직접 손대면 다음 빌드에 덮인다.
+- 돌린 뒤 반드시 **같은 아티팩트 URL로 republish → 커밋·푸시**.
