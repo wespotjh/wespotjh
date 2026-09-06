@@ -1,0 +1,32 @@
+<div id="prdDetail" class="productDetail tab-content">
+
+    <div>{$product_detail}</div>
+
+    <div id="related" module="product_relation">
+        <!--@css(/css/module/product/relation.css)-->
+        <!--@js(/js/module/product/relation.js)-->
+
+        <div class="relation relative">
+            <div class="section-title">
+                <h2 class="text-center eng-font">다른 고객이 함께 본 상품</h2>
+            </div>
+
+            <div module="product_relationlist" class="ec-base-product relative">
+                <div class="swiper-container jsRelatedSlide" data-slide-view="5">
+                    <ul class="prdList grid-slide swiper-wrapper">
+                        <!--@import(/moa/import/product/product_form_related.html)-->
+                        <!--@import(/moa/import/product/product_form_related.html)-->
+                    </ul>
+                </div>
+                <div class="related-pager display-m"></div>
+                <span class="prd-nav prd-nav--prev flex flex--v-center flex--h-center jsPrdPrev">
+                    <!--@import(/moa/icon/icon_arrow_left.html)-->
+                </span>
+                <span class="prd-nav prd-nav--next flex flex--v-center flex--h-center jsPrdNext">
+                    <!--@import(/moa/icon/icon_arrow_right.html)-->
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

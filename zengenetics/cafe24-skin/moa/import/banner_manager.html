@@ -1,0 +1,31 @@
+<style>[df-banner-code][hidden] { display:none !important }</style>
+<script>
+    
+    /* 공통 코드 */
+    var COMMON_PATH = '/web/upload/appfiles/ZaReJam3QiELznoZeGGkMG/65dae6492ddfbb18e4dd40363000a81a.js';
+    
+    /* PC 코드 */
+    var PC_PATH = '/web/upload/appfiles/ZaReJam3QiELznoZeGGkMG/fa7fbfb83f6be38cb20df3c9e13953eb.js';
+    
+    var ord = Date.now();
+	var BMscript = document.createElement('script');
+    var scriptPCLoaded = false;
+
+    BMscript.src = COMMON_PATH + '?v=' + ord;
+    document.body.append(BMscript);
+    
+    function loadScriptPC() {
+        var windowWidth = window.outerWidth;
+        if(document.body.clientWidth > 767 && !scriptPCLoaded) {
+            var scriptPC = document.createElement('script');
+            scriptPC.src = PC_PATH + '?v=' + ord;
+            scriptPC.setAttribute('id', 'scriptPC');
+            document.body.append(scriptPC);
+            scriptPCLoaded = true;
+        }
+    }
+    
+    loadScriptPC();
+    window.addEventListener('resize', loadScriptPC);
+    
+</script>

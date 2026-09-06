@@ -151,3 +151,47 @@ head → top_banner → header → aside → banner_manager → quick_menu
 - **팝업/배너는 `/moa/import/banner_manager.html` 과 `top_banner.html` 이 담당** — 대표님이 말씀하신 팝업이 여기다
 - 페이지 본문은 `<!--@contents-->` 자리에만 들어간다.
   **우리 페이지는 이 자리에 들어가는 조각이지, 통째 문서가 아니다.**
+
+## 추가 해독 2 (2026-09-06, price-config / price.css / detail / banner_manager)
+
+### 가격 블록의 정체 — "최대 혜택가" 2단 카드
+`/ds/js/price-config.js` 가 설정값이고, 이걸 읽어 `#benefitList` 에 카드 2장을 그린다.
+
+| 카드 | 소스 | 배경 | 쿠폰 금액 | 아이콘 |
+|---|---|---|---|---|
+| **회원 특가** | 상품 `custom_option3` | `rgb(14 46 114)` 네이비 | **2,000원** | `/ds/image/ico_price1.png` |
+| **플친 특가** | 상품 `custom_option4` | `rgb(254 221 44)` 노랑 | **20,100원** | `/ds/image/ico_price2.webp` |
+
+- 라벨(`회원가`/`플친가`)은 **상품 상세정보 표의 `custom_option3/4` 행 제목을 읽어서** 쓴다.
+  못 찾으면 기본값 `회원가` / `플친가`.
+- `price.css` 첫 두 줄이 그 원본 행(`tr.custom_option3_css`, `tr.custom_option4_css`)을
+  **`display:none` 으로 숨긴다** — 표에서 감추고 카드로 다시 그리는 구조.
+- 즉 **회원가·플친가는 cafe24 상품의 "추가 항목(custom_option3/4)"에 대표님이 입력하는 값**이다.
+
+> ❓ **대표님 확인 필요**: 플친 특가 쿠폰이 `20100` 으로 잡혀 있다. 2,010원 또는 2,100원의
+> 오타일 가능성이 있다. 회원 특가는 2,000원. 확인 전까지 건드리지 않는다.
+
+### 상세 이미지는 스킨이 아니라 관리자에서 온다
+```html
+<div id="prdDetail" class="productDetail tab-content">
+    <div>{$product_detail}</div>   ← 관리자 '상세설명' 이 통째로 여기 들어온다
+    <div id="related" module="product_relation">다른 고객이 함께 본 상품</div>
+</div>
+```
+- 우리가 확보한 상세 이미지 14~16장은 **관리자 상세설명에 들어 있는 것**이고 스킨은 손대지 않는다
+- 즉 상세 이미지 교체는 **관리자에서** 한다. 스킨 작업 범위 밖
+
+### 팝업·배너 = 외부 앱
+`/moa/import/banner_manager.html` 은 `/web/upload/appfiles/…/*.js` 두 개를 동적으로 붙인다
+(공통 1개 + PC 전용 1개, 767px 초과에서만 PC 스크립트 로드).
+상세페이지의 `df-banner-code="detail-benefit"` `detail-bubble` 도 이 앱이 채운다.
+**이 파일과 `df-banner-code` 속성은 건드리지 않는다.**
+
+### 우리 디자인을 입힐 지점 (확정)
+| 대상 | 방법 |
+|---|---|
+| 가격·혜택 카드 | `/ds/css/price.css` 교체 (`.ds_benefit*` 클래스). HTML·JS 는 그대로 |
+| 상품 상세 전반 | `/css/module/product/detail.css` + moa CSS 위에 우리 스타일 추가 |
+| 상세 이미지 | 스킨 아님 — **관리자 상세설명에서 교체** |
+| 리뷰 | 알파리뷰 위젯 설정 (스킨 아님) |
+| 팝업·배너 | 배너 앱 관리자 (스킨 아님) |
