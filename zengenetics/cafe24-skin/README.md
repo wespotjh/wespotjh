@@ -195,3 +195,56 @@ head → top_banner → header → aside → banner_manager → quick_menu
 | 상세 이미지 | 스킨 아님 — **관리자 상세설명에서 교체** |
 | 리뷰 | 알파리뷰 위젯 설정 (스킨 아님) |
 | 팝업·배너 | 배너 앱 관리자 (스킨 아님) |
+
+## ⭐ CSS·JS 는 대표님이 복사하실 필요 없다 (2026-09-06 발견)
+
+스킨의 **정적 파일(css/js/img)은 쇼핑몰에서 그대로 서빙된다.** curl 로 직접 받을 수 있다:
+```bash
+curl -A "Mozilla/5.0" --referer "https://wespotjo.cafe24.com/" \
+     "https://wespotjo.cafe24.com/ds/js/price-config.js" -o price-config.js
+```
+검증: 대표님이 편집기에서 복사해 주신 `price-config.js` 와 서버에서 받은 파일이 **빈 줄 하나 차이로 동일**했다.
+
+- 재수집 스크립트: `/tmp/fetch_skin.sh`(세션 한정). 경로 목록만 넘기면 폴더 구조 그대로 저장한다.
+- **`.html` 템플릿만 서빙되지 않는다** → 이것만 편집기에서 복사가 필요하다.
+
+## 확보 현황 (2026-09-06 기준, 36개 파일)
+
+### HTML 템플릿 (편집기에서 복사 — 대표님 손이 필요한 것)
+`index.html` · `product/detail.html` · `order/basket.html` · `ds/html/price.html`
+`layout/basic/layout.html` · `moa/import/product_detail/detail.html`
+`moa/import/product_detail/review.html` · `moa/import/banner_manager.html`
+
+### CSS·JS·이미지 (curl 로 직접 확보 — 대표님 손 불필요)
+- 모아: `moa/css/main.css` `lib/{ptrv_style,rv_style,prdt_style,swiper.min}.css`
+  `moa/js/lib/{rv_lt,ptrv_lt,prdt,calc_sale_rate,swiper.min}.js` `moa/js/product/detail.js`
+  `moa/img/icon/{today_ship.svg,icon_review.png}`
+- 자체(ds): `ds/css/{main,price}.css` `ds/js/{main,detail,index_list,price-config}.js`
+- cafe24 기본: `css/module/product/{detail,additional,relation}.css`
+  `css/module/order/basketPackage.css` `layout/basic/css/ec-base-layer.css`
+  `js/module/product/{detail,relation,menucategory}.js` `js/module/order/basket.js`
+
+### 아직 없는 HTML 템플릿
+`layout/basic/main.html`(메인 전용 레이아웃) · `moa/layout/{head,header,footer,aside}.html`
+`moa/import/top_banner.html` · `moa/import/quick_menu.html`
+`moa/import/main/*.html`(메인 섹션 12종) · `moa/import/product/detail_tab.html`
+`moa/import/product_detail/{purchase_info,qna}.html` · `moa/import/board/rv_frame.html`
+`member/login.html` · `order/orderform.html`
+
+## 메인화면(index.html) 구성 — 어느 관리 메뉴가 무엇을 채우는가
+
+| 섹션 | 관리 위치 |
+|---|---|
+| 메인 배너 | 관리자 → 앱스토어 → **배너매니저** 앱 |
+| 원형 카테고리 배너 | 배너매니저 앱 |
+| 서브 배너 1·2 | 배너매니저 앱 |
+| BEST 상품 리스트 | 관리자 → 상품관리 → 상품진열 → **메인상품진열** |
+| TIME SALE 리스트 | 메인상품진열 |
+| 신상품 리스트 | 메인상품진열 |
+| 유튜브 영상 배너 | 배너매니저 앱 |
+| 패럴렉스 배너 2종 | 배너 = 배너매니저 앱 / 텍스트 = 스킨 파일 직접 수정 |
+| 포토리뷰 | **상품 리뷰 게시판과 자동 연동** |
+| 인스타그램 피드 | `instagram_feed.html` |
+
+> `<!--@import(/moa/js/main_js.html)-->` 에 **"삭제 금지"** 주석이 달려 있다. 건드리지 않는다.
+> 메인에도 알파리뷰 CSS 가 인라인으로 들어가 있다 (`.alpha_module_count_container` = 상품 카드의 회색 원 리뷰수).
