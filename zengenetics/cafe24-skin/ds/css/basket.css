@@ -1,0 +1,261 @@
+/* ============================================================
+   젠제네틱스 — 장바구니 (order/basket.html)
+   ------------------------------------------------------------
+   A안: 겉모습만 바꾼다. HTML·모듈·변수는 손대지 않는다.
+   basket.html 에 추가한 것은 <!--@css(/ds/css/basket.css)--> 한 줄뿐.
+
+   건드리지 않는 것 (CLAUDE.md 영구규칙 7·8)
+     - module="Order_*" / {$변수} / onclick="{$action_*}"
+     - 네이버 체크아웃·{$app_payment_button_box_id} 결제 버튼 자리
+     - .ec-base-layer 옵션변경 레이어 구조
+
+   범위 주의: 미니장바구니(#cart-data)는 moa 가 따로 스타일링한다.
+   여기서는 장바구니 "페이지"만 잡으려고 .cart-container 안쪽으로 한정했다.
+   ============================================================ */
+
+.cart-container{
+  --zg-ink:#15161A; --zg-ink-2:#5F626C; --zg-ink-3:#93959D;
+  --zg-hair:#E9E8E4; --zg-hair-2:#D8D6D0; --zg-bg-2:#FBFAF8;
+  --zg-navy:#1A2B6B; --zg-acc:#D9641F; --zg-ok:#127A4B;
+  --zg-fd:"Archivo","IBM Plex Sans KR",sans-serif;
+  --zg-fb:"IBM Plex Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  --zg-fm:"IBM Plex Mono",ui-monospace,monospace;
+  font-family:var(--zg-fb);
+  color:var(--zg-ink);
+  word-break:keep-all;
+}
+
+/* ── 단계 표시 (1 장바구니 → 2 주문서작성 → 3 주문완료) ─────── */
+.ec-base-step .step{display:flex;gap:6px;justify-content:center;padding:6px 0 2px}
+.ec-base-step .step li{
+  font-family:var(--zg-fm);font-size:11.5px;letter-spacing:.02em;color:#93959D;
+  border:1px solid #E9E8E4;border-radius:999px;padding:7px 14px;background:#fff}
+.ec-base-step .step li.selected{
+  color:#fff;background:#15161A;border-color:#15161A;font-weight:600}
+
+/* ── 국내/해외 탭 ─────────────────────────────────────────── */
+.ec-base-tab.typeNav .menu{display:flex;gap:8px;border:0;margin:0 0 4px}
+.ec-base-tab.typeNav .menu li{border:0;background:none;flex:0 0 auto;width:auto;float:none}
+.ec-base-tab.typeNav .menu li a{
+  display:block;padding:11px 16px;border:1px solid #D8D6D0;border-radius:999px;
+  font-size:13.5px;font-weight:600;letter-spacing:-.01em;color:#5F626C;background:#fff;
+  text-decoration:none}
+.ec-base-tab.typeNav .menu li.selected a{color:#fff;background:#15161A;border-color:#15161A}
+.ec-base-tab.typeNav .right{font-size:12px;color:#93959D;padding-top:10px}
+
+/* ── 섹션 제목 ────────────────────────────────────────────── */
+.cart-product .ec-base-fold.theme1{border:0}
+.cart-product .ec-base-fold.theme1 > .title h3{
+  font-size:17px;font-weight:700;letter-spacing:-.02em;margin:0}
+.cart-product .title.subTitle h4{
+  font-family:var(--zg-fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--zg-ink-3);font-weight:500;margin:18px 0 8px}
+.cart-product .summary .title h5{
+  font-size:11.5px;color:var(--zg-ink-3);font-weight:500;margin:0}
+
+/* ── 상품 행 ──────────────────────────────────────────────── */
+.cart-product .ec-base-prdInfo{
+  position:relative;border:1px solid var(--zg-hair);border-radius:16px;background:#fff;
+  padding:16px 16px 14px;margin:0 0 10px;transition:border-color .16s}
+.cart-product .ec-base-prdInfo:hover{border-color:var(--zg-hair-2)}
+.cart-product .ec-base-prdInfo .prdBox{
+  display:grid;grid-template-columns:20px 84px 1fr;gap:14px;align-items:start}
+.cart-product .ec-base-prdInfo .check{margin:2px 0 0;width:18px;height:18px;accent-color:#15161A}
+.cart-product .ec-base-prdInfo .thumbnail{margin:0}
+.cart-product .ec-base-prdInfo .thumbnail img{
+  width:84px;height:84px;object-fit:cover;border-radius:12px;background:var(--zg-bg-2);
+  border:1px solid var(--zg-hair)}
+.cart-product .ec-base-prdInfo .description{padding:0;min-width:0}
+.cart-product .ec-base-prdInfo .prdName{
+  display:block;font-size:15px;font-weight:600;letter-spacing:-.015em;line-height:1.5;
+  margin:0 22px 8px 0}
+.cart-product .ec-base-prdInfo .prdName a{color:inherit;text-decoration:none}
+
+/* 가격 줄 */
+.cart-product .ec-base-prdInfo .description .price{margin:0 0 8px;padding:0;list-style:none}
+.cart-product .ec-base-prdInfo .description .price li{
+  font-family:var(--zg-fd);font-weight:700;font-size:17px;letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums;color:var(--zg-ink);padding:0}
+.cart-product .ec-base-prdInfo .description .price li .txtSecondary{
+  font-family:var(--zg-fb);font-weight:400;font-size:12.5px;color:var(--zg-ink-3)}
+
+/* 배송·적립금 */
+.cart-product .ec-base-prdInfo .info{margin:0 0 8px;padding:0;list-style:none}
+.cart-product .ec-base-prdInfo .info li{
+  font-size:12.5px;color:var(--zg-ink-2);line-height:1.75;padding:0}
+.cart-product .ec-base-prdInfo .info li.mileage{color:var(--zg-ok)}
+
+/* 옵션 */
+.cart-product .ec-base-prdInfo .optionGroup{margin:0;padding:0;list-style:none}
+.cart-product .ec-base-prdInfo .optionGroup li{padding:0}
+.cart-product .ec-base-prdInfo .optionGroup .name{
+  display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px;
+  font-size:12.5px;color:var(--zg-ink-2);
+  background:var(--zg-bg-2);border:1px solid var(--zg-hair);border-radius:999px;padding:5px 12px}
+.cart-product .ec-base-prdInfo .optionGroup .btnText{
+  font-size:11.5px;color:var(--zg-ink-2);text-decoration:none;border-bottom:1px solid var(--zg-hair-2)}
+
+/* 수량 */
+.cart-product .ec-base-prdInfo .quantity{
+  grid-column:3;display:flex;align-items:center;gap:8px;margin:12px 0 0;padding:0;text-align:left}
+.cart-product .ec-base-prdInfo .quantity > div{display:flex;align-items:center;gap:8px}
+.cart-product .ec-base-prdInfo .ec-base-qty{
+  display:inline-flex;align-items:center;border:1px solid var(--zg-hair-2);border-radius:10px;
+  overflow:hidden;background:#fff;position:relative;width:auto;padding:0}
+/* 기본 스킨은 − / + 를 :before, :after 로 그린다. 우리는 SVG 배경으로 대체하므로 끈다.
+   (끄지 않으면 position:absolute 인 이 조각들이 카드 모서리로 튄다) */
+.cart-product .ec-base-prdInfo .ec-base-qty a:before,
+.cart-product .ec-base-prdInfo .ec-base-qty a:after{display:none;content:none}
+.cart-product .ec-base-prdInfo .ec-base-qty input{
+  width:44px;height:38px;border:0;text-align:center;font-family:var(--zg-fd);font-weight:700;
+  font-size:14px;font-variant-numeric:tabular-nums;background:transparent;color:var(--zg-ink)}
+.cart-product .ec-base-prdInfo .ec-base-qty .up,
+.cart-product .ec-base-prdInfo .ec-base-qty .down{
+  width:38px;height:38px;position:static;display:block;text-indent:-9999px;overflow:hidden;
+  background-position:center;background-repeat:no-repeat;background-size:11px 11px;opacity:.75;
+  border:0;margin:0}
+.cart-product .ec-base-prdInfo .ec-base-qty .down{order:-1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M1 6h10' stroke='%2315161A' stroke-width='1.4' stroke-linecap='round'/></svg>")}
+.cart-product .ec-base-prdInfo .ec-base-qty .up{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 1v10M1 6h10' stroke='%2315161A' stroke-width='1.4' stroke-linecap='round'/></svg>")}
+.cart-product .ec-base-prdInfo .btnNormal.sizeQty{
+  height:38px;line-height:36px;padding:0 14px;border-radius:10px;
+  border:1px solid var(--zg-hair-2);background:#fff;color:var(--zg-ink-2);
+  font-family:var(--zg-fb);font-size:12.5px;font-weight:600;text-decoration:none}
+
+/* 행 하단 버튼 */
+.cart-product .ec-base-prdInfo .buttonGroup{
+  grid-column:3;display:flex;gap:8px;margin:10px 0 0;padding:0}
+.cart-product .ec-base-prdInfo .buttonGroup a{
+  flex:0 0 auto;height:38px;line-height:36px;padding:0 16px;border-radius:10px;
+  font-family:var(--zg-fb);font-size:12.5px;font-weight:600;letter-spacing:-.01em;
+  text-decoration:none}
+.cart-product .ec-base-prdInfo .buttonGroup .btnNormal{
+  border:1px solid var(--zg-hair-2);background:#fff;color:var(--zg-ink-2)}
+.cart-product .ec-base-prdInfo .buttonGroup .btnSubmit{
+  border:1px solid #15161A;background:#15161A;color:#fff}
+
+/* 삭제 (오른쪽 위 X)
+   기본 스킨은 :before(세로) + :after(가로) 로 "+" 를 그린 뒤 .btnDelete 자체를 45도 돌려 X 를 만든다.
+   그 방식을 그대로 쓰고 위치·크기·색만 우리 값으로 맞춘다.
+   (여기서 :before/:after 를 또 회전시키면 90도가 되어 다시 "+" 가 된다 — 하지 말 것) */
+.cart-product .ec-base-prdInfo .btnDelete{
+  position:absolute;top:11px;right:11px;width:32px;height:32px;border-radius:50%;
+  overflow:hidden;text-indent:-9999px;background:none;
+  transform:rotate(45deg);transition:background-color .16s}
+.cart-product .ec-base-prdInfo .btnDelete:hover{background-color:var(--zg-bg-2)}
+.cart-product .ec-base-prdInfo .btnDelete:before{
+  content:"";position:absolute;left:50%;top:50%;right:auto;
+  width:1.4px;height:16px;margin:-8px 0 0 -0.7px;background:var(--zg-ink-3);border-radius:1px}
+.cart-product .ec-base-prdInfo .btnDelete:after{
+  content:"";position:absolute;left:50%;top:50%;right:auto;
+  width:16px;height:1.4px;margin:-0.7px 0 0 -8px;background:var(--zg-ink-3);border-radius:1px}
+.cart-product .ec-base-prdInfo .btnDelete:hover:before,
+.cart-product .ec-base-prdInfo .btnDelete:hover:after{background:var(--zg-ink)}
+
+/* 전체선택 / 선택삭제 줄 */
+.cart-product .ec-base-button.typeMulti{
+  display:flex;justify-content:space-between;gap:8px;margin:14px 0 0;padding:0;border:0}
+.cart-product .ec-base-button.typeMulti .gLeft,
+.cart-product .ec-base-button.typeMulti .gRight{display:flex;gap:8px;float:none}
+.cart-product .ec-base-button.typeMulti .btnNormal.sizeS{
+  height:36px;line-height:34px;padding:0 14px;border-radius:999px;
+  border:1px solid var(--zg-hair-2);background:#fff;color:var(--zg-ink-2);
+  font-family:var(--zg-fb);font-size:12.5px;font-weight:600;text-decoration:none}
+
+/* ── 합계 카드 ────────────────────────────────────────────── */
+.cart-total .sticky{position:sticky;top:16px}
+.cart-total .totalSummary{
+  border:1px solid var(--zg-hair);border-radius:16px;background:#fff;padding:18px 18px 6px}
+.cart-total .totalSummary__item{margin:0;border:0}
+.cart-total .totalSummary__item .heading{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 0}
+.cart-total .totalSummary__item .heading .title{
+  font-size:13.5px;font-weight:500;color:var(--zg-ink-2);margin:0}
+.cart-total .totalSummary__item .heading .data{
+  font-family:var(--zg-fd);font-weight:600;font-size:15px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;color:var(--zg-ink)}
+.cart-total .totalSummary__item .contents{
+  border-top:1px dashed var(--zg-hair);margin:4px 0 8px;padding:8px 0 0}
+.cart-total .totalSummary__item .contents .item{
+  display:flex;justify-content:space-between;gap:10px;padding:4px 0;
+  font-size:12.5px;color:var(--zg-ink-2)}
+.cart-total .totalSummary__item .contents .item .title{font-size:12.5px;font-weight:400;margin:0}
+.cart-total .totalSummary .shippingArea .status,
+.cart-total .totalSummary .shippingFee .btnText{font-size:12px;color:var(--zg-ink-3)}
+
+/* 결제예정금액 */
+.cart-total .totalSummary .total{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  border-top:1px solid #15161A;margin:10px 0 0;padding:15px 0 16px}
+.cart-total .totalSummary .total .title{
+  font-size:14.5px;font-weight:700;letter-spacing:-.015em;color:var(--zg-ink);margin:0}
+.cart-total .totalSummary .paymentPrice{
+  font-family:var(--zg-fd);font-weight:700;font-size:26px;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;color:var(--zg-ink)}
+.cart-total .totalSummary .paymentPrice strong{font-weight:700}
+
+/* 주문 버튼 */
+.cart-total .ec-base-button{margin:12px 0 0;border:0;padding:0}
+.cart-total [class^="btn"].gFull.sizeL{
+  display:block;width:100%;height:54px;line-height:52px;border-radius:13px;
+  font-family:var(--zg-fb);font-size:15px;font-weight:700;letter-spacing:-.01em;
+  margin:0 0 9px;padding:0;text-decoration:none}
+.cart-total .btnSubmit.gFull.sizeL{background:#15161A;border:1px solid #15161A;color:#fff}
+.cart-total .btnNormal.gFull.sizeL{background:#fff;border:1px solid #15161A;color:#15161A}
+
+/* 플러그인 결제 버튼 자리 — 지우거나 옮기지 않는다 */
+.cart-total #orderFixItem > div[id]{margin-top:8px}
+
+.cart-total .ec-base-help li{font-size:12px;color:var(--zg-ink-3);line-height:1.8}
+
+/* ── 빈 장바구니 ──────────────────────────────────────────── */
+.ec-base-prdEmpty{
+  border:1px dashed #D8D6D0;border-radius:16px;background:#FBFAF8;
+  padding:56px 20px;text-align:center;font-size:14px;color:#5F626C;margin:0}
+
+/* ── 하단 고정 바 (모바일) ────────────────────────────────── */
+.ec-base-button.gFixed{
+  background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-top:1px solid #E9E8E4;padding:10px 20px calc(10px + env(safe-area-inset-bottom))}
+.ec-base-button.gFixed .gColumn{display:flex;gap:9px;max-width:520px;margin:0 auto}
+.ec-base-button.gFixed [class^="btn"].sizeM{
+  flex:1 1 0;height:54px;line-height:52px;border-radius:13px;padding:0;
+  font-family:"IBM Plex Sans KR",-apple-system,sans-serif;font-size:15px;font-weight:700;
+  text-decoration:none}
+.ec-base-button.gFixed .btnSubmit{background:#15161A;border:1px solid #15161A;color:#fff}
+.ec-base-button.gFixed .btnNormal{background:#fff;border:1px solid #15161A;color:#15161A}
+
+/* ── 이용안내 ─────────────────────────────────────────────── */
+[module="Order_BasketGuide"]{
+  border-top:1px solid #E9E8E4;margin-top:34px;padding-top:24px}
+[module="Order_BasketGuide"] h3{font-size:14px;font-weight:700;letter-spacing:-.015em;margin:0 0 12px}
+[module="Order_BasketGuide"] .inner{
+  border:1px solid #E9E8E4;border-radius:14px;background:#FBFAF8;padding:18px 18px 16px}
+[module="Order_BasketGuide"] h4{
+  font-size:12.5px;font-weight:700;color:#15161A;margin:14px 0 6px}
+[module="Order_BasketGuide"] h4:first-child{margin-top:0}
+[module="Order_BasketGuide"] li{font-size:12px;color:#5F626C;line-height:1.85}
+
+/* ── 데스크톱 2단 ─────────────────────────────────────────── */
+@media all and (min-width:1025px){
+  /* 스킨이 이미 .cart-container 를 flex 로 잡는다. 여백만 우리 값으로 맞춘다 */
+  .cart-container{align-items:flex-start;gap:30px}
+  .cart-product{min-width:0}
+  .cart-total{width:340px;margin:0}
+  .ec-base-button.gFixed{display:none}
+}
+
+/* ── 모바일 ───────────────────────────────────────────────── */
+@media all and (max-width:767px){
+  .cart-product .ec-base-prdInfo{padding:14px 14px 12px;border-radius:14px}
+  .cart-product .ec-base-prdInfo .prdBox{grid-template-columns:18px 68px 1fr;gap:11px}
+  .cart-product .ec-base-prdInfo .thumbnail img{width:68px;height:68px;border-radius:10px}
+  .cart-product .ec-base-prdInfo .prdName{font-size:14px}
+  .cart-product .ec-base-prdInfo .description .price li{font-size:15.5px}
+  .cart-product .ec-base-prdInfo .quantity,
+  .cart-product .ec-base-prdInfo .buttonGroup{grid-column:1/-1}
+  .cart-total .totalSummary{padding:16px 15px 4px}
+  .cart-total .totalSummary .paymentPrice{font-size:23px}
+  .ec-base-step .step li{font-size:11px;padding:6px 11px}
+}
