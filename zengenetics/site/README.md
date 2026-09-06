@@ -23,6 +23,7 @@
 | `product-vitaminb.html` | 비타민B컴플렉스 상품페이지 | https://claude.ai/code/artifact/a95de7da-56b0-43b6-bd19-ac997e830b4a |
 | `product-magnesium.html` | 마그네슘 상품페이지 | https://claude.ai/code/artifact/4cd6d9e9-53fc-45ad-b8fb-6170e3d4e090 |
 | `index.html` | **전체 페이지 목록 (대표님 열람용 랜딩)** | https://claude.ai/code/artifact/f0344bc4-53c7-4a2e-9fed-fe880c721d98 |
+| `style-guide.html` | **브랜드·디자인 스타일 가이드 (외부 협업자 전달용, 전체 복사 버튼)** | https://claude.ai/code/artifact/c33ab57e-0536-47ed-9cf5-cfd3902f617e |
 | `product-set-kmb.html` | 칼마비 세트 상품페이지 | https://claude.ai/code/artifact/abe7bfbd-cce3-478c-97d4-526284dd94e0 |
 | `product-set-swell.html` | **붓기 부스터** 세트 상품페이지 | https://claude.ai/code/artifact/3fa36b43-5e8d-46a3-bc9d-57f0aa009c60 |
 | `product-set-performance.html` | **퍼포먼스 부스터** 세트 상품페이지 | https://claude.ai/code/artifact/02650a10-0f76-423b-9141-62ee3fd3b3be |

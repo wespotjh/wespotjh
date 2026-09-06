@@ -1,0 +1,602 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"></head><body>
+<title>젠제네틱스 브랜드 스타일 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+ :root{--paper:#FBFAF8;--card:#fff;--ink:#15161A;--ink2:#5F626C;--ink3:#93959D;
+  --hair:#E9E8E4;--navy:#1A2B6B;--acc:#D9641F;
+  --fb:"IBM Plex Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  --fm:"IBM Plex Mono",ui-monospace,monospace;--fd:"Archivo",var(--fb)}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--fb);
+   font-size:15px;line-height:1.8;-webkit-text-size-adjust:100%;padding-bottom:90px;word-break:keep-all}
+ .w{max-width:860px;margin:0 auto;padding:0 22px}
+ header{background:var(--navy);color:#fff;padding:40px 0 34px}
+ header .k{font-family:var(--fm);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#A9B6DA}
+ header h1{font-size:clamp(23px,4.4vw,31px);font-weight:700;letter-spacing:-.03em;margin:10px 0 8px;line-height:1.3}
+ header p{margin:0;color:#C8D2E8;font-size:14px;max-width:52em}
+ main{padding-top:8px}
+ h1{font-size:clamp(21px,3.6vw,26px);font-weight:700;letter-spacing:-.025em;
+    margin:44px 0 12px;padding-top:22px;border-top:1px solid var(--hair);line-height:1.35}
+ h2{font-size:clamp(18px,3vw,21px);font-weight:700;letter-spacing:-.02em;margin:36px 0 10px;line-height:1.4}
+ h3{font-size:16px;font-weight:700;letter-spacing:-.015em;margin:26px 0 8px;color:var(--navy)}
+ h4{font-size:14.5px;font-weight:600;margin:20px 0 6px;color:var(--ink2)}
+ p{margin:10px 0}
+ hr{border:0;border-top:1px solid var(--hair);margin:30px 0}
+ ul,ol{margin:10px 0;padding-left:20px} li{margin:5px 0}
+ code{font-family:var(--fm);font-size:.88em;background:#F1EFEA;border:1px solid var(--hair);
+   border-radius:5px;padding:1px 5px;white-space:nowrap}
+ pre{background:#12172A;color:#DCE3F5;border-radius:12px;padding:15px 16px;overflow-x:auto;margin:14px 0}
+ pre code{background:none;border:0;padding:0;color:inherit;white-space:pre;font-size:12.5px;line-height:1.75}
+ blockquote{margin:14px 0;padding:13px 16px;background:#fff;border:1px solid var(--hair);
+   border-left:3px solid var(--acc);border-radius:0 10px 10px 0;color:var(--ink2);font-size:14px}
+ blockquote strong{color:var(--ink)}
+ .tw{overflow-x:auto;margin:14px 0;border:1px solid var(--hair);border-radius:12px;background:#fff}
+ table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:420px}
+ th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--hair)}
+ th{background:#F4F2ED;font-weight:700;font-size:12.5px;white-space:nowrap}
+ tbody tr:last-child td{border-bottom:0}
+ td code,th code{white-space:nowrap}
+ .cb{display:inline-block;width:13px;height:13px;border:1.5px solid var(--ink3);
+   border-radius:3px;margin-right:8px;vertical-align:-1px}
+ .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);
+   backdrop-filter:blur(10px);border-top:1px solid var(--hair);
+   padding:11px 22px calc(11px + env(safe-area-inset-bottom));z-index:20}
+ .bar .in{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:center}
+ .bar .t{flex:1;font-size:12.5px;color:var(--ink2);line-height:1.5}
+ .bar button{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;
+   font-family:var(--fb);font-weight:700;font-size:14px;border-radius:11px;
+   padding:12px 18px;min-height:46px;cursor:pointer;white-space:nowrap}
+ .bar button.ok{background:#127A4B;border-color:#127A4B}
+ @media(max-width:560px){.bar .t{display:none}.bar button{flex:1}}
+</style>
+
+<header><div class="w">
+ <span class="k">Zengenetics · Brand style guide</span>
+ <h1>브랜드·디자인 스타일 가이드</h1>
+ <p>브랜드 스토리를 새로 손볼 때 지금 틀에서 벗어나지 않게 하기 위한 기준서입니다.
+    아래 <b>전체 복사</b>를 눌러 그대로 ChatGPT에 붙여 넣으시면 됩니다.</p>
+</div></header>
+
+<main class="w"><h1>젠제네틱스 브랜드·디자인 스타일 가이드 (v1 · 2026-09-06)</h1>
+<blockquote><strong>이 문서의 용도</strong> — 브랜드 스토리를 새로 손볼 때, <strong>지금 만들어 둔 틀에서 벗어나지 않게</strong> 하기 위한 기준서다.<br>ChatGPT 등 외부 협업자에게 이 문서를 통째로 전달한다. 여기 적히지 않은 것을 새로 만들지 않는다.<br>출처는 실제 결과물(<code>zengenetics/site/*.html</code>)과 대표님 확정 지시다. 추정으로 쓴 항목은 따로 표시했다.</blockquote>
+<hr>
+<h2>0. 먼저 — 절대 어기면 안 되는 것 7가지</h2>
+<ol><li><strong>지어낸 숫자·후기 금지.</strong> 없는 수치를 만들지 않는다. 숫자를 쓰면 <strong>반드시 기간·기준·채널을 같이 적는다.</strong></li><li><strong>평점·리뷰 수를 본문에 쓰지 않는다.</strong> 알파리뷰 앱이 채우는 자리만 비워 둔다. (대표님 2026-09-06)</li><li><strong>가격과 할인율을 직접 쓰지 않는다.</strong> cafe24 상품등록 값이 들어오고, %는 스킨이 계산한다.</li><li><strong>&quot;개발 1년&quot; 같은 개발 기간 문구를 넣지 않는다.</strong></li><li><strong>&#x27;루틴&#x27;·&#x27;웰니스&#x27;는 쓴다.</strong> (예전 금지어 규칙은 해제됨)</li><li><strong>심의는 신경 쓰지 않는다.</strong> 대표님이 마지막에 한 번에 처리하신다. 심의를 이유로 문구를 깎지 않는다.</li><li><strong>제품 패키지를 AI로 그리지 않는다.</strong> 실제 제품 이미지만 쓴다.</li></ol>
+<hr>
+<h2>1. 브랜드 한 줄</h2>
+<blockquote><strong>몸이 스스로 만들지 못하는 것을, 매일 같은 시간에 한 포씩.</strong></blockquote>
+<ul><li>카테고리: 미네랄·비타민B 분말 스틱 (물 없이 3초)</li><li>브랜드 태도: <strong>더 얹는 것이 아니라, 어긋난 것이 제자리로 돌아오게 하는 것</strong></li><li>이 문장이 브랜드 스토리 전체의 뼈대다. 챕터마다 표현만 바뀌고 이 명제는 반복된다.</li></ul>
+<p><strong>슬로건·키워드 (확정 사용 중)</strong></p>
+<div class="tw"><table><thead><tr><th>문구</th><th>쓰이는 곳</th></tr></thead><tbody><tr><td><code>Reset · Recharge · Recover</code></td><td>제품 3종의 역할 구분. 실물 패키지·상세페이지·홈에 이미 박혀 있음</td></tr><tr><td><code>MORNING TO NIGHT MINERALS</code></td><td>홈 히어로 영문 라벨</td></tr><tr><td><code>아침부터 밤까지, 한 포씩</code></td><td>홈 히어로 H1</td></tr><tr><td><code>하루를 고르게</code></td><td>브랜드 스토리 제목 (구 「적을 수 있는 것만」에서 변경)</td></tr><tr><td><code>숨을 고르는 하루</code></td><td>브랜드 스토리 커버 H1</td></tr><tr><td><code>Zengenetics · Daily wellness</code></td><td>브랜드 스토리 중간 브리딩 섹션 서명</td></tr></tbody></table></div>
+<p><strong>Reset / Recharge / Recover 매핑 (고정 · 바꾸지 말 것)</strong></p>
+<div class="tw"><table><thead><tr><th>영문</th><th>제품</th><th>시간</th><th>한 줄</th></tr></thead><tbody><tr><td><strong>Reset</strong></td><td>칼륨</td><td>낮·저녁</td><td>나트륨을 내보내는 쪽</td></tr><tr><td><strong>Recharge</strong></td><td>비타민B 컴플렉스</td><td>아침</td><td>하루의 시동을 거는 쪽</td></tr><tr><td><strong>Recover</strong></td><td>마그네슘</td><td>자기 전·밤</td><td>근육과 신경을 회복하는 쪽</td></tr></tbody></table></div>
+<hr>
+<h2>2. 목소리 (Voice) — 가장 중요한 부분</h2>
+<h3>2-1. 기본 규칙</h3>
+<div class="tw"><table><thead><tr><th>항목</th><th>규칙</th><th>예</th></tr></thead><tbody><tr><td>어미</td><td><strong><code>~습니다</code> / <code>~입니다</code> 평서형.</strong> 감탄·느낌표 쓰지 않는다</td><td>&quot;3초면 끝납니다.&quot;</td></tr><tr><td>자칭</td><td><strong><code>저희</code></strong> (<code>우리</code> 아님)</td><td>&quot;저희가 하는 일은&quot;</td></tr><tr><td>권유</td><td>명령형 대신 <strong><code>~하시면 됩니다</code> / <code>~하셔도 됩니다</code></strong></td><td>&quot;물에 타서 드셔도 됩니다.&quot;</td></tr><tr><td>고객 호칭</td><td>보통 <strong>생략</strong>. <code>당신</code>은 클로징 한 곳에서만</td><td>&quot;당신의 하루에 맞는 루틴을 고르세요&quot;</td></tr><tr><td>문장 길이</td><td><strong>짧게 끊는다.</strong> 한 문장 한 정보. 접속사 최소</td><td>&quot;삼키지 않아도 되는 것. 물이 없어도 되는 것.&quot;</td></tr><tr><td>이모지</td><td><strong>쓰지 않는다</strong></td><td>—</td></tr><tr><td>물음표</td><td>헤드라인엔 거의 안 쓴다. FAQ·선택 유도에만</td><td>&quot;오늘 하루, 어디가 제일 아쉬우셨나요.&quot;</td></tr></tbody></table></div>
+<h3>2-2. 이 브랜드 특유의 화법 — <strong>부정으로 신뢰를 만든다</strong></h3>
+<p>젠제네틱스 카피의 핵심 기술은 <strong>&quot;무엇을 안 했는지&quot;를 먼저 말하는 것</strong>이다. 이 패턴을 유지해야 한다.</p>
+<pre><code>감으로 정하지 않았습니다. 기준을 먼저 세우고 거기에 맞춘 숫자입니다.
+그다음에 한 일은 빼는 일이었습니다.
+투자는 받지 않았습니다. 팔아서 만들고, 남으면 또 만듭니다. 그게 전부입니다.
+과장해서 팔면 두 번째 주문이 없으니 과장할 수도 없습니다.
+셋 다 극적인 일은 하지 않습니다.
+한 포로 하루가 바뀌지는 않습니다. 다만 한 달의 루틴은 바뀝니다.</code></pre>
+<p>→ <strong>자랑을 자랑으로 하지 않는다.</strong> 제약·한계·안 한 일을 먼저 말하고, 그 뒤에 사실을 놓는다.</p>
+<h3>2-3. 헤드라인 작법</h3>
+<ul><li><strong>두 줄로 끊는다.</strong> 줄바꿈 위치가 의미 단위가 되게.</li></ul>
+<p>  ``<code>   몸이 못 만드는 것을   매일 채웁니다   </code>`<code>   </code>`<code>   비우는 만큼   채웁니다   </code>``</p>
+<ul><li><strong>동사로 끝낸다.</strong> 명사형 나열(&quot;최고의 미네랄 솔루션&quot;) 금지.</li><li>챕터 헤드라인은 <strong>주장이 아니라 사실 서술</strong>이다. &quot;최고&quot;, &quot;혁신&quot;, &quot;1등&quot; 같은 형용사를 쓰지 않는다.</li></ul>
+<h3>2-4. 쓰지 않는 말 (블랙리스트)</h3>
+<p><code>혁신</code> <code>최고</code> <code>놀라운</code> <code>기적</code> <code>완벽한 해답</code> <code>단 하나의</code> <code>~하세요!(느낌표 명령)</code> <code>드디어</code> <code>역대급</code> <code>믿을 수 없는</code> <code>압도적</code> <code>초특가</code> <code>지금 바로!</code> 과장 부사(<code>무려</code>, <code>엄청</code>), 이모지, 물결표 남발(<code>~~</code>), 영어 남발.</p>
+<h3>2-5. 실제 문장 견본 (이 톤을 유지하라)</h3>
+<p><strong>여는 글</strong></p>
+<blockquote>웰니스는 무언가를 더 얹는 일이 아니라고 생각합니다. <strong>하루에서 어긋난 것이 제자리로 돌아오는 일</strong>에 가깝습니다.</blockquote>
+<p><strong>형태 (Chapter 02)</strong></p>
+<blockquote>제품을 만들기 전에 제일 많이 들은 말이 그거였습니다. 좋은 건 아는데 못 먹겠다고요. 큰 알약을 아침마다 세 알씩 삼키는 일은 생각보다 오래 못 갑니다.</blockquote>
+<p><strong>비움과 채움 (Chapter 06)</strong></p>
+<blockquote>하루는 몸에 자국을 남깁니다. 짜게 먹은 날은 몸이 무겁습니다. 오래 앉아 있던 날은 다리가 뻐근하고, 늦게 잔 날은 아침이 유난히 길게 느껴집니다. 특별한 일이 아니라 그냥 하루가 지나간 자리입니다.</blockquote>
+<p><strong>회사 (Chapter 08)</strong></p>
+<blockquote>매일 먹는 물건이라 그렇습니다. 한 번 사고 마는 물건이었다면 다른 회사가 됐을 겁니다.</blockquote>
+<hr>
+<h2>3. 타이포그래피</h2>
+<h3>3-1. 홈 · 상품페이지 (고딕 체계)</h3>
+<div class="tw"><table><thead><tr><th>역할</th><th>폰트</th><th>비고</th></tr></thead><tbody><tr><td>본문·헤드라인</td><td><strong>IBM Plex Sans KR</strong> (300/400/500/600/700)</td><td>대표님이 4종 시안 중 직접 선택 (&quot;고딕 중 가장 부드러움&quot;)</td></tr><tr><td>영문 디스플레이</td><td><strong>Archivo</strong> (500/600/700) / 히어로 자이언트 워드는 <strong>Archivo Black</strong></td><td>숫자·가격도 Archivo</td></tr><tr><td>영문 라벨·수치</td><td><strong>IBM Plex Mono</strong> (400/500)</td><td>대문자 + 자간 <code>.14~.26em</code></td></tr><tr><td>폴백</td><td>Noto Sans KR</td><td></td></tr></tbody></table></div>
+<p>CSS 변수 (그대로 유지):</p>
+<pre><code>--f-d:&quot;Archivo&quot;,&quot;IBM Plex Sans KR&quot;,sans-serif;   /* 디스플레이·숫자 */
+--f-b:&quot;IBM Plex Sans KR&quot;,-apple-system,...;      /* 본문 */
+--f-m:&quot;IBM Plex Mono&quot;,ui-monospace,monospace;    /* 라벨 */</code></pre>
+<h3>3-2. 브랜드 스토리 (세리프 체계 — 여기만 다르다)</h3>
+<p>브랜드 스토리는 <strong>의도적으로 명조(세리프)를 쓴다.</strong> zen·명상 톤을 위한 결정이며 홈과 다른 것이 정상이다.</p>
+<div class="tw"><table><thead><tr><th>역할</th><th>폰트</th><th>적용 대상</th></tr></thead><tbody><tr><td><strong>헤드라인·리드</strong></td><td><strong>Noto Serif KR</strong> (400/600/700)</td><td>커버 H1/H2, 여는 글 리드, 챕터 H2, 브리딩 문장, 루틴 시간 라벨, 클로징 H2</td></tr><tr><td>본문</td><td>IBM Plex Sans KR (300~600)</td><td>단락 본문</td></tr><tr><td>라벨·숫자</td><td>IBM Plex Mono</td><td>챕터 인덱스, 큰 숫자(262.5 등), 국가 칩, 채널명, 캡션</td></tr></tbody></table></div>
+<p>세리프는 <strong>큰 글자에만</strong> 쓴다. 작은 본문에 세리프를 쓰지 않는다.</p>
+<h3>3-3. 조판 규칙 (공통)</h3>
+<ul><li><code>letter-spacing</code>: 한글 헤드라인 <strong>-2.5% ~ -1.5%</strong>, 본문 -0.5%, 영문 라벨 <strong>+14% ~ +26%</strong></li><li><code>line-height</code>: 헤드라인 1.28~1.40 / 본문 <strong>1.70~1.85</strong> (여유 있게)</li><li><code>word-break: keep-all</code> 필수 — 한국어 단어가 잘리면 안 된다</li><li>반응형은 <code>clamp()</code>로. 예: <code>clamp(26px,4vw,42px)</code></li><li>숫자는 <code>font-variant-numeric: tabular-nums</code></li></ul>
+<h3>3-4. 피그마 등록 텍스트 스타일 (9종 · 이걸 쓴다)</h3>
+<div class="tw"><table><thead><tr><th>스타일명</th><th>폰트</th><th>크기</th><th>행간</th><th>자간</th></tr></thead><tbody><tr><td><code>히어로/H1</code></td><td>IBM Plex Sans KR Bold</td><td>38</td><td>122%</td><td>−2.5%</td></tr><tr><td><code>히어로/서브</code></td><td>Regular</td><td>16</td><td>160%</td><td>−1%</td></tr><tr><td><code>섹션/H2</code></td><td>Bold</td><td>26</td><td>134%</td><td>−2%</td></tr><tr><td><code>섹션/H3</code></td><td>Bold</td><td>20</td><td>140%</td><td>−1.5%</td></tr><tr><td><code>본문/기본</code></td><td>Regular</td><td>16</td><td>175%</td><td>−0.5%</td></tr><tr><td><code>본문/작게</code></td><td>Regular</td><td>14</td><td>170%</td><td>−0.5%</td></tr><tr><td><code>본문/캡션</code></td><td>Regular</td><td>12</td><td>160%</td><td>0</td></tr><tr><td><code>버튼/기본</code></td><td>Bold</td><td>15</td><td>120%</td><td>−1%</td></tr><tr><td><code>라벨/영문 트래킹</code></td><td>Archivo Medium</td><td>11</td><td>140%</td><td><strong>+20%</strong></td></tr></tbody></table></div>
+<hr>
+<h2>4. 컬러</h2>
+<h3>4-1. 피그마 등록 색상 스타일 (12종 · 새로 만들지 말 것)</h3>
+<div class="tw"><table><thead><tr><th>스타일명</th><th>HEX</th><th>용도</th></tr></thead><tbody><tr><td><code>브랜드/네이비 딥</code></td><td><code>#0B1633</code></td><td>어두운 배경, 커버</td></tr><tr><td><code>브랜드/네이비</code></td><td><code>#16295C</code></td><td>브랜드 기본 네이비</td></tr><tr><td><code>브랜드/네이비 소프트</code></td><td><code>#24397A</code></td><td>보조</td></tr><tr><td><code>브랜드/페이퍼</code></td><td><code>#FAF8F3</code></td><td>따뜻한 바탕</td></tr><tr><td><code>브랜드/잉크</code></td><td><code>#1B2233</code></td><td>본문 글자</td></tr><tr><td><code>브랜드/미스트</code></td><td><code>#C8D2E8</code></td><td>흐린 글자·보조 정보</td></tr><tr><td><code>브랜드/우드</code></td><td><code>#B98D5F</code></td><td>우드 톤 포인트</td></tr><tr><td><code>브랜드/샌드</code></td><td><code>#E9DCC6</code></td><td>샌드 톤</td></tr><tr><td><code>브랜드/라인</code></td><td><code>#E4DECF</code></td><td>구분선·테두리</td></tr><tr><td><code>제품/칼륨 RESET</code></td><td><code>#D9641F</code></td><td>칼륨 액센트(오렌지)</td></tr><tr><td><code>제품/비타민B RECHARGE</code></td><td><code>#E11553</code></td><td>비타민B 액센트(마젠타)</td></tr><tr><td><code>제품/마그네슘 RECOVER</code></td><td><code>#7C21CE</code></td><td>마그네슘 액센트(퍼플)</td></tr></tbody></table></div>
+<h3>4-2. 코드 토큰 — 홈·상품페이지</h3>
+<pre><code>--bg:#FFFFFF;  --bg-2:#FBFAF8;
+--ink:#15161A; --ink-2:#5F626C; --ink-3:#93959D;
+--hair:#E9E8E4; --hair-2:#D8D6D0;
+--navy:#1A2B6B;  --ok:#127A4B;</code></pre>
+<p>제품별 액센트 3종 (<code>--acc</code> / <code>--acc-soft</code> / <code>--acc-deep</code>):</p>
+<div class="tw"><table><thead><tr><th>제품</th><th>acc</th><th>acc-soft</th><th>acc-deep</th></tr></thead><tbody><tr><td>칼륨</td><td><code>#D9641F</code></td><td><code>#F6E3D5</code></td><td><code>#8F3608</code></td></tr><tr><td>비타민B</td><td><code>#E11553</code></td><td><code>#FBDCE6</code></td><td><code>#A50A3C</code></td></tr><tr><td>마그네슘</td><td><code>#7C21CE</code></td><td><code>#ECE0FA</code></td><td><code>#561FAA</code></td></tr><tr><td>세트(칼마비)</td><td><code>#3757C4</code></td><td><code>#E4E9F8</code></td><td><code>#1A2B6B</code></td></tr><tr><td>붓기 부스터</td><td><code>#E0492F</code></td><td><code>#FBE4DE</code></td><td><code>#A32A15</code></td></tr><tr><td>퍼포먼스 부스터</td><td><code>#7B3FD4</code></td><td><code>#EEE6FB</code></td><td><code>#4A1E8C</code></td></tr></tbody></table></div>
+<h3>4-3. 코드 토큰 — 브랜드 스토리 (여기만 다름 · 의도된 것)</h3>
+<pre><code>--paper:#FCFCFA;  --panel:#F5F4EF;
+--ink:#101728; --ink-2:#545C70; --ink-3:#8A8FA0;
+--rule:#E2E1DA; --rule-2:#CFCEC5;
+--deep:#0B1226; --on-deep:#F2F1EC; --on-deep-2:#98A3BE;
+--accent:#C2410C; --accent-soft:#F3E4DA;
+--k:#D9641F;  --b:#C34477;  --m:#6B4CB8;   /* 제품 3색의 채도를 낮춘 판 */</code></pre>
+<blockquote>브랜드 스토리의 제품 3색은 홈보다 <strong>채도를 낮춘 변형</strong>이다. 차분한 톤을 위한 의도이므로 홈 값으로 되돌리지 말 것.</blockquote>
+<h3>4-4. 색 사용 원칙</h3>
+<ul><li><strong>바탕은 흰색/따뜻한 오프화이트.</strong> 네이비는 포인트 섹션에만 (커버, Proven).</li><li>한 화면에 <strong>제품 액센트는 하나</strong>. 세 색을 동시에 쓰는 곳은 3종 비교 블록뿐.</li><li>액센트는 <strong>키워드 하이라이트·라벨·숫자</strong>에만. 넓은 면적을 액센트로 칠하지 않는다.</li></ul>
+<hr>
+<h2>5. 레이아웃·컴포넌트</h2>
+<ul><li><strong>모바일 기준 390px</strong>로 설계한다. 본문 최대폭 <code>520px</code>, 좌우 여백 <code>20px</code>.</li><li>섹션 구분은 <strong>1px 헤어라인</strong>(<code>--hair</code>)으로. 그림자·박스 남발 금지.</li><li>카드: <code>border-radius 13~16px</code> + <code>1px solid</code> 테두리 + 흰 배경. 그림자는 아주 옅게(<code>0 1px 2px rgba(16,32,64,.04)</code>).</li><li>칩/뱃지: <code>border-radius 999px</code>, <code>padding 5px 11px</code>, 12px 이하 글자.</li><li>버튼: 높이 46~54px, <code>border-radius 13px</code>(사각 CTA) 또는 <code>999px</code>(필형).</li></ul>
+<p>  기본 CTA는 <strong>잉크색 배경 + 흰 글자</strong>, 보조는 <strong>흰 배경 + 잉크 테두리</strong>.</p>
+<ul><li>영문 소제목(kicker)은 <strong>mono · 대문자 · 넓은 자간 · 회색</strong>으로 섹션 위에 올린다.</li><li>챕터 번호는 <code>01</code> <code>02</code> … 2자리로.</li></ul>
+<hr>
+<h2>6. 페이지별 구조와 실제 카피</h2>
+<h3>6-1. 홈 (<code>home.html</code>)</h3>
+<div class="tw"><table><thead><tr><th>#</th><th>섹션</th><th>핵심 카피</th></tr></thead><tbody><tr><td>1</td><td><strong>히어로 (스크롤 타임라인)</strong></td><td>자이언트 워드가 시간대별로 바뀐다: <code>하루</code> → <code>MORNING</code> → <code>3 PM</code> → <code>EVENING</code> → <code>NIGHT</code> → <code>ALL DAY</code>. 라벨 <code>MORNING TO NIGHT MINERALS</code>, H1 <strong>「아침부터 밤까지, 한 포씩」</strong>, 서브 &quot;시간대마다 다른 포를 만들었습니다. 물 없이 3초면 끝납니다.&quot;, CTA <code>세 가지 보기</code></td></tr><tr><td></td><td>비트별 캡션</td><td><strong>아침은, 비타민B</strong> / <strong>오후 세 시</strong> / <strong>저녁은, 칼륨</strong> / <strong>밤은, 마그네슘</strong></td></tr><tr><td></td><td>스펙 칩</td><td>비타민B <code>B1·B2·B6·B12</code> <code>물 없이 3초</code> <code>GMP 인증</code> · 칼륨 <code>POTASSIUM 525mg</code> <code>라임 맛</code> <code>하루 두 포</code> · 마그네슘 <code>MAGNESIUM 400mg</code> <code>포도향</code> <code>미국 AIC 원료</code></td></tr><tr><td>2</td><td><strong>3종 카드</strong></td><td>칼륨 &quot;하루 두 포 · 525mg · 라임 맛&quot; / 마그네슘 &quot;자기 전 한 포 · 400mg · 포도향&quot; / 비타민B &quot;아침 한 포 · B1·B2·B6·B12 · 사과향&quot;</td></tr><tr><td>3</td><td><strong>물잔 스크럽</strong></td><td><code>Reset · Recover · Recharge</code> / <strong>「뜯어서, 3초면 끝」</strong> / &quot;물도 컵도 필요 없는 분말 스틱입니다. 칼륨 · 마그네슘 · 비타민B, 하루 한 포씩.&quot;</td></tr><tr><td>4</td><td><strong>Proven</strong></td><td>재구매율 %, 랭킹 1위, 제품별 평점·리뷰 수 + <strong>각주로 기간·채널 명시</strong></td></tr><tr><td>5</td><td><strong>Store</strong></td><td>「처음이면 이것부터」 — 데이팩 → 단품 3종 → 세트. 배송 안내 2줄</td></tr><tr><td>6</td><td><strong>Q&amp;A</strong></td><td>6문답 (물 없이 / 하루 몇 포 / 같이 먹어도 되나 / 소변 색 / 임신·어린이 / 반품)</td></tr><tr><td>7</td><td><strong>푸터</strong></td><td>고객센터 <code>070-8872-1337</code> 평일 10:00–18:00</td></tr></tbody></table></div>
+<h3>6-2. 브랜드 스토리 (<code>brand-story.html</code>) — 「하루를 고르게」</h3>
+<p><strong>커버 → 여는 글 → 챕터 01~10 → 클로징</strong> 구조. 각 챕터는 <code>Chapter NN — 이름</code> 인터루드(전면 이미지 + 세리프 제목) 뒤에 본문이 온다.</p>
+<div class="tw"><table><thead><tr><th>#</th><th>챕터</th><th>헤드라인</th><th>내용</th></tr></thead><tbody><tr><td>—</td><td>커버</td><td><strong>숨을 고르는 하루</strong></td><td>&quot;몸이 스스로 만들지 못하는 것을 매일 조금씩 채웁니다. 서두르지 않고, 같은 시간에.&quot;</td></tr><tr><td>—</td><td>여는 글</td><td>—</td><td>웰니스 정의 + 큰 숫자 <strong>262.5mg</strong> 제시</td></tr><tr><td>01</td><td>시작</td><td><strong>몸이 못 만드는 것을 / 매일 채웁니다</strong></td><td>비타민이 아니라 미네랄에서 시작. 유행 대신 매일</td></tr><tr><td>02</td><td>형태</td><td><strong>삼키지 않아도 되는 것</strong></td><td>성분보다 형태를 먼저. 3초, 이지컷</td></tr><tr><td>03</td><td>하루의 루틴</td><td><strong>하루를 셋으로 / 나눴습니다</strong></td><td>Recharge 아침 / Reset 낮 / Recover 자기 전. &quot;셋을 다 드실 필요는 없습니다&quot;</td></tr><tr><td>04</td><td>기준</td><td><strong>감이 아니라 / 기준에 맞췄습니다</strong></td><td>FDA 기준 525mg, 구연산칼륨 하나, Jungbunzlauer, 콜마비앤에이치</td></tr><tr><td>05</td><td>원료와 생산</td><td><strong>어디서 온 것인지 / 제품마다 적습니다</strong></td><td>3제품 원산지·인증 표</td></tr><tr><td>06</td><td>비움과 채움</td><td><strong>비우는 만큼 / 채웁니다</strong></td><td>브랜드 철학의 절정. &quot;한 포로 하루가 바뀌지는 않습니다. 다만 한 달의 루틴은 바뀝니다.&quot;</td></tr><tr><td>07</td><td>지금까지</td><td><strong>숫자는 출처를 같이 적습니다</strong></td><td>리뷰·평점·재구매율·수출국. 각주 필수</td></tr><tr><td>08</td><td>회사</td><td><strong>천천히 가는 쪽을 / 골랐습니다</strong></td><td>투자 안 받음. 재구매율을 보는 이유</td></tr><tr><td>09</td><td>어디까지 갔나</td><td><strong>한국에서 만들어 / 14개국에 보냅니다</strong></td><td>국가 칩 15개</td></tr><tr><td>10</td><td>파는 곳</td><td><strong>공식몰 말고도 있습니다</strong></td><td>채널 로고 자리</td></tr><tr><td>—</td><td>클로징</td><td><strong>당신의 하루에 맞는 / 루틴을 고르세요</strong></td><td>&quot;오늘 하루, 어디가 제일 아쉬우셨나요.&quot; → 3종 선택</td></tr></tbody></table></div>
+<p><strong>브랜드 스토리 고유 규칙</strong></p>
+<ul><li>흰 배경 기조 + <strong>전면 사진 위에 세리프 제목</strong>을 얹는다 (홈 히어로와 같은 결)</li><li>사진은 12장. 인물·풍경 위주, 제품 클로즈업은 절제</li><li>큰 숫자는 mono로 크게 (<code>262.5</code>, 카운트업 수치)</li><li>중간에 <strong>브리딩 섹션</strong>(여백 큰 문장 한 덩어리 + <code>Zengenetics · Daily wellness</code> 서명)을 넣어 호흡을 끊는다</li></ul>
+<h3>6-3. 상품페이지 (단품 3종 · 세트 3종 공통 골격)</h3>
+<pre><code>01 상단 바 → 02 갤러리 → 03 상품 정보 → [세트만: 04 하루 루틴]
+→ 수량 → 추가 상품 → 무료배송 진행바 → 합계
+→ 상세 이미지(접힘 + &quot;상세 정보 모두 보기&quot;)
+→ 아코디언 4개(배송 / 교환·반품 / 먹는 방법 / 제품·세트 구성)
+→ 유의 문구 → 하단 고정 바(결제 예상 · 장바구니 · 구매하기)</code></pre>
+<ul><li>상세 이미지는 <strong>대표님이 만드신 것을 공홈 게시 순서 그대로</strong> 넣는다. 재배열·삭제 금지.</li><li>아코디언 문구는 6종 페이지가 같은 문장 구조를 쓴다.</li><li>세트 페이지의 <code>04 하루 루틴</code>은 <strong>시간 → 제품 → 포 수 → 이유</strong> 순서의 세로 타임라인.</li></ul>
+<hr>
+<h2>7. 제품 팩트 시트 (틀리면 안 되는 숫자)</h2>
+<div class="tw"><table><thead><tr><th></th><th>칼륨</th><th>비타민B 컴플렉스</th><th>마그네슘</th></tr></thead><tbody><tr><td>영문</td><td>Potassium 525mg Direct</td><td>Vitamin B Complex Direct</td><td>Magnesium 400mg Direct</td></tr><tr><td>역할</td><td><strong>Reset</strong></td><td><strong>Recharge</strong></td><td><strong>Recover</strong></td></tr><tr><td>시간대</td><td>낮·저녁 (짜게 먹은 날)</td><td>아침</td><td>자기 전·밤</td></tr><tr><td><strong>하루 섭취</strong></td><td><strong>2포</strong> (한 포 262.5mg → 하루 525mg)</td><td><strong>1포</strong></td><td><strong>1포 = 400mg</strong> (한 포로 완결)</td></tr><tr><td>규격</td><td>2.5g × 20포 (50g)</td><td>2g × 20포 (40g)</td><td>2g × 20포 (40g)</td></tr><tr><td>맛</td><td>라임</td><td>사과향</td><td>포도향</td></tr><tr><td>원료</td><td>구연산칼륨 — 독일 <strong>Jungbunzlauer</strong></td><td>B1·B2·B6·B12 <strong>4종</strong></td><td>고순도 마그네슘 — 미국 <strong>AIC</strong></td></tr><tr><td>인증</td><td><strong>HACCP</strong></td><td><strong>GMP</strong></td><td><strong>GMP</strong></td></tr><tr><td>분류</td><td><strong>당류가공품</strong>(일반식품)</td><td><strong>건강기능식품</strong></td><td><strong>건강기능식품</strong></td></tr><tr><td>생산</td><td>콜마비앤에이치(Kolmar BNH)</td><td>동일</td><td>동일</td></tr><tr><td>가격</td><td>45,000 → 34,900</td><td>49,000 → 37,900</td><td>49,000 → 37,900</td></tr></tbody></table></div>
+<p><strong>세트 3종</strong></p>
+<div class="tw"><table><thead><tr><th>세트</th><th>구성</th><th>정가 → 판매가</th></tr></thead><tbody><tr><td><strong>칼마비 건강 루틴</strong></td><td>칼륨 1 + 마그네슘 1 + 비타민B 1 (<strong>3박스</strong>)</td><td>143,000 → 107,500</td></tr><tr><td><strong>붓기 부스터</strong> <code>[설인아 PICK]</code></td><td><strong>칼륨 2</strong> + 비타민B 1</td><td>139,000 → 104,000</td></tr><tr><td><strong>퍼포먼스 부스터</strong></td><td>마그네슘 1 + 비타민B 1 (러너·하이록스)</td><td>98,000 → 71,900</td></tr></tbody></table></div>
+<ul><li>배송비 <strong>3,500원 · 5만원 이상 무료</strong> · 두 박스 이상 무료 · 평일 <strong>오후 2시</strong> 마감 당일 출고</li><li>고객센터 <strong>070-8872-1337</strong> (평일 10:00–18:00, 점심 12:00–13:00)</li><li>회사: 주식회사 위스팟바이오랩 · 대표 이지훈 · 서울 강남구 강남대로 464 비제바노 4층 442호</li><li>사업자 376-88-03498 · 통신판매 2026-서울강남-00903 · wespot@wespot.co.kr</li></ul>
+<p><strong>출처를 반드시 붙여야 하는 수치</strong></p>
+<ul><li>올리브영 건강식품 실시간 랭킹 1위 — <strong>2026.03.22 09~10시</strong></li><li>쿠팡 &#x27;붓기&#x27; 검색 랭킹 1위 — <strong>2026.07.27~08.25</strong></li><li>둘 다 <strong>칼륨 기준</strong>이며 실시간 랭킹은 시점에 따라 달라진다는 단서를 함께 적는다</li><li>평점·리뷰 수는 <strong>알파리뷰 위젯 집계</strong>라고 명시</li></ul>
+<hr>
+<h2>8. 사진·이미지 규칙</h2>
+<ul><li><strong>제품은 실물만.</strong> AI로 패키지를 그리지 않는다. 3D 렌더 아카이브(<code>assets/render/</code>)와 실물 촬영본만 쓴다.</li><li>라이프스타일 컷은 <strong>시간대 컬러 그레이드</strong>를 입힌다 (아침 마젠타 / 낮 네이비 / 저녁 오렌지 / 밤 퍼플).</li><li>브랜드 스토리 사진은 <strong>인물·자연·정적인 장면</strong>. 과한 연출·스톡 느낌 금지.</li><li>피그마에서는 사진을 넣지 않고 <strong>회색 박스 + <code>[사진] 설명</code></strong> 으로 자리만 잡는다.</li><li>캡션은 mono 소문자 회색.</li></ul>
+<hr>
+<h2>9. cafe24 제약 (화면을 만들 때 미리 알아야 할 것)</h2>
+<p>우리 페이지는 최종적으로 <strong>cafe24 스킨</strong>이 된다. 아래는 우리가 만들지 않고 받아 쓴다.</p>
+<div class="tw"><table><thead><tr><th>항목</th><th>출처</th></tr></thead><tbody><tr><td>상품명·가격·할인율·재고·옵션·썸네일·상세이미지</td><td>cafe24 관리자 → 스킨 변수</td></tr><tr><td>장바구니·주문서·결제</td><td>cafe24 모듈</td></tr><tr><td>로그인·회원</td><td>cafe24 회원 모듈 (<strong>카카오 단독 노출은 플러스친구 확보를 위한 의도된 설계</strong>)</td></tr><tr><td>리뷰</td><td>알파리뷰 앱</td></tr><tr><td>팝업·배너</td><td>배너매니저 앱</td></tr></tbody></table></div>
+<ul><li><strong>할인율(%)은 cafe24가 주지 않는다.</strong> 스킨 JS가 <code>100 − (판매가×100÷소비자가)</code>로 계산한다 → <strong>%를 타이핑하지 말 것.</strong></li><li>정가 = 판매가면 정가 줄이 <strong>자동으로 사라진다.</strong> 그 전제로 레이아웃을 짠다.</li><li>자세한 내용: <code>zengenetics/cafe24-skin/가격_백엔드구조.md</code></li></ul>
+<hr>
+<h2>10. 브랜드 스토리를 고칠 때 — GPT 체크리스트</h2>
+<p>작업 전 확인:</p>
+<ul><li><i class="cb"></i>「하루를 고르게」라는 제목과 <strong>커버 → 여는 글 → 01~10 → 클로징</strong> 구조를 유지하는가</li><li><i class="cb"></i>헤드라인이 <strong>두 줄 · 동사 종결 · 사실 서술</strong>인가</li><li><i class="cb"></i><code>저희</code> / <code>~습니다</code> / <code>~하시면 됩니다</code> 화법을 지켰는가</li><li><i class="cb"></i><strong>부정으로 신뢰를 만드는 문장</strong>이 챕터마다 최소 하나 있는가</li><li><i class="cb"></i>숫자에 <strong>기간·채널·기준</strong>을 붙였는가</li><li><i class="cb"></i>평점·리뷰 수를 본문에 직접 쓰지 않았는가</li><li><i class="cb"></i>가격·할인율을 직접 쓰지 않았는가</li><li><i class="cb"></i>제품 3종의 시간대·포 수·함량이 7절 팩트 시트와 일치하는가</li><li><i class="cb"></i><code>Reset(칼륨) / Recharge(비타민B) / Recover(마그네슘)</code> 매핑을 지켰는가</li><li><i class="cb"></i>블랙리스트 단어를 쓰지 않았는가</li><li><i class="cb"></i>세리프는 큰 글자에만, 본문은 고딕인가</li><li><i class="cb"></i>한 화면에 제품 액센트가 하나인가</li></ul>
+<p><strong>바꿔도 되는 것</strong> — 챕터 안의 문장, 사진 선택, 챕터 순서(01·02는 고정 권장), 인터루드 제목. <strong>바꾸면 안 되는 것</strong> — 브랜드 명제, Reset/Recharge/Recover 매핑, 제품 팩트, 폰트·색 토큰, 화법.</p>
+<hr>
+<h2>11. 참고 파일 (저장소)</h2>
+<div class="tw"><table><thead><tr><th>파일</th><th>내용</th></tr></thead><tbody><tr><td><code>zengenetics/site/index.html</code></td><td>전체 페이지 목록 (대표님 열람용)</td></tr><tr><td><code>zengenetics/site/home.html</code> · <code>brand-story.html</code> · <code>product-*.html</code></td><td>실제 결과물</td></tr><tr><td><code>zengenetics/design-system.md</code></td><td>디자인 결정 로그 전문</td></tr><tr><td><code>zengenetics/reference/제품컨셉_바이블.md</code></td><td>제품 3종 공식 컨셉</td></tr><tr><td><code>zengenetics/cafe24-skin/가격_백엔드구조.md</code></td><td>가격·할인율 백엔드 구조</td></tr><tr><td><code>zengenetics/team/WORKLOG.md</code></td><td>작업 현황 단일 원장</td></tr><tr><td>피그마 <code>zengenetics_web_page_v2</code></td><td>페이지 9개 · 색상 12 · 텍스트 스타일 9</td></tr></tbody></table></div></main>
+
+<div class="bar"><div class="in">
+ <span class="t">이 문서 전체를 마크다운 원문으로 복사합니다. ChatGPT 첫 메시지에 그대로 붙여 넣으세요.</span>
+ <button id="cp">전체 복사</button>
+</div></div>
+
+<script id="raw" type="text/plain"># 젠제네틱스 브랜드·디자인 스타일 가이드 (v1 · 2026-09-06)
+
+> **이 문서의 용도** — 브랜드 스토리를 새로 손볼 때, **지금 만들어 둔 틀에서 벗어나지 않게** 하기 위한 기준서다.
+> ChatGPT 등 외부 협업자에게 이 문서를 통째로 전달한다. 여기 적히지 않은 것을 새로 만들지 않는다.
+> 출처는 실제 결과물(`zengenetics/site/*.html`)과 대표님 확정 지시다. 추정으로 쓴 항목은 따로 표시했다.
+
+---
+
+## 0. 먼저 — 절대 어기면 안 되는 것 7가지
+
+1. **지어낸 숫자·후기 금지.** 없는 수치를 만들지 않는다. 숫자를 쓰면 **반드시 기간·기준·채널을 같이 적는다.**
+2. **평점·리뷰 수를 본문에 쓰지 않는다.** 알파리뷰 앱이 채우는 자리만 비워 둔다. (대표님 2026-09-06)
+3. **가격과 할인율을 직접 쓰지 않는다.** cafe24 상품등록 값이 들어오고, %는 스킨이 계산한다.
+4. **"개발 1년" 같은 개발 기간 문구를 넣지 않는다.**
+5. **'루틴'·'웰니스'는 쓴다.** (예전 금지어 규칙은 해제됨)
+6. **심의는 신경 쓰지 않는다.** 대표님이 마지막에 한 번에 처리하신다. 심의를 이유로 문구를 깎지 않는다.
+7. **제품 패키지를 AI로 그리지 않는다.** 실제 제품 이미지만 쓴다.
+
+---
+
+## 1. 브랜드 한 줄
+
+> **몸이 스스로 만들지 못하는 것을, 매일 같은 시간에 한 포씩.**
+
+- 카테고리: 미네랄·비타민B 분말 스틱 (물 없이 3초)
+- 브랜드 태도: **더 얹는 것이 아니라, 어긋난 것이 제자리로 돌아오게 하는 것**
+- 이 문장이 브랜드 스토리 전체의 뼈대다. 챕터마다 표현만 바뀌고 이 명제는 반복된다.
+
+**슬로건·키워드 (확정 사용 중)**
+| 문구 | 쓰이는 곳 |
+|---|---|
+| `Reset · Recharge · Recover` | 제품 3종의 역할 구분. 실물 패키지·상세페이지·홈에 이미 박혀 있음 |
+| `MORNING TO NIGHT MINERALS` | 홈 히어로 영문 라벨 |
+| `아침부터 밤까지, 한 포씩` | 홈 히어로 H1 |
+| `하루를 고르게` | 브랜드 스토리 제목 (구 「적을 수 있는 것만」에서 변경) |
+| `숨을 고르는 하루` | 브랜드 스토리 커버 H1 |
+| `Zengenetics · Daily wellness` | 브랜드 스토리 중간 브리딩 섹션 서명 |
+
+**Reset / Recharge / Recover 매핑 (고정 · 바꾸지 말 것)**
+| 영문 | 제품 | 시간 | 한 줄 |
+|---|---|---|---|
+| **Reset** | 칼륨 | 낮·저녁 | 나트륨을 내보내는 쪽 |
+| **Recharge** | 비타민B 컴플렉스 | 아침 | 하루의 시동을 거는 쪽 |
+| **Recover** | 마그네슘 | 자기 전·밤 | 근육과 신경을 회복하는 쪽 |
+
+---
+
+## 2. 목소리 (Voice) — 가장 중요한 부분
+
+### 2-1. 기본 규칙
+
+| 항목 | 규칙 | 예 |
+|---|---|---|
+| 어미 | **`~습니다` / `~입니다` 평서형.** 감탄·느낌표 쓰지 않는다 | "3초면 끝납니다." |
+| 자칭 | **`저희`** (`우리` 아님) | "저희가 하는 일은" |
+| 권유 | 명령형 대신 **`~하시면 됩니다` / `~하셔도 됩니다`** | "물에 타서 드셔도 됩니다." |
+| 고객 호칭 | 보통 **생략**. `당신`은 클로징 한 곳에서만 | "당신의 하루에 맞는 루틴을 고르세요" |
+| 문장 길이 | **짧게 끊는다.** 한 문장 한 정보. 접속사 최소 | "삼키지 않아도 되는 것. 물이 없어도 되는 것." |
+| 이모지 | **쓰지 않는다** | — |
+| 물음표 | 헤드라인엔 거의 안 쓴다. FAQ·선택 유도에만 | "오늘 하루, 어디가 제일 아쉬우셨나요." |
+
+### 2-2. 이 브랜드 특유의 화법 — **부정으로 신뢰를 만든다**
+
+젠제네틱스 카피의 핵심 기술은 **"무엇을 안 했는지"를 먼저 말하는 것**이다. 이 패턴을 유지해야 한다.
+
+```
+감으로 정하지 않았습니다. 기준을 먼저 세우고 거기에 맞춘 숫자입니다.
+그다음에 한 일은 빼는 일이었습니다.
+투자는 받지 않았습니다. 팔아서 만들고, 남으면 또 만듭니다. 그게 전부입니다.
+과장해서 팔면 두 번째 주문이 없으니 과장할 수도 없습니다.
+셋 다 극적인 일은 하지 않습니다.
+한 포로 하루가 바뀌지는 않습니다. 다만 한 달의 루틴은 바뀝니다.
+```
+
+→ **자랑을 자랑으로 하지 않는다.** 제약·한계·안 한 일을 먼저 말하고, 그 뒤에 사실을 놓는다.
+
+### 2-3. 헤드라인 작법
+
+- **두 줄로 끊는다.** 줄바꿈 위치가 의미 단위가 되게.
+  ```
+  몸이 못 만드는 것을
+  매일 채웁니다
+  ```
+  ```
+  비우는 만큼
+  채웁니다
+  ```
+- **동사로 끝낸다.** 명사형 나열("최고의 미네랄 솔루션") 금지.
+- 챕터 헤드라인은 **주장이 아니라 사실 서술**이다. "최고", "혁신", "1등" 같은 형용사를 쓰지 않는다.
+
+### 2-4. 쓰지 않는 말 (블랙리스트)
+
+`혁신` `최고` `놀라운` `기적` `완벽한 해답` `단 하나의` `~하세요!(느낌표 명령)`
+`드디어` `역대급` `믿을 수 없는` `압도적` `초특가` `지금 바로!`
+과장 부사(`무려`, `엄청`), 이모지, 물결표 남발(`~~`), 영어 남발.
+
+### 2-5. 실제 문장 견본 (이 톤을 유지하라)
+
+**여는 글**
+> 웰니스는 무언가를 더 얹는 일이 아니라고 생각합니다. **하루에서 어긋난 것이 제자리로 돌아오는 일**에 가깝습니다.
+
+**형태 (Chapter 02)**
+> 제품을 만들기 전에 제일 많이 들은 말이 그거였습니다. 좋은 건 아는데 못 먹겠다고요. 큰 알약을 아침마다 세 알씩 삼키는 일은 생각보다 오래 못 갑니다.
+
+**비움과 채움 (Chapter 06)**
+> 하루는 몸에 자국을 남깁니다. 짜게 먹은 날은 몸이 무겁습니다. 오래 앉아 있던 날은 다리가 뻐근하고, 늦게 잔 날은 아침이 유난히 길게 느껴집니다. 특별한 일이 아니라 그냥 하루가 지나간 자리입니다.
+
+**회사 (Chapter 08)**
+> 매일 먹는 물건이라 그렇습니다. 한 번 사고 마는 물건이었다면 다른 회사가 됐을 겁니다.
+
+---
+
+## 3. 타이포그래피
+
+### 3-1. 홈 · 상품페이지 (고딕 체계)
+
+| 역할 | 폰트 | 비고 |
+|---|---|---|
+| 본문·헤드라인 | **IBM Plex Sans KR** (300/400/500/600/700) | 대표님이 4종 시안 중 직접 선택 ("고딕 중 가장 부드러움") |
+| 영문 디스플레이 | **Archivo** (500/600/700) / 히어로 자이언트 워드는 **Archivo Black** | 숫자·가격도 Archivo |
+| 영문 라벨·수치 | **IBM Plex Mono** (400/500) | 대문자 + 자간 `.14~.26em` |
+| 폴백 | Noto Sans KR | |
+
+CSS 변수 (그대로 유지):
+```css
+--f-d:"Archivo","IBM Plex Sans KR",sans-serif;   /* 디스플레이·숫자 */
+--f-b:"IBM Plex Sans KR",-apple-system,...;      /* 본문 */
+--f-m:"IBM Plex Mono",ui-monospace,monospace;    /* 라벨 */
+```
+
+### 3-2. 브랜드 스토리 (세리프 체계 — 여기만 다르다)
+
+브랜드 스토리는 **의도적으로 명조(세리프)를 쓴다.** zen·명상 톤을 위한 결정이며 홈과 다른 것이 정상이다.
+
+| 역할 | 폰트 | 적용 대상 |
+|---|---|---|
+| **헤드라인·리드** | **Noto Serif KR** (400/600/700) | 커버 H1/H2, 여는 글 리드, 챕터 H2, 브리딩 문장, 루틴 시간 라벨, 클로징 H2 |
+| 본문 | IBM Plex Sans KR (300~600) | 단락 본문 |
+| 라벨·숫자 | IBM Plex Mono | 챕터 인덱스, 큰 숫자(262.5 등), 국가 칩, 채널명, 캡션 |
+
+세리프는 **큰 글자에만** 쓴다. 작은 본문에 세리프를 쓰지 않는다.
+
+### 3-3. 조판 규칙 (공통)
+
+- `letter-spacing`: 한글 헤드라인 **-2.5% ~ -1.5%**, 본문 -0.5%, 영문 라벨 **+14% ~ +26%**
+- `line-height`: 헤드라인 1.28~1.40 / 본문 **1.70~1.85** (여유 있게)
+- `word-break: keep-all` 필수 — 한국어 단어가 잘리면 안 된다
+- 반응형은 `clamp()`로. 예: `clamp(26px,4vw,42px)`
+- 숫자는 `font-variant-numeric: tabular-nums`
+
+### 3-4. 피그마 등록 텍스트 스타일 (9종 · 이걸 쓴다)
+
+| 스타일명 | 폰트 | 크기 | 행간 | 자간 |
+|---|---|---|---|---|
+| `히어로/H1` | IBM Plex Sans KR Bold | 38 | 122% | −2.5% |
+| `히어로/서브` | Regular | 16 | 160% | −1% |
+| `섹션/H2` | Bold | 26 | 134% | −2% |
+| `섹션/H3` | Bold | 20 | 140% | −1.5% |
+| `본문/기본` | Regular | 16 | 175% | −0.5% |
+| `본문/작게` | Regular | 14 | 170% | −0.5% |
+| `본문/캡션` | Regular | 12 | 160% | 0 |
+| `버튼/기본` | Bold | 15 | 120% | −1% |
+| `라벨/영문 트래킹` | Archivo Medium | 11 | 140% | **+20%** |
+
+---
+
+## 4. 컬러
+
+### 4-1. 피그마 등록 색상 스타일 (12종 · 새로 만들지 말 것)
+
+| 스타일명 | HEX | 용도 |
+|---|---|---|
+| `브랜드/네이비 딥` | `#0B1633` | 어두운 배경, 커버 |
+| `브랜드/네이비` | `#16295C` | 브랜드 기본 네이비 |
+| `브랜드/네이비 소프트` | `#24397A` | 보조 |
+| `브랜드/페이퍼` | `#FAF8F3` | 따뜻한 바탕 |
+| `브랜드/잉크` | `#1B2233` | 본문 글자 |
+| `브랜드/미스트` | `#C8D2E8` | 흐린 글자·보조 정보 |
+| `브랜드/우드` | `#B98D5F` | 우드 톤 포인트 |
+| `브랜드/샌드` | `#E9DCC6` | 샌드 톤 |
+| `브랜드/라인` | `#E4DECF` | 구분선·테두리 |
+| `제품/칼륨 RESET` | `#D9641F` | 칼륨 액센트(오렌지) |
+| `제품/비타민B RECHARGE` | `#E11553` | 비타민B 액센트(마젠타) |
+| `제품/마그네슘 RECOVER` | `#7C21CE` | 마그네슘 액센트(퍼플) |
+
+### 4-2. 코드 토큰 — 홈·상품페이지
+
+```css
+--bg:#FFFFFF;  --bg-2:#FBFAF8;
+--ink:#15161A; --ink-2:#5F626C; --ink-3:#93959D;
+--hair:#E9E8E4; --hair-2:#D8D6D0;
+--navy:#1A2B6B;  --ok:#127A4B;
+```
+제품별 액센트 3종 (`--acc` / `--acc-soft` / `--acc-deep`):
+
+| 제품 | acc | acc-soft | acc-deep |
+|---|---|---|---|
+| 칼륨 | `#D9641F` | `#F6E3D5` | `#8F3608` |
+| 비타민B | `#E11553` | `#FBDCE6` | `#A50A3C` |
+| 마그네슘 | `#7C21CE` | `#ECE0FA` | `#561FAA` |
+| 세트(칼마비) | `#3757C4` | `#E4E9F8` | `#1A2B6B` |
+| 붓기 부스터 | `#E0492F` | `#FBE4DE` | `#A32A15` |
+| 퍼포먼스 부스터 | `#7B3FD4` | `#EEE6FB` | `#4A1E8C` |
+
+### 4-3. 코드 토큰 — 브랜드 스토리 (여기만 다름 · 의도된 것)
+
+```css
+--paper:#FCFCFA;  --panel:#F5F4EF;
+--ink:#101728; --ink-2:#545C70; --ink-3:#8A8FA0;
+--rule:#E2E1DA; --rule-2:#CFCEC5;
+--deep:#0B1226; --on-deep:#F2F1EC; --on-deep-2:#98A3BE;
+--accent:#C2410C; --accent-soft:#F3E4DA;
+--k:#D9641F;  --b:#C34477;  --m:#6B4CB8;   /* 제품 3색의 채도를 낮춘 판 */
+```
+> 브랜드 스토리의 제품 3색은 홈보다 **채도를 낮춘 변형**이다. 차분한 톤을 위한 의도이므로 홈 값으로 되돌리지 말 것.
+
+### 4-4. 색 사용 원칙
+
+- **바탕은 흰색/따뜻한 오프화이트.** 네이비는 포인트 섹션에만 (커버, Proven).
+- 한 화면에 **제품 액센트는 하나**. 세 색을 동시에 쓰는 곳은 3종 비교 블록뿐.
+- 액센트는 **키워드 하이라이트·라벨·숫자**에만. 넓은 면적을 액센트로 칠하지 않는다.
+
+---
+
+## 5. 레이아웃·컴포넌트
+
+- **모바일 기준 390px**로 설계한다. 본문 최대폭 `520px`, 좌우 여백 `20px`.
+- 섹션 구분은 **1px 헤어라인**(`--hair`)으로. 그림자·박스 남발 금지.
+- 카드: `border-radius 13~16px` + `1px solid` 테두리 + 흰 배경. 그림자는 아주 옅게(`0 1px 2px rgba(16,32,64,.04)`).
+- 칩/뱃지: `border-radius 999px`, `padding 5px 11px`, 12px 이하 글자.
+- 버튼: 높이 46~54px, `border-radius 13px`(사각 CTA) 또는 `999px`(필형).
+  기본 CTA는 **잉크색 배경 + 흰 글자**, 보조는 **흰 배경 + 잉크 테두리**.
+- 영문 소제목(kicker)은 **mono · 대문자 · 넓은 자간 · 회색**으로 섹션 위에 올린다.
+- 챕터 번호는 `01` `02` … 2자리로.
+
+---
+
+## 6. 페이지별 구조와 실제 카피
+
+### 6-1. 홈 (`home.html`)
+
+| # | 섹션 | 핵심 카피 |
+|---|---|---|
+| 1 | **히어로 (스크롤 타임라인)** | 자이언트 워드가 시간대별로 바뀐다: `하루` → `MORNING` → `3 PM` → `EVENING` → `NIGHT` → `ALL DAY`. 라벨 `MORNING TO NIGHT MINERALS`, H1 **「아침부터 밤까지, 한 포씩」**, 서브 "시간대마다 다른 포를 만들었습니다. 물 없이 3초면 끝납니다.", CTA `세 가지 보기` |
+| | 비트별 캡션 | **아침은, 비타민B** / **오후 세 시** / **저녁은, 칼륨** / **밤은, 마그네슘** |
+| | 스펙 칩 | 비타민B `B1·B2·B6·B12` `물 없이 3초` `GMP 인증` · 칼륨 `POTASSIUM 525mg` `라임 맛` `하루 두 포` · 마그네슘 `MAGNESIUM 400mg` `포도향` `미국 AIC 원료` |
+| 2 | **3종 카드** | 칼륨 "하루 두 포 · 525mg · 라임 맛" / 마그네슘 "자기 전 한 포 · 400mg · 포도향" / 비타민B "아침 한 포 · B1·B2·B6·B12 · 사과향" |
+| 3 | **물잔 스크럽** | `Reset · Recover · Recharge` / **「뜯어서, 3초면 끝」** / "물도 컵도 필요 없는 분말 스틱입니다. 칼륨 · 마그네슘 · 비타민B, 하루 한 포씩." |
+| 4 | **Proven** | 재구매율 %, 랭킹 1위, 제품별 평점·리뷰 수 + **각주로 기간·채널 명시** |
+| 5 | **Store** | 「처음이면 이것부터」 — 데이팩 → 단품 3종 → 세트. 배송 안내 2줄 |
+| 6 | **Q&A** | 6문답 (물 없이 / 하루 몇 포 / 같이 먹어도 되나 / 소변 색 / 임신·어린이 / 반품) |
+| 7 | **푸터** | 고객센터 `070-8872-1337` 평일 10:00–18:00 |
+
+### 6-2. 브랜드 스토리 (`brand-story.html`) — 「하루를 고르게」
+
+**커버 → 여는 글 → 챕터 01~10 → 클로징** 구조. 각 챕터는 `Chapter NN — 이름` 인터루드(전면 이미지 + 세리프 제목) 뒤에 본문이 온다.
+
+| # | 챕터 | 헤드라인 | 내용 |
+|---|---|---|---|
+| — | 커버 | **숨을 고르는 하루** | "몸이 스스로 만들지 못하는 것을 매일 조금씩 채웁니다. 서두르지 않고, 같은 시간에." |
+| — | 여는 글 | — | 웰니스 정의 + 큰 숫자 **262.5mg** 제시 |
+| 01 | 시작 | **몸이 못 만드는 것을 / 매일 채웁니다** | 비타민이 아니라 미네랄에서 시작. 유행 대신 매일 |
+| 02 | 형태 | **삼키지 않아도 되는 것** | 성분보다 형태를 먼저. 3초, 이지컷 |
+| 03 | 하루의 루틴 | **하루를 셋으로 / 나눴습니다** | Recharge 아침 / Reset 낮 / Recover 자기 전. "셋을 다 드실 필요는 없습니다" |
+| 04 | 기준 | **감이 아니라 / 기준에 맞췄습니다** | FDA 기준 525mg, 구연산칼륨 하나, Jungbunzlauer, 콜마비앤에이치 |
+| 05 | 원료와 생산 | **어디서 온 것인지 / 제품마다 적습니다** | 3제품 원산지·인증 표 |
+| 06 | 비움과 채움 | **비우는 만큼 / 채웁니다** | 브랜드 철학의 절정. "한 포로 하루가 바뀌지는 않습니다. 다만 한 달의 루틴은 바뀝니다." |
+| 07 | 지금까지 | **숫자는 출처를 같이 적습니다** | 리뷰·평점·재구매율·수출국. 각주 필수 |
+| 08 | 회사 | **천천히 가는 쪽을 / 골랐습니다** | 투자 안 받음. 재구매율을 보는 이유 |
+| 09 | 어디까지 갔나 | **한국에서 만들어 / 14개국에 보냅니다** | 국가 칩 15개 |
+| 10 | 파는 곳 | **공식몰 말고도 있습니다** | 채널 로고 자리 |
+| — | 클로징 | **당신의 하루에 맞는 / 루틴을 고르세요** | "오늘 하루, 어디가 제일 아쉬우셨나요." → 3종 선택 |
+
+**브랜드 스토리 고유 규칙**
+- 흰 배경 기조 + **전면 사진 위에 세리프 제목**을 얹는다 (홈 히어로와 같은 결)
+- 사진은 12장. 인물·풍경 위주, 제품 클로즈업은 절제
+- 큰 숫자는 mono로 크게 (`262.5`, 카운트업 수치)
+- 중간에 **브리딩 섹션**(여백 큰 문장 한 덩어리 + `Zengenetics · Daily wellness` 서명)을 넣어 호흡을 끊는다
+
+### 6-3. 상품페이지 (단품 3종 · 세트 3종 공통 골격)
+
+```
+01 상단 바 → 02 갤러리 → 03 상품 정보 → [세트만: 04 하루 루틴]
+→ 수량 → 추가 상품 → 무료배송 진행바 → 합계
+→ 상세 이미지(접힘 + "상세 정보 모두 보기")
+→ 아코디언 4개(배송 / 교환·반품 / 먹는 방법 / 제품·세트 구성)
+→ 유의 문구 → 하단 고정 바(결제 예상 · 장바구니 · 구매하기)
+```
+
+- 상세 이미지는 **대표님이 만드신 것을 공홈 게시 순서 그대로** 넣는다. 재배열·삭제 금지.
+- 아코디언 문구는 6종 페이지가 같은 문장 구조를 쓴다.
+- 세트 페이지의 `04 하루 루틴`은 **시간 → 제품 → 포 수 → 이유** 순서의 세로 타임라인.
+
+---
+
+## 7. 제품 팩트 시트 (틀리면 안 되는 숫자)
+
+| | 칼륨 | 비타민B 컴플렉스 | 마그네슘 |
+|---|---|---|---|
+| 영문 | Potassium 525mg Direct | Vitamin B Complex Direct | Magnesium 400mg Direct |
+| 역할 | **Reset** | **Recharge** | **Recover** |
+| 시간대 | 낮·저녁 (짜게 먹은 날) | 아침 | 자기 전·밤 |
+| **하루 섭취** | **2포** (한 포 262.5mg → 하루 525mg) | **1포** | **1포 = 400mg** (한 포로 완결) |
+| 규격 | 2.5g × 20포 (50g) | 2g × 20포 (40g) | 2g × 20포 (40g) |
+| 맛 | 라임 | 사과향 | 포도향 |
+| 원료 | 구연산칼륨 — 독일 **Jungbunzlauer** | B1·B2·B6·B12 **4종** | 고순도 마그네슘 — 미국 **AIC** |
+| 인증 | **HACCP** | **GMP** | **GMP** |
+| 분류 | **당류가공품**(일반식품) | **건강기능식품** | **건강기능식품** |
+| 생산 | 콜마비앤에이치(Kolmar BNH) | 동일 | 동일 |
+| 가격 | 45,000 → 34,900 | 49,000 → 37,900 | 49,000 → 37,900 |
+
+**세트 3종**
+
+| 세트 | 구성 | 정가 → 판매가 |
+|---|---|---|
+| **칼마비 건강 루틴** | 칼륨 1 + 마그네슘 1 + 비타민B 1 (**3박스**) | 143,000 → 107,500 |
+| **붓기 부스터** `[설인아 PICK]` | **칼륨 2** + 비타민B 1 | 139,000 → 104,000 |
+| **퍼포먼스 부스터** | 마그네슘 1 + 비타민B 1 (러너·하이록스) | 98,000 → 71,900 |
+
+- 배송비 **3,500원 · 5만원 이상 무료** · 두 박스 이상 무료 · 평일 **오후 2시** 마감 당일 출고
+- 고객센터 **070-8872-1337** (평일 10:00–18:00, 점심 12:00–13:00)
+- 회사: 주식회사 위스팟바이오랩 · 대표 이지훈 · 서울 강남구 강남대로 464 비제바노 4층 442호
+- 사업자 376-88-03498 · 통신판매 2026-서울강남-00903 · wespot@wespot.co.kr
+
+**출처를 반드시 붙여야 하는 수치**
+- 올리브영 건강식품 실시간 랭킹 1위 — **2026.03.22 09~10시**
+- 쿠팡 '붓기' 검색 랭킹 1위 — **2026.07.27~08.25**
+- 둘 다 **칼륨 기준**이며 실시간 랭킹은 시점에 따라 달라진다는 단서를 함께 적는다
+- 평점·리뷰 수는 **알파리뷰 위젯 집계**라고 명시
+
+---
+
+## 8. 사진·이미지 규칙
+
+- **제품은 실물만.** AI로 패키지를 그리지 않는다. 3D 렌더 아카이브(`assets/render/`)와 실물 촬영본만 쓴다.
+- 라이프스타일 컷은 **시간대 컬러 그레이드**를 입힌다 (아침 마젠타 / 낮 네이비 / 저녁 오렌지 / 밤 퍼플).
+- 브랜드 스토리 사진은 **인물·자연·정적인 장면**. 과한 연출·스톡 느낌 금지.
+- 피그마에서는 사진을 넣지 않고 **회색 박스 + `[사진] 설명`** 으로 자리만 잡는다.
+- 캡션은 mono 소문자 회색.
+
+---
+
+## 9. cafe24 제약 (화면을 만들 때 미리 알아야 할 것)
+
+우리 페이지는 최종적으로 **cafe24 스킨**이 된다. 아래는 우리가 만들지 않고 받아 쓴다.
+
+| 항목 | 출처 |
+|---|---|
+| 상품명·가격·할인율·재고·옵션·썸네일·상세이미지 | cafe24 관리자 → 스킨 변수 |
+| 장바구니·주문서·결제 | cafe24 모듈 |
+| 로그인·회원 | cafe24 회원 모듈 (**카카오 단독 노출은 플러스친구 확보를 위한 의도된 설계**) |
+| 리뷰 | 알파리뷰 앱 |
+| 팝업·배너 | 배너매니저 앱 |
+
+- **할인율(%)은 cafe24가 주지 않는다.** 스킨 JS가 `100 − (판매가×100÷소비자가)`로 계산한다 → **%를 타이핑하지 말 것.**
+- 정가 = 판매가면 정가 줄이 **자동으로 사라진다.** 그 전제로 레이아웃을 짠다.
+- 자세한 내용: `zengenetics/cafe24-skin/가격_백엔드구조.md`
+
+---
+
+## 10. 브랜드 스토리를 고칠 때 — GPT 체크리스트
+
+작업 전 확인:
+- [ ] 「하루를 고르게」라는 제목과 **커버 → 여는 글 → 01~10 → 클로징** 구조를 유지하는가
+- [ ] 헤드라인이 **두 줄 · 동사 종결 · 사실 서술**인가
+- [ ] `저희` / `~습니다` / `~하시면 됩니다` 화법을 지켰는가
+- [ ] **부정으로 신뢰를 만드는 문장**이 챕터마다 최소 하나 있는가
+- [ ] 숫자에 **기간·채널·기준**을 붙였는가
+- [ ] 평점·리뷰 수를 본문에 직접 쓰지 않았는가
+- [ ] 가격·할인율을 직접 쓰지 않았는가
+- [ ] 제품 3종의 시간대·포 수·함량이 7절 팩트 시트와 일치하는가
+- [ ] `Reset(칼륨) / Recharge(비타민B) / Recover(마그네슘)` 매핑을 지켰는가
+- [ ] 블랙리스트 단어를 쓰지 않았는가
+- [ ] 세리프는 큰 글자에만, 본문은 고딕인가
+- [ ] 한 화면에 제품 액센트가 하나인가
+
+**바꿔도 되는 것** — 챕터 안의 문장, 사진 선택, 챕터 순서(01·02는 고정 권장), 인터루드 제목.
+**바꾸면 안 되는 것** — 브랜드 명제, Reset/Recharge/Recover 매핑, 제품 팩트, 폰트·색 토큰, 화법.
+
+---
+
+## 11. 참고 파일 (저장소)
+
+| 파일 | 내용 |
+|---|---|
+| `zengenetics/site/index.html` | 전체 페이지 목록 (대표님 열람용) |
+| `zengenetics/site/home.html` · `brand-story.html` · `product-*.html` | 실제 결과물 |
+| `zengenetics/design-system.md` | 디자인 결정 로그 전문 |
+| `zengenetics/reference/제품컨셉_바이블.md` | 제품 3종 공식 컨셉 |
+| `zengenetics/cafe24-skin/가격_백엔드구조.md` | 가격·할인율 백엔드 구조 |
+| `zengenetics/team/WORKLOG.md` | 작업 현황 단일 원장 |
+| 피그마 `zengenetics_web_page_v2` | 페이지 9개 · 색상 12 · 텍스트 스타일 9 |
+</script>
+<script>
+(function(){
+  var b=document.getElementById('cp'), raw=document.getElementById('raw').textContent;
+  b.addEventListener('click',function(){
+    function done(){ b.textContent='복사했습니다'; b.classList.add('ok');
+      setTimeout(function(){ b.textContent='전체 복사'; b.classList.remove('ok'); },2000); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(raw).then(done,fallback);
+    } else fallback();
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=raw;
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+      ta.select(); try{document.execCommand('copy'); done();}catch(e){ b.textContent='복사 실패 — 길게 눌러 선택해 주세요'; }
+      document.body.removeChild(ta);
+    }
+  });
+})();
+</script>
+</body></html>
