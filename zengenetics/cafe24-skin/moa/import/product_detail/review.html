@@ -1,0 +1,165 @@
+<div id="prd-review" class="ec-base-fold tab-content theme1 selected eToggle {$review_display|display}" data-count="{$review_count}">
+
+    <div class="section-title">
+        <h2 class="text-center eng-font">리뷰</h2>
+        <p class="text-center">고객님의 소중한 후기를 남겨주세요.</p>
+    </div>
+
+    <!-- 알파리뷰 - 상품 후기 영역 -->
+    <div id="alph_new_board"><div class="alpha_widget" data-code="a070d8ba" data-value="{$product_no}" style="padding:10px;"></div></div>
+    <div id="alph_origin_board" style="display:none">
+    <!-- /알파리뷰 -->
+
+    <div class="review-summary flex flex--v-center flex--h-center">
+
+        <div class="review-summary__column text-center">
+            <div class="review-summary__title">상품만족도</div>
+            <div class="review-summary__rate flex flex--v-center flex--h-center">
+               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class=" " style="fill: #ff8c27;width: 17px;height: auto; margin-right: 4px;">
+                    <defs>
+                        <path id="star-full" d="M7.157 6.698l2.165-4.59a.743.743 0 0 1 1.358 0l2.165 4.59 4.84.74c.622.096.87.895.42 1.353l-3.503 3.57.827 5.044c.106.647-.544 1.141-1.1.835l-4.328-2.382-4.329 2.382c-.556.306-1.205-.188-1.099-.835l.826-5.044-3.502-3.57c-.45-.458-.202-1.257.42-1.352l4.84-.74z"></path>
+                    </defs>
+                    <use xlink:href="#star-full"></use>
+                </svg>
+                <div class="review-summary__per">0</div>
+                <div class="review-summary__max">5</div>
+            </div>
+        </div>
+        <div class="review-summary__column text-center">
+            <div class="review-summary__title">리뷰 개수</div>
+            <div class="review-summary__count alpha_review_count">-</div>
+            <!-- <div class="review-summary__count jsReviewCount">{$review_count|numberformat}</div> -->
+        </div>
+        <div class="review-summary__column text-center">
+            <div class="flex flex--h-center">
+                <div class="review-summary__point jsRvPoint5 current">
+                    <div class="review-summary__graph">
+                        <div class="review-summary__progress jsGraph5"></div>
+                    </div>
+                    <div class="review-summary__val jsRate5"></div>
+                </div>
+                <div class="review-summary__point jsRvPoint4">
+                    <div class="review-summary__graph">
+                        <div class="review-summary__progress jsGraph4"></div>
+                    </div>
+                    <div class="review-summary__val jsRate4"></div>
+                </div>
+                <div class="review-summary__point jsRvPoint3">
+                    <div class="review-summary__graph">
+                        <div class="review-summary__progress jsGraph3"></div>
+                    </div>
+                    <div class="review-summary__val jsRate3"></div>
+                </div>
+                <div class="review-summary__point jsRvPoint2">
+                    <div class="review-summary__graph">
+                        <div class="review-summary__progress jsGraph2"></div>
+                    </div>
+                    <div class="review-summary__val jsRate2"></div>
+                </div>
+                <div class="review-summary__point jsRvPoint1">
+                    <div class="review-summary__graph">
+                        <div class="review-summary__progress jsGraph1"></div>
+                    </div>
+                    <div class="review-summary__val jsRate1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-summary__column text-center">
+            <div class="review-summary__title">고객님의 리뷰를 공유해주세요!</div>
+            <a href="{$review_write}" class="btnNormalFix sizeM">리뷰 작성하기</a>
+        </div>
+
+    </div>
+
+    <div class="pr-more relative">
+       <div class="pr-more__header flex flex--v-center">
+            <div class="pr-all-title">포토리뷰 <span>(최근 리뷰 20개)</span></div>
+            <a href="/board/review/list_photo.html?board_no=4" class="pr-all-more flex flex--v-center">리뷰 전체보기 <!--@import(/moa/icon/icon_arrow_right.html)--></a>
+       </div>
+
+        <div class="pr-all relative">
+            <div class="pr-all__inner swiper-container jsPrAll">
+                <ul class="pr-all__list inline swiper-wrapper jsPrApd"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="contents">
+        <div id="prdReview" class="displaynone" module="product_detail" data-prd-no="{$product_no}"></div>
+        <div module="product_review">
+            <!--@css(/moa/css/lib/rv_style.css)-->
+            <!--@css(/moa/css/lib/prdt_style.css)-->
+            <div id="prdReview" class="displaynone" module="product_detail" data-prd-no="{$product_no}"></div>
+            <a name="use_review"></a>
+            <p class="noAccess {$deny_display|display}">글읽기 권한이 없습니다.</p>
+            <div class="minor {$adult_display|display}">
+                <p><img src="//img.echosting.cafe24.com/skin/skin/product/ico_under19.gif" alt="" /> <strong class="txtEm">"19세 미만의 미성년자"</strong>는 출입을 금합니다!</p>
+                <p class="button"><a href="/intro/board.html{$returnParam}" class="btnSubmit sizeS">성인인증 하기</a></p>
+            </div>
+
+            <div class=" {$list_display|display}">
+                <div class="rv__item flex chk-no {$block_target_class} {$cont_id}" {$block_data_attr} data-idx="{$param_read}" data-attach="{$img_src|replace:/gallery,}">
+                    <div class="rv__no displaynone">{$no}</div>
+                    <div class="rv__content relative">
+                        <ul class="rv__attached flex rv-view"></ul>
+                        <div class="rv__subject rv-view">{$subject}<span class="rv__comment">{$comment_count}</span></div>
+                        <div class="rv__summary rv-view">{$content|striptag}</div>
+                        <div class="rv__summary rv__summary--more"></div>
+                        <div class="rv__more chk-no" data-idx="{$param_read}">리뷰 <span data-more="더보기" data-close="접기"></span>
+                            <!--@import(/moa/icon/icon_arrow_down.html)-->
+                        </div>
+                        <div class="rv__vote rv__vote--m {$vote_display|display} flex flex--v-center">
+                            <!--@import(/moa/icon/icon_heart_rv.html)-->
+                            <span>{$vote}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="rv__info ">
+                        <div class="rv__score flex flex--v-center {$point_display|display}">
+                            <img src="/moa/img/default/icon-star-rating{$point_count}.svg" alt="{$point_count}점">
+                        </div>
+                        <div class="rv__writer">{$writer}</div>
+                        <div class="rv__date {$date_display|display}">{$write_date}</div>
+                        <div class="rv__hit {$hit_display|display}">조회 {$hit_count}</div>
+                        <div class="rv__vote {$vote_display|display} flex flex--v-center display-pc">
+                            <!--@import(/moa/icon/icon_heart_rv.html)-->
+                            <span>{$vote}</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- (동일 구조의 rv__item 블록이 한 번 더 반복된다 — cafe24 모듈 반복 마크업) -->
+            </div>
+
+
+        </div>
+        <div class="ec-base-button gMColumn">
+            <span class="gRight">
+                <a href="{$review_list}" class="btnNormalFix sizeM">전체 보기</a>
+                <a href="{$review_write}" class="btnSubmitFix sizeM">리뷰작성</a>
+            </span>
+        </div>
+        <div module="product_reviewpaging" class="ec-base-paginate typeList">
+            <a href="{$param_first}" class="first">첫 페이지</a>
+            <a href="{$param_before}">이전 페이지</a>
+            <ol>
+                <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+                <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+                <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+                <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+                <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+            </ol>
+            <a href="{$param_next}">다음 페이지</a>
+            <a href="{$param_last}" class="last">마지막 페이지</a>
+        </div>
+
+        <!-- 알파리뷰 -->
+        </div>
+        <!-- /알파리뷰 -->
+
+    </div>
+</div>
