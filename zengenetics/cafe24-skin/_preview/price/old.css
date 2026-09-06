@@ -1,0 +1,27 @@
+.xans-product-detaildesign.detail-spec tr.custom_option3_css { display:none; }
+.xans-product-detaildesign.detail-spec tr.custom_option4_css { display:none; }
+
+.ds_benefit { padding:16px; background:#f7f8fa; border-radius:4px; }
+.ds_benefit.show { opacity: 1; }
+.ds_benefit_max { display:flex; align-items:center; gap:8px; line-height:22px; }
+.ds_benefit_max .title { font-size:15px; }
+.ds_benefit_max .price { font-size:24px; font-weight:bold; }
+.ds_benefit_list { display:flex; align-items:center; gap:8px; margin:10px 0 0; }
+.ds_benefit_list .item { flex:1; border-radius:8px; padding:12px; }
+.ds_benefit_list .item_title { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+.ds_benefit_list .item_title img { width:24px; height:24px; }
+.ds_benefit_list .item_title .title { display:flex; align-items:center; gap:8px; }
+.ds_benefit_list .item_price { text-align:right; margin:6px 0 0; }
+.ds_benefit_list .item_price .price { font-size:18px; font-weight:bold; }
+
+@media all and (max-width: 767px) {
+    .ds_benefit_max { gap:4px; }
+    .ds_benefit_max .title { font-size:14px; }
+    .ds_benefit_max .price { font-size:22px; }
+    .ds_benefit_list { gap:4px; margin:10px 0 0; }
+    .ds_benefit_list .item { padding:10px; }
+    .ds_benefit_list .item_title { font-size:11px; }
+    .ds_benefit_list .item_title img { width:18px; height:18px; }
+    .ds_benefit_list .item_title .title { gap:4px; }
+	.ds_benefit_list .item_price .price { font-size:16px; }
+}
