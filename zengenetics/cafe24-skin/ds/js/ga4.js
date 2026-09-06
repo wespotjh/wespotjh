@@ -39,7 +39,12 @@
    * 끝까지 없으면 아무것도 하지 않는다 — 에러 0건·이벤트 0건(기존 동작 유지). */
   var gtagTries = 0;
   function waitForGtag() {
-    if (typeof window.gtag === 'function') { boot(); return; }
+    if (typeof window.gtag === 'function') {
+      /* N4 와 같은 취지: 이 파일은 결제 페이지에서도 돈다.
+       * 예상 못 한 DOM 때문에 부팅이 실패하더라도 페이지에는 아무 영향이 없어야 한다. */
+      try { boot(); } catch (e) {}
+      return;
+    }
     if (gtagTries++ >= 20) return;                  /* 150ms × 20 = 3초 */
     setTimeout(waitForGtag, 150);
   }
@@ -149,10 +154,65 @@
       .replace(/\s+/g, ' ')
       .trim();
   }
+  /* N1 수정 — 옵션을 고른 뒤 <select> 는 비어 있다.
+   *
+   * 카페24 실제 옵션 JS(`ind-script/optimizer.php` 1.9MB)를 미러링해 구동한 실측:
+   *   select 상태(선택 전) : value="*"  text="- [필수] 옵션을 선택해 주세요 -"
+   *   ── 옵션 선택 ──
+   *   select 상태(선택 후) : value="*"  ← **카페24가 select 를 미선택으로 되돌린다**
+   * 선택 결과는 `#totalProducts` 안의 `tr.option_product` 로 옮겨진다. 실측 DOM:
+   *   <tr class="option_product " data-option-index="1" target-key="11">
+   *     <td>…<p class="product">젠제네틱스 포타슘 칼륨 (20ea)<br> -
+   *            <span>🔥BEST🔥[지금 24%▼] 젠제네틱스 붓기파우더 2 box (무료배송) (+33,100원)</span></p></td>
+   *     <td><span class="quantity">
+   *           <input name="quantity_opt[]" class="quantity_opt" value="1" product-no="11">…
+   *   </tr>
+   * select 만 보던 예전 코드는 담기·구매 시점에 항상 빈 값이었다
+   * (`zg_option_select` 는 change 핸들러 안이라 정상이었고 `add_to_cart` 만 비었다).
+   *
+   * ⚠ `tr.add_product`(추가상품)는 별개 상품이므로 포함하지 않는다 — 실측에서도 0행이다. */
+  function selectedOptionRows() {
+    var rows = document.querySelectorAll('tr.option_product');
+    var out = [];
+    Array.prototype.forEach.call(rows, function (r) {
+      var sp = r.querySelector('p.product span');
+      var qi = r.querySelector('input.quantity_opt, input[name^="quantity_opt"]');
+      var q  = qi ? n(qi.value) : 1; if (q <= 0) q = 1;
+      var v  = cleanVariant(txt(sp));
+      if (v) out.push({ variant: v, qty: q });
+    });
+    return out;
+  }
+
   function currentVariant() {
     var sel = document.querySelector('select[name^="option"]:not([name^="addproduct"])');
-    if (!sel || !sel.value || sel.value === '*' || sel.value === '**') return '';
-    return cleanVariant((sel.options[sel.selectedIndex] || {}).text || '');
+    if (sel && sel.value && sel.value !== '*' && sel.value !== '**') {
+      return cleanVariant((sel.options[sel.selectedIndex] || {}).text || '');
+    }
+    var rows = selectedOptionRows();               /* 카페24가 select 를 되돌린 뒤 */
+    if (!rows.length) return '';
+    var names = [];
+    for (var i = 0; i < rows.length; i++) names.push(rows[i].variant);
+    return names.join(' + ');                      /* 옵션 2종이면 "A + B" */
+  }
+
+  /* 선택된 옵션의 실제 수량 합계. 옵션 행이 없으면 null → 호출부가 currentQty() 로 폴백.
+   * 화면 총액(#totalPrice .total strong)이 이 수량까지 반영한 금액이므로
+   * 단가 역산(R8)의 분모로 쓰면 Σ(price×quantity) === value 가 실제 수량 기준으로 맞는다.
+   * (실측: 2 box ×3 + 1 box ×1 → 총액 238,900원 / 수량 4) */
+  function selectedOptionQty() {
+    var rows = selectedOptionRows();
+    if (!rows.length) return null;
+    var s = 0;
+    for (var i = 0; i < rows.length; i++) s += rows[i].qty;
+    return s > 0 ? s : null;
+  }
+
+  /* N1/N5: item_variant 는 값이 있을 때만 넣는다.
+   * 빈 문자열을 보내면 GA4 에서 "옵션이 없는 상품"과 "옵션을 못 읽은 상품"이 구분되지 않는다. */
+  function withVariant(obj, variant) {
+    if (variant) obj.item_variant = variant;
+    return obj;
   }
 
   /* 화면에 그려진 합계. 옵션 추가금이 반영된 진짜 금액이다.
@@ -171,7 +231,12 @@
    * 못 읽으면 null → 호출부가 base_price 로 폴백하는 기존 동작 유지. */
   function screenTotal() {
     var el = document.querySelector('#totalPrice .total strong, #totalPrice .total em');
-    var v = n(txt(el));
+    /* 안전장치(QA 경계값 L-신규1): 카페24 원본(ind-script/optimizer.php)의 **모바일 전용몰** 경로는
+     *   EC$(getTotalPriceSelector()).html('<strong class="price">'+금액+' '+수량문자열+'</strong>')
+     * 처럼 수량을 strong 안에 같이 넣는다. 이 쇼핑몰은 반응형 단일 스킨이라
+     * (CAFE24.MOBILE=false · MOBILE_DEVICE=false, 라이브 실측) 그 경로를 타지 않지만,
+     * 설정이 바뀌어도 "(N개)" 꼬리가 금액에 섞이지 않도록 미리 떼어 둔다. */
+    var v = n(txt(el).replace(/\(\s*\d+\s*개\s*\)\s*$/, ''));
     return v > 0 ? v : null;
   }
 
@@ -217,7 +282,10 @@
     if (!hit) return;
 
     var it = currentItem();
-    var qty = currentQty();
+    /* N1: 옵션이 선택돼 있으면 실제 수량은 tr.option_product 의 quantity_opt 합계다.
+     *     (예전에는 항상 1 로 고정됐다) 옵션이 없는 상품만 기존 수량 입력칸을 본다. */
+    var optQty = selectedOptionQty();
+    var qty = optQty !== null ? optQty : currentQty();
 
     /* 라이브 실측(2026-09-06, 상품11 캡처):
      *   장바구니  → product_submit(2, '/exec/front/order/basket/', this)
@@ -251,10 +319,10 @@
         currency: 'KRW',
         value: v,
         value_source: total !== null ? 'screen_total' : 'base_price',
-        items: [{
+        items: [withVariant({
           item_id: it.item_id, item_name: it.item_name,
-          item_variant: variant, price: unit, quantity: qty
-        }]
+          price: unit, quantity: qty
+        }, variant)]                    /* N1: 빈 variant 는 키 자체를 넣지 않는다 */
       };
     }
 
@@ -275,11 +343,10 @@
     if (!/^option/.test(sel.name || '')) return;
     if (!sel.value || sel.value === '*' || sel.value === '**') return;
     var it2 = currentItem();
-    sendAlways('zg_option_select', {
+    sendAlways('zg_option_select', withVariant({
       item_id: it2 ? it2.item_id : currentPrdNo(),
-      item_name: it2 ? it2.item_name : '',
-      item_variant: currentVariant()
-    });
+      item_name: it2 ? it2.item_name : ''
+    }, currentVariant()));              /* N1: 빈 variant 는 키 자체를 넣지 않는다 */
   }, true);
 
   /* 옵션 레이어 열림 — 지금 최대 이탈 지점(상품조회 35,019 → 옵션선택 1,153) */
@@ -368,25 +435,42 @@
      *   ② 같은 블록의 클래스 별칭 .totalPay.paymentPrice strong
      *   ③ 결제 버튼(#orderFixItem .btnSubmit) 안의 금액 span
      *      — README(_preview/orderform)가 지목한 {$total_order_price_front_id} 자리
-     * 셋 다 못 읽으면 **값 없이** begin_checkout 만 쏘고 진단을 남긴다.
-     * 틀린 금액보다 없는 금액이 낫다(설계 원칙 2). */
-    var ckTries = 0;
-    (function checkoutTick() {
-      var v = checkoutTotal();
-      if (v) {
-        send('begin_checkout', { currency: 'KRW', value: v, checkout_route: 'orderform' });
-        return;
-      }
-      if (ckTries++ >= 25) {                        /* 200ms × 25 = 5초 */
-        send('begin_checkout', { checkout_route: 'orderform' });
-        sendAlways('zg_checkout_value_unreadable', {
-          has_paybox: document.querySelector('.totalPay') ? 1 : 0,
-          has_paybtn: document.querySelector('#orderFixItem .btnSubmit') ? 1 : 0
-        });
-        return;
-      }
-      setTimeout(checkoutTick, 200);
-    })();
+     * 셋 다 못 읽으면 **금액을 아예 안 보낸다.** 틀린 금액보다 없는 금액이 낫다(설계 원칙 2).
+     *
+     * N2 수정 — 도달과 금액을 분리한다.
+     * 예전에는 금액을 못 읽는 동안 begin_checkout 자체를 붙잡고 있어서,
+     * 2.5초쯤에 뒤로가기·창닫기로 나가면 **이벤트가 통째로 유실**됐다(실측 0건).
+     * 유실이 "빨리 이탈한 사람" 쪽으로 편향되므로 begin_checkout 이 분모인
+     * 주문서→결제완료 전환율(기준선 52.4%)이 실제보다 **높게** 나온다.
+     * 지표를 재려고 만든 계측이 지표를 왜곡하면 안 된다.
+     *   ① 도달은 무조건 즉시 1회 (`begin_checkout`)
+     *   ② 금액은 읽히는 대로 뒤따라 별도 이벤트 (`zg_checkout_value`)
+     *   ③ 끝내 못 읽으면 금액 이벤트 대신 진단 (`zg_checkout_value_unreadable`)
+     * `send()` 가 이름으로 중복을 막으므로 begin_checkout 은 어떤 경로로도 1건이다. */
+    var v0 = checkoutTotal();
+    if (v0) {
+      send('begin_checkout', { currency: 'KRW', value: v0, checkout_route: 'orderform' });
+    } else {
+      send('begin_checkout', { checkout_route: 'orderform' });   /* ① 도달 즉시 기록 */
+      var ckTries = 0;
+      (function checkoutTick() {                                  /* ② 금액은 따로 뒤따른다 */
+        var v = checkoutTotal();
+        if (v) {
+          sendAlways('zg_checkout_value', {
+            currency: 'KRW', value: v, checkout_route: 'orderform'
+          });
+          return;
+        }
+        if (ckTries++ >= 25) {                                    /* 200ms × 25 = 5초 */
+          sendAlways('zg_checkout_value_unreadable', {            /* ③ */
+            has_paybox: document.querySelector('.totalPay') ? 1 : 0,
+            has_paybtn: document.querySelector('#orderFixItem .btnSubmit') ? 1 : 0
+          });
+          return;
+        }
+        setTimeout(checkoutTick, 200);
+      })();
+    }
   }
 
   /* 주문서 결제예정금액 — 구조로만 짚는다. 금액 문자열은 코드에 쓰지 않는다. */
@@ -448,6 +532,19 @@
   var resultRoot = document.querySelector('[module="Order_result"], #mCafe24Order, .xans-order-result');
   if (resultRoot && /order_result/i.test(path + ' ' + document.title)) {
 
+    /* N3 — 주문서와의 비대칭에 대한 판단.
+     * 라이브 원문(curl 110KB)을 열어 본 결과 주문완료는 **서버 렌더**다:
+     *   · module= 이 xans-order-* 로 치환돼 있다 → 스마트디자인 서버 렌더의 흔적
+     *   · 주문번호 자리가 <span class="txtEm"></span> 로 **id·JS 훅이 없다**
+     *     (주문서는 <span id=""></span> 처럼 id 자리를 비워 두고 JS 가 채운다 — 구조가 다르다)
+     * 그래서 폴링으로 begin_checkout 처럼 **판정을 늦추지 않는다**
+     * — 빈 DOM 진단(zg_purchase_unreadable)이 +33ms 에 나가는 현재 동작을 유지한다.
+     *
+     * 다만 "만약 JS 렌더라면 매출이 통째로 0이 된다"는 위험은 남는다. 그래서
+     * **진단은 즉시 내보내되, 5초 동안 값이 뒤늦게 채워지는지 계속 지켜본다.**
+     * 늦게 채워지면 그때 purchase 를 정상 발사하고 zg_purchase_late_render 로 알린다
+     * → 매출을 잃지 않으면서, 실주문 1건만 돌려 보면 어느 쪽인지 GA4 에서 바로 판별된다(§7 L4). */
+
     /* 표에서 <th>라벨</th><td>값</td> 을 찾아 숫자만 뽑는다.
      * scope 가 <table> 이면 그 표에 **직접** 속한 th 만 본다 —
      * 라이브 '결제정보 상세' 표 안에는 '상세내역' 중첩 표가 들어 있다(실측). */
@@ -465,6 +562,7 @@
       return null;
     }
 
+    function readPurchase() {
     /* --- 주문번호: .resultInfo 표의 "주문번호" 행 (템플릿상 {$order_id}) --- */
     var oid = '';
     var info = resultRoot.querySelector('.resultInfo');
@@ -522,13 +620,41 @@
         /* R5 와 같은 규칙을 옵션 표기에도 적용한다 (할인율은 저장하지 않는다) */
         if (optEl) variant = cleanVariant(norm(txt(optEl)));
 
-        items.push({
+        /* N5 수정: 옵션세트 주문은 p.option 이 비고 옵션이 아래 ul 에 실린다.
+         * 라이브 마크업 실측:
+         *   <li title="옵션">
+         *     <p class="option displaynone"></p>                                   ← 위에서 읽는 곳
+         *     <ul class="xans-element- xans-order xans-order-optionset option">     ← 세트 주문은 여기
+         *       <li><strong>{$product_name}</strong>{$option_str} ({$qty}개)</li>
+         *     </ul>
+         *   </li>
+         * <strong> 은 상품명이라 item_name 과 중복이므로 지우고, 끝의 (N개)는 quantity 가 이미 갖는다. */
+        if (!variant) {
+          var optSet = box.querySelector('[module="Order_optionSet"], ul.xans-order-optionset');
+          if (optSet) {
+            var parts = [];
+            Array.prototype.forEach.call(optSet.querySelectorAll('li'), function (li2) {
+              var lc = li2.cloneNode(true);
+              /* <strong> 은 구성상품명이다. 세트 주문에서는 살려야 무엇을 샀는지 알 수 있고,
+               * 단품인데 item_name 과 같은 값이면 중복이므로 뺀다. */
+              Array.prototype.forEach.call(lc.querySelectorAll('strong'), function (st) {
+                var sn = norm(txt(st));
+                if (!sn || nm.indexOf(sn) !== -1) { if (st.parentNode) st.parentNode.removeChild(st); }
+              });
+              /* 끝의 "(N개)" 는 quantity 가 이미 갖고 있다 */
+              var pt = cleanVariant(norm(lc.textContent).replace(/\(\s*\d+\s*개\s*\)\s*$/, ''));
+              if (pt) parts.push(pt);
+            });
+            variant = parts.join(' + ');           /* 구성상품 2개면 "A + B" */
+          }
+        }
+
+        items.push(withVariant({
           item_id: mm ? mm[1] : '',
           item_name: nm,
-          item_variant: variant,
           quantity: qty,
           price: buy !== null && qty > 0 ? Math.round(buy / qty) : 0
-        });
+        }, variant));            /* N1/N5: 빈 variant 는 키 자체를 넣지 않는다 */
       });
     });
 
@@ -551,13 +677,32 @@
       } else {
         send('zg_purchase_repeat_view', { transaction_id: oid });
       }
-    } else {
-      /* 값을 못 읽으면 매출을 지어내지 않는다. 대신 신호를 남긴다. */
-      send('zg_purchase_unreadable', {
-        has_order_id: oid ? 1 : 0,
-        has_value: pay ? 1 : 0,
-        item_count: items.length
-      });
+      return true;                       /* 판독 성공 */
+    }
+    /* 값을 못 읽으면 매출을 지어내지 않는다. 대신 신호를 남긴다. */
+    send('zg_purchase_unreadable', {
+      has_order_id: oid ? 1 : 0,
+      has_value: pay ? 1 : 0,
+      item_count: items.length
+    });
+    return false;
+    } /* readPurchase */
+
+    if (!readPurchase()) {
+      /* N3 안전망: 혹시 값이 뒤늦게 채워지는 구조라면 매출을 잃지 않는다.
+       * send() 가 이름으로 중복을 막으므로 purchase 도 zg_purchase_unreadable 도 1건뿐이다. */
+      var prStart = Date.now(), prTries = 0;
+      (function purchaseTick() {
+        if (prTries++ >= 25) return;                 /* 200ms × 25 = 5초 */
+        setTimeout(function () {
+          if (sent['purchase']) return;
+          if (readPurchase()) {
+            sendAlways('zg_purchase_late_render', { ms: Date.now() - prStart });
+          } else {
+            purchaseTick();
+          }
+        }, 200);
+      })();
     }
   }
 
