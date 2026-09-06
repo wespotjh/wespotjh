@@ -1,170 +1,27 @@
-/* ============================================================
-   젠제네틱스 — 상품상세 혜택가 영역 (.ds_benefit)
-   ------------------------------------------------------------
-   DOM 은 /ds/js/detail.js 가 그린다. 색·아이콘·쿠폰금액은
-   /ds/js/price-config.js 가 인라인 style 로 박는다.
-   이 파일은 "구조·타이포·여백"만 담당한다. HTML·JS 는 건드리지 않는다.
-
-   detail.js 가 만드는 구조 (수정 금지, 이 파일이 의존함):
-     .ds_benefit
-       └ .ds_benefit_max      > strong.title / strong.price > .value .unit
-       └ .ds_benefit_list
-           └ .item.member | .item.friend      (background-color = 인라인)
-               └ .item_title  > .title > img + span
-                              > .coupon > strong.price > .value .unit .text
-               └ .item_price  > strong.price > .value .unit
-   ============================================================ */
-
-/* 원본 스펙표의 회원가/플친가 행은 숨긴다 (값만 읽어 쓰는 용도) — 삭제 금지 */
 .xans-product-detaildesign.detail-spec tr.custom_option3_css { display:none; }
 .xans-product-detaildesign.detail-spec tr.custom_option4_css { display:none; }
 
-/* ── 바깥 카드 ──────────────────────────────────────────── */
-.ds_benefit {
-    padding:18px 16px 16px;
-    background:#fff;
-    border:1px solid #E7EAF0;
-    border-radius:14px;
-    box-shadow:0 1px 2px rgba(16,32,64,.04);
-    font-variant-numeric:tabular-nums;
-    -webkit-font-feature-settings:'tnum' 1;
-            font-feature-settings:'tnum' 1;
-}
-.ds_benefit.show { opacity:1; }
+.ds_benefit { padding:16px; background:#f7f8fa; border-radius:4px; }
+.ds_benefit.show { opacity: 1; }
+.ds_benefit_max { display:flex; align-items:center; gap:8px; line-height:22px; }
+.ds_benefit_max .title { font-size:15px; }
+.ds_benefit_max .price { font-size:24px; font-weight:bold; }
+.ds_benefit_list { display:flex; align-items:center; gap:8px; margin:10px 0 0; }
+.ds_benefit_list .item { flex:1; border-radius:8px; padding:12px; }
+.ds_benefit_list .item_title { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+.ds_benefit_list .item_title img { width:24px; height:24px; }
+.ds_benefit_list .item_title .title { display:flex; align-items:center; gap:8px; }
+.ds_benefit_list .item_price { text-align:right; margin:6px 0 0; }
+.ds_benefit_list .item_price .price { font-size:18px; font-weight:bold; }
 
-/* ── 최대 혜택가 (윗줄) ─────────────────────────────────── */
-.ds_benefit_max {
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:10px;
-    line-height:1.2;
-    padding:0 2px 13px;
-    margin:0 0 13px;
-    border-bottom:1px solid #EDF0F5;
-}
-.ds_benefit_max .title {
-    font-size:14px;
-    font-weight:600;
-    letter-spacing:-.02em;
-    white-space:nowrap;
-}
-.ds_benefit_max .price {
-    font-size:27px;
-    font-weight:800;
-    letter-spacing:-.035em;
-    white-space:nowrap;
-}
-.ds_benefit_max .price .unit {
-    font-size:.6em;
-    font-weight:700;
-    letter-spacing:-.02em;
-    margin-left:1px;
-}
-
-/* ── 혜택 카드 2장 ──────────────────────────────────────── */
-.ds_benefit_list {
-    display:flex;
-    align-items:stretch;      /* 두 장 높이를 맞춘다 */
-    gap:8px;
-    margin:0;
-}
-.ds_benefit_list .item {
-    flex:1 1 0;
-    min-width:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    gap:8px;
-    border-radius:12px;
-    padding:13px 13px 12px;
-    overflow:hidden;
-}
-
-/* 카드 윗줄 — 아이콘 + 라벨 / 쿠폰 뱃지 */
-.ds_benefit_list .item_title {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:6px;
-    font-size:13px;
-}
-.ds_benefit_list .item_title .title {
-    display:flex;
-    align-items:center;
-    gap:6px;
-    min-width:0;
-    font-weight:700;
-    letter-spacing:-.02em;
-}
-.ds_benefit_list .item_title .title span {
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-.ds_benefit_list .item_title img {
-    width:22px;
-    height:22px;
-    flex:0 0 22px;
-    object-fit:contain;
-}
-
-/* 쿠폰 = 알약 뱃지. 배경이 카드색이라 카드별로 대비를 다르게 준다 */
-.ds_benefit_list .coupon .price {
-    display:inline-flex;
-    align-items:baseline;
-    gap:1px;
-    flex:0 0 auto;
-    padding:3px 8px;
-    border-radius:999px;
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:-.02em;
-    line-height:1.45;
-    white-space:nowrap;
-}
-.ds_benefit_list .item.member .coupon .price { background:rgba(255,255,255,.18); }
-.ds_benefit_list .item.friend .coupon .price { background:rgba(0,0,0,.08); }
-.ds_benefit_list .coupon .price .text { margin-left:3px; opacity:.9; }
-
-/* 카드 아랫줄 — 최종가 */
-.ds_benefit_list .item_price {
-    text-align:right;
-    margin:0;
-    line-height:1.15;
-}
-.ds_benefit_list .item_price .price {
-    font-size:21px;
-    font-weight:800;
-    letter-spacing:-.035em;
-    white-space:nowrap;
-}
-.ds_benefit_list .item_price .price .unit {
-    font-size:.62em;
-    font-weight:700;
-    letter-spacing:-.02em;
-    margin-left:1px;
-}
-
-/* ── 모바일 ─────────────────────────────────────────────── */
-@media all and (max-width:767px) {
-    .ds_benefit { padding:15px 13px 13px; border-radius:12px; }
-
-    .ds_benefit_max { gap:6px; padding:0 1px 11px; margin:0 0 11px; }
-    .ds_benefit_max .title { font-size:13px; }
-    .ds_benefit_max .price { font-size:23px; }
-
-    .ds_benefit_list { gap:6px; }
-    .ds_benefit_list .item { padding:11px 10px 10px; border-radius:10px; gap:7px; }
-    .ds_benefit_list .item_title { font-size:11px; gap:4px; }
+@media all and (max-width: 767px) {
+    .ds_benefit_max { gap:4px; }
+    .ds_benefit_max .title { font-size:14px; }
+    .ds_benefit_max .price { font-size:22px; }
+    .ds_benefit_list { gap:4px; margin:10px 0 0; }
+    .ds_benefit_list .item { padding:10px; }
+    .ds_benefit_list .item_title { font-size:11px; }
+    .ds_benefit_list .item_title img { width:18px; height:18px; }
     .ds_benefit_list .item_title .title { gap:4px; }
-    .ds_benefit_list .item_title img { width:18px; height:18px; flex-basis:18px; }
-    .ds_benefit_list .coupon .price { padding:2px 6px; font-size:10px; }
-    .ds_benefit_list .item_price .price { font-size:17px; }
-}
-
-/* 아주 좁은 화면(아이폰 SE 등)에서 카드 2장이 눌리면 세로로 쌓는다 */
-@media all and (max-width:359px) {
-    .ds_benefit_list { flex-direction:column; }
-    .ds_benefit_list .item_price { text-align:right; }
+	.ds_benefit_list .item_price .price { font-size:16px; }
 }
