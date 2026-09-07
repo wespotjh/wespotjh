@@ -1,0 +1,165 @@
+# -*- coding: utf-8 -*-
+u"""
+라이브 수집기 (느린 검사). Playwright 는 zengenetics.co.kr 에 막혀 있어 **curl 만** 쓴다.
+
+- 받은 응답은 `cache/live/` 에 저장하고, 이후 실행은 캐시를 쓴다.
+- `--refresh` 를 주면 다시 받는다.
+- 실렌더(C)·계측(D) 이 쓰는 자산 번들도 여기서 함께 받아 둔다.
+"""
+import json, os, re, subprocess, sys, urllib.parse
+from .common import CACHE, sh
+
+BASE = 'https://zengenetics.co.kr'
+LIVE = os.path.join(CACHE, 'live')
+ASSET = os.path.join(CACHE, 'asset')
+
+UA = {
+    'iphone':  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+    'android': 'Mozilla/5.0 (Linux; Android 14; SM-S918N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
+    'desktop': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+}
+
+PRODUCTS = [11, 13, 16, 61, 62, 63, 64, 71, 98]     # 배시우 3차 §4-2 의 상품 9종
+PAGES = ([('p%d' % n, '/product/detail.html?product_no=%d' % n) for n in PRODUCTS]
+         + [('home', '/'),
+            ('orderform', '/order/orderform.html'),
+            ('order_result', '/order/order_result.html'),
+            ('basket', '/order/basket.html')])
+
+
+def _path(ua, name):
+    return os.path.join(LIVE, ua, name + '.html')
+
+
+def _meta(ua, name):
+    return os.path.join(LIVE, ua, name + '.json')
+
+
+def fetch_page(ua, name, url, refresh=False, timeout=60):
+    os.makedirs(os.path.join(LIVE, ua), exist_ok=True)
+    fp, mp = _path(ua, name), _meta(ua, name)
+    if os.path.exists(fp) and os.path.exists(mp) and not refresh:
+        return json.load(open(mp))
+    cmd = ['curl', '-sS', '--compressed', '-L', '--max-time', str(timeout),
+           '-o', fp, '-w', '%{http_code} %{size_download} %{num_redirects}',
+           '-H', 'User-Agent: ' + UA[ua], '-H', 'Accept-Language: ko-KR,ko;q=0.9',
+           BASE + url]
+    rc, out = sh(cmd, timeout=timeout + 30)
+    parts = (out.strip().split() + ['0', '0', '0'])[:3]
+    meta = {'ua': ua, 'name': name, 'url': url, 'rc': rc,
+            'status': int(parts[0] or 0), 'bytes': int(parts[1] or 0),
+            'redirects': int(parts[2] or 0)}
+    json.dump(meta, open(mp, 'w'))
+    return meta
+
+
+def fetch_all(refresh=False, uas=('iphone', 'android', 'desktop'), log=print):
+    got = {}
+    for ua in uas:
+        for name, url in PAGES:
+            m = fetch_page(ua, name, url, refresh)
+            got[(ua, name)] = m
+            if refresh:
+                log('  fetch %-8s %-14s -> %s (%s B)' % (ua, name, m['status'], m['bytes']))
+    return got
+
+
+def html(ua, name):
+    fp = _path(ua, name)
+    if not os.path.exists(fp):
+        return None
+    return open(fp, 'rb').read().decode('utf-8', 'replace')
+
+
+# ---------------------------------------------------------------- 자산 캐시
+def asset_key(url):
+    import hashlib
+    return hashlib.md5(url.encode('utf-8')).hexdigest()
+
+
+def fetch_asset(url, refresh=False, timeout=90):
+    u"""동일출처 자산 1개를 받아 캐시. (url, 로컬경로, status) 반환."""
+    os.makedirs(ASSET, exist_ok=True)
+    k = asset_key(url)
+    fp = os.path.join(ASSET, k)
+    mp = fp + '.json'
+    if os.path.exists(fp) and os.path.exists(mp) and not refresh:
+        return json.load(open(mp))
+    cmd = ['curl', '-sS', '--compressed', '-L', '--max-time', str(timeout),
+           '-o', fp, '-w', '%{http_code} %{content_type}',
+           '-H', 'User-Agent: ' + UA['iphone'], BASE + url if url.startswith('/') else url]
+    rc, out = sh(cmd, timeout=timeout + 30)
+    tok = out.strip().split()
+    meta = {'url': url, 'file': fp, 'status': int(tok[0] or 0) if tok else 0,
+            'ctype': tok[1] if len(tok) > 1 else ''}
+    json.dump(meta, open(mp, 'w'))
+    return meta
+
+
+def same_origin_assets(doc):
+    u"""문서에서 동일출처 <script src> / <link rel=stylesheet href> 를 뽑는다."""
+    urls = []
+    for m in re.finditer(r'<script[^>]+src=["\']([^"\']+)["\']', doc, re.I):
+        urls.append(m.group(1))
+    for m in re.finditer(r'<link[^>]+href=["\']([^"\']+)["\']', doc, re.I):
+        tag = m.group(0)
+        if 'stylesheet' in tag.lower():
+            urls.append(m.group(1))
+    out = []
+    for u in urls:
+        if u.startswith('//') or u.startswith('http'):
+            if 'zengenetics.co.kr' not in u:
+                continue
+            u = re.sub(r'^https?://[^/]+', '', re.sub(r'^//', 'https://', u))
+        if not u.startswith('/'):
+            continue
+        out.append(u)
+    # 중복 제거, 순서 유지
+    seen, res = set(), []
+    for u in out:
+        if u not in seen:
+            seen.add(u); res.append(u)
+    return res
+
+
+def fetch_fixture_assets(ua='iphone', name='p11', refresh=False, log=print):
+    doc = html(ua, name)
+    if doc is None:
+        return []
+    urls = same_origin_assets(doc)
+    metas = []
+    for u in urls:
+        metas.append(fetch_asset(u, refresh))
+    if refresh:
+        log('  fixture assets: %d개' % len(metas))
+    return metas
+
+
+def ihdr_width(url, refresh=False):
+    u"""PNG/JPEG 헤더만 Range 로 받아 폭을 읽는다 (전체 다운로드 회피)."""
+    os.makedirs(ASSET, exist_ok=True)
+    k = asset_key('HDR' + url)
+    fp = os.path.join(ASSET, k)
+    if not os.path.exists(fp) or refresh:
+        full = url if url.startswith('http') else (BASE + url)
+        sh(['curl', '-sS', '-r', '0-4095', '--max-time', '30', '-o', fp,
+            '-H', 'User-Agent: ' + UA['iphone'], full], timeout=60)
+    try:
+        d = open(fp, 'rb').read()
+    except Exception:
+        return None
+    if d[:8] == b'\x89PNG\r\n\x1a\n' and d[12:16] == b'IHDR':
+        return int.from_bytes(d[16:20], 'big')
+    if d[:2] == b'\xff\xd8':                       # JPEG
+        i = 2
+        while i + 9 < len(d):
+            if d[i] != 0xFF:
+                i += 1; continue
+            m = d[i + 1]
+            if m in (0xC0, 0xC1, 0xC2, 0xC3):
+                return int.from_bytes(d[i + 7:i + 9], 'big')
+            if m in (0xD8, 0xD9) or 0xD0 <= m <= 0xD7:
+                i += 2; continue
+            ln = int.from_bytes(d[i + 2:i + 4], 'big')
+            i += 2 + ln
+    return None

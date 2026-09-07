@@ -154,6 +154,17 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     return d ? parseInt(d, 10) : 0;
   }
 
+  /* [13종 대비] "판매가가 실제로 있는 상품인가" — 계산하지 않고 스킨이 이미 써 둔 값만 읽는다.
+   * 34/91/93 은 `.infoArea[data-price]` 가 "이벤트종료" · "구매 상품이 아닙니다" 같은 문구이고
+   * 수량행 단가(`#totalProducts span.quantity_price`)도 비어 있다.
+   * 60/61/62 는 옵션이 없어도 단가가 있으므로 여기서 true 가 되어 금액 줄을 유지한다. */
+  function hasRealPrice() {
+    var info = $('.infoArea[data-price]');
+    if (info && /[0-9]/.test(info.getAttribute('data-price') || '')) return true;
+    if (/[0-9]/.test(squash(txt($('#totalProducts span.quantity_price'))))) return true;
+    return false;
+  }
+
   /* -------------------------------------------------- 진실원장: 선택된 행 */
   function readRow(r) {
     var sp = $('p.product span', r);
@@ -243,23 +254,69 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   }
 
   /* ------------------------------------------------------- 옵션 텍스트 가공 */
-  /* 문자열 가공까지만 한다 — 숫자는 손대지 않는다 (K-04 AC3). */
+  /* 문자열 가공까지만 한다 — 숫자는 손대지 않는다 (K-04 AC3).
+   *
+   * 관리자 옵션명은 작명 규칙이 두 가지다. 둘 다 받아야 한다.
+   *   A) `[지금 24%▼] 상품명 N box (무료배송) (+33,100원)`
+   *   B) `상품명 [6+3] (45%할인 | 9주 | 무료배송) (+126,000원)`
+   * 예전 규칙은 소괄호를 `(+N원)`·`(무료배송)` **두 형태만** 지워서 B 형의
+   * `(45%할인 | 9주 | 무료배송)` 이 제목에 통째로 남았다. 더 나쁜 것은 B 형의 BEST 옵션에
+   * 상품명 부분이 아예 없어서 **제목 자리에 괄호 문구가 오는 것**이었다(제목 소실).
+   * 그 값은 `aria-label` 로도 흘러가 보조기술이 괄호 문구를 상품명처럼 읽는다.
+   *
+   * → 소괄호는 **전부** 걷어내고, 걷어낸 내용을 잃지 않게 칩으로 되돌린다.
+   *   제목이 비면 대괄호 → 메타 → 원문 순으로 폴백한다. 어떤 작명에서도 제목이 비지 않는다.
+   *   숫자·문구를 새로 만들지 않는다. 원문 조각을 옮겨 붙일 뿐이다. */
   function parseOptionText(raw) {
     var s = squash(raw);
     var tagM = s.match(/\[([^\]]+)\]/);
     var addM = s.match(/\(\s*\+\s*[\d,]+\s*원\s*\)/);
+    var meta = [];
+
     var nm = s
+      .replace(/\(\s*\+\s*[\d,]+\s*원\s*\)/g, ' ')      /* 추가금은 따로 칩으로 나간다 */
+      .replace(/\(([^)]*)\)/g, function (_m, inner) {       /* 나머지 소괄호 = 메타 정보 */
+        meta.push(inner);
+        return ' ';
+      })
       .replace(/\[[^\]]*\]/g, ' ')
       .replace(/🔥/g, ' ')
       .replace(/BEST/gi, ' ')
-      .replace(/\(\s*\+\s*[\d,]+\s*원\s*\)/g, ' ')
-      .replace(/\(\s*무료배송\s*\)/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+
+    /* 메타를 `|` 로 쪼개 칩 후보로 만든다 */
+    var parts = [];
+    for (var i = 0; i < meta.length; i++) {
+      var seg = meta[i].split('|');
+      for (var j = 0; j < seg.length; j++) {
+        var v = squash(seg[j]);
+        if (v) parts.push(v);
+      }
+    }
+
+    var bracket = tagM ? squash(tagM[1]) : '';
+    var usedBracketAsName = false;
+    if (!nm) {                                   /* B 형 BEST 옵션: 제목이 비는 경우 */
+      if (bracket) { nm = bracket; usedBracketAsName = true; }
+      else if (parts.length) nm = parts.join(' · ');
+      else nm = s;
+    }
+
+    var tags = [];                               /* 강조 칩 */
+    var notes = [];                              /* 보조 칩 */
+    if (bracket && !usedBracketAsName) tags.push(bracket);
+    for (var k = 0; k < parts.length; k++) {
+      if (parts[k].indexOf('무료배송') >= 0) continue;   /* 전용 칩이 따로 있다 */
+      if (/\d\s*%\s*할인/.test(parts[k])) tags.push(parts[k]);
+      else notes.push(parts[k]);
+    }
+
     return {
       raw: s,
-      nm: nm || s,
-      tag: tagM ? tagM[1] : '',
+      nm: nm,
+      tags: tags,
+      notes: notes,
       add: addM ? addM[0] : '',
       free: s.indexOf('무료배송') >= 0,
       best: /BEST/i.test(s) || s.indexOf('🔥') >= 0
@@ -277,7 +334,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   var root, optSel, cards = [], cardWrap = null;
   var pickedHead = null, pickedEmpty = null, tpNode = null, tpAnchor = null;
   var sumItemV = null, sumShipV = null, sumTotV = null;
-  var barV = null;
+  var barV = null, barSum = null;
   var pendingSingle = null, pendingTimer = null;
   var modeEffective = (ZG_OPT_MODE === 'single') ? 'single' : 'multi';
 
@@ -346,8 +403,9 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
       body.appendChild(el('span', 'zg-opt__nm', p.nm));
 
       var mt = el('span', 'zg-opt__mt');
-      if (p.tag) mt.appendChild(el('em', 'zg-opt__tag', p.tag));
+      p.tags.forEach(function (v) { mt.appendChild(el('em', 'zg-opt__tag', v)); });
       if (p.free) mt.appendChild(el('em', 'zg-opt__free', '무료배송'));
+      p.notes.forEach(function (v) { mt.appendChild(el('em', 'zg-opt__add', v)); });
       if (p.add) mt.appendChild(el('em', 'zg-opt__add', p.add));
       var st = el('em', 'zg-opt__state', '');
       mt.appendChild(st);
@@ -359,6 +417,15 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
       b._zgState = st;
       b._zgBest = p.best;
       b._zgName = p.nm;
+
+      /* 접근성 라벨은 카드에 보이는 정보를 그대로 읽힌다 — 이름만 읽고 할인율·추가금이
+       * 빠지면 보조기술 사용자만 가격 정보를 못 듣는다. 금액은 계산하지 않고 원문 문자열이다. */
+      var lab = [p.nm];
+      p.tags.forEach(function (v) { lab.push(v); });
+      if (p.free) lab.push('무료배송');
+      p.notes.forEach(function (v) { lab.push(v); });
+      if (p.add) lab.push('추가 ' + p.add.replace(/[()+\s]/g, ''));
+      b._zgLabel = lab.filter(Boolean).join(', ');
       on(b, 'click', function () { pick(b); });
       cardWrap.appendChild(b);
       return b;
@@ -545,6 +612,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     wrap.appendChild(el('span', null, '총 구매 금액'));
     barV = el('strong', 'zg-bar__v zg-bar__v--hint', '구성을 선택해 주세요');
     wrap.appendChild(barV);
+    barSum = wrap;
     bar.insertBefore(wrap, bar.firstChild);
 
     /* 품절 대체 슬롯 — 원본 「구매하기」 노드는 삭제하지 않고 CSS 로 감춘다 */
@@ -676,8 +744,20 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     }
 
     if (barV) {
-      if (num > 0) { barV.textContent = t; barV.classList.remove('zg-bar__v--hint'); }
-      else { barV.textContent = '구성을 선택해 주세요'; barV.classList.add('zg-bar__v--hint'); }
+      if (num > 0) {
+        barV.textContent = t;
+        barV.classList.remove('zg-bar__v--hint');
+        if (barSum) barSum.style.display = '';
+      } else if (!optSel && !hasRealPrice()) {
+        /* 고를 옵션도 없고 판매가도 없는 안내성 상품(34 이벤트종료 · 91/93 결제수단 안내).
+         * "구성을 선택해 주세요" 는 고객이 할 수 있는 일이 없는 막다른 말이라 줄 자체를 접는다.
+         * 옵션이 없어도 단가가 있는 상품(60/61/62)은 hasRealPrice() 가 true 라 여기로 오지 않는다. */
+        if (barSum) barSum.style.display = 'none';
+      } else {
+        barV.textContent = '구성을 선택해 주세요';
+        barV.classList.add('zg-bar__v--hint');
+        if (barSum) barSum.style.display = '';
+      }
     }
 
     /* 카드 상태 = tr.option_product 목록과 대조 (select.value 를 보지 않는다) */
@@ -688,7 +768,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
       for (var i = 0; i < rows.length; i++) { if (rowMatches(rows[i].key, key)) { hit = rows[i]; break; } }
       c.setAttribute('data-zg-on', hit ? '1' : '');
       c.setAttribute('aria-label',
-        (hit ? '선택됨, ' + hit.qty + '개. ' : '') + (c._zgName || '') + ', 장바구니에 담기');
+        (hit ? '선택됨, ' + hit.qty + '개. ' : '') + (c._zgLabel || c._zgName || '') + ', 장바구니에 담기');
       if (c._zgState) c._zgState.textContent = hit ? ('선택됨 · ' + hit.qty + '개') : '';
       if (hit) picked++;
     });

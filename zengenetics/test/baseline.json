@@ -1,0 +1,724 @@
+{
+  "A": {
+    "preserve": {
+      "product/detail.html": {
+        "module=": 39,
+        "{$": 231,
+        "onclick=\"{$action_": 8,
+        "{$form.": 17,
+        "id=\"{$": 32,
+        "{$total.": 7,
+        "{$soldout_display": 4,
+        "{$basket_display": 3,
+        "displaynone": 14,
+        "selectButton": 3,
+        "ec-base-qty": 6,
+        "id=\"": 42,
+        "<!--@import(": 28,
+        "<!--@css(": 4,
+        "<!--@js(": 4
+      },
+      "moa/import/product_detail/detail.html": {
+        "module=": 2,
+        "{$": 1,
+        "onclick=\"{$action_": 0,
+        "{$form.": 0,
+        "id=\"{$": 0,
+        "{$total.": 0,
+        "{$soldout_display": 0,
+        "{$basket_display": 0,
+        "displaynone": 0,
+        "selectButton": 0,
+        "ec-base-qty": 0,
+        "id=\"": 3,
+        "<!--@import(": 4,
+        "<!--@css(": 1,
+        "<!--@js(": 1
+      },
+      "moa/layout/head.html": {
+        "module=": 0,
+        "{$": 0,
+        "onclick=\"{$action_": 0,
+        "{$form.": 0,
+        "id=\"{$": 0,
+        "{$total.": 0,
+        "{$soldout_display": 0,
+        "{$basket_display": 0,
+        "displaynone": 0,
+        "selectButton": 0,
+        "ec-base-qty": 0,
+        "id=\"": 0,
+        "<!--@import(": 1,
+        "<!--@css(": 17,
+        "<!--@js(": 6
+      }
+    },
+    "hooks": {
+      "alpha_widget": {
+        "product/detail.html": 1
+      },
+      "alpha_review_count": {
+        "product/detail.html": 2
+      },
+      "df-banner-code": {
+        "product/detail.html": 2
+      },
+      "df-banner-clone": {
+        "product/detail.html": 2
+      },
+      "NaverChk_Button": {
+        "product/detail.html": 1
+      },
+      "{$app_payment_button_box_id}": {
+        "product/detail.html": 1
+      },
+      "#kakaoKey": {
+        "ds/js/zg-ga4.js": 1
+      },
+      "facebook-domain-verification": {}
+    },
+    "balance": {
+      "product/detail.html": {
+        "div_open": 114,
+        "div_close": 114
+      },
+      "moa/import/product_detail/detail.html": {
+        "div_open": 12,
+        "div_close": 12
+      },
+      "moa/layout/head.html": {
+        "div_open": 0,
+        "div_close": 0
+      },
+      "ds/css/detail.css": {
+        "brace_open": 207,
+        "brace_close": 207
+      },
+      "ds/css/price.css": {
+        "brace_open": 26,
+        "brace_close": 26
+      }
+    },
+    "paths_missing_ok": [
+      "/coupon/coupon_productdetail.html",
+      "/moa/icon/icon_arrow_left.html",
+      "/moa/icon/icon_arrow_left_wb.html",
+      "/moa/icon/icon_arrow_right.html",
+      "/moa/icon/icon_arrow_right_wb.html",
+      "/moa/icon/icon_download.html",
+      "/moa/icon/icon_heart_detail.html",
+      "/moa/icon/icon_review_star.html",
+      "/moa/icon/icon_review_star_empty.html",
+      "/moa/icon/icon_share.html",
+      "/moa/import/board/rv_frame.html",
+      "/moa/import/product/interest_free.html",
+      "/moa/import/product/product_form_related.html",
+      "/moa/import/product/tvc.html",
+      "/moa/import/product_detail/purchase_info.html",
+      "/moa/import/product_detail/qna.html",
+      "/moa/js/lib/share_sns.html",
+      "/moa/layout/fonts.html",
+      "/product/shoppQ/searchContent.html"
+    ]
+  },
+  "B": {
+    "md5": {
+      "product/detail.html": "868784ddd4ef758b25e972d916609cb9",
+      "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
+      "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
+      "ds/css/detail.css": "f8095b8bec55758d846737fd57ca0da1",
+      "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
+      "ds/js/detail-ui.js": "7044b38ec39d4670f3f0eab55f80569a",
+      "ds/js/zg-ga4.js": "251c680492211d27b084fca4d6c72716"
+    },
+    "bytes": {
+      "product/detail.html": 45916,
+      "moa/import/product_detail/detail.html": 2632,
+      "moa/layout/head.html": 3495,
+      "ds/css/detail.css": 45551,
+      "ds/css/price.css": 2271,
+      "ds/js/detail-ui.js": 36541,
+      "ds/js/zg-ga4.js": 41221
+    },
+    "important": {
+      "ds/css/detail.css": 0,
+      "ds/css/price.css": 0
+    },
+    "forbidden": {
+      "ds/css/detail.css": {
+        "검수 항목": 2,
+        "검수 근거": 10
+      },
+      "ds/js/detail-ui.js": {
+        "검수 항목": 2,
+        "검수 근거": 5
+      }
+    },
+    "comment_vars": {
+      "product/detail.html": [
+        "product/detail.html:122",
+        "product/detail.html:529"
+      ]
+    },
+    "old_path": {
+      "ds/js/zg-ga4.js": 2
+    }
+  },
+  "_meta": {
+    "updated": "2026-09-07 09:32:01",
+    "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것"
+  },
+  "E": {
+    "pages": {
+      "iphone/p11": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 328842,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
+      },
+      "iphone/p13": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 321707,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
+      },
+      "iphone/p16": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 322005,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
+      },
+      "iphone/p61": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 297380,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
+      },
+      "iphone/p62": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 296981,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
+      },
+      "iphone/p63": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331112,
+        "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
+      },
+      "iphone/p64": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331121,
+        "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
+      },
+      "iphone/p71": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 337747,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
+      },
+      "iphone/p98": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 308700,
+        "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
+      },
+      "iphone/home": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 278515,
+        "canonical_href": "https://zengenetics.co.kr/"
+      },
+      "iphone/orderform": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 265365,
+        "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
+      },
+      "iphone/order_result": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 107536,
+        "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
+      },
+      "iphone/basket": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 198446,
+        "canonical_href": "https://zengenetics.co.kr/order/basket.html"
+      },
+      "android/p11": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 328842,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
+      },
+      "android/p13": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 321707,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
+      },
+      "android/p16": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 322005,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
+      },
+      "android/p61": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 297380,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
+      },
+      "android/p62": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 296981,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
+      },
+      "android/p63": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331112,
+        "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
+      },
+      "android/p64": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331121,
+        "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
+      },
+      "android/p71": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 337747,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
+      },
+      "android/p98": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 308700,
+        "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
+      },
+      "android/home": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 278515,
+        "canonical_href": "https://zengenetics.co.kr/"
+      },
+      "android/orderform": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 265365,
+        "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
+      },
+      "android/order_result": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 107536,
+        "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
+      },
+      "android/basket": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 198446,
+        "canonical_href": "https://zengenetics.co.kr/order/basket.html"
+      },
+      "desktop/p11": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331092,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
+      },
+      "desktop/p13": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 325007,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
+      },
+      "desktop/p16": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 325261,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
+      },
+      "desktop/p61": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 301064,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
+      },
+      "desktop/p62": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 307419,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
+      },
+      "desktop/p63": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 335798,
+        "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
+      },
+      "desktop/p64": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 336708,
+        "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
+      },
+      "desktop/p71": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 347746,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
+      },
+      "desktop/p98": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 311752,
+        "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
+      },
+      "desktop/home": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 278512,
+        "canonical_href": "https://zengenetics.co.kr/"
+      },
+      "desktop/orderform": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 265265,
+        "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
+      },
+      "desktop/order_result": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 107436,
+        "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
+      },
+      "desktop/basket": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 198411,
+        "canonical_href": "https://zengenetics.co.kr/order/basket.html"
+      }
+    },
+    "assets404_ok": [
+      "/ds/css/basket.css",
+      "/ds/css/detail.css",
+      "/ds/js/basket.js",
+      "/ds/js/detail-ui.js",
+      "/ds/js/zg-ga4.js"
+    ],
+    "ihdr_min": 639,
+    "ihdr_by_product": {
+      "p11": [
+        639,
+        640
+      ],
+      "p13": [
+        639,
+        640
+      ],
+      "p16": [
+        639,
+        640
+      ],
+      "p61": [
+        639,
+        640
+      ],
+      "p62": [
+        639,
+        640
+      ],
+      "p63": [
+        639,
+        640
+      ],
+      "p64": [
+        639,
+        640
+      ],
+      "p71": [
+        640,
+        640
+      ],
+      "p98": [
+        640,
+        640
+      ]
+    },
+    "order_ga4": {
+      "iphone/orderform": {
+        "measurement_id": 0,
+        "zg_ga4_js": 0
+      },
+      "iphone/order_result": {
+        "measurement_id": 0,
+        "zg_ga4_js": 0
+      },
+      "android/orderform": {
+        "measurement_id": 0,
+        "zg_ga4_js": 0
+      },
+      "android/order_result": {
+        "measurement_id": 0,
+        "zg_ga4_js": 0
+      },
+      "desktop/orderform": {
+        "measurement_id": 0,
+        "zg_ga4_js": 0
+      },
+      "desktop/order_result": {
+        "measurement_id": 0,
+        "zg_ga4_js": 0
+      }
+    }
+  },
+  "C": {
+    "bar_height": {
+      "0": 82,
+      "34": 116
+    },
+    "gallery_li": 4,
+    "detail_imgs": 14,
+    "fold_max_mobile": "1700px",
+    "a11y_select": {
+      "w": 22,
+      "h": 2
+    },
+    "third_party_errors": 50
+  },
+  "D": {
+    "scenarios": {
+      "p11_load": {
+        "events": {
+          "view_item": 1
+        },
+        "keys": {
+          "view_item": [
+            "currency",
+            "items",
+            "send_to",
+            "value",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.002"
+        ],
+        "critical": {
+          "view_item": [
+            {
+              "currency": "KRW",
+              "value": 34900,
+              "item_id": "11",
+              "item_name": "젠제네틱스 포타슘 칼륨 (20ea)"
+            }
+          ]
+        }
+      },
+      "p11_interact": {
+        "events": {
+          "view_item": 1,
+          "zg_option_select": 1,
+          "zg_scroll_depth": 6,
+          "zg_detail_expand": 1
+        },
+        "keys": {
+          "view_item": [
+            "currency",
+            "items",
+            "send_to",
+            "value",
+            "zg_ver"
+          ],
+          "zg_option_select": [
+            "item_id",
+            "item_name",
+            "item_variant",
+            "send_to",
+            "zg_ver"
+          ],
+          "zg_scroll_depth": [
+            "detail_expanded",
+            "item_id",
+            "page_kind",
+            "percent",
+            "seconds",
+            "send_to",
+            "zg_ver"
+          ],
+          "zg_detail_expand": [
+            "item_id",
+            "send_to",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.002"
+        ],
+        "critical": {
+          "view_item": [
+            {
+              "currency": "KRW",
+              "value": 34900,
+              "item_id": "11",
+              "item_name": "젠제네틱스 포타슘 칼륨 (20ea)"
+            }
+          ],
+          "zg_option_select": [
+            {
+              "item_id": "11"
+            }
+          ]
+        }
+      },
+      "p61_load": {
+        "events": {
+          "view_item": 1
+        },
+        "keys": {
+          "view_item": [
+            "currency",
+            "items",
+            "send_to",
+            "value",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.002"
+        ],
+        "critical": {
+          "view_item": [
+            {
+              "currency": "KRW",
+              "value": 15000,
+              "item_id": "61",
+              "item_name": "젠제네틱스 마그네슘 데이팩 (6ea)"
+            }
+          ]
+        }
+      },
+      "basket": {
+        "events": {
+          "zg_cart_unreadable": 1
+        },
+        "keys": {
+          "zg_cart_unreadable": [
+            "link_count",
+            "row_count",
+            "send_to",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.002"
+        ],
+        "critical": {}
+      },
+      "home": {
+        "events": {
+          "zg_scroll_depth": 6
+        },
+        "keys": {
+          "zg_scroll_depth": [
+            "detail_expanded",
+            "item_id",
+            "page_kind",
+            "percent",
+            "seconds",
+            "send_to",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.002"
+        ],
+        "critical": {}
+      }
+    }
+  }
+}
