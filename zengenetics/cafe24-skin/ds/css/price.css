@@ -25,3 +25,19 @@
     .ds_benefit_list .item_title .title { gap:4px; }
 	.ds_benefit_list .item_price .price { font-size:16px; }
 }
+/* ── 상세 재스킨 톤 통일.
+   혜택 카드는 이 파일이 담당한다(ds/css/detail.css 에 두지 않는다 — 소관이 갈리면 두 벌이 된다).
+   토큰은 `.zg-detail` 스코프에서 상속되므로 상세 페이지에서만 값이 잡힌다.
+   폴백값을 같이 적어 두어 다른 페이지에서 이 파일만 로드돼도 깨지지 않는다. ── */
+.zg-detail .ds_benefit {
+    background: var(--zg-bg-2, #FBFAF8);
+    border: 1px solid var(--zg-hair, #E9E8E4);
+    border-radius: var(--zg-r-xl, 13px);
+    padding: 14px;
+}
+.zg-detail .ds_benefit_max .price,
+.zg-detail .ds_benefit_list .item_price .price {
+    font-family: var(--zg-f-d, "Archivo", system-ui, sans-serif);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
