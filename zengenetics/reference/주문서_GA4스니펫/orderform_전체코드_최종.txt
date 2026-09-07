@@ -16,7 +16,7 @@
 
 <!-- 젠제네틱스 GA4 (G-GZHFY596SS) — 이 페이지는 /moa/ 스킨을 안 타서 여기서 직접 넣는다 -->
 <script>try{(function(){window.dataLayer=window.dataLayer||[];if(typeof window.gtag!=='function'){window.gtag=function(){window.dataLayer.push(arguments);};window.gtag('js',new Date());}window.gtag('config','G-GZHFY596SS');})();}catch(e){}</script>
-<script src="/ds/js/zg-ga4.js"></script>
+<script src="/ds/js/zg-ga4.js?v=2002"></script>
 </head>
 
 <body id="userStyle" class="v2">

@@ -1,0 +1,64 @@
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GZHFY596SS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GZHFY596SS');
+</script>
+    
+    <meta charset="utf-8">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="format-detection" content="telephone=no, address=no, email=no, date=no" />
+
+    <!-- PG크로스브라우징필수내용 -->
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- // PG크로스브라우징필수내용 -->
+
+    <title>기본 레이아웃</title>
+    <link rel="preconnect" href="https://img.echosting.cafe24.com">
+    <!-- 숫자·라틴 라벨용 웹폰트. 라틴 전용 2종이라 합계 약 40KB.
+         한글은 아래 fonts.html 의 Pretendard Variable 자체 호스팅을 그대로 쓴다(2벌 로드 금지).
+         media="print" → onload 로 전환하는 것은 **비차단 로드**다. head 의 stylesheet 는
+         뒤에 오는 classic script 의 실행을 막는데, 외부 CDN 응답을 기다리느라
+         페이지 끝 스크립트(계측 포함)가 늦어지는 것을 피한다.
+         전환이 안 되면 숫자 서체만 폴백(Pretendard/system-ui)으로 남고 레이아웃은 그대로다. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all';this.onload=null;">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+    
+    <!--@import(/moa/layout/fonts.html)-->
+    <!--@css(/layout/basic/css/common.css)--><!-- 해당 CSS는 쇼핑몰 전체 페이지에 영향을 줍니다. 삭제와 수정에 주의해주세요. -->
+    <!--@css(/layout/basic/css/layout.css)-->
+    <!--@css(/layout/basic/css/ec-base-ui.css)-->
+    <!--@css(/layout/basic/css/ec-base-button.css)-->
+    <!--@css(/layout/basic/css/ec-base-tab.css)-->
+    <!--@css(/layout/basic/css/ec-base-table.css)-->
+    <!--@css(/layout/basic/css/ec-base-tooltip.css)-->
+    <!--@css(/layout/basic/css/ec-base-help.css)-->
+    <!--@css(/layout/basic/css/ec-base-fold.css)-->
+    <!--@css(/layout/basic/css/ec-base-box.css)-->
+    <!--@css(/layout/basic/css/ec-base-desc.css)-->
+    <!--@css(/layout/basic/css/ec-base-product.css)-->
+    <!--@css(/layout/basic/css/ec-base-prdInfo.css)-->
+    <!--@css(/layout/basic/css/ec-base-paginate.css)-->
+    <!--@css(/moa/css/lib/swiper.min.css)-->
+    <!--@css(/moa/css/lib/default.css)-->
+    <!--@css(/moa/css/layout.css)-->
+    <!--@js(/layout/basic/js/basic.js)-->
+    <!--@js(/js/common.js)-->
+    <!--@js(/js/module/layout/category.js)-->
+    <!--@js(/moa/js/lib/swiper.min.js)-->
+    <!--@js(/moa/js/common.js)-->
+    <script defer src="/moa/js/lib/sub_category.js"></script>
+
+    <!-- GA4 전자상거래 계측 (전 페이지) — ds/js/zg-ga4.js · 버전 스탬프 zg_ver -->
+    <!--@js(/ds/js/zg-ga4.js)-->
+    
+</head>

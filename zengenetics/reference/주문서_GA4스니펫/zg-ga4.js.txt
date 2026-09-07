@@ -19,7 +19,7 @@
   'use strict';
 
   /* 개편할 때마다 이 숫자만 올린다. GA4 에서 이 값으로 버전을 나눠 본다. */
-  var ZG_VER = '2.001';
+  var ZG_VER = '2.002';   /* 2.001 = GA4 계측 도입판 / 2.002 = 상세 개편(접기·구성카드)판 */
 
   /* 우리 속성으로만 보낸다.
    * 라이브에는 SEO 고급설정 '코드 직접입력'이 넣은 두 번째 GA4(G-84HNK1MRBG)와
@@ -733,6 +733,15 @@
   }, true);
 
   /* ================================================================== *
+   * 6-B. 상세 접기 펼침
+   * ================================================================== */
+  document.addEventListener('click', function (e) {
+    var m = e.target && e.target.closest ? e.target.closest('.zg-more') : null;
+    if (!m) return;
+    send('zg_detail_expand', { item_id: currentPrdNo() });
+  }, true);
+
+  /* ================================================================== *
    * 7. 스크롤 깊이 — "긴 상세페이지 어디서 나가는가"
    *    GA4 기본 scroll 은 90% 한 번뿐이라 구간을 못 본다. 직접 쪼갠다.
    * ================================================================== */
@@ -756,7 +765,8 @@
             percent: m,
             seconds: Math.round((Date.now() - start) / 1000),
             page_kind: isProduct ? 'product' : 'home',
-            item_id: isProduct ? currentPrdNo() : ''
+            item_id: isProduct ? currentPrdNo() : '',
+            detail_expanded: document.querySelector('.zg-fold.zg-open') ? 1 : 0
           });
         }
       }

@@ -1,0 +1,54 @@
+<div id="prdDetail" class="productDetail tab-content">
+
+    <div class="zg-dh">
+        <span class="zg-lab">Product detail</span>
+        <h2>상세 정보</h2>
+    </div>
+
+    <!-- 접기 래퍼는 상세설명 1개만 감싼다. 연관상품은 밖에 남긴다. 주석에 치환변수 표기 금지 -->
+    <div class="zg-fold" id="zgFold">
+        <div>{$product_detail}</div>
+        <div class="zg-veil"><button type="button" class="zg-more" aria-expanded="false" aria-controls="zgFold">상세 정보 모두 보기</button></div>
+    </div>
+
+    <!-- 안내 칩. 법정고지 본문을 옮겨 적지 않는다. 탭 인덱스 때문에 반드시 이 컨테이너 안 -->
+    <div class="zg-guide">
+        <button type="button" class="zg-chip" data-zg-tab="purchase-info">배송 · 교환/반품 안내</button>
+        <button type="button" class="zg-chip" data-zg-tab="prd-qna">자주 묻는 질문</button>
+        <button type="button" class="zg-chip" data-zg-tab="prd-review">리뷰 보기</button>
+    </div>
+
+    <!-- 각주. 제품별로 사실이 달라지는 문장은 넣지 않는다 -->
+    <p class="zg-note">
+        <span>*화면 연출은 제품 이미지이며, 섭취에 따른 효과를 나타내지 않습니다</span>
+        <span>*평점과 리뷰 수는 알파리뷰 위젯 집계 기준입니다</span>
+    </p>
+
+    <div id="related" module="product_relation">
+        <!--@css(/css/module/product/relation.css)-->
+        <!--@js(/js/module/product/relation.js)-->
+
+        <div class="relation relative">
+            <div class="section-title">
+                <h2 class="text-center eng-font">다른 고객이 함께 본 상품</h2>
+            </div>
+
+            <div module="product_relationlist" class="ec-base-product relative">
+                <div class="swiper-container jsRelatedSlide" data-slide-view="5">
+                    <ul class="prdList grid-slide swiper-wrapper">
+                        <!--@import(/moa/import/product/product_form_related.html)-->
+                        <!--@import(/moa/import/product/product_form_related.html)-->
+                    </ul>
+                </div>
+                <div class="related-pager display-m"></div>
+                <span class="prd-nav prd-nav--prev flex flex--v-center flex--h-center jsPrdPrev">
+                    <!--@import(/moa/icon/icon_arrow_left.html)-->
+                </span>
+                <span class="prd-nav prd-nav--next flex flex--v-center flex--h-center jsPrdNext">
+                    <!--@import(/moa/icon/icon_arrow_right.html)-->
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
