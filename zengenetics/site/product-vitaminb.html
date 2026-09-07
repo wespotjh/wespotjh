@@ -215,7 +215,7 @@
 
 <div class="w blk">
   <h2>몇 박스로 하시겠어요?</h2>
-  <p class="hint">두 박스부터는 금액과 상관없이 무료로 보내 드립니다.</p>
+  <p class="hint">5만원 이상 구매하시면 배송비가 없습니다.</p>
   <div class="opts" id="opts" role="radiogroup" aria-label="구성 선택"></div>
 
   <div style="margin-top:20px">
@@ -260,7 +260,7 @@
 <div class="w">
   <div class="acc">
     <details open><summary>배송</summary>
-      <div class="a">배송비 <b>3,500원</b>, 5만원 이상 구매하시면 무료입니다. 두 박스 이상은 금액과 상관없이 무료로 보내 드립니다.<br>
+      <div class="a">배송비 <b>3,500원</b>, 5만원 이상 구매하시면 무료입니다.<br>
       평일 <b>오후 2시</b>까지 결제하시면 당일 출고됩니다. 주말과 공휴일은 다음 영업일에 나갑니다.</div></details>
     <details><summary>교환 · 반품</summary>
       <div class="a">받으신 날부터 <b>7일 이내</b>에 고객센터(070-8800-1337)로 연락 주세요.<br>
@@ -334,8 +334,7 @@
       (o.best?'<span class="flag">가장 많이 담습니다</span>':'')+
       '<span class="tick"><i></i></span>'+
       '<span><span class="nm">'+o.box+'박스 · '+(o.box*20)+'포</span>'+
-      '<span class="mt">한 포당 '+Math.round(o.price/(o.box*20)).toLocaleString('ko-KR')+'원 · 박스당 '+won(per)+
-      (o.box>=2?' · <em>무료배송</em>':'')+'</span></span>'+
+      '<span class="mt">한 포당 '+Math.round(o.price/(o.box*20)).toLocaleString('ko-KR')+'원 · 박스당 '+won(per)+'</span></span>'+
       '<span class="pz"><em>'+rate+'%</em><b>'+won(o.price)+'</b><s>'+won(was)+'</s></span>';
     d.addEventListener('click',function(){ sel=o.id; paintOpts(); calc(); });
     oc.appendChild(d);
@@ -375,9 +374,8 @@
     var goods=o.price*qty, listSum=LIST*o.box*qty;
     ADDS.forEach(function(a){ if(picked[a.id]){ goods+=a.price; listSum+=(a.was||a.price); } });
     var disc=listSum-goods;
-    var freeByBox=(o.box*qty)>=2;
     var freeByAmt=goods>=FREE;
-    var ship=(freeByBox||freeByAmt)?0:SHIPFEE;
+    var ship=freeByAmt?0:SHIPFEE;
     var total=goods+ship;
 
     el('sGoods').textContent=won(listSum);
@@ -387,10 +385,7 @@
     el('barTotal').textContent=won(total);
 
     var t=el('shipT'), b=el('shipB');
-    if(freeByBox){
-      t.className='t done'; t.textContent='두 박스 이상이라 배송비가 없습니다.';
-      b.className='done'; b.style.width='100%';
-    }else if(freeByAmt){
+    if(freeByAmt){
       t.className='t done'; t.textContent='5만원을 넘겨서 배송비가 없습니다.';
       b.className='done'; b.style.width='100%';
     }else{
