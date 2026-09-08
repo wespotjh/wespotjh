@@ -1,0 +1,277 @@
+/* ==========================================================================
+   젠제네틱스 홈(index.html) 전용 스타일
+   - 모든 규칙은 래퍼 .zg-home 안에서만 동작한다 (스타일 스코프 = 상태 스코프)
+   - .zg-home 자체에 overflow 를 걸지 않는다:
+       overflow-x:hidden 은 명세상 overflow-y 를 auto 로 만들어
+       .zg-home 을 스크롤 컨테이너로 바꾸고, 그 안의 position:sticky 히어로를 죽인다.
+       가로 넘침은 요소별 max-width:100% / width:100% 로 막는다 (100vw 금지).
+   - 상태 클래스는 body 가 아니라 .zg-home 에 붙인다 (.zg-no3d / .zg-reduced)
+   - 이미지 URL 이 이 파일에 0개다. 경로는 index.html 매니페스트 한 곳에만 있다.
+   - !important 0개
+   ========================================================================== */
+
+/* ---------- 페이지 토큰 ---------- */
+.zg-home{
+  --zg-bg:#FFFFFF; --zg-bg-2:#FBFAF8;
+  --zg-ink:#15161A; --zg-ink-2:#5F626C; --zg-ink-3:#93959D;
+  --zg-hair:#E9E8E4; --zg-navy:#1A2B6B;
+  --zg-acc:#D9641F; --zg-acc-soft:#F6E3D5; --zg-acc-deep:#8F3608;
+  --zg-f-d:"Archivo","Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;
+  --zg-f-b:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --zg-f-m:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  background:var(--zg-bg); color:var(--zg-ink);
+  font-family:var(--zg-f-b); font-weight:400; font-size:16px; line-height:1.7;
+  -webkit-text-size-adjust:100%;
+}
+.zg-home,.zg-home *{box-sizing:border-box}
+.zg-home img{max-width:100%}
+.zg-home a{color:inherit;text-decoration:none}
+.zg-home h1,.zg-home h2,.zg-home h3,.zg-home p{margin:0}
+.zg-home .zg-w{max-width:520px;margin:0 auto;padding:0 24px}
+
+/* ==========================================================================
+   1. 히어로 (스크롤 스크럽 · three.js)
+   ========================================================================== */
+.zg-home .zg-hero-skin{
+  --zg-h-navy-deep:#0B1633; --zg-h-navy:#16295C; --zg-h-navy-soft:#24397A;
+  --zg-h-mist:#C8D2E8; --zg-h-sand:#E9DCC6;
+}
+.zg-home .zg-hero-skin a{color:#fff}
+
+.zg-home .zg-hero-track{position:relative;height:386vh;background:var(--zg-h-navy-deep)}
+.zg-home.zg-reduced .zg-hero-track,
+.zg-home.zg-no3d   .zg-hero-track{height:100vh}
+
+/* sticky 요소 자신의 overflow 는 안전하다 — 조상에만 걸면 안 된다 */
+.zg-home .zg-hero-stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#0B1633}
+.zg-home .zg-scene{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:10}
+
+/* 배경 사진 5장 — background-image 는 JS(home-hero.js)가 매니페스트에서 주입한다.
+   첫 장(.zg-bg0)만 index.html 인라인 style 로 즉시 칠해 LCP 를 살린다. */
+.zg-home .zg-bg{position:absolute;inset:0;z-index:1;background-size:cover;opacity:0;will-change:opacity}
+.zg-home .zg-bg0{background-position:center 35%;opacity:1}
+.zg-home .zg-bgm{background-position:center 45%}
+.zg-home .zg-bg2{background-position:center 48%}
+.zg-home .zg-bg3{background-position:center 30%}
+.zg-home .zg-bg4{background-position:center 70%}
+
+.zg-home .zg-bggrade{position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,rgba(11,22,51,.72) 0%,rgba(34,48,102,.42) 55%,rgba(11,22,51,.85) 100%)}
+
+.zg-home .zg-skywrap{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.zg-home .zg-sun,.zg-home .zg-moon{position:absolute;left:0;top:0;will-change:transform,opacity}
+
+.zg-home .zg-bigword{
+  position:absolute;z-index:5;left:50%;top:30%;transform:translate(-50%,-50%);
+  font-family:var(--zg-f-d);font-weight:700;font-size:clamp(80px,24vw,300px);
+  letter-spacing:-.015em;white-space:nowrap;line-height:1;
+  opacity:0;pointer-events:none;-webkit-user-select:none;user-select:none;
+  will-change:opacity,transform;max-width:100%}
+.zg-home .zg-bw0{color:#FFFFFF;font-size:clamp(110px,34vw,380px);top:34%}
+.zg-home .zg-bw1{color:#FFB9CD}
+.zg-home .zg-bw2{color:#FFD2A8}
+.zg-home .zg-bw3{color:#CFC2FF;font-size:clamp(96px,30vw,340px)}
+.zg-home .zg-bw4{color:#FFFFFF;font-size:clamp(64px,16vw,210px);top:26%}
+@media (max-width:760px){
+  .zg-home .zg-bigword{font-size:16.5vw}
+  .zg-home .zg-bw0{font-size:30vw}
+}
+
+.zg-home .zg-callouts{position:absolute;inset:0;z-index:20;pointer-events:none}
+.zg-home .zg-chip{
+  position:absolute;display:inline-flex;align-items:center;
+  background:rgba(255,255,255,.96);color:#131A2E;
+  font-size:clamp(10.5px,1.15vw,13px);font-weight:700;letter-spacing:.02em;
+  padding:8px 14px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.28);
+  opacity:0;will-change:opacity,transform;white-space:nowrap}
+.zg-home .zg-chip::after{content:"";position:absolute;top:50%;width:28px;height:1px;background:rgba(255,255,255,.7)}
+.zg-home .zg-cl::after{left:100%}
+.zg-home .zg-cr::after{right:100%}
+
+.zg-home .zg-dashes{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:21;display:flex;gap:7px}
+.zg-home .zg-dashes span{width:16px;height:3px;border-radius:2px;background:rgba(255,255,255,.35);
+  transition:width .3s ease,background .3s ease}
+.zg-home .zg-dashes span.zg-on{width:34px;background:#fff}
+
+/* 히어로 캡션 */
+.zg-home .zg-hcap{
+  position:absolute;z-index:20;left:0;right:0;
+  display:flex;flex-direction:column;align-items:center;gap:13px;
+  text-align:center;color:#fff;pointer-events:none;
+  opacity:0;transform:translateY(24px);will-change:opacity,transform;
+  padding:0 22px;text-shadow:0 2px 20px rgba(11,22,51,.45)}
+.zg-home .zg-hcap .zg-eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.24em;color:var(--zg-h-sand)}
+.zg-home .zg-hcap .zg-h1{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(29px,5vw,60px);
+  line-height:1.3;text-wrap:balance;word-break:keep-all}
+.zg-home .zg-hcap h2{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(24px,3.6vw,42px);
+  line-height:1.32;text-wrap:balance;word-break:keep-all}
+.zg-home .zg-hcap p{font-size:clamp(13.5px,1.4vw,16.5px);line-height:1.7;max-width:min(88vw,620px);word-break:keep-all}
+.zg-home .zg-hcap .zg-hcta{pointer-events:auto;margin-top:4px;display:inline-flex;align-items:center;
+  background:#fff;color:var(--zg-h-navy);font-weight:700;font-size:15px;padding:14px 32px;
+  border-radius:4px;cursor:pointer;text-shadow:none;min-height:44px;border:0}
+.zg-home .zg-hcap .zg-hcta:hover{background:var(--zg-h-sand)}
+
+.zg-home .zg-jchips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:2px}
+.zg-home .zg-jchip{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:8px 15px;
+  font-size:12.5px;font-weight:700;background:rgba(255,255,255,.16);color:#fff;
+  border:1px solid rgba(255,255,255,.45);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);text-shadow:none}
+.zg-home .zg-jchip .zg-cdot{width:8px;height:8px;border-radius:50%}
+
+.zg-home .zg-cap-a{top:13vh}
+.zg-home .zg-cap-m,.zg-home .zg-cap-e,.zg-home .zg-cap-n{top:10vh}
+.zg-home .zg-cap-s{bottom:10vh}
+.zg-home .zg-pills{display:flex;gap:10px;margin-top:12px;pointer-events:auto}
+.zg-home .zg-pill{background:#fff;color:var(--zg-h-navy);font-weight:700;font-size:13.5px;
+  padding:12px 28px;border-radius:999px;cursor:pointer;text-shadow:none;
+  min-height:44px;display:flex;align-items:center;border:0}
+.zg-home .zg-pill:hover{background:var(--zg-h-sand)}
+.zg-home .zg-pill.zg-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.55)}
+.zg-home .zg-pill.zg-ghost:hover{background:rgba(255,255,255,.26)}
+.zg-home .zg-streams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:min(880px,94vw)}
+.zg-home .zg-stream{display:flex;flex-direction:column;gap:5px;align-items:center}
+.zg-home .zg-stream b{font-family:var(--zg-f-b);font-size:clamp(15px,2vw,23px);font-weight:700;word-break:keep-all}
+.zg-home .zg-stream i{font-style:normal;font-size:clamp(10.5px,1.2vw,13px);color:var(--zg-h-mist)}
+.zg-home .zg-dot{width:8px;height:8px;border-radius:50%;margin-bottom:2px}
+
+.zg-home .zg-scroll-hint{position:absolute;bottom:58px;left:50%;transform:translateX(-50%);z-index:20;
+  color:#fff;font-size:10.5px;letter-spacing:.3em;opacity:.9;text-shadow:0 1px 10px rgba(11,22,51,.4)}
+.zg-home .zg-scroll-hint::after{content:"";display:block;width:1px;height:32px;background:#fff;
+  margin:9px auto 0;animation:zg-drip 1.8s ease-in-out infinite}
+@keyframes zg-drip{0%{transform:scaleY(0);transform-origin:top}60%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(1);opacity:0}}
+
+/* 하단 고정 바 */
+.zg-home .zg-ctabar{
+  position:fixed;left:50%;bottom:14px;z-index:90;
+  transform:translate(-50%,90px);transition:transform .4s ease;
+  width:min(440px,calc(100% - 28px));
+  background:var(--zg-h-navy,#16295C);color:#fff;border-radius:12px;
+  box-shadow:0 12px 32px rgba(11,22,51,.4);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 18px;min-height:48px}
+.zg-home .zg-ctabar.zg-on{transform:translate(-50%,0)}
+.zg-home .zg-ctabar span{font-size:13.5px;color:var(--zg-h-mist,#C8D2E8)}
+.zg-home .zg-ctabar b{font-size:14px;color:#fff;white-space:nowrap}
+.zg-home .zg-ctabar:hover{background:var(--zg-h-navy-deep,#0B1633)}
+
+/* 3D 폴백 — 상태 클래스는 .zg-home 에 붙는다 (body 금지) */
+.zg-home .zg-fallback{display:none;position:absolute;inset:0;z-index:5;
+  align-items:flex-end;justify-content:center;padding-bottom:11vh}
+.zg-home.zg-no3d .zg-fallback{display:flex}
+.zg-home.zg-no3d .zg-fallback svg{height:min(34vh,300px);width:auto}
+.zg-home.zg-no3d .zg-scene{display:none}
+.zg-home.zg-no3d .zg-skywrap{display:none}
+.zg-home.zg-no3d .zg-hero-stage{background:linear-gradient(180deg,#10204a,#16295c 70%,#B98D5F)}
+.zg-home.zg-no3d .zg-cap-a{opacity:1;transform:none;top:11vh}
+.zg-home.zg-no3d .zg-bw0{opacity:.1}
+.zg-home.zg-no3d .zg-callouts,.zg-home.zg-no3d .zg-dashes{display:none}
+.zg-home.zg-no3d .zg-bg{display:none}
+.zg-home.zg-no3d .zg-bggrade{background:linear-gradient(180deg,rgba(16,32,74,.4),rgba(22,41,92,.4))}
+
+/* ==========================================================================
+   2. 히어로 아래 소개 (물 없이도, OK)
+   ========================================================================== */
+.zg-home .zg-hero2{text-align:center;padding-block:52px 0}
+.zg-home .zg-hero2 .zg-eyebrow{font-family:var(--zg-f-m);font-size:10.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--zg-ink-3);margin-bottom:20px}
+.zg-home .zg-hero2 h1{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(36px,10.4vw,52px);
+  line-height:1.16;letter-spacing:-.035em;margin:0 0 16px;word-break:keep-all;text-wrap:balance}
+.zg-home .zg-hero2 .zg-sub{color:var(--zg-ink-2);font-size:16px;margin:0 auto;max-width:20em;word-break:keep-all}
+.zg-home .zg-trio{position:relative;height:min(48vh,400px);margin-top:14px;
+  display:flex;align-items:center;justify-content:center}
+.zg-home .zg-glow{position:absolute;left:50%;top:52%;width:330px;height:330px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,#F3EFE9 0%,rgba(255,255,255,0) 68%)}
+.zg-home .zg-trio img{position:absolute;height:78%;width:auto;
+  filter:drop-shadow(0 22px 22px rgba(30,22,12,.15));
+  animation:zg-bob 6.8s ease-in-out infinite;will-change:transform}
+.zg-home .zg-trio img.zg-a{transform:translateX(-84px) rotate(-8deg);animation-delay:-1.2s}
+.zg-home .zg-trio img.zg-c{transform:translateX(84px) rotate(8deg);animation-delay:-3.6s}
+@keyframes zg-bob{0%,100%{translate:0 0}50%{translate:0 -15px}}
+
+/* ==========================================================================
+   3. 제품 블록 3벌 (정적 마크업 · 스크롤 스크럽)
+   ========================================================================== */
+.zg-home .zg-pblock{position:relative}
+.zg-home .zg-divider{height:1px;background:var(--zg-hair);max-width:520px;margin:0 auto}
+.zg-home .zg-phead{padding-block:38px 6px;text-align:center}
+.zg-home .zg-phead .zg-eyebrow{font-family:var(--zg-f-m);font-size:10.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--zg-acc-deep);margin-bottom:18px}
+.zg-home .zg-phead h2{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(31px,8.8vw,44px);
+  line-height:1.25;letter-spacing:-.03em;margin:0 0 14px;word-break:keep-all;text-wrap:balance}
+.zg-home .zg-phead .zg-sub{color:var(--zg-ink-2);font-size:15.5px;margin:0 auto;max-width:22em;word-break:keep-all}
+.zg-home .zg-phead .zg-fine{margin:12px auto 0;max-width:25em;font-size:11.5px;line-height:1.65;
+  color:var(--zg-ink-3);word-break:keep-all}
+
+.zg-home .zg-track{position:relative;height:300vh}
+.zg-home .zg-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#fff;
+  display:flex;flex-direction:column;align-items:center;
+  padding:calc(18px + env(safe-area-inset-top)) 0 calc(18px + env(safe-area-inset-bottom))}
+.zg-home .zg-plate{position:relative;flex:1 1 auto;min-height:0;width:100%}
+.zg-home .zg-fr{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0}
+.zg-home .zg-fr.zg-on{opacity:1}
+.zg-home .zg-plate::after{content:"";position:absolute;left:0;right:0;bottom:0;height:12%;z-index:2;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 76%)}
+
+.zg-home .zg-bcap{flex:0 0 auto;width:100%;max-width:520px;text-align:center;padding:24px 26px 0}
+.zg-home .zg-bcap .zg-t{font-weight:700;font-size:clamp(19px,5vw,24px);line-height:1.45;
+  letter-spacing:-.02em;word-break:keep-all;min-height:2.9em;
+  display:flex;align-items:center;justify-content:center}
+
+.zg-home .zg-band{flex:0 0 auto;width:100%;max-width:520px;margin-top:20px;
+  border-top:1px solid var(--zg-hair);opacity:0}
+.zg-home .zg-band .zg-in{display:grid;grid-template-columns:repeat(2,1fr);padding:22px 22px 8px}
+.zg-home .zg-band .zg-c{text-align:center;border-right:1px solid var(--zg-hair)}
+.zg-home .zg-band .zg-c:last-child{border-right:0}
+.zg-home .zg-band .zg-n{font-family:var(--zg-f-d);font-weight:700;font-size:clamp(24px,6.8vw,31px);
+  line-height:1.1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.zg-home .zg-band .zg-u{font-size:11px;color:var(--zg-ink-2);margin-top:7px;line-height:1.45}
+.zg-home .zg-hint{flex:0 0 auto;margin-top:14px;font-family:var(--zg-f-m);font-size:10px;
+  letter-spacing:.18em;text-transform:uppercase;color:#BFC0C6}
+.zg-home .zg-hint.zg-off{visibility:hidden}
+
+/* ==========================================================================
+   4. 스토어 · 하단
+   ========================================================================== */
+.zg-home .zg-store{padding-block:72px}
+.zg-home h2{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(24px,6.4vw,32px);
+  line-height:1.36;letter-spacing:-.02em;margin:0 0 12px;word-break:keep-all;text-wrap:balance}
+.zg-home .zg-lede{color:var(--zg-ink-2);font-size:15px;margin:0 0 30px;word-break:keep-all}
+
+.zg-home .zg-thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+.zg-home .zg-thumbs a{display:block;color:inherit}
+.zg-home .zg-im{aspect-ratio:1/1;border:1px solid var(--zg-hair);border-radius:14px;background:var(--zg-bg-2);
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+.zg-home .zg-im img{height:80%;width:auto;object-fit:contain}
+.zg-home .zg-nm{display:block;margin-top:10px;text-align:center;font-size:13.5px;font-weight:600;
+  letter-spacing:-.01em;line-height:1.4;word-break:keep-all}
+.zg-home .zg-nm::after{content:" →";font-family:var(--zg-f-d);font-size:.85em;color:var(--zg-ink-3)}
+@media (max-width:390px){
+  .zg-home .zg-thumbs{gap:9px}
+  .zg-home .zg-nm{font-size:12.5px}
+}
+.zg-home .zg-ship{margin-top:30px;font-size:12.5px;color:var(--zg-ink-2);line-height:1.75;word-break:keep-all}
+
+.zg-home .zg-cta-wrap{text-align:center;padding-block:52px 72px}
+.zg-home .zg-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--zg-ink);color:#fff;font-weight:600;font-size:15px;
+  padding:18px 36px;border-radius:999px;min-height:56px}
+
+.zg-home .zg-legalnote{padding-bottom:56px}
+.zg-home .zg-note{margin-top:22px;font-size:11.5px;color:#5E6E96;line-height:1.8;word-break:keep-all;
+  max-width:26em;margin-left:auto;margin-right:auto;text-align:center}
+
+/* 하단 고정 바가 마지막 내용을 가리지 않게 */
+.zg-home .zg-tail-pad{height:76px}
+
+/* ==========================================================================
+   5. 접근성 · 모션 축소
+   ========================================================================== */
+.zg-home a:focus-visible,.zg-home button:focus-visible{outline:2px solid var(--zg-acc);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  .zg-home .zg-trio img{animation:none}
+  .zg-home .zg-scroll-hint::after{animation:none}
+  .zg-home .zg-ctabar{transition:none}
+  .zg-home .zg-dashes span{transition:none}
+}
