@@ -1,0 +1,82 @@
+<!--@layout(/layout/basic/main.html)-->
+<!--@css(/moa/css/main.css)-->
+<!--@css(/moa/css/lib/ptrv_style.css)-->
+<!--@css(/moa/css/lib/rv_style.css)-->
+<!--@js(/moa/js/lib/rv_lt.js)-->
+<!--@js(/moa/js/lib/ptrv_lt.js)-->
+<!--@js(/moa/js/lib/calc_sale_rate.js)-->
+
+
+<!--@js(/ds/js/main.js)-->
+<!--@css(/moa/css/lib/swiper.min.css)-->
+<!--@js(/moa/js/lib/swiper.min.js)-->
+<!--@js(/ds/js/index_list.js)-->
+<!--@css(/ds/css/main.css)-->
+<!--@js(/ds/js/price-config.js)-->
+
+<!-- 알파리뷰 - 회색 원 리뷰개수 CSS -->
+<style>
+    li.review_cnt { display: none; }
+    .alpha_module_count_container {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding: 5px 10px;
+        background: #F8F8F8;
+        border-radius: 40px;
+        line-height: 1;
+        font-size: 12px;
+        color: #555;
+    }
+</style>
+<!-- /알파리뷰 -->
+
+
+<!-- 메인 배너 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!--@import(/moa/import/main/main_banner.html)-->
+
+<!-- 원형 카테고리 배너 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!--@import(/moa/import/main/category_banner.html)-->
+
+<!-- 서브 배너1 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!--@import(/moa/import/main/sub_banner1.html)-->
+
+<!-- BEST 상품 리스트 : '관리자 > 상품관리 > 상품진열 > 메인상품진열' 메뉴에서 관리 -->
+<!--@import(/moa/import/main/product_list_slide.html)-->
+
+<!--
+    [패럴렉스 배너]
+    -배너 수정 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리
+    -텍스트 수정 : '파일열기' 버튼 클릭하여 관리
+-->
+<!--@import(/moa/import/main/mid_banner2.html)-->
+
+<!-- 서브 배너2 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!--@import(/moa/import/main/sub_banner2.html)-->
+
+<!-- TIME SALE 상품 리스트 : '관리자 > 상품관리 > 상품진열 > 메인상품진열' 메뉴에서 관리 -->
+<!--@import(/moa/import/main/product_list_timesale.html)-->
+
+<!-- 신상품 리스트 : '관리자 > 상품관리 > 상품진열 > 메인상품진열' 메뉴에서 관리 -->
+<!--@import(/moa/import/main/product_list_new.html)-->
+
+<!-- 유튜브 영상 배너 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!--@import(/moa/import/main/main_video.html)-->
+
+<!--
+    [패럴렉스 배너]
+    -배너 수정 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리
+    -텍스트 수정 : '파일열기' 버튼 클릭하여 관리
+-->
+<!--@import(/moa/import/main/mid_banner.html)-->
+
+<!-- 포토리뷰 : 상품 리뷰 게시판의 게시글과 자동 연동 -->
+<!--@import(/moa/import/main/main_review.html)-->
+
+<!-- 인스타그램 -->
+<!--@import(/moa/import/main/instagram_feed.html)-->
+
+<!-- 삭제 금지 : 삭제하실 경우 메인페이지 노출이 원활하지 않을 수 있습니다. -->
+<!--@import(/moa/js/main_js.html)-->
+
+<!--@import(/moa/import/board/rv_frame.html)-->
