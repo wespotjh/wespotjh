@@ -151,22 +151,40 @@ for (const scen of cfg.scenarios) {
   page.on('pageerror', e => errors.push({ msg: String(e.message).slice(0, 200), stack: String(e.stack || '').slice(0, 400) }));
   const rec = { name: scen.name, vp: scen.vp, kind: scen.kind, ok: true, m: {} };
   try {
+    if (scen.kind === 'late' || scen.kind === 'promote') {
+      /* 시각 의존을 없앤다: .zg-home 의 class 변화를 페이지 안에서 기록하고,
+         "THREE 가 없을 때 .zg-no3d 가 붙은 적이 있는가" 를 그 기록으로 판정한다. */
+      await page.addInitScript(() => {
+        window.__zgLog = [];
+        const mo = new MutationObserver(() => {
+          const r = document.querySelector('.zg-home');
+          if (r) window.__zgLog.push({ cls: r.className, three: typeof THREE !== 'undefined', t: performance.now() });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+          const r = document.querySelector('.zg-home');
+          if (r) mo.observe(r, { attributes: true, attributeFilter: ['class'] });
+        });
+      });
+    }
     if (scen.kind === 'late') {
       /* three.js 가 오기 전에 아래로 내려간 상태를 만든다 */
       await page.goto('https://zengenetics.co.kr' + cfg.docPath, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForTimeout(300);
       const before = await page.evaluate(() => { window.scrollTo(0, window.innerHeight * 2.5);
         return document.querySelector('.zg-home').classList.contains('zg-no3d'); });
-      await page.waitForTimeout(scen.delay3d + 800);
-      rec.m.promote = await page.evaluate((b) => ({ no3dBefore: b,
-        no3dAfter: document.querySelector('.zg-home').classList.contains('zg-no3d'), threeAfter: typeof THREE !== 'undefined' }), before);
+      await page.waitForTimeout(scen.delay3d + 1200);
+      rec.m.promote = await page.evaluate((b) => ({
+        no3dBefore: b || (window.__zgLog || []).some(x => /zg-no3d/.test(x.cls) && !x.three),
+        no3dAfter: document.querySelector('.zg-home').classList.contains('zg-no3d'), threeAfter: typeof THREE !== 'undefined',
+        log: (window.__zgLog || []).slice(0, 8) }), before);
     } else if (scen.kind === 'promote') {
       await page.goto('https://zengenetics.co.kr' + cfg.docPath, { waitUntil: 'domcontentloaded', timeout: 60000 });
-      await page.waitForTimeout(300);
       const before = await page.evaluate(() => document.querySelector('.zg-home').classList.contains('zg-no3d'));
-      await page.waitForTimeout(scen.delay3d + 800);
-      rec.m.promote = await page.evaluate((b) => ({ no3dBefore: b,
-        no3dAfter: document.querySelector('.zg-home').classList.contains('zg-no3d'), threeAfter: typeof THREE !== 'undefined' }), before);
+      await page.waitForTimeout(scen.delay3d + 1200);
+      rec.m.promote = await page.evaluate((b) => ({
+        no3dBefore: b || (window.__zgLog || []).some(x => /zg-no3d/.test(x.cls) && !x.three),
+        no3dAfter: document.querySelector('.zg-home').classList.contains('zg-no3d'), threeAfter: typeof THREE !== 'undefined',
+        log: (window.__zgLog || []).slice(0, 8) }), before);
     } else {
       await page.goto('https://zengenetics.co.kr' + cfg.docPath, { waitUntil: 'load', timeout: 60000 });
       if (scen.inject) await page.addStyleTag({ content: scen.inject });

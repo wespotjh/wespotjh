@@ -242,6 +242,88 @@ const MEASURE = () => {
   return out;
 };
 
+/* --- 선택 행 2유형 (대표님 실기 반려 2026-09-08 F-1·F-2·F-3) ------------------
+ * 카페24 옵션 스크립트(optimizer.php 캐시)로 tr.option_product / tr.add_product 를 실제로 만든다.
+ * 픽스처 주입이 아니라 라이브와 같은 코드 경로다 — 두 행의 DOM 이 다르다는 사실 자체가 검사 대상이다. */
+const MAKE_ROWS = async () => {
+  const fire = (sel, last) => {
+    const el = document.querySelector(sel); if (!el) return 'no ' + sel;
+    const opts = Array.from(el.options).filter(o => o.value && o.value !== '*' && o.value !== '**');
+    const o = last ? opts[opts.length - 1] : (opts[1] || opts[0]); if (!o) return 'no option';
+    el.value = o.value; el.dispatchEvent(new Event('change', { bubbles: true })); return 'ok';
+  };
+  const r = { opt: fire('select[name="option1"]', false) };
+  await new Promise(res => setTimeout(res, 500));
+  r.add63 = fire('select[name="addproduct_option_name_63"]', true);
+  await new Promise(res => setTimeout(res, 500));
+  r.add13 = fire('select[name="addproduct_option_name_13"]', true);
+  await new Promise(res => setTimeout(res, 700));
+  r.optionRows = document.querySelectorAll('#totalProducts tr.option_product').length;
+  r.addRows = document.querySelectorAll('#totalProducts tr.add_product').length;
+  return r;
+};
+
+const ROWS = () => {
+  const R = el => { const r = el.getBoundingClientRect();
+    return { l: r.left, t: r.top, r: r.right, b: r.bottom, w: r.width, h: r.height }; };
+  const out = [];
+  for (const tr of document.querySelectorAll('#totalProducts tr.option_product, #totalProducts tr.add_product')) {
+    const st = tr.querySelector('p:not(.product), span.quantity');
+    const price = tr.querySelector('td.right');
+    const kids = st ? Array.from(st.querySelectorAll(':scope > a, :scope > input')).map(k => {
+      const cls = k.className || '';
+      const label = k.tagName === 'INPUT' ? 'N' : /DownClass|\bdown\b/.test(cls) ? '−' : /UpClass|\bup\b/.test(cls) ? '+' : '?';
+      return { label, x: k.getBoundingClientRect().left };
+    }).sort((a, b) => a.x - b.x) : [];
+    const trR = R(tr), stR = st ? R(st) : null, prR = price ? R(price) : null;
+    const ovx = (stR && prR) ? Math.max(0, Math.min(stR.r, prR.r) - Math.max(stR.l, prR.l)) : null;
+    const ovy = (stR && prR) ? Math.max(0, Math.min(stR.b, prR.b) - Math.max(stR.t, prR.t)) : null;
+    out.push({
+      type: (tr.className.match(/option_product|add_product/) || ['?'])[0],
+      stepper: !!st, stepperW: stR ? +stR.w.toFixed(1) : null, stepperH: stR ? +stR.h.toFixed(1) : null,
+      seq: kids.map(k => k.label).join(' '),
+      priceText: price ? (price.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 20) : '',
+      priceW: prR ? +prR.w.toFixed(1) : null,
+      overlapArea: (ovx != null) ? +(ovx * ovy).toFixed(1) : null,
+      priceRightInset: (prR && trR) ? +(trR.r - prR.r).toFixed(1) : null,
+      priceInsideRow: (prR && trR) ? (prR.r <= trR.r + 0.5 && prR.b <= trR.b + 0.5) : null,
+      priceCenterDelta: (stR && prR) ? +(((prR.t + prR.b) / 2) - ((stR.t + stR.b) / 2)).toFixed(1) : null,
+    });
+  }
+  return out;
+};
+
+/* 스킨 혜택 말풍선(.benefit-bubble > a, top:-28px) 을 강제로 띄워 위 텍스트와의 간격을 잰다.
+ * 실기(대표님 캡처)에서는 카페24가 .EC-price-warning 을 숨긴 상태였다 → 그 상태와
+ * 바운스 최고점(bubbleBounce translateY -5px)까지 재현해서 잰다. */
+const BUBBLE = () => {
+  const q = s => document.querySelector(s);
+  const bb = q('.benefit-bubble'); if (!bb) return { found: false };
+  bb.removeAttribute('hidden');
+  const a = bb.querySelector('a'); if (!a) return { found: false };
+  a.removeAttribute('df-banner-clone'); a.textContent = '혜택 말풍선'; a.hidden = false;
+  const R = el => el.getBoundingClientRect();
+  const note = q('.zg-sum__note');
+  const warn = q('.EC-price-warning');
+  const cand = Array.from(document.querySelectorAll('.infoArea-footer *, .zg-sum *'))
+    .filter(e => !e.children.length && (e.textContent || '').trim() && !bb.contains(e)
+                 && getComputedStyle(e).display !== 'none' && R(e).height > 0);
+  const overlaps = (ar) => cand.filter(e => { const r = R(e);
+    return Math.min(ar.bottom, r.bottom) - Math.max(ar.top, r.top) > 0 &&
+           Math.min(ar.right, r.right) - Math.max(ar.left, r.left) > 0; })
+    .map(e => (e.className || e.tagName).toString().slice(0, 30));
+  const out = { found: true, warnDisplay: warn ? getComputedStyle(warn).display : null,
+                textOverlaps: overlaps(R(a)) };
+  if (warn) warn.style.display = 'none';
+  const ar = R(a);
+  out.noteGapHidden = note ? +(ar.top - R(note).bottom).toFixed(1) : null;
+  out.noteGapHiddenBounce = note ? +(ar.top - 5 - R(note).bottom).toFixed(1) : null;
+  out.textOverlapsHidden = overlaps({ top: ar.top - 5, bottom: ar.bottom, left: ar.left, right: ar.right });
+  if (warn) warn.style.display = '';
+  bb.setAttribute('hidden', '');
+  return out;
+};
+
 const SHEET = () => {
   const q = (s) => document.querySelector(s);
   const btn = q('.jsLayerBtn');
@@ -298,6 +380,12 @@ for (const scen of cfg.scenarios) {
         window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 120));
       });
       await page.waitForTimeout(500);
+    }
+    if (scen.rows) {
+      rec.rowsMade = await page.evaluate(MAKE_ROWS);
+      await page.waitForTimeout(600);
+      rec.rows = await page.evaluate(ROWS);
+      rec.bubble = await page.evaluate(BUBBLE);
     }
     rec.m = await page.evaluate(MEASURE);
     if (scen.sheet) rec.sheet = await page.evaluate(SHEET);

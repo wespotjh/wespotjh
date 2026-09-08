@@ -551,8 +551,10 @@
 body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) {
   display: inline-flex;
   align-items: center;
-  width: auto;
-  min-width: 134px;
+  flex: 0 0 134px;       /* td:first-child 가 flex 컨테이너다 — 늘어나지 않게 기본 크기를 못 박는다 */
+  width: 134px;          /* = 44 + 46 + 44. 실기에서 input 의 고유 폭(약 170px)이 박스를 263~268px 로 늘려
+                            절대배치된 가격 칸(80px, right 16px)을 61~66px 덮었다 */
+  min-width: 0;
   padding: 0;
   border: 1px solid var(--zg-hair-2);
   border-radius: var(--zg-r-l);
@@ -562,9 +564,9 @@ body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) {
 }
 body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .quantity_opt {
   order: 2;
-  flex: 1 1 auto;
-  width: auto;
-  min-width: 46px;
+  flex: 0 0 46px;        /* `1 1 auto` 는 input 고유 폭(약 170px)을 기본 크기로 삼는다 */
+  width: 46px;
+  min-width: 0;
   height: var(--zg-tap);
   margin: 0;
   padding: 0;
@@ -591,17 +593,56 @@ body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) a {
   border: 0;
   background: var(--zg-bg);
 }
-body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .down { order: 1; }
-body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .up { order: 3; }
+/* ⚠ 두 행 유형의 DOM 이 다르다 (카페24 옵션 스크립트 원문에서 복원):
+     tr.option_product : <a class="up eProductQuantityUpClass"><img class="option_box_up">
+     tr.add_product    : <a class="eAddProductQuantityUpClass"><img class="up …_up">
+   추가상품 행은 `.up/.down` 이 <a> 가 아니라 <img> 에 붙는다. `.up/.down` 으로 order 를 걸면
+   추가상품 행에서는 <a> 가 order 0 으로 남아 `+ − 1` 이 된다. → 두 행에 공통인 동작 클래스로 건다. */
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .down,
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .eProductQuantityDownClass,
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .eAddProductQuantityDownClass { order: 1; }
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .up,
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .eProductQuantityUpClass,
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .eAddProductQuantityUpClass { order: 3; }
 body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) a::before {
   left: 50%;
   margin: -0.5px 0 0 -4.5px;
   background: var(--zg-ink);
 }
-body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .up::after {
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .up::after,
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .eProductQuantityUpClass::after,
+body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .eAddProductQuantityUpClass::after {
   left: 50%;
   margin: -4px 0 0 -0.5px;
   background: var(--zg-ink);
+}
+
+/* 가격 칸 — 스킨이 행 기준 절대배치(`right:16px; bottom:16px; width:80px; line-height:30px`)한다.
+   스테퍼를 134px 로 고정했으니 겹치지는 않지만, 세로 중심이 스테퍼보다 11.5px 아래에 있고
+   `width:80px` 은 여섯 자리 금액(`104,000원`)이 꽉 찬다. 행 padding(20px)에 맞춰 오른쪽 정렬하고
+   스테퍼(44px)와 세로 중심을 맞춘다. 두 행 유형에만 건다 — 옵션 없는 상품의 서버 렌더 행은
+   `td:nth-child(3)` 이 가격 칸이라 구조가 달라 손대지 않는다. */
+.zg-detail #totalProducts:not(.is-pc) > table > tbody > tr.option_product > td.right,
+.zg-detail #totalProducts:not(.is-pc) > table > tbody > tr.add_product > td.right {
+  width: auto;           /* 글자 폭만큼만 — 320px 폭에서 80px 상자가 스테퍼와 6px 겹쳤다 */
+  min-width: 0;
+  right: 20px;
+  bottom: 20px;
+  line-height: var(--zg-tap);
+  white-space: nowrap;
+}
+
+/* 320px 급(iPhone SE 1세대·갤럭시 폴드 커버) — 행 안폭 208px 에 스테퍼 134 + 여섯 자리 가격(약 77px) 이
+   2.7px 모자란다. 버튼 44px(터치 타깃)은 지키고 숫자 칸만 36px 로 줄인다 (두 자리 수량까지 충분). */
+@media (max-width: 359px) {
+  body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) {
+    flex-basis: 124px;
+    width: 124px;
+  }
+  body:not(#userStyle) .zg-detail #totalProducts table p:not(.product) .quantity_opt {
+    flex-basis: 36px;
+    width: 36px;
+  }
 }
 
 /* (B) 데스크톱 행 — `span.quantity`. `width:93px` 은 important 로 잠겨 있어
@@ -620,9 +661,9 @@ body:not(#userStyle) .zg-detail #totalProducts .quantity {
 }
 body:not(#userStyle) .zg-detail #totalProducts .quantity input {
   order: 2;
-  flex: 1 1 auto;
-  width: auto;
-  min-width: 46px;
+  flex: 0 0 46px;        /* 모바일 행과 같은 이유 — input 고유 폭이 박스를 늘린다 */
+  width: 46px;
+  min-width: 0;
   height: var(--zg-tap);
   margin: 0;
   border: 0;
@@ -880,7 +921,15 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 }
 
 /* -------------------------------- 11. K-12a 인라인 구매 버튼 (레이어 안) */
-.zg-detail .infoArea-footer .productAction { padding: 0 var(--zg-pad-x); }
+.zg-detail .infoArea-footer .productAction {
+  padding: 0 var(--zg-pad-x);
+  /* 스킨의 혜택 말풍선(`.benefit-bubble > a { top:-28px; height:26px }`)이 「구매하기」 위 28px 를 쓴다.
+     라이브는 `#totalPrice { padding: 22px 0 32px }` 의 아래 32px 이 그 자리를 비워 두었는데,
+     우리는 `#totalPrice` 를 시각적으로 접어(K-08) 그 여백까지 없앴다 → 말풍선이 `.zg-sum__note` 를 덮었다.
+     라이브가 비워 두던 32px + 말풍선 바운스 진폭(`bubbleBounce` translateY -5px) 만큼 되돌린다
+     (말풍선 산출물 자체는 건드리지 않는다). */
+  margin-top: 37px;
+}
 .zg-detail .productAction .buy-btn-wrap { gap: 9px; }
 .zg-detail .productAction [class^='btn'].sizeL.actionCart {
   height: var(--zg-bar-h);

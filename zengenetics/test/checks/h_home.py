@@ -143,8 +143,8 @@ def scenarios(fnew, fold):
                'inject': '.zg-home{overflow-x:hidden}'})
     sc.append({'name': 'safety390', 'vp': 390, 'fixture': fnew, 'kind': 'safety'})
     sc.append({'name': 'old390', 'vp': 390, 'fixture': fold, 'kind': 'old'})
-    sc.append({'name': 'promote390', 'vp': 390, 'fixture': fnew, 'kind': 'promote', 'delay3d': 1500})
-    sc.append({'name': 'late390', 'vp': 390, 'fixture': fnew, 'kind': 'late', 'delay3d': 1500})
+    sc.append({'name': 'promote390', 'vp': 390, 'fixture': fnew, 'kind': 'promote', 'delay3d': 3000})
+    sc.append({'name': 'late390', 'vp': 390, 'fixture': fnew, 'kind': 'late', 'delay3d': 3000})
     return sc
 
 

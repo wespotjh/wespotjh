@@ -9,6 +9,10 @@ C. 실렌더 검사 (Chromium) — 신아린 QA모바일_칼륨_4차 방법의 �
   §5 G-1/G-2 하단바 82px · 푸터 여유 > 0 · safe 0/34 양쪽 · 1024↑ 바 display:none
   §5 갤러리 `.thumbnail__list > li` 4개 · 바텀시트 3버튼 겹침 [0,0,0] · pageerror 0
   §5 지연로딩/색인 `ec-data-src` 0 · `src` 14/14 · `alt` 14/14
+  실기 반려 2026-09-08 (대표님 iPhone) — `#totalProducts` 선택 행 2유형(option_product / add_product):
+    F-1 가격이 스테퍼 박스를 뚫음 → 겹침 면적 0 · 가격 오른쪽 정렬(행 padding 20px) · 세로 중심 일치
+    F-2 추가상품 행만 `+ − 1` → 두 행 모두 `− N +`
+    F-3 혜택 말풍선(top:-28px)이 `.zg-sum__note` 를 덮음 → 경고문 숨김 상태 + 바운스 최고점에서도 간격 > 0
 
 거짓 통과 방지
   - 템플릿 델타(`.zg-detail`/`.zg-fold`/카드)가 실제로 적용됐는지 landmark 로 먼저 확인한다.
@@ -24,6 +28,7 @@ VP_OVERFLOW = [320, 390, 414, 768, 1023, 1280]
 VP_ZOOM     = [641, 768, 900, 1023]
 VP_BAR      = [320, 390, 414, 768, 1023]
 VP_NOBAR    = [1024, 1280]
+VP_ROWS     = [320, 390, 768]
 
 
 def scenarios():
@@ -43,6 +48,10 @@ def scenarios():
         sc.append({'name': 'neg%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1100,
                    'stub': {'w': 400, 'h': 600}, 'expand': True})
     sc.append({'name': 'sheet390', 'vp': 390, 'safe': 0, 'settle': 1300, 'sheet': True})
+    # 선택 행 2유형 — 카페24 옵션 스크립트로 실제 생성 (대표님 실기 반려 2026-09-08)
+    for vp in VP_ROWS:
+        sc.append({'name': 'rows%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1300, 'rows': True,
+                   'sweep': False})
     return sc
 
 
@@ -187,6 +196,41 @@ def run(base, obs=None):
     else:
         s.fail('C5', u'바텀시트 시나리오', 'no result')
 
+    # --- C7. 선택 행 2유형 — 스테퍼·가격·말풍선 (실기 반려 2026-09-08) ---------
+    for vp in VP_ROWS:
+        tag = 'rows%d' % vp
+        r = res.get(tag)
+        if not r or not r.get('ok'):
+            s.fail('C7.%s' % tag, u'%s 렌더' % tag, (r or {}).get('error', 'no result')); continue
+        made = r.get('rowsMade') or {}
+        rows = r.get('rows') or []
+        # 탐지: 카페24 스크립트가 실제로 두 유형을 만들었는가 (안 만들어지면 검사할 것이 없다)
+        s.probe('C7.%s.opt' % tag, u'[%dpx] tr.option_product 생성' % vp, made.get('optionRows', 0))
+        s.probe('C7.%s.add' % tag, u'[%dpx] tr.add_product 생성' % vp, made.get('addRows', 0))
+        for i, row in enumerate(rows):
+            rid = '%s.%d.%s' % (tag, i, row.get('type'))
+            s.truthy('C7.st.%s' % rid, u'[%dpx %s#%d] 스테퍼 컨테이너 존재' % (vp, row.get('type'), i), row.get('stepper'))
+            s.eq('C7.seq.%s' % rid, u'[%dpx %s#%d] 스테퍼 순서 (− 숫자 +)' % (vp, row.get('type'), i),
+                 u'− N +', row.get('seq'), u'추가상품 행은 .up/.down 이 <img> 에 붙어 예전 order 규칙이 안 걸렸다 (F-2)')
+            s.eq('C7.w.%s' % rid, u'[%dpx %s#%d] 스테퍼 폭' % (vp, row.get('type'), i),
+                 b['rows']['stepper_w'][str(vp)], row.get('stepperW'),
+                 u'input 고유 폭이 새면 263~268px 로 늘어나 가격을 덮는다 (F-1)')
+            s.eq('C7.ov.%s' % rid, u'[%dpx %s#%d] 가격 ↔ 스테퍼 겹침 면적' % (vp, row.get('type'), i),
+                 0, row.get('overlapArea'), u'0 이 아니면 가격이 박스를 뚫는다 (F-1)')
+            s.eq('C7.ri.%s' % rid, u'[%dpx %s#%d] 가격 오른쪽 여백(행 padding)' % (vp, row.get('type'), i),
+                 b['rows']['price_right_inset'], row.get('priceRightInset'))
+            s.truthy('C7.in.%s' % rid, u'[%dpx %s#%d] 가격이 행 안에 있다' % (vp, row.get('type'), i), row.get('priceInsideRow'))
+            s.le('C7.cy.%s' % rid, u'[%dpx %s#%d] 가격·스테퍼 세로 중심 차(px)' % (vp, row.get('type'), i),
+                 2, abs(row.get('priceCenterDelta') or 99))
+        bub = r.get('bubble') or {}
+        s.truthy('C7.bb.%s' % tag, u'[%dpx] 혜택 말풍선 요소 탐지' % vp, bub.get('found'))
+        if bub.get('found'):
+            s.eq('C7.bb.ov.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 표시 상태)' % vp, [], bub.get('textOverlaps'))
+            s.eq('C7.bb.ovh.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 숨김 + 바운스 최고점)' % vp, [],
+                 bub.get('textOverlapsHidden'), u'대표님 캡처 조건 — 여기서 .zg-sum__note 가 덮였다 (F-3)')
+            s.ge('C7.bb.gap.%s' % tag, u'[%dpx] 말풍선 ↔ 안내문 간격(경고문 숨김 + 바운스 최고점)' % vp,
+                 1, bub.get('noteGapHiddenBounce'))
+
     # --- C6. pageerror 0 ---------------------------------------------------
     tot_ours = 0
     for name, r in sorted(res.items()):
@@ -216,4 +260,9 @@ def to_baseline(obs):
         'fold_max_mobile': m390['fold']['maxHeight'],
         'a11y_select': {'w': m390['a11ySelect']['w'], 'h': m390['a11ySelect']['h']},
         'third_party_errors': third,
+        'rows': {
+            'stepper_w': dict((str(vp), (res['rows%d' % vp]['rows'] or [{}])[0].get('stepperW'))
+                              for vp in VP_ROWS),
+            'price_right_inset': (res['rows390']['rows'] or [{}])[0].get('priceRightInset'),
+        },
     }

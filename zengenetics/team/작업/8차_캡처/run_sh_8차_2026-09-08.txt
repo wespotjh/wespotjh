@@ -1,0 +1,98 @@
+젠제네틱스 카페24 상세 — 회귀 테스트  (A · B · C · D · E · H)
+------------------------------------------------------------------------------------------------
+   관측 0.0s A
+   관측 0.2s B
+   관측 132.6s C
+   관측 18.4s D
+   관측 0.3s E
+   관측 91.5s H
+
+[A] 보존 검사 (판매 정지급)  (0.0s)
+  전부 통과 (95항목)
+
+[B] 정적 검사  (0.2s)
+  KNOWN B3.ds/css/detail.css               ds/css/detail.css 내부 토큰
+        기대: {}
+        실제: {"검수 항목": 2, "검수 근거": 10}
+        공개 소스에 나간다 / baseline 등재 기존 12건
+  KNOWN B3.ds/js/detail-ui.js              ds/js/detail-ui.js 내부 토큰
+        기대: {}
+        실제: {"검수 항목": 2, "검수 근거": 5}
+        공개 소스에 나간다 / baseline 등재 기존 7건
+  KNOWN B4.product/detail.html             product/detail.html 주석 안 `{$`
+        기대: []
+        실제: ["product/detail.html:122", "product/detail.html:529"]
+        baseline 등재 기존 결함 2건
+
+[C] 실렌더 검사 (Chromium)  (132.6s)
+  전부 통과 (224항목)
+
+[D] 계측 검사 (dataLayer)  (18.4s)
+  전부 통과 (62항목)
+
+[E] 라이브 대조 (curl)  (0.3s)
+  KNOWN E4.android/order_result.measuremen [android/order_result] 계측 `G-GZHFY596SS` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.android/order_result.zg_ga4_js  [android/order_result] 계측 `zg-ga4.js` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.android/orderform.measurement_i [android/orderform] 계측 `G-GZHFY596SS` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.android/orderform.zg_ga4_js     [android/orderform] 계측 `zg-ga4.js` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.desktop/order_result.measuremen [desktop/order_result] 계측 `G-GZHFY596SS` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.desktop/order_result.zg_ga4_js  [desktop/order_result] 계측 `zg-ga4.js` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.desktop/orderform.measurement_i [desktop/orderform] 계측 `G-GZHFY596SS` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.desktop/orderform.zg_ga4_js     [desktop/orderform] 계측 `zg-ga4.js` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.iphone/order_result.measurement [iphone/order_result] 계측 `G-GZHFY596SS` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.iphone/order_result.zg_ga4_js   [iphone/order_result] 계측 `zg-ga4.js` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.iphone/orderform.measurement_id [iphone/orderform] 계측 `G-GZHFY596SS` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+  KNOWN E4.iphone/orderform.zg_ga4_js      [iphone/orderform] 계측 `zg-ga4.js` 실림
+        기대: >= 1
+        실제: 0
+        0이면 결제단계(begin_checkout)·매출(purchase)이 GA4 에 0건으로 남는다 — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)
+
+[H] 홈 검사 (정적 + 실렌더)  (91.5s)
+  전부 통과 (143항목)
+
+================================================================================================
+분류   이름                                     검사   PASS   FAIL  KNOWN        시간
+A    보존 검사 (판매 정지급)                         95     95      0      0      0.0s
+B    정적 검사                                  59     56      0      3      0.2s
+C    실렌더 검사 (Chromium)                     224    224      0      0    132.6s
+D    계측 검사 (dataLayer)                      62     62      0      0     18.4s
+E    라이브 대조 (curl)                         238    226      0     12      0.3s
+H    홈 검사 (정적 + 실렌더)                       143    143      0      0     91.5s
+Z    제출 동결 (실행 중 파일 불변)                      2      2      0      0      0.0s
+------------------------------------------------------------------------------------------------
+계                                          823    808      0     15    243.0s
+
+판정: PASS   (KNOWN 15건은 baseline 에 등재된 기존 결함이다 — 0 이 되면 baseline 에서 뺀다)
