@@ -144,8 +144,12 @@
       b.band.style.opacity = np.toFixed(3);
       b.band.style.transform = 'translateY(' + (12 * (1 - np)).toFixed(1) + 'px)';
     }
-    if (b.v0) b.v0.textContent = Math.round(b.n0 * e);
-    if (b.v1) b.v1.textContent = Math.round(b.n1 * e);
+    /* 밴드가 나타나기 시작할 때만 숫자를 건드린다. 그 전에는 마크업의 최종값(525 등)이 남아
+       크롤러·긴 뷰포트가 "0 mg" 를 보지 않는다. 카운트업 연출은 그대로다. */
+    if (np > 0) {
+      if (b.v0) b.v0.textContent = Math.round(b.n0 * e);
+      if (b.v1) b.v1.textContent = Math.round(b.n1 * e);
+    }
 
     var ci = 0;
     for (var i = 0; i < CAP_AT.length; i++) if (p >= CAP_AT[i]) ci = i;
