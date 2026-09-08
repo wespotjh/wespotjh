@@ -29,9 +29,16 @@ TOKENS = [
 # 플러그인 훅 8종 — 하나라도 사라지면 외부 앱(리뷰·배너·네이버·카카오·페북)이 끊긴다
 HOOKS = [
     'alpha_widget', 'alpha_review_count', 'df-banner-code', 'df-banner-clone',
-    'NaverChk_Button', '{$app_payment_button_box_id}', '#kakaoKey',
+    'NaverChk_Button', '{$app_payment_button_box_id}', 'id="kakaoKey"',
     'facebook-domain-verification',
 ]
+# ⚠ 토큰은 '#kakaoKey' 가 아니라 'id="kakaoKey"' 다 — 전자는 zg-ga4.js 의 **주석**에만 맞고
+#   detail.html 에는 0건이라 div 가 사라져도 PASS 했다 (팀장 결정 T-3 · 오세진 ⓓ, 2026-09-08).
+
+# 카카오 JavaScript 키 — 공개값(모든 페이지 소스에 노출)이라 저장소에 실제 값을 둔다 (팀장 결정 T-1).
+#   자리표시 문구가 전달본까지 흘러가 작업본 공유가 불능이 된 회귀가 실제로 났다.
+KAKAO_RE = re.compile(r'id="kakaoKey"[^>]*>\s*([^<]*?)\s*</div>')
+KAKAO_FMT = re.compile(r'^[0-9a-f]{32}$')
 
 TEMPLATES = ['product/detail.html',
              'moa/import/product_detail/detail.html',
@@ -79,6 +86,10 @@ def measure():
                 p = m.group(1).strip()
                 paths.setdefault(p, []).append('%s(@%s)' % (rel, kind))
     obs['directives'] = {p: sorted(set(v)) for p, v in paths.items()}
+
+    # 카카오 공유 키 값 (product/detail.html 의 #kakaoKey div 내용)
+    m = KAKAO_RE.search(_text('product/detail.html'))
+    obs['kakao_key'] = m.group(1) if m else None
     obs['missing_paths'] = sorted(
         p for p in paths if not os.path.isfile(os.path.join(SKIN, p.lstrip('/'))))
     return obs
@@ -142,6 +153,15 @@ def run(base, obs=None):
     for p in ours:
         s.truthy('A5.%s' % p, u'우리 파일 실재: %s' % p,
                  os.path.isfile(os.path.join(SKIN, p.lstrip('/'))))
+
+    # A5-kakao. #kakaoKey 값 형식 — 32자리 hex 여야 한다 (자리표시 문구·빈값이면 FAIL)
+    #   T-1(2026-09-08): 자리표시 `(키 값은 스킨 원본 참조 …)` 가 전달본을 타고 미리보기에 들어가
+    #   카카오 공유하기가 죽었다. 값 자체는 공개값이라 형식만 본다.
+    kv = obs.get('kakao_key')
+    s.probe('A5.kakaoKey.probe', u'product/detail.html 의 #kakaoKey div 탐지', 1 if kv is not None else 0)
+    s.truthy('A5.kakaoKey.format', u'#kakaoKey 값이 32자리 hex (자리표시·빈값 아님)',
+             bool(kv) and bool(KAKAO_FMT.match(kv)),
+             u'실제: %r' % ((kv or '')[:12] + (u'…' if kv and len(kv) > 12 else '')))
     return s.done()
 
 

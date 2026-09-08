@@ -64,6 +64,34 @@ def fetch_all(refresh=False, uas=('iphone', 'android', 'desktop'), log=print):
     return got
 
 
+PREVIEW_P11 = 'https://wespotjo.cafe24.com/skin-skin10/product/detail.html?product_no=11&cate_no=42&display_group=1'
+KAKAO_RE = re.compile(r'id="kakaoKey"[^>]*>\s*([^<]*?)\s*</div>')
+KAKAO_FMT = re.compile(r'^[0-9a-f]{32}$')
+
+
+def kakao_keys():
+    u"""#kakaoKey 값 — 라이브(캐시 p11) 와 미리보기 작업본(skin10, **매번** 받는다)."""
+    out = {'live': None, 'preview': None, 'preview_status': None}
+    doc = html('iphone', 'p11') or ''
+    m = KAKAO_RE.search(doc)
+    out['live'] = m.group(1) if m else None
+    os.makedirs(os.path.join(LIVE, 'iphone'), exist_ok=True)
+    fp = os.path.join(LIVE, 'iphone', 'preview_p11.html')
+    cmd = ['curl', '-sS', '--compressed', '-L', '--max-time', '60', '-o', fp, '-w', '%{http_code}',
+           '-H', 'User-Agent: ' + UA['iphone'], '-H', 'Accept-Language: ko-KR,ko;q=0.9', PREVIEW_P11]
+    rc, o = sh(cmd, timeout=90)
+    try:
+        out['preview_status'] = int((o or '0').strip().split()[0])
+    except Exception:
+        out['preview_status'] = 0
+    if os.path.exists(fp):
+        m = KAKAO_RE.search(open(fp, 'rb').read().decode('utf-8', 'replace'))
+        out['preview'] = m.group(1) if m else None
+    out['preview_ok'] = bool(out['preview']) and bool(KAKAO_FMT.match(out['preview'])) \
+        and out['preview'] == out['live']
+    return out
+
+
 def html(ua, name):
     fp = _path(ua, name)
     if not os.path.exists(fp):

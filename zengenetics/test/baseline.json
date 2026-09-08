@@ -89,10 +89,10 @@
    "{$app_payment_button_box_id}": {
     "product/detail.html": 1
    },
-   "#kakaoKey": {
-    "ds/js/zg-ga4.js": 1
-   },
-   "facebook-domain-verification": {}
+   "facebook-domain-verification": {},
+   "id=\"kakaoKey\"": {
+    "product/detail.html": 1
+   }
   },
   "balance": {
    "product/detail.html": {
@@ -149,11 +149,11 @@
  },
  "B": {
   "md5": {
-   "product/detail.html": "868784ddd4ef758b25e972d916609cb9",
+   "product/detail.html": "50f2c98988c5892f0b028d8559fc3787",
    "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
    "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
    "index.html": "edbc4f4d95f2d615071a08496ced43e5",
-   "ds/css/detail.css": "90120f8c500ab91adc83a8f6b92c47b2",
+   "ds/css/detail.css": "e8e10b3f20218e70a0fc29d4b8443382",
    "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
    "ds/css/home.css": "c38da0b17e2b260d06d37ddeb0f5e869",
    "ds/js/detail-ui.js": "7044b38ec39d4670f3f0eab55f80569a",
@@ -162,11 +162,11 @@
    "ds/js/home-hero.js": "6226861497ad6d9b6131ad2e9d9dbbd6"
   },
   "bytes": {
-   "product/detail.html": 45916,
+   "product/detail.html": 45879,
    "moa/import/product_detail/detail.html": 2632,
    "moa/layout/head.html": 3495,
    "index.html": 16803,
-   "ds/css/detail.css": 49246,
+   "ds/css/detail.css": 49280,
    "ds/css/price.css": 2271,
    "ds/css/home.css": 17130,
    "ds/js/detail-ui.js": 36541,
@@ -196,7 +196,8 @@
    ]
   },
   "old_path": {},
-  "_note_8": "2026-09-08 개발 8차: detail.css 의도적 변경(대표님 실기 반려 F-1·F-2·F-3 — 스테퍼 폭 고정·순서 클래스·가격 칸·말풍선 여백) → md5/bytes 갱신"
+  "_note_8": "2026-09-08 개발 8차: detail.css 의도적 변경(대표님 실기 반려 F-1·F-2·F-3 — 스테퍼 폭 고정·순서 클래스·가격 칸·말풍선 여백) → md5/bytes 갱신",
+  "_note_9": "2026-09-08 개발 9차: detail.html 622행 #kakaoKey 실제 값(T-1, -37 B) · detail.css 주석 30px 정정(+34 B) · A.hooks 토큰 id=\"kakaoKey\" · E.kakao_preview_known"
  },
  "_meta": {
   "updated": "2026-09-08 07:24:28",
@@ -588,7 +589,8 @@
     "measurement_id": 0,
     "zg_ga4_js": 0
    }
-  }
+  },
+  "kakao_preview_known": true
  },
  "C": {
   "bar_height": {
@@ -602,16 +604,17 @@
    "w": 22,
    "h": 2
   },
-  "third_party_errors": 56,
+  "third_party_errors": 58,
   "rows": {
    "stepper_w": {
     "320": 124,
     "390": 134,
-    "768": 134
+    "768": 134,
+    "414": 134
    },
    "price_right_inset": 20
   },
-  "_note_rows": "2026-09-08 개발 8차: rows320/390/768 시나리오 3개 추가 → 시나리오당 남의 예외 2건(Kakao·AuthSSLManager 전역 미정의, 교차출처 차단 탓) × 3 = +6 (50→56)"
+  "_note_rows": "2026-09-08 개발 8차: rows320/390/768 시나리오 3개 추가 → 시나리오당 남의 예외 2건(Kakao·AuthSSLManager 전역 미정의, 교차출처 차단 탓) × 3 = +6 (50→56) / 9차: rows414 추가 → 56→58"
  },
  "D": {
   "scenarios": {

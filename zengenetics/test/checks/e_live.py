@@ -63,6 +63,10 @@ def measure(refresh=False, log=print):
         if m['status'] != 200:
             obs['assets404'][u] = m['status']
 
+    # 카카오 공유 키 — 라이브(skin4) vs 미리보기 작업본(skin10) (팀장 결정 T-3 · 오세진 ⓓ)
+    #   미리보기는 캐시를 쓰지 않고 매번 받는다 — 대표님이 622행을 고치는 순간 KNOWN→PASS 로 바뀌어야 한다.
+    obs['kakao'] = fetch.kakao_keys()
+
     # 상세 이미지 원본 폭
     for name in ['p%d' % n for n in fetch.PRODUCTS]:
         d = fetch.html('iphone', name)
@@ -157,6 +161,27 @@ def run(base, obs=None, refresh=False):
                   u' — 관리자 › 디자인 › 스마트 주문서에 3줄 삽입 필요 (배시우 4차 d-3)',
                   known=known)
     s.probe('E4.probe', u'주문서 계측 확인한 (UA×페이지) 수', len(obs.get('order_ga4', {})))
+
+    # E5. #kakaoKey — 라이브 값은 32-hex, 미리보기 작업본 값은 라이브와 동일해야 한다
+    #     자리표시 문구가 들어간 미리보기는 baseline `kakao_preview_known` 이 true 인 동안 KNOWN,
+    #     대표님이 622행을 고치면 다음 실행에서 자동으로 PASS.
+    kk = obs.get('kakao') or {}
+    fmt = fetch.KAKAO_FMT
+    s.probe('E5.probe.live', u'라이브 p11 의 #kakaoKey div 탐지', 1 if kk.get('live') is not None else 0)
+    s.probe('E5.probe.preview', u'미리보기(skin10) p11 응답·#kakaoKey div 탐지',
+            1 if kk.get('preview') is not None else 0,
+            u'0이면 미리보기 URL 이 죽었거나 div 가 사라진 것')
+    live_ok = bool(kk.get('live')) and bool(fmt.match(kk['live']))
+    s.truthy('E5.live.format', u'라이브 #kakaoKey 가 32자리 hex', live_ok)
+    prev = kk.get('preview')
+    prev_ok = bool(prev) and bool(fmt.match(prev))
+    known = bool(b.get('kakao_preview_known')) and not prev_ok
+    s.add('E5.preview.format', prev_ok, u'미리보기 #kakaoKey 가 32자리 hex (자리표시 아님)',
+          '32-hex', (prev or '')[:16], u'대표님 622행 1줄 수정 대기 (T-2)', known=known)
+    same = bool(prev_ok and live_ok and prev == kk['live'])
+    s.add('E5.same', same, u'미리보기 #kakaoKey == 라이브 값 (같은 몰·같은 앱)',
+          u'동일', u'동일' if same else u'다름', u'다르면 도메인 등록이 다른 앱 키다',
+          known=(bool(b.get('kakao_preview_known')) and not same))
     return s.done()
 
 
@@ -167,4 +192,6 @@ def to_baseline(obs):
             'ihdr_min': 639,
             'ihdr_by_product': {k: [v['min'], v['max']]
                                 for k, v in obs['ihdr'].items() if v['min']},
-            'order_ga4': obs.get('order_ga4', {})}
+            'order_ga4': obs.get('order_ga4', {}),
+            # 미리보기 #kakaoKey 가 아직 자리표시면 KNOWN 으로 두는 플래그 — 고쳐지면 PASS 로 자동 전환
+            'kakao_preview_known': not ((obs.get('kakao') or {}).get('preview_ok'))}
