@@ -54,6 +54,9 @@ def main():
     ap.add_argument('--only', default='', help=u'A,B,C,D,E,H 중 골라서')
     ap.add_argument('--refresh', action='store_true', help=u'라이브 응답 재수집')
     ap.add_argument('--update-baseline', action='store_true', dest='update')
+    ap.add_argument('--files', default='',
+                    help=u'--update-baseline 과 함께: 갱신을 허용할 파일(저장소 상대경로, 쉼표). '
+                         u'A/B 구역에서 이 목록 밖 파일의 항목이 바뀌어 있으면 갱신을 거부한다')
     ap.add_argument('--verbose', '-v', action='store_true', help=u'PASS 항목도 전부 출력')
     a = ap.parse_args()
 
@@ -86,11 +89,51 @@ def main():
     # ---------------- baseline 갱신 ----------------------------------------
     if a.update:
         base = load_baseline() if os.path.exists(os.path.join(ROOT, 'baseline.json')) else {}
+        # 갱신 범위를 명시하지 않으면 거부한다. 한 세션의 갱신이 다른 세션의 미검수 파일을
+        # "검수됨"으로 굳힌 사고(2026-09-08, detail.css)의 재발 방지.
+        if not a.only:
+            print(u'%sbaseline 갱신 거부 — --only 로 구역을 지정하라 (예: --only B,D --files ds/js/zg-ga4.js)%s' % (C_RED, C_OFF))
+            return 2
+        allow = set(f.strip().lstrip('/') for f in a.files.split(',') if f.strip())
+        newbase = {}
         for c in sel:
             if obs[c] is None:
                 print(u'%s%s 관측 실패 — baseline 갱신 중단: %s%s' % (C_RED, c, errors[c], C_OFF))
                 return 2
-            base[c] = MOD[c].to_baseline(obs[c])
+            newbase[c] = MOD[c].to_baseline(obs[c])
+        # A·B 는 파일별 항목이다 — 허용 목록 밖 파일이 바뀌어 있으면 거부
+        refused = []
+        for c in ('A', 'B'):
+            if c not in newbase or c not in base:
+                continue
+            for sect, val in newbase[c].items():
+                oldv = base[c].get(sect)
+                if isinstance(val, dict) and all(isinstance(v, dict) or sect in ('md5', 'bytes', 'important', 'old_path') for v in val.values()):
+                    # {file: ...} 또는 {hook: {file: n}} 형태
+                    keys = set(val) | set(oldv or {})
+                    for k in keys:
+                        nv, ov = val.get(k), (oldv or {}).get(k)
+                        if nv == ov:
+                            continue
+                        files = [k] if ('/' in k or k.endswith('.html')) else list(set(nv or {}) | set(ov or {}))
+                        bad = [f for f in files if f not in allow]
+                        if bad:
+                            refused.append('%s.%s.%s' % (c, sect, k))
+                elif val != oldv:
+                    # paths_missing_ok 같은 목록 — 템플릿을 허용 목록에 넣었을 때만
+                    if not any(f.endswith('.html') for f in allow):
+                        refused.append('%s.%s' % (c, sect))
+        if refused:
+            print(u'%sbaseline 갱신 거부 — --files 밖 파일의 항목이 바뀌어 있다:%s' % (C_RED, C_OFF))
+            for r in refused:
+                print(u'    ' + r)
+            print(u'  그 파일이 네 것이면 --files 에 넣고, 남의 것이면 그쪽이 갱신하게 두어라')
+            return 2
+        for c in sel:
+            # 구역을 통째로 바꾸되, 사람이 남긴 '_note*' 메모는 이월한다 (갱신이 남의 메모를 지운 사고 방지)
+            notes = dict((k, v) for k, v in (base.get(c) or {}).items() if k.startswith('_note'))
+            base[c] = newbase[c]
+            base[c].update(notes)
         base.setdefault('_meta', {})
         base['_meta']['updated'] = time.strftime('%Y-%m-%d %H:%M:%S')
         base['_meta']['note'] = u'의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것'

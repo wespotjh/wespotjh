@@ -46,7 +46,8 @@ async function makeContext(browser, scen) {
       if (fs.existsSync(f)) return route.fulfill({ status: 200, contentType: MIME[path.extname(f)] || 'application/octet-stream', body: fs.readFileSync(f) });
       return route.fulfill({ status: 404, body: '' });
     }
-    const a = cfg.assets[key];
+    /* 배너매니저 로더는 `?v=<timestamp>` 를 붙여 부른다 — 경로만으로도 찾는다 */
+    const a = cfg.assets[key] || cfg.assets[u.pathname];
     if (a && a.status === 200 && fs.existsSync(a.file)) {
       return route.fulfill({ status: 200, contentType: ctypeFor(key, a.ctype), body: fs.readFileSync(a.file) });
     }
@@ -166,7 +167,20 @@ for (const scen of cfg.scenarios) {
         });
       });
     }
-    if (scen.kind === 'late') {
+    if (scen.kind === 'resize') {
+      /* 회전·폭 전환: 실제 뷰포트를 바꿔 resize 이벤트를 낸다 (main_js.html 의 destroy → undefined 경로) */
+      await page.goto('https://zengenetics.co.kr' + cfg.docPath, { waitUntil: 'load', timeout: 60000 });
+      await page.waitForTimeout(1500);
+      await page.evaluate(() => { window.__zgResize = 0; window.addEventListener('resize', () => { window.__zgResize++; }); });
+      for (const [w, h] of scen.seq) {
+        await page.setViewportSize({ width: w, height: h });
+        await page.waitForTimeout(700);
+      }
+      rec.m.resize = await page.evaluate(() => ({
+        resizeCount: window.__zgResize,
+        stubTypes: ['runMainBannerSlidePC', 'runMainBannerSlideMobile', 'runSubBannerSlide'].map(k => typeof window[k]),
+        width: window.innerWidth }));
+    } else if (scen.kind === 'late') {
       /* three.js 가 오기 전에 아래로 내려간 상태를 만든다 */
       await page.goto('https://zengenetics.co.kr' + cfg.docPath, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForTimeout(300);

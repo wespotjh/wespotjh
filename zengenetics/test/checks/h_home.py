@@ -24,7 +24,7 @@ JS       = ['ds/js/home-blocks.js', 'ds/js/home-hero.js']
 IMG_DIR  = os.path.join(PROJ, u'전달', u'2026-09-08_홈', u'이미지')
 THREE    = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js'
 
-VPS = [390, 360, 768, 1023, 1280]
+VPS = [390, 360, 414, 768, 1023, 1280]
 
 FORBID_CODE = ['claude.ai', u'레몬라임', u'평점', '26,961', 'data:image',
                'ec-data-src', 'asyncImage', 'scroll-effect', '100vw']
@@ -36,7 +36,7 @@ def _p(rel):
 
 # ------------------------------------------------------------------ 정적
 def _static():
-    idx = read(_p(TEMPLATE))
+    idx = read(os.environ.get('ZG_HOME_INDEX') or _p(TEMPLATE))   # 재현 실험용 오버라이드 (build_fixture 와 동일)
     css = read(_p(CSS))
     code_idx = strip_comments(idx, 'html')
     code_css = strip_comments(css, 'css')
@@ -56,7 +56,9 @@ def _static():
         if n:
             obs['forbid'][tok] = n
     obs['css_url'] = len(re.findall(r'url\(', code_css))
-    obs['stub'] = (idx.count('window.runMainBannerSlidePC') + idx.count('window.runMainBannerSlideMobile'))
+    # 접근자 스텁: defineProperty 로 세 변수를 덮는다. 세 이름이 다 있고 defineProperty 가 있어야 3
+    obs['stub'] = (len(re.findall(r"'run(?:MainBannerSlidePC|MainBannerSlideMobile|SubBannerSlide)'", idx))
+                  if 'Object.defineProperty(window, k' in idx else 0)
     obs['body_class_code'] = sum(strip_comments(read(_p(r)), 'js').count("body.classList") +
                                  strip_comments(read(_p(r)), 'js').count("$('body')") for r in JS)
     obs['onload_code'] = sum(strip_comments(read(_p(r)), 'js').count('window.onload') for r in JS)
@@ -145,6 +147,11 @@ def scenarios(fnew, fold):
     sc.append({'name': 'old390', 'vp': 390, 'fixture': fold, 'kind': 'old'})
     sc.append({'name': 'promote390', 'vp': 390, 'fixture': fnew, 'kind': 'promote', 'delay3d': 3000})
     sc.append({'name': 'late390', 'vp': 390, 'fixture': fnew, 'kind': 'late', 'delay3d': 3000})
+    # 회전·폭 전환 — main_js.html 이 destroy() 뒤 변수를 undefined 로 되돌리는 경로
+    sc.append({'name': 'rot390', 'vp': 390, 'fixture': fnew, 'kind': 'resize', 'seq': [[844, 390], [390, 844]]})
+    sc.append({'name': 'rot768', 'vp': 768, 'fixture': fnew, 'kind': 'resize', 'seq': [[1024, 768], [768, 1024]]})
+    sc.append({'name': 'w768', 'vp': 768, 'fixture': fnew, 'kind': 'resize', 'seq': [[768, 1024], [768, 1000]]})
+    sc.append({'name': 'oldrot390', 'vp': 390, 'fixture': fold, 'kind': 'resize', 'seq': [[844, 390], [390, 844]]})
     return sc
 
 
@@ -153,8 +160,12 @@ def measure():
     fnew, fold, diag = build_fixture()
     three = fetch.fetch_asset(THREE)
     diag['three_status'] = three['status']
+    doc = fetch.html('iphone', 'home')
+    asset_urls = fetch.same_origin_assets(doc)
+    # 배너매니저 로더 2파일은 인라인 스크립트가 동적으로 붙인다 — <script src> 스캔에 안 잡히므로 따로 뽑는다
+    asset_urls += re.findall(r"(?:COMMON_PATH|PC_PATH)\s*=\s*'([^']+)'", doc)
     cfg = {'fixture_new': fnew, 'docPath': '/', 'ua': fetch.UA['iphone'],
-           'assets': {u: fetch.fetch_asset(u) for u in fetch.same_origin_assets(fetch.html('iphone', 'home'))},
+           'assets': {u: fetch.fetch_asset(u) for u in asset_urls},
            'ours': {'/ds/css/home.css': _p(CSS),
                     '/ds/js/home-blocks.js': _p(JS[0]),
                     '/ds/js/home-hero.js': _p(JS[1])},
@@ -176,6 +187,10 @@ def measure():
 
 def _pause_errors(r):
     return [e for e in (r.get('errors') or []) if "reading 'pause'" in e.get('msg', '')]
+
+
+def _rel_errors(r):
+    return [e for e in (r.get('errors') or []) if "reading 'removeEventListener'" in e.get('msg', '')]
 
 
 def run(base, obs=None):
@@ -212,8 +227,8 @@ def run(base, obs=None):
          u'DOMContentLoaded 를 붙잡아 계측 부팅을 늦춘다')
     s.eq('H1.forbid', u'코드 금칙 토큰(주석 제외) 0', {}, st['forbid'])
     s.eq('H1.css.url', u'home.css 안 url() 0', 0, st['css_url'], u'이미지 경로는 index.html 매니페스트 한 곳')
-    s.eq('H1.stub', u'main_js 배너 변수 스텁 2개', 2, st['stub'],
-         u'없으면 main_js.html 이 reading pause TypeError 를 낸다 (QA카페24 C-1)')
+    s.eq('H1.stub', u'main_js 배너 변수 접근자 스텁 3개 (PC·Mobile·Sub)', 3, st['stub'],
+         u'없거나 대입형이면 main_js.html 이 로드·회전 시 TypeError 를 낸다 (QA카페24 C-1·§G)')
     s.eq('H1.bodyclass', u'우리 JS 의 body 클래스 조작 0', 0, st['body_class_code'], u'M-1')
     s.eq('H1.onload', u'우리 JS 의 window.onload 0', 0, st['onload_code'], u'M-2')
     mf = st['manifest']
@@ -328,6 +343,30 @@ def run(base, obs=None):
         s.eq('H7.late.kept', u'[늦은 도착·이미 스크롤] 폴백 유지 (화면 튐 방지)', True, n['no3dAfter'])
     else:
         s.fail('H7.late', u'늦은 승격 시나리오', (r or {}).get('error', 'no result'))
+
+    # ---- H8. 회전·폭 전환 — 스텁이 되돌려지지 않는가 (QA모바일 2차 §1-3 · QA카페24 2차 §G)
+    for tag, what in (('rot390', u'폰 회전 390→844→390'), ('rot768', u'태블릿 회전 768→1024→768'),
+                      ('w768', u'정확히 768 에서 resize')):
+        r = res.get(tag)
+        if not r or not r.get('ok'):
+            s.fail('H8.%s' % tag, what, (r or {}).get('error', 'no result')); continue
+        m = r['m']['resize']
+        s.ge('H8.%s.resizes' % tag, u'[%s] resize 이벤트가 실제로 났는가' % what, 2, m['resizeCount'],
+             u'0 이면 시나리오가 아무것도 안 돌린 것')
+        s.eq('H8.%s.pause' % tag, u'[%s] reading pause TypeError' % what, 0, len(_pause_errors(r)))
+        s.eq('H8.%s.removeEL' % tag, u'[%s] reading removeEventListener TypeError' % what, 0, len(_rel_errors(r)))
+        s.eq('H8.%s.stubs' % tag, u'[%s] 전환 뒤 스텁 3개가 여전히 객체인가' % what,
+             ['object', 'object', 'object'], m['stubTypes'],
+             u'undefined 로 되돌아가면 다음 resize 에서 다시 던진다')
+        s.eq('H8.%s.err.ours' % tag, u'[%s] 우리 파일 예외' % what, 0, len(r.get('errorsOurs') or []))
+    r = res.get('oldrot390')
+    if r and r.get('ok'):
+        s.eq('H8.old.pause', u'[변경 전 홈·회전] reading pause', 0, len(_pause_errors(r)),
+             u'변경 전에도 0 이어야 "우리가 만든 오류" 판정이 성립한다')
+        s.add('H8.old.errors', True, u'[변경 전 홈·회전] 전체 pageerror 수(정보 — 스킨 자체 오류 포함)', '-',
+              len(r.get('errors') or []))
+    else:
+        s.fail('H8.old', u'변경 전 회전 대조군', (r or {}).get('error', 'no result'))
     return s.done()
 
 

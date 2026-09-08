@@ -168,6 +168,8 @@
 .zg-home.zg-no3d .zg-bw0{opacity:.1}
 .zg-home.zg-no3d .zg-callouts,.zg-home.zg-no3d .zg-dashes{display:none}
 .zg-home.zg-no3d .zg-bg{display:none}
+/* 폴백에서도 preload 한 첫 배경 한 장은 보여 준다 — 3D 가 늦게 올 때 첫 화면이 비지 않게 */
+.zg-home.zg-no3d .zg-bg0{display:block}
 .zg-home.zg-no3d .zg-bggrade{background:linear-gradient(180deg,rgba(16,32,74,.4),rgba(22,41,92,.4))}
 
 /* ==========================================================================

@@ -687,6 +687,8 @@
     var di = p < 0.100 ? 0 : p < 0.360 ? 1 : p < 0.570 ? 2 : p < 0.830 ? 3 : 4;
     if (di !== dashIdx) {
       dashIdx = di;
+      /* 히어로 구간 도달을 계측 스크립트에 알린다 (A·M·E·N·S). 수신부가 없어도 무해하다. */
+      try { document.dispatchEvent(new CustomEvent('zg:hero-stage', { detail: { stage: 'AMENS'.charAt(di) } })); } catch (e) {}
       for (var dd = 0; dd < dashEls.length; dd++) dashEls[dd].classList.toggle('zg-on', dd === di);
     }
 
@@ -717,11 +719,12 @@
     initHero();                       /* WebGL 이 안 되면 안에서 다시 zg-no3d 를 붙인다 */
   }
 
-  /* three.js 가 늦게 도착했을 때 — 사용자가 아직 첫 화면 근처면 3D 로 올린다.
-     이미 히어로를 지나쳤으면 폴백(100vh)을 그대로 둔다: 지금 386vh 로 늘리면 화면이 튄다. */
+  /* three.js 가 늦게 도착했을 때 — 사용자가 아직 맨 위(스크롤 0, iOS 바운스 여유 8px)면 3D 로 올린다.
+     조금이라도 내려갔으면 폴백(100vh)을 그대로 둔다: 히어로가 386vh 로 늘어나며 스테이지가 위로 스냅하고
+     아래 내용이 밀려 화면이 튄다 (실측 CLS: 0 에서만 0.006, 그 아래는 0.4~0.8). */
   function promoteIfNearTop() {
     if (typeof THREE === 'undefined') return;
-    if ((window.pageYOffset || 0) > window.innerHeight * 0.5) return;
+    if ((window.pageYOffset || 0) > 8) return;
     startHero();
   }
 
