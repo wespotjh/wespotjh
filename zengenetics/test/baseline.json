@@ -51,6 +51,23 @@
         "<!--@import(": 1,
         "<!--@css(": 17,
         "<!--@js(": 6
+      },
+      "index.html": {
+        "module=": 0,
+        "{$": 0,
+        "onclick=\"{$action_": 0,
+        "{$form.": 0,
+        "id=\"{$": 0,
+        "{$total.": 0,
+        "{$soldout_display": 0,
+        "{$basket_display": 0,
+        "displaynone": 0,
+        "selectButton": 0,
+        "ec-base-qty": 0,
+        "id=\"": 0,
+        "<!--@import(": 2,
+        "<!--@css(": 6,
+        "<!--@js(": 9
       }
     },
     "hooks": {
@@ -90,6 +107,10 @@
         "div_open": 0,
         "div_close": 0
       },
+      "index.html": {
+        "div_open": 104,
+        "div_close": 104
+      },
       "ds/css/detail.css": {
         "brace_open": 207,
         "brace_close": 207
@@ -97,6 +118,10 @@
       "ds/css/price.css": {
         "brace_open": 26,
         "brace_close": 26
+      },
+      "ds/css/home.css": {
+        "brace_open": 142,
+        "brace_close": 142
       }
     },
     "paths_missing_ok": [
@@ -117,6 +142,7 @@
       "/moa/import/product_detail/purchase_info.html",
       "/moa/import/product_detail/qna.html",
       "/moa/js/lib/share_sns.html",
+      "/moa/js/main_js.html",
       "/moa/layout/fonts.html",
       "/product/shoppQ/searchContent.html"
     ]
@@ -126,23 +152,32 @@
       "product/detail.html": "868784ddd4ef758b25e972d916609cb9",
       "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
       "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
+      "index.html": "edbc4f4d95f2d615071a08496ced43e5",
       "ds/css/detail.css": "f8095b8bec55758d846737fd57ca0da1",
       "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
+      "ds/css/home.css": "c38da0b17e2b260d06d37ddeb0f5e869",
       "ds/js/detail-ui.js": "7044b38ec39d4670f3f0eab55f80569a",
-      "ds/js/zg-ga4.js": "251c680492211d27b084fca4d6c72716"
+      "ds/js/zg-ga4.js": "251c680492211d27b084fca4d6c72716",
+      "ds/js/home-blocks.js": "c02f8b2cbeab3e3f4b2c846cccad91a9",
+      "ds/js/home-hero.js": "6226861497ad6d9b6131ad2e9d9dbbd6"
     },
     "bytes": {
       "product/detail.html": 45916,
       "moa/import/product_detail/detail.html": 2632,
       "moa/layout/head.html": 3495,
+      "index.html": 16803,
       "ds/css/detail.css": 45551,
       "ds/css/price.css": 2271,
+      "ds/css/home.css": 17130,
       "ds/js/detail-ui.js": 36541,
-      "ds/js/zg-ga4.js": 41221
+      "ds/js/zg-ga4.js": 41221,
+      "ds/js/home-blocks.js": 8541,
+      "ds/js/home-hero.js": 36124
     },
     "important": {
       "ds/css/detail.css": 0,
-      "ds/css/price.css": 0
+      "ds/css/price.css": 0,
+      "ds/css/home.css": 0
     },
     "forbidden": {
       "ds/css/detail.css": {
@@ -165,7 +200,7 @@
     }
   },
   "_meta": {
-    "updated": "2026-09-07 09:32:01",
+    "updated": "2026-09-08 07:04:54",
     "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것"
   },
   "E": {
@@ -719,6 +754,15 @@
         ],
         "critical": {}
       }
+    }
+  },
+  "H": {
+    "errors_other": {
+      "vp390": 0,
+      "vp360": 0,
+      "vp768": 0,
+      "vp1023": 0,
+      "vp1280": 0
     }
   }
 }

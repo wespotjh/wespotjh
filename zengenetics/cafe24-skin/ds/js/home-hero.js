@@ -12,6 +12,9 @@
      - 이미지 URL 은 index.html 매니페스트에서만 읽는다 (이 파일에 경로 0개)
      - 배경 사진 5장 중 첫 장은 index.html 이 인라인으로 칠한다.
        나머지 4장은 첫 스크롤 또는 1.5초 뒤에 주입한다 — 첫 화면 전송량을 줄인다.
+     - three.js 는 async 로 온다. 부팅 시점에 없으면 일단 폴백(.zg-no3d)으로 그리고,
+       도착하면 사용자가 아직 첫 화면 근처일 때만 3D 로 승격한다.
+       이미 아래로 내려간 뒤에 승격하면 히어로 높이가 바뀌어 화면이 튄다 — 그때는 폴백을 유지한다.
      - 진행률은 캐시하지 않는다. 스킨이 스크롤 중 문서 높이를 바꾸는 구간이 있다.
    ========================================================================== */
 (function () {
@@ -65,8 +68,7 @@
   /* ------------------------------------------------------------- 히어로 3D */
   function initHero() {
 
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) root.classList.add('zg-reduced');
+  var reduced = root.classList.contains('zg-reduced');
   if (typeof THREE === 'undefined') { root.classList.add('zg-no3d'); return; }
 
   var canvas = root.querySelector('.zg-scene');
@@ -706,12 +708,37 @@
   frame();
   }
 
+  var heroStarted = false;
+
+  function startHero() {
+    if (heroStarted) return;
+    heroStarted = true;
+    root.classList.remove('zg-no3d');
+    initHero();                       /* WebGL 이 안 되면 안에서 다시 zg-no3d 를 붙인다 */
+  }
+
+  /* three.js 가 늦게 도착했을 때 — 사용자가 아직 첫 화면 근처면 3D 로 올린다.
+     이미 히어로를 지나쳤으면 폴백(100vh)을 그대로 둔다: 지금 386vh 로 늘리면 화면이 튄다. */
+  function promoteIfNearTop() {
+    if (typeof THREE === 'undefined') return;
+    if ((window.pageYOffset || 0) > window.innerHeight * 0.5) return;
+    startHero();
+  }
+
   function boot() {
     root = document.querySelector('.zg-home');
     if (!root) return;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) root.classList.add('zg-reduced');
     initBar();
     initJump();
-    initHero();
+    if (typeof THREE !== 'undefined') { startHero(); return; }
+    /* 아직 안 왔다 — 폴백으로 그려 두고 스크립트 태그의 load 를 기다린다 */
+    root.classList.add('zg-no3d');
+    var tag = document.querySelector('script[data-zg-three]');
+    if (!tag) return;
+    tag.addEventListener('load', promoteIfNearTop);
+    /* error 는 폴백 유지 = 아무것도 안 한다 */
   }
 
   if (document.readyState === 'loading') {

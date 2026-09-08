@@ -35,9 +35,11 @@ HOOKS = [
 
 TEMPLATES = ['product/detail.html',
              'moa/import/product_detail/detail.html',
-             'moa/layout/head.html']
+             'moa/layout/head.html',
+             'index.html']                                   # 홈 (2026-09-08)
 ASSETS    = ['ds/css/detail.css', 'ds/js/detail-ui.js',
-             'ds/css/price.css',  'ds/js/zg-ga4.js']
+             'ds/css/price.css',  'ds/js/zg-ga4.js',
+             'ds/css/home.css', 'ds/js/home-blocks.js', 'ds/js/home-hero.js']   # 홈
 ALLFILES  = TEMPLATES + ASSETS
 
 
@@ -64,7 +66,7 @@ def measure():
                 per[rel] = c
         obs['hooks'][h] = per
 
-    for rel in ['ds/css/detail.css', 'ds/css/price.css']:
+    for rel in ['ds/css/detail.css', 'ds/css/price.css', 'ds/css/home.css']:
         t = _text(rel)
         obs['balance'][rel] = {'brace_open': t.count('{'), 'brace_close': t.count('}')}
 
@@ -117,7 +119,7 @@ def run(base, obs=None):
              bal['div_open'], bal['div_close'])
         s.eq('A3.divN.%s' % rel, u'%s <div> 개수' % rel,
              b['balance'][rel]['div_open'], bal['div_open'])
-    for rel in ['ds/css/detail.css', 'ds/css/price.css']:
+    for rel in ['ds/css/detail.css', 'ds/css/price.css', 'ds/css/home.css']:
         bal = obs['balance'][rel]
         s.eq('A3.brace.%s' % rel, u'%s 중괄호 균형' % rel,
              bal['brace_open'], bal['brace_close'])

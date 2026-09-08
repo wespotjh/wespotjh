@@ -4,10 +4,10 @@
    - .zg-home 자체에 overflow 를 걸지 않는다:
        overflow-x:hidden 은 명세상 overflow-y 를 auto 로 만들어
        .zg-home 을 스크롤 컨테이너로 바꾸고, 그 안의 position:sticky 히어로를 죽인다.
-       가로 넘침은 요소별 max-width:100% / width:100% 로 막는다 (100vw 금지).
+       가로 넘침은 요소별 max-width:100% / width:100% 로 막는다 (뷰포트 폭 단위 금지).
    - 상태 클래스는 body 가 아니라 .zg-home 에 붙인다 (.zg-no3d / .zg-reduced)
    - 이미지 URL 이 이 파일에 0개다. 경로는 index.html 매니페스트 한 곳에만 있다.
-   - !important 0개
+   - important 플래그 0개
    ========================================================================== */
 
 /* ---------- 페이지 토큰 ---------- */
@@ -68,7 +68,7 @@
   letter-spacing:-.015em;white-space:nowrap;line-height:1;
   opacity:0;pointer-events:none;-webkit-user-select:none;user-select:none;
   will-change:opacity,transform;max-width:100%}
-.zg-home .zg-bw0{color:#FFFFFF;font-size:clamp(110px,34vw,380px);top:34%}
+.zg-home .zg-bw0{color:#FFFFFF;font-size:clamp(110px,34vw,380px);top:34%;opacity:.12}
 .zg-home .zg-bw1{color:#FFB9CD}
 .zg-home .zg-bw2{color:#FFD2A8}
 .zg-home .zg-bw3{color:#CFC2FF;font-size:clamp(96px,30vw,340px)}
@@ -119,7 +119,8 @@
   border:1px solid rgba(255,255,255,.45);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);text-shadow:none}
 .zg-home .zg-jchip .zg-cdot{width:8px;height:8px;border-radius:50%}
 
-.zg-home .zg-cap-a{top:13vh}
+/* 첫 캡션은 기본이 보이는 상태다. 스크립트가 늦거나 꺼져도 첫 화면에 브랜드 문장이 있다. */
+.zg-home .zg-cap-a{top:13vh;opacity:1;transform:none}
 .zg-home .zg-cap-m,.zg-home .zg-cap-e,.zg-home .zg-cap-n{top:10vh}
 .zg-home .zg-cap-s{bottom:10vh}
 .zg-home .zg-pills{display:flex;gap:10px;margin-top:12px;pointer-events:auto}
@@ -175,7 +176,7 @@
 .zg-home .zg-hero2{text-align:center;padding-block:52px 0}
 .zg-home .zg-hero2 .zg-eyebrow{font-family:var(--zg-f-m);font-size:10.5px;letter-spacing:.24em;
   text-transform:uppercase;color:var(--zg-ink-3);margin-bottom:20px}
-.zg-home .zg-hero2 h1{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(36px,10.4vw,52px);
+.zg-home .zg-hero2 h2{font-family:var(--zg-f-b);font-weight:700;font-size:clamp(36px,10.4vw,52px);
   line-height:1.16;letter-spacing:-.035em;margin:0 0 16px;word-break:keep-all;text-wrap:balance}
 .zg-home .zg-hero2 .zg-sub{color:var(--zg-ink-2);font-size:16px;margin:0 auto;max-width:20em;word-break:keep-all}
 .zg-home .zg-trio{position:relative;height:min(48vh,400px);margin-top:14px;

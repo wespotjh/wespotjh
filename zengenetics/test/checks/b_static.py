@@ -18,9 +18,10 @@ from .common import Suite, SKIN, read, md5, sh, strip_comments
 
 TEMPLATES = ['product/detail.html',
              'moa/import/product_detail/detail.html',
-             'moa/layout/head.html']
-CSS = ['ds/css/detail.css', 'ds/css/price.css']
-JS  = ['ds/js/detail-ui.js', 'ds/js/zg-ga4.js']
+             'moa/layout/head.html',
+             'index.html']                                   # 홈 (2026-09-08)
+CSS = ['ds/css/detail.css', 'ds/css/price.css', 'ds/css/home.css']
+JS  = ['ds/js/detail-ui.js', 'ds/js/zg-ga4.js', 'ds/js/home-blocks.js', 'ds/js/home-hero.js']
 ALL = TEMPLATES + CSS + JS
 
 # 공개 소스에 나가면 안 되는 내부 토큰.

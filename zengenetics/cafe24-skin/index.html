@@ -49,12 +49,23 @@ stick:{pot:["zg-home-stick-pot-h.webp","zg-home-stick-pot-v.webp"],mag:["zg-home
 diss:{pot:["zg-home-diss-pot-01.webp","zg-home-diss-pot-02.webp","zg-home-diss-pot-03.webp","zg-home-diss-pot-04.webp","zg-home-diss-pot-05.webp","zg-home-diss-pot-06.webp","zg-home-diss-pot-07.webp","zg-home-diss-pot-08.webp","zg-home-diss-pot-09.webp","zg-home-diss-pot-10.webp","zg-home-diss-pot-11.webp","zg-home-diss-pot-12.webp","zg-home-diss-pot-13.webp","zg-home-diss-pot-14.webp","zg-home-diss-pot-15.webp","zg-home-diss-pot-16.webp","zg-home-diss-pot-17.webp","zg-home-diss-pot-18.webp","zg-home-diss-pot-19.webp","zg-home-diss-pot-20.webp","zg-home-diss-pot-21.webp","zg-home-diss-pot-22.webp","zg-home-diss-pot-23.webp","zg-home-diss-pot-24.webp"],
 mag:["zg-home-diss-mag-01.webp","zg-home-diss-mag-02.webp","zg-home-diss-mag-03.webp","zg-home-diss-mag-04.webp","zg-home-diss-mag-05.webp","zg-home-diss-mag-06.webp","zg-home-diss-mag-07.webp","zg-home-diss-mag-08.webp","zg-home-diss-mag-09.webp","zg-home-diss-mag-10.webp","zg-home-diss-mag-11.webp","zg-home-diss-mag-12.webp","zg-home-diss-mag-13.webp","zg-home-diss-mag-14.webp","zg-home-diss-mag-15.webp","zg-home-diss-mag-16.webp","zg-home-diss-mag-17.webp","zg-home-diss-mag-18.webp","zg-home-diss-mag-19.webp","zg-home-diss-mag-20.webp","zg-home-diss-mag-21.webp","zg-home-diss-mag-22.webp","zg-home-diss-mag-23.webp","zg-home-diss-mag-24.webp"],
 vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb-03.webp","zg-home-diss-vitb-04.webp","zg-home-diss-vitb-05.webp","zg-home-diss-vitb-06.webp","zg-home-diss-vitb-07.webp","zg-home-diss-vitb-08.webp","zg-home-diss-vitb-09.webp","zg-home-diss-vitb-10.webp","zg-home-diss-vitb-11.webp","zg-home-diss-vitb-12.webp","zg-home-diss-vitb-13.webp","zg-home-diss-vitb-14.webp","zg-home-diss-vitb-15.webp","zg-home-diss-vitb-16.webp","zg-home-diss-vitb-17.webp","zg-home-diss-vitb-18.webp","zg-home-diss-vitb-19.webp","zg-home-diss-vitb-20.webp","zg-home-diss-vitb-21.webp","zg-home-diss-vitb-22.webp","zg-home-diss-vitb-23.webp","zg-home-diss-vitb-24.webp"]}};
+
+/* 아래 두 변수는 이 파일이 import 하는 기존 메인 스크립트(수정 금지)가 배너 슬라이드를 담던 자리다.
+   메인 배너를 홈에서 뺐으므로 그 스크립트는 슬라이드를 만들지 못한 채 .autoplay.pause() 를 호출해
+   TypeError 를 낸다. 미리 무해한 빈 객체를 두면 그 스크립트의 "이미 만들어졌다" 분기를 타서
+   슬라이드 생성 자체를 건너뛴다. 슬라이더를 흉내내지 않는다 — 실제로 불리는 두 멤버만 no-op 이다. */
+window.runMainBannerSlidePC = { autoplay: { pause: function () {} }, destroy: function () {} };
+window.runMainBannerSlideMobile = { autoplay: { pause: function () {} }, destroy: function () {} };
 </script>
 
-<!-- 첫 화면 배경 1장만 즉시 칠한다. 나머지 4장은 home-hero.js 가 첫 스크롤 뒤에 넣는다. -->
+<!-- 첫 화면 배경 1장만 즉시 칠한다. 나머지 4장은 home-hero.js 가 첫 스크롤 뒤에 넣는다.
+     preload 로 다운로드를 CSS 파싱보다 앞당긴다 — 이 사진이 첫 화면의 가장 큰 그림이다. -->
+<link rel="preload" as="image" href="/ds/image/zg-home-bg-dawn.jpg" fetchpriority="high">
 <style>.zg-home .zg-bg0{background-image:url(/ds/image/zg-home-bg-dawn.jpg)}</style>
 
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<!-- three.js 는 async 다. 지연 실행 속성으로 두면 DOMContentLoaded 를 붙잡아 계측 스크립트 부팅까지 늦춘다.
+     home-hero.js 가 이 태그의 load 를 받아 3D 를 뒤늦게 켠다. 그 전까지는 폴백 히어로가 보인다. -->
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" data-zg-three></script>
 
 <div class="zg-home">
 
@@ -97,7 +108,7 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
 
         <div class="zg-hcap zg-cap-a">
           <div class="zg-eyebrow">MORNING TO NIGHT MINERALS</div>
-          <p class="zg-h1">아침부터 밤까지,<br>젠제네틱스</p>
+          <h1 class="zg-h1">아침부터 밤까지,<br>젠제네틱스</h1>
           <p>하루에도 필요한 순간은 다르니까. 시간에 맞춰 챙기는 건강 루틴.</p>
           <button type="button" class="zg-hcta" data-zg-jump>루틴 구경하기</button>
         </div>
@@ -151,14 +162,14 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
   <div class="zg-hero2">
     <div class="zg-w">
       <div class="zg-eyebrow">Reset · Recover · Recharge</div>
-      <h1>물 없이도, OK</h1>
+      <h2>물 없이도, OK</h2>
       <p class="zg-sub">물도 컵도 필요 없는 분말 스틱</p>
     </div>
     <div class="zg-trio">
       <div class="zg-glow"></div>
-      <img class="zg-a" src="/ds/image/zg-home-stick-pot-v.webp" alt="" loading="lazy" decoding="async">
-      <img class="zg-c" src="/ds/image/zg-home-stick-vitb-v.webp" alt="" loading="lazy" decoding="async">
-      <img class="zg-b" src="/ds/image/zg-home-stick-mag-v.webp" alt="" loading="lazy" decoding="async">
+      <img class="zg-a" src="/ds/image/zg-home-stick-pot-v.webp" alt="젠제네틱스 칼륨 분말 스틱" loading="lazy" decoding="async">
+      <img class="zg-c" src="/ds/image/zg-home-stick-vitb-v.webp" alt="젠제네틱스 비타민B 컴플렉스 분말 스틱" loading="lazy" decoding="async">
+      <img class="zg-b" src="/ds/image/zg-home-stick-mag-v.webp" alt="젠제네틱스 마그네슘 분말 스틱" loading="lazy" decoding="async">
     </div>
   </div>
 
@@ -174,8 +185,8 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
       <div class="zg-plate"></div>
       <div class="zg-bcap"><div class="zg-t" data-zg-cap0="물한잔" data-zg-cap1="한포를 털어넣으면" data-zg-cap2="구연산 칼륨 단일성분" data-zg-cap3="하루의 나트륨 밸런스를 RESET">물한잔</div></div>
       <div class="zg-band"><div class="zg-in">
-        <div class="zg-c"><div class="zg-n zg-v0">0</div><div class="zg-u">mg · 하루 2포 기준</div></div>
-        <div class="zg-c"><div class="zg-n zg-v1">0</div><div class="zg-u">포 · 한 상자</div></div>
+        <div class="zg-c"><div class="zg-n zg-v0">525</div><div class="zg-u">mg · 하루 2포 기준</div></div>
+        <div class="zg-c"><div class="zg-n zg-v1">20</div><div class="zg-u">포 · 한 상자</div></div>
       </div></div>
       <div class="zg-hint">↓ 스크롤</div>
     </div></div>
@@ -194,8 +205,8 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
       <div class="zg-plate"></div>
       <div class="zg-bcap"><div class="zg-t" data-zg-cap0="자기 전, 물 한잔" data-zg-cap1="포도향 한 포를 넣으면" data-zg-cap2="마그네슘 400mg" data-zg-cap3="하루의 끝을 편안하게 OFF">자기 전, 물 한잔</div></div>
       <div class="zg-band"><div class="zg-in">
-        <div class="zg-c"><div class="zg-n zg-v0">0</div><div class="zg-u">mg · 마그네슘 함량</div></div>
-        <div class="zg-c"><div class="zg-n zg-v1">0</div><div class="zg-u">포 · 한 상자</div></div>
+        <div class="zg-c"><div class="zg-n zg-v0">400</div><div class="zg-u">mg · 마그네슘 함량</div></div>
+        <div class="zg-c"><div class="zg-n zg-v1">20</div><div class="zg-u">포 · 한 상자</div></div>
       </div></div>
       <div class="zg-hint">↓ 스크롤</div>
     </div></div>
@@ -214,8 +225,8 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
       <div class="zg-plate"></div>
       <div class="zg-bcap"><div class="zg-t" data-zg-cap0="아침, 물 한잔" data-zg-cap1="사과향 한 포를 넣으면" data-zg-cap2="B1·B2·B6·B12 네 가지" data-zg-cap3="하루의 활력을 ON">아침, 물 한잔</div></div>
       <div class="zg-band"><div class="zg-in">
-        <div class="zg-c"><div class="zg-n zg-v0">0</div><div class="zg-u">종 · B1·B2·B6·B12</div></div>
-        <div class="zg-c"><div class="zg-n zg-v1">0</div><div class="zg-u">포 · 한 상자</div></div>
+        <div class="zg-c"><div class="zg-n zg-v0">4</div><div class="zg-u">종 · B1·B2·B6·B12</div></div>
+        <div class="zg-c"><div class="zg-n zg-v1">20</div><div class="zg-u">포 · 한 상자</div></div>
       </div></div>
       <div class="zg-hint">↓ 스크롤</div>
     </div></div>
