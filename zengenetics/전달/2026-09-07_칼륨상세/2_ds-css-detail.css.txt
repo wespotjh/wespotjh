@@ -145,6 +145,25 @@
    padding-bottom:8px 을 주면 슬라이드 하단에서 22-8 = **14px** 이 된다. 새 important 0개. */
 .zg-detail .xans-product-detail .imgArea .prdImg .jsPrdThumbSlide { padding-bottom: 8px; }
 
+/* R-9 좌측 세로 썸네일 — 어떤 비율이 와도 통째로 보이게 (운영 지시 2026-09-09)
+   스킨: `.listImg{width:90px}` · `li{height:90px; overflow:hidden}`
+         `li img{max-width:100%; width:auto; height:auto}`
+   → 이미지의 **세로**를 제한하는 선언이 없다. 세로가 긴 원본(1024×1400 같은)이 오면
+     88px 폭에 맞춰 높이가 120px 로 계산되고 `overflow:hidden` 이 아래를 잘라낸다.
+     가로가 긴 원본(라이브 실측: 상품 34·91·93 이 1024×559)은 88×48 로 그려져
+     상자 위쪽에 붙고 아래 40px 이 빈다.
+   `object-fit: contain` 은 상자를 88×88 로 고정하고 그 안에 원본을 **전부** 담는다
+   (잘림 0, 확대 0, 세로 가운데 정렬). 13종 상품의 원본 비율이 제각각이라
+   비율에 의존하지 않는 이 방식이 복제에 안전하다.
+   ⚠ 스킨 규칙(0,5,1)보다 한 단계 높은 (0,6,1) 이다. 새 important 0개.
+   ⚠ 이 열은 ≥1024px 에서만 보인다(`@media (max-width:1023px){.listImg{display:none}}`). */
+.zg-detail .xans-product-detail .imgArea .listImg li img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 /* 도트 모양 */
 .zg-detail .thumb-slide-pager .swiper-pagination-bullet {
   width: 6px; height: 6px;

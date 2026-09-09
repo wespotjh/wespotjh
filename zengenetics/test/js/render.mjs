@@ -128,6 +128,29 @@ const MEASURE = () => {
     prdDetailImgs: qa('#prdDetail img').length,
   };
 
+  /* --- R-9 좌측 세로 썸네일 (≥1024px 에서만 보인다) ---------------------
+   * 스킨은 `li{height:90px;overflow:hidden}` + `img{max-width:100%;height:auto}` 라
+   * **세로가 긴 원본이면 아래가 잘린다.** 하네스 기본 스텁이 640×948(세로 길다)이라
+   * 규칙이 없으면 여기서 반드시 잘린다 — 즉 이 검사는 자기 음성 대조군을 내장한다. */
+  out.thumbs = qa('.listImg li').map((li) => {
+    const img = li.querySelector('img');
+    const lr = li.getBoundingClientRect();
+    const cs = getComputedStyle(li);
+    const pad = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+    const inner = +(lr.height - pad).toFixed(2);
+    if (!img) return { img: false };
+    const ir = img.getBoundingClientRect();
+    const ics = getComputedStyle(img);
+    return {
+      img: true,
+      liH: +lr.height.toFixed(2), liInnerH: inner,
+      imgH: +ir.height.toFixed(2), imgW: +ir.width.toFixed(2),
+      overflowPx: +(ir.height - inner).toFixed(2),   /* >0 이면 잘린다 */
+      objectFit: ics.objectFit,
+      natural: [img.naturalWidth, img.naturalHeight],
+    };
+  });
+
   /* --- 하단바 --- */
   const bar = q('.mobile-fix-footer');
   if (bar) {

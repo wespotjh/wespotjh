@@ -193,6 +193,26 @@ def run(base, obs=None):
     else:
         s.fail('C4', u'390px 기준 렌더', 'no result')
 
+    # --- C10. 좌측 세로 썸네일 (R-9) — ≥1024px 에서만 보인다 -----------------
+    #   스킨 `li{height:90px;overflow:hidden}` + `img{height:auto}` 조합은 세로가 긴 원본을
+    #   잘라낸다. 하네스 기본 스텁이 640×948(세로 길다)이라 규칙이 빠지면 반드시 FAIL 한다
+    #   — 음성 대조군이 검사 안에 들어 있다.
+    for vp in VP_NOBAR:
+        tag = 'nobar%d' % vp
+        r = res.get(tag)
+        if not r or not r.get('ok'):
+            s.fail('C10.%s' % tag, u'%s 렌더' % tag, (r or {}).get('error', 'no result')); continue
+        th = (r.get('m') or {}).get('thumbs') or []
+        s.probe('C10.n.%s' % tag, u'[%dpx] 좌측 썸네일 개수' % vp, len(th))
+        for i, t in enumerate(th):
+            if not t.get('img'):
+                s.fail('C10.img.%s.%d' % (tag, i), u'[%dpx] 썸네일#%d 이미지 없음' % (vp, i), 'no img'); continue
+            s.le('C10.ovf.%s.%d' % (tag, i), u'[%dpx] 썸네일#%d 상자 밖으로 넘친 높이(px)' % (vp, i),
+                 0, t.get('overflowPx'),
+                 u'0 초과면 `overflow:hidden` 이 그만큼 잘라낸다 (원본 %s)' % (t.get('natural'),))
+            s.eq('C10.fit.%s.%d' % (tag, i), u'[%dpx] 썸네일#%d object-fit' % (vp, i),
+                 'contain', t.get('objectFit'))
+
     # --- C5. 바텀시트 겹침 -------------------------------------------------
     r = res.get('sheet390')
     if r and r.get('ok') and r.get('sheet'):
