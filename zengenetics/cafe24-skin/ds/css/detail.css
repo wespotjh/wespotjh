@@ -116,30 +116,35 @@
   background: var(--zg-bg-2);
   border-bottom: 1px solid var(--zg-hair);
 }
-.zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__item {
-  height: min(64vh, 440px);
-  padding: 26px 0;
+/* R-10 갤러리 4장을 같은 크기로 (운영 지시 2026-09-09)
+   ⚠ 카페24는 **첫 슬라이드에만** `.thumbnail__item` 을 붙인다 (라이브 마크업 실측):
+       <li class="thumbnail__item swiper-slide"><img src="{$big_img}"></li>   ← 대표이미지
+       <li style="display:none" data-param="…"><img class="ThumbImage"></li>  ← 추가이미지 ×3
+     그래서 `.thumbnail__item` 으로 건 규칙이 **1장에만 걸렸다.**
+     실측(390px, 정사각 원본 1024²):
+       1장(대표) 304×304  ← `max-width:78%` 가 걸려 작다
+       2~4장     390×390  ← 우리 규칙이 안 걸려 스킨 기본값대로 꽉 찬다
+     대표이미지만 작게 나오던 것이 이 때문이다.
+   → 기준을 `.thumbnail__list > li` 로 옮겨 4장 모두 같은 규칙을 받게 한다.
+     `78%` 상한을 없애고 슬라이드 폭을 꽉 채운다(운영 결정). 세로는 화면 비율로 잠근다.
+   ⚠ `display` 는 여전히 선언하지 않는다. `object-fit: contain` 이라 어떤 비율이 와도
+      잘리지 않고, 가로가 긴 원본은 위아래 여백을 두고 가운데 정렬된다. */
+.zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__list > li {
+  padding: 0;
   box-sizing: border-box;
   text-align: center;
   background: var(--zg-bg-2);
 }
-/* display 를 바꾸지 않고 세로 중앙 정렬 */
-.zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__item::before {
-  content: "";
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
-.zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__item img {
-  display: inline-block;
-  vertical-align: middle;
-  width: auto;
+.zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__list > li img {
+  display: block;
+  width: 100%;
   height: auto;
-  max-height: 100%;
-  max-width: 78%;
+  max-width: 100%;
+  max-height: min(64vh, 440px);
   object-fit: contain;
-  filter: drop-shadow(0 22px 24px rgba(30, 22, 12, .14));
+  margin: 0 auto;
 }
+
 /* [K-02 AC4] 도트 위치 4속성은 스킨이 important 로 잠갔다(bottom:22px).
    값을 이기는 대신 **기준 상자**를 옮긴다 — 도트의 컨테이닝 블록인 `.jsPrdThumbSlide` 에
    padding-bottom:8px 을 주면 슬라이드 하단에서 22-8 = **14px** 이 된다. 새 important 0개. */
@@ -1302,7 +1307,8 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 /* ------------------------------------------- 18. 데스크톱 (≥1024px) */
 @media (min-width: 1024px) {
   .zg-detail { padding-bottom: 0; }
-  .zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__item { height: min(58vh, 560px); }
+  /* R-10: 기준이 `.thumbnail__list > li` 로 옮겨졌다 — 데스크톱 상한도 같이 옮긴다 */
+  .zg-detail .xans-product-detail .imgArea .prdImg .thumbnail__list > li img { max-height: min(58vh, 560px); }
   .zg-detail .xans-product-detail .headingArea h1.prd-name { font-size: clamp(26px, 2.2vw, 34px); }
   .zg-detail .xans-product-detail .headingArea,
   .zg-detail .productOption,

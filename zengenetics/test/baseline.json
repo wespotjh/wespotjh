@@ -153,7 +153,7 @@
    "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
    "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
    "index.html": "4cb10827c82d552426d00993d7728cfa",
-   "ds/css/detail.css": "c88df2a321c49044706ac292dfa84498",
+   "ds/css/detail.css": "ffc940ec64eadb60ae8130cf3f4166c0",
    "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
    "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
    "ds/js/detail-ui.js": "f62a2ce9bf4c3792c3d8c9af04c73192",
@@ -166,7 +166,7 @@
    "moa/import/product_detail/detail.html": 2632,
    "moa/layout/head.html": 3495,
    "index.html": 17281,
-   "ds/css/detail.css": 53905,
+   "ds/css/detail.css": 54889,
    "ds/css/price.css": 2271,
    "ds/css/home.css": 17294,
    "ds/js/detail-ui.js": 39376,
@@ -205,10 +205,10 @@
   "_note_11": "2026-09-09 개발 11차: detail.css 의도적 변경(R-7 추가구성상품 행 배경/레일 제거) → md5/bytes 갱신. 다른 구역 미변경 / B3 forbidden 은 10→9 로 **낮췄다**(R-7 로 주석 1블록이 사라져 유출이 1건 줄었다). 올린 것이 아니다 — 운영규칙 11 은 신규 유출을 baseline 으로 덮는 것을 금지하는 규칙이고, 줄어든 값을 반영하는 것은 그 취지에 맞다.",
   "_note_12": "2026-09-09 개발 12차: detail.css 의도적 변경(B안 인라인 숨김 · 리뷰칩 숨김 · 말풍선 line-height · 시트 열림 시 바 버튼 pointer-events:none) → md5/bytes 갱신",
   "_note_13": "13/14차 R-8 — 카카오 혜택 배너 2슬롯 비노출(.benefit-bubble, .evt) + .productAction margin-top 37→30px. md5/bytes 만 갱신.",
-  "_note_14": "14차 R-9 — 좌측 세로 썸네일 object-fit:contain (잘림/여백 제거). md5/bytes 만 갱신."
+  "_note_14": "14차 R-9/R-10 — 좌측 썸네일 object-fit:contain + 갤러리 4장 동일 규칙(.thumbnail__list > li). md5/bytes 만 갱신."
  },
  "_meta": {
-  "updated": "2026-09-09 14차 R-9 (썸네일)",
+  "updated": "2026-09-09 14차 R-9/R-10 (갤러리)",
   "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것"
  },
  "E": {
