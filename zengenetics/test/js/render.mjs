@@ -504,6 +504,24 @@ const SHEET = () => {
              그래도 화면에 안 나오는지(=CSS 가 이긴다) 본다. 잰 뒤 속성을 원래대로 돌린다.
              음성 대조: 규칙이 빠지면 빈 `<a>` 도 `padding:0 14px; height:26px` 으로
              28×26 상자를 만들어 shown 이 true 가 된다 → 검사가 살아 있음이 증명된다. */
+          /* R-11: 시트를 열었을 때 합계가 구매 버튼에 가리는가.
+             버튼 블록은 `position:absolute; bottom:0` 이라 스크롤과 무관하게 바닥에 붙어 있고,
+             합계는 그 위에 같이 고정돼야 한다. 겹치면 결제 직전 숫자가 안 보인다. */
+          sumOverlap: (() => {
+            const tot = q('.zg-sum__row--tot'), cart = q('#actionCart');
+            const buy = document.querySelector('.buy-btn-wrap .btnSubmit.gFull');
+            if (!tot) return null;
+            const T = tot.getBoundingClientRect();
+            const ovl = (e) => { if (!e) return 0; const r = e.getBoundingClientRect();
+              if (!(r.width > 0 && r.height > 0)) return 0;
+              const y = Math.min(T.bottom, r.bottom) - Math.max(T.top, r.top);
+              const x = Math.min(T.right, r.right) - Math.max(T.left, r.left);
+              return (y > 0 && x > 0) ? +y.toFixed(1) : 0; };
+            const cs = getComputedStyle(tot);
+            return { cart: ovl(cart), buy: ovl(buy),
+                     visible: T.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none',
+                     top: +T.top.toFixed(1), bottom: +T.bottom.toFixed(1) };
+          })(),
           bubble: (() => {
             const bb = q('.benefit-bubble'); if (!bb) return { found: false };
             const had = bb.hasAttribute('hidden');

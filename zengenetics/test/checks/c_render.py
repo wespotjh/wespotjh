@@ -222,6 +222,15 @@ def run(base, obs=None):
         s.truthy('C5.hit', u'하단바 위치의 최상단 요소가 시트 안 요소인가 (실제 포함관계로 판정)',
                  sh.get('hitInSheet'),
                  u'실제 최상단 요소: %s — 바 버튼이면 시트 위로 탭을 가로챈다' % sh.get('hitOnBar'))
+        # R-11 시트를 열었을 때 합계가 구매 버튼에 가리면 안 된다
+        so = sh.get('sumOverlap')
+        s.probe('C5.sum.probe', u'합계 「총 구매 금액」 줄 탐지', 1 if so else 0)
+        if so:
+            s.truthy('C5.sum.vis', u'시트 열림 상태에서 「총 구매 금액」이 보인다 (R-11)', so.get('visible'))
+            s.eq('C5.sum.cart', u'「총 구매 금액」 ↔ 장바구니 버튼 겹침(px) (R-11)', 0, so.get('cart'),
+                 u'0 이 아니면 결제 직전 숫자가 버튼에 가린다')
+            s.eq('C5.sum.buy', u'「총 구매 금액」 ↔ 구매하기 버튼 겹침(px) (R-11)', 0, so.get('buy'))
+
         # R-8 혜택 말풍선 끄기 — 시트를 연 상태가 말풍선이 마지막으로 보이던 자리다
         bb = sh.get('bubble') or {}
         s.probe('C5.bb.probe', u'혜택 말풍선 요소 탐지(시트 열림)', 1 if bb.get('found') else 0)
