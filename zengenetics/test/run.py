@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from checks.common import (Suite, ROOT, OUT, C_RED, C_GRN, C_YEL, C_DIM, C_BLD, C_OFF,
                            load_baseline, save_baseline)
 from checks.common import SKIN, md5 as _md5
-from checks import a_preserve, b_static, c_render, d_datalayer, e_live, h_home
+from checks import a_preserve, b_static, c_render, d_datalayer, e_live, f_buypath, h_home
 
 FROZEN = ['product/detail.html', 'moa/import/product_detail/detail.html',
           'ds/css/detail.css', 'ds/js/detail-ui.js', 'ds/css/price.css',
@@ -38,8 +38,9 @@ def snapshot():
         out[rel] = _md5(p) if os.path.exists(p) else None
     return out
 
-ORDER = ['A', 'B', 'C', 'D', 'E', 'H']
-MOD = {'A': a_preserve, 'B': b_static, 'C': c_render, 'D': d_datalayer, 'E': e_live, 'H': h_home}
+ORDER = ['A', 'B', 'C', 'D', 'E', 'F', 'H']
+MOD = {'A': a_preserve, 'B': b_static, 'C': c_render, 'D': d_datalayer, 'E': e_live,
+       'F': f_buypath, 'H': h_home}
 FAST = ['A', 'B']
 
 
@@ -51,7 +52,7 @@ def fmt(v, w=46):
 def main():
     ap = argparse.ArgumentParser(add_help=True)
     ap.add_argument('--fast', action='store_true', help=u'정적 검사(A·B)만')
-    ap.add_argument('--only', default='', help=u'A,B,C,D,E,H 중 골라서')
+    ap.add_argument('--only', default='', help=u'A,B,C,D,E,F,H 중 골라서')
     ap.add_argument('--refresh', action='store_true', help=u'라이브 응답 재수집')
     ap.add_argument('--update-baseline', action='store_true', dest='update')
     ap.add_argument('--files', default='',

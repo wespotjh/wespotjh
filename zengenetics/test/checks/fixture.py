@@ -384,6 +384,33 @@ def _sanitize(meta, want):
     return _SANI[ck]
 
 
+class override(object):
+    u"""우리 파일 한 개를 **사본으로 바꿔** 픽스처를 만드는 컨텍스트 매니저.
+
+    음성 대조군 전용이다. 제품 파일은 건드리지 않는다 — `OURS` 가 가리키는 **경로**만 바꾼다.
+    ⚠ 이게 필요한 이유: 2026-09-09 배포 이후 `detail.css` 는 라이브 번들 **안**에 있고,
+      `build()` 는 번들 안 그 구간을 `OURS[url]` 의 내용으로 **제자리 교체**한다.
+      따라서 `<link href="/ds/css/detail.css">` 라우트만 바꿔치기하면 아무 효과가 없다
+      (그 링크는 애초에 주입되지도 않는다). 소독 결과 캐시(`_SANI`)도 같이 비워야 한다.
+    """
+
+    def __init__(self, url, path):
+        self.url, self.path, self.old = url, path, None
+
+    def __enter__(self):
+        self.old = OURS[self.url]
+        OURS[self.url] = self.path
+        LOCAL[self.url] = self.path
+        _SANI.clear()
+        return self
+
+    def __exit__(self, *a):
+        OURS[self.url] = self.old
+        LOCAL[self.url] = self.old
+        _SANI.clear()
+        return False
+
+
 def plan(ua='iphone', name='p11', with_ga4=False, with_ui=True):
     u"""이 픽스처가 쓸 자산 지도(소독본) + 우리 파일이 몇 번 실리는지를 함께 계산한다."""
     doc = fetch.html(ua, name) or ''

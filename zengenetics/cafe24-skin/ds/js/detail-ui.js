@@ -252,6 +252,12 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   function isUnsellable() {
     var wrap = $('.buy-btn-wrap');
     if (!wrap) return false;
+    /* [QA P2] 품절이면 절대 dead 로 보지 않는다.
+     * 카페24가 품절을 **자식 두 버튼에 `displaynone`** 으로 표현하면 아래 판정이 참이 되어
+     * 바가 통째로 내려가고 **SOLD OUT 이 안 보인다**(QA 가 DOM 합성으로 재현: dead=True,
+     * display=none, SOLD OUT 노출=False). 라이브 13종에 품절이 0건이라 어느 쪽이 카페24의
+     * 실제 출력인지는 확인할 수 없었다 → 확인될 때까지 품절을 우선한다. */
+    if (isSoldout()) return false;
     var dead = function (el) {
       if (!el) return true;
       if (/(^|\s)displaynone(\s|$)/.test(el.className || '')) return true;
@@ -787,7 +793,10 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     }
 
     var action = $('.productAction');
-    if (action) new MO(schedule).observe(action, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    /* [QA P3] `onclick` 도 본다 — `isUnsellable()` 이 그 속성을 읽는데 관찰하지 않으면
+     * 「카페24가 나중에 onclick 을 채워 주면 판정이 저절로 풀린다」는 약속이 지켜지지 않는다
+     * (실측: displaynone 만 제거하면 회복되지만 onclick 만 채우면 dead 가 그대로였다). */
+    if (action) new MO(schedule).observe(action, { attributes: true, subtree: true, attributeFilter: ['class', 'onclick'] });
 
     var ship = document.getElementById('levelLineActive');
     if (ship) new MO(schedule).observe(ship, { attributes: true, attributeFilter: ['class', 'style'] });
@@ -824,7 +833,11 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
      * (이전 판에서는 `.zg-detail` 에 `zg-soldout` 이라 AC 문언과 어긋나 있었다). */
     var bar = $('.mobile-fix-footer');
     if (bar) bar.classList.toggle('zg-bar--soldout', isSoldout());
-    if (bar) bar.classList.toggle('zg-bar--dead', isUnsellable());
+    /* 바만 내리면 「상품 금액 —」·「총 구매 금액 0원」·「구성을 선택해 주세요」가 남아
+     * 팔지 않는 페이지에 결제 UI 만 떠 있게 된다(QA P3). 루트에도 표시를 붙여 함께 내린다. */
+    var dead = isUnsellable();
+    if (bar) bar.classList.toggle('zg-bar--dead', dead);
+    if (root) root.classList.toggle('zg-unsellable', dead);
 
     if (sumItemV) sumItemV.textContent = num > 0 ? t : '—';
     if (sumTotV) sumTotV.textContent = num > 0 ? t : '0원';
