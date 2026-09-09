@@ -48,6 +48,10 @@ def scenarios():
         sc.append({'name': 'neg%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1100,
                    'stub': {'w': 400, 'h': 600}, 'expand': True})
     sc.append({'name': 'sheet390', 'vp': 390, 'safe': 0, 'settle': 1300, 'sheet': True})
+    # B안 하단바 구매 경로 — .fixed 인 상태(mid)와 아닌 상태(top) 둘 다
+    for kind in ('mid', 'top'):
+        sc.append({'name': 'barbuy390_%s' % kind, 'vp': 390, 'safe': 0, 'settle': 1300,
+                   'barbuy': kind, 'sweep': False})
     # R-2 재탭 해제 (대표님 요청 2026-09-09) + 음성 대조군
     for kind in ('ok', 'nodel'):
         sc.append({'name': 'untap390_%s' % kind, 'vp': 390, 'safe': 0, 'settle': 1300,
@@ -195,8 +199,9 @@ def run(base, obs=None):
         sh = r['sheet']
         s.truthy('C5.open', u'바텀시트 열림', sh.get('opened') and sh.get('sheetVisible'))
         s.eq('C5.overlap', u'시트 3버튼 ↔ 하단바 겹침(px)', [0, 0, 0], sh.get('buttonOverlap'))
-        s.add('C5.hit', 'btnNormal' in str(sh.get('hitOnBar')) or 'mobile-layer' in str(sh.get('hitOnBar')),
-              u'하단바 위치의 최상단 요소가 시트 요소인가', u'시트 요소', sh.get('hitOnBar'))
+        s.truthy('C5.hit', u'하단바 위치의 최상단 요소가 시트 안 요소인가 (실제 포함관계로 판정)',
+                 sh.get('hitInSheet'),
+                 u'실제 최상단 요소: %s — 바 버튼이면 시트 위로 탭을 가로챈다' % sh.get('hitOnBar'))
     else:
         s.fail('C5', u'바텀시트 시나리오', 'no result')
 
@@ -230,10 +235,16 @@ def run(base, obs=None):
         s.truthy('C7.bb.%s' % tag, u'[%dpx] 혜택 말풍선 요소 탐지' % vp, bub.get('found'))
         if bub.get('found'):
             s.eq('C7.bb.ov.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 표시 상태)' % vp, [], bub.get('textOverlaps'))
-            s.eq('C7.bb.ovh.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 숨김 + 바운스 최고점)' % vp, [],
-                 bub.get('textOverlapsHidden'), u'대표님 캡처 조건 — 여기서 .zg-sum__note 가 덮였다 (F-3)')
-            s.ge('C7.bb.gap.%s' % tag, u'[%dpx] 말풍선 ↔ 안내문 간격(경고문 숨김 + 바운스 최고점)' % vp,
-                 1, bub.get('noteGapHiddenBounce'))
+            if bub.get('hidden'):
+                # B안 — 시트가 닫혀 있는 동안 인라인 블록이 감춰져 말풍선이 화면에 없다.
+                # 덮을 대상이 없으므로 8차 F-3 의 겹침 조건은 구조적으로 해소된 상태다.
+                s.eq('C7.bb.hidden.%s' % tag, u'[%dpx] 시트 닫힘 상태에서 말풍선 비노출(B안)' % vp,
+                     True, True, u'말풍선은 시트를 열면 시트 안에서 보인다')
+            else:
+                s.eq('C7.bb.ovh.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 숨김 + 바운스 최고점)' % vp, [],
+                     bub.get('textOverlapsHidden'), u'대표님 캡처 조건 — 여기서 .zg-sum__note 가 덮였다 (F-3)')
+                s.ge('C7.bb.gap.%s' % tag, u'[%dpx] 말풍선 ↔ 안내문 간격(경고문 숨김 + 바운스 최고점)' % vp,
+                     1, bub.get('noteGapHiddenBounce'))
 
     # --- C8. 재탭 해제 (R-2, 대표님 요청 2026-09-09) -----------------------------
     #   담긴 카드를 다시 누르면 그 구성이 빠진다. 카페24 **자기 삭제 컨트롤**을 누르는 경로라
@@ -281,6 +292,46 @@ def run(base, obs=None):
              u'이미 담김',
              (u['picked']['ariaTail'] or [''])[1] if len(u['picked']['ariaTail']) > 1 else None)
 
+    # --- C9. B안 — 「장바구니·구매하기가 계속 떠 있는가」 (2026-09-09) --------------
+    #   합계 아래 인라인 버튼을 시트가 닫혀 있을 때 감춘다. 구매 경로가 끊기면 판매가 멈추므로
+    #   **실제로 눌러** 확인한다. `.fixed` 인 상태(시트 열림 경로)와 아닌 상태(인라인 위임 경로) 둘 다.
+    for kind in ('mid', 'top'):
+        tag = 'barbuy390_%s' % kind
+        r = res.get(tag)
+        if not r or not r.get('ok') or not r.get('barbuy'):
+            s.fail('C9.%s' % tag, u'하단바 구매 경로 시나리오', (r or {}).get('error', 'no result')); continue
+        u = r['barbuy']
+        s.probe('C9.%s.subs' % tag, u'[%s] DOM 의 product_submit 노드 수' % kind, u['submitNodesInDom'],
+                u'0이면 onclick 이 사라진 것 = 판매 정지')
+        s.truthy('C9.%s.bar' % tag, u'[%s] 하단 고정바 표시' % kind, u['barVisible'])
+        s.eq('C9.%s.cart' % tag, u'[%s] 바 「장바구니」 → product_submit(2) 발화' % kind, [2], u['cartFired'],
+             u'인라인과 무관한 자체 onclick 이어야 한다')
+        s.truthy('C9.%s.buypath' % tag, u'[%s] 바 「구매하기」 → 시트가 열리거나 product_submit(1) 발화' % kind,
+                 u['buyPathOk'], u'둘 다 아니면 구매 경로가 0개다')
+        s.ge('C9.%s.sub1after' % tag, u'[%s] 누른 뒤 화면에 보이는 product_submit(1)' % kind, 1,
+             u['submit1VisibleAfterBuy'] if u['sheetOpened'] else 1,
+             u'시트가 열렸으면 시트 안 구매하기가 보여야 한다')
+        # 인라인은 시트가 닫혀 있는 동안 감춰져 있어야 한다 (B안의 목적)
+        s.eq('C9.%s.inline' % tag, u'[%s] 시트 닫힘 상태의 인라인 노출' % kind, False, u['inlineVisible'])
+        # 리뷰 칩은 감추되 훅은 DOM 에 남는다
+        s.eq('C9.%s.chip' % tag, u'[%s] 하단바 리뷰 칩 노출' % kind, False, u['reviewChipVisible'])
+        s.eq('C9.%s.hook' % tag, u'[%s] `alpha_review_count` DOM 잔존' % kind,
+             b['barbuy']['review_hook'], u['reviewHookInDom'], u'0이면 알파리뷰가 끊긴다')
+        s.eq('C9.%s.alpha' % tag, u'[%s] `alpha_widget` DOM 잔존' % kind,
+             b['barbuy']['alpha_widget'], u['alphaWidgetInDom'])
+        # 결제수단 블록은 함께 숨지 않는다
+        s.eq('C9.%s.apppay' % tag, u'[%s] `.app-pay-wrap` DOM' % kind, 1, u['appPayInDom'])
+        s.eq('C9.%s.naver' % tag, u'[%s] `#NaverChk_Button` DOM' % kind, 1, u['naverInDom'])
+        s.eq('C9.%s.kakao' % tag, u'[%s] `#appPaymentButtonBox` DOM' % kind, 1, u['kakaoPayInDom'])
+        # 리뷰 칩이 빠진 만큼 넓어진 두 버튼의 터치 타깃
+        for nm, box in (('cart', u['barCartBox']), ('buy', u['barBuyBox'])):
+            s.ge('C9.%s.tap.%s' % (tag, nm), u'[%s] 바 %s 높이 ≥ 44px' % (kind, nm), 44, (box or {}).get('h', 0))
+            s.ge('C9.%s.tapw.%s' % (tag, nm), u'[%s] 바 %s 폭 ≥ 44px' % (kind, nm), 44, (box or {}).get('w', 0))
+        # R-4 말풍선 — 줄상자 상속을 끊었는가
+        s.eq('C9.%s.bubble' % tag, u'[%s] 말풍선 line-height (54px 상속을 끊었는가)' % kind,
+             b['barbuy']['bubble_lh'], u['bubbleLineHeight'],
+             u'54px 면 글자가 노란 상자 아래로 8px 내려앉는다 (R-4)')
+
     # --- C6. pageerror 0 ---------------------------------------------------
     tot_ours = 0
     for name, r in sorted(res.items()):
@@ -310,6 +361,11 @@ def to_baseline(obs):
         'fold_max_mobile': m390['fold']['maxHeight'],
         'a11y_select': {'w': m390['a11ySelect']['w'], 'h': m390['a11ySelect']['h']},
         'third_party_errors': third,
+        'barbuy': {
+            'review_hook': res['barbuy390_mid']['barbuy']['reviewHookInDom'],
+            'alpha_widget': res['barbuy390_mid']['barbuy']['alphaWidgetInDom'],
+            'bubble_lh': res['barbuy390_mid']['barbuy']['bubbleLineHeight'],
+        },
         'rows': {
             'stepper_w': dict((str(vp), (res['rows%d' % vp]['rows'] or [{}])[0].get('stepperW'))
                               for vp in VP_ROWS),

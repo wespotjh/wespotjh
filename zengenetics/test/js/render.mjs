@@ -312,8 +312,14 @@ const BUBBLE = () => {
     return Math.min(ar.bottom, r.bottom) - Math.max(ar.top, r.top) > 0 &&
            Math.min(ar.right, r.right) - Math.max(ar.left, r.left) > 0; })
     .map(e => (e.className || e.tagName).toString().slice(0, 30));
-  const out = { found: true, warnDisplay: warn ? getComputedStyle(warn).display : null,
-                textOverlaps: overlaps(R(a)) };
+  /* B안(2026-09-09) 이후 인라인 블록은 시트가 닫혀 있는 동안 `display:none` 이다.
+     그러면 말풍선도 화면에 없으므로 「안내문을 덮는가」 자체가 성립하지 않는다.
+     그 상태를 숨기지 말고 `hidden: true` 로 사실대로 보고한다. */
+  const shown = (() => { const r = R(a); const c = getComputedStyle(a);
+    return r.height > 0 && r.width > 0 && c.display !== 'none' && c.visibility !== 'hidden'; })();
+  const out = { found: true, hidden: !shown, warnDisplay: warn ? getComputedStyle(warn).display : null,
+                textOverlaps: shown ? overlaps(R(a)) : [] };
+  if (!shown) { bb.setAttribute('hidden', ''); return out; }
   if (warn) warn.style.display = 'none';
   const ar = R(a);
   out.noteGapHidden = note ? +(ar.top - R(note).bottom).toFixed(1) : null;
@@ -371,12 +377,72 @@ const UNTAP = async (nodel) => {
   return out;
 };
 
+/* --- B안 하단바 구매 경로 (대표님 확정 2026-09-09) ---------------------------
+ * 「장바구니·구매하기가 계속 떠 있는가」를 **실제로 눌러** 확인한다.
+ * `product_submit` 을 가로채 발화 여부만 기록한다(주문은 만들지 않는다).
+ *   - 바 장바구니 → product_submit(2) 가 반드시 발화해야 한다
+ *   - 바 구매하기 → 시트가 열리거나(.fixed 상태) product_submit(1) 이 발화해야 한다(.fixed 아닌 상태 위임)
+ * 둘 중 어느 것도 아니면 구매 경로가 끊긴 것이다 = 판매 정지. */
+const BARBUY = async (atTop) => {
+  const q = s => document.querySelector(s), qa = s => Array.from(document.querySelectorAll(s));
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const vis = e => { if (!e) return false; const c = getComputedStyle(e), r = e.getBoundingClientRect();
+    return c.display !== 'none' && c.visibility !== 'hidden' && c.opacity !== '0' && r.height > 0 && r.width > 0; };
+  window.__SUB__ = [];
+  window.product_submit = function (mode) { window.__SUB__.push(mode); return false; };
+  const H = document.documentElement.scrollHeight;
+  window.scrollTo(0, atTop ? 0 : Math.round(H * 0.45));
+  await wait(900);
+  const ml = q('.mobile-layer');
+  const subs = () => qa('[onclick*="product_submit"]');
+  const out = {
+    atTop: !!atTop,
+    mlFixed: !!(ml && ml.classList.contains('fixed')),
+    barVisible: vis(q('.mobile-fix-footer')),
+    reviewChipVisible: vis(q('.mobile-fix-footer .jsGoReview')),
+    reviewHookInDom: qa('.alpha_review_count').length,
+    alphaWidgetInDom: qa('[class*="alpha_widget"], [id*="alpha_widget"]').length,
+    submitNodesInDom: subs().length,
+    inlineVisible: vis(q('#fixedActionButton')),
+    appPayInDom: qa('.app-pay-wrap').length,
+    naverInDom: qa('#NaverChk_Button').length,
+    kakaoPayInDom: qa('#appPaymentButtonBox').length,
+    bubbleLineHeight: (() => { const a = q('.benefit-bubble > a'); return a ? getComputedStyle(a).lineHeight : null; })(),
+    barCartBox: (() => { const b = qa('.mobile-fix-footer [onclick*="product_submit"]')[0];
+      if (!b) return null; const r = b.getBoundingClientRect(); return { w: +r.width.toFixed(1), h: +r.height.toFixed(1) }; })(),
+    barBuyBox: (() => { const b = q('.mobile-fix-footer .jsLayerBtn');
+      if (!b) return null; const r = b.getBoundingClientRect(); return { w: +r.width.toFixed(1), h: +r.height.toFixed(1) }; })(),
+  };
+  /* ① 바 장바구니 */
+  window.__SUB__ = [];
+  const cart = qa('.mobile-fix-footer [onclick*="product_submit"]')[0];
+  if (cart) cart.click();
+  await wait(500);
+  out.cartFired = window.__SUB__.slice();
+  /* ② 바 구매하기 */
+  window.__SUB__ = [];
+  const buy = q('.mobile-fix-footer .jsLayerBtn');
+  if (buy) buy.click();
+  await wait(1300);
+  out.buyFired = window.__SUB__.slice();
+  out.sheetOpened = !!(ml && ml.classList.contains('on'));
+  out.inlineVisibleAfterBuy = vis(q('#fixedActionButton'));
+  out.submit1VisibleAfterBuy = subs().filter(e => /product_submit\(\s*1/.test(e.getAttribute('onclick')) && vis(e)).length;
+  out.buyPathOk = !!(out.sheetOpened || out.buyFired.indexOf(1) >= 0);
+  return out;
+};
+
 const SHEET = () => {
   const q = (s) => document.querySelector(s);
   const btn = q('.jsLayerBtn');
   if (!btn) return { opened: false, reason: 'no .jsLayerBtn' };
-  btn.click();
+  /* ⚠ 페이지 최상단에서는 `.mobile-layer` 에 `.fixed` 가 없어 스킨 `mobileLayerOn()` 이
+     **시트를 열지 않고 인라인 구매 버튼에 위임**한다(원문 확인). 시트를 실제로 여는 경로를
+     재현하려면 먼저 스크롤해 `.fixed` 를 만들어야 한다 — 고객이 바를 쓰는 상태가 그 상태다. */
+  window.scrollTo(0, Math.round(document.documentElement.scrollHeight * 0.45));
   return new Promise((res) => setTimeout(() => {
+  btn.click();
+  setTimeout(() => {
     const bar = q('.mobile-fix-footer');
     const sheet = q('.mobile-layer.fixed') || q('.mobile-layer');
     if (!bar || !sheet) return res({ opened: false, reason: 'no bar/sheet' });
@@ -391,8 +457,14 @@ const SHEET = () => {
           overlapPx: +overlap.toFixed(2), buttonOverlap: buttons.map(v => +v.toFixed(2)),
           hitOnBar: (() => { const e = document.elementFromPoint(
               Math.round(br.left + br.width / 2), Math.round(br.top + br.height / 2));
-              return e ? (e.tagName + '.' + (e.className || '')).toString().slice(0, 60) : null; })() });
-  }, 400));
+              return e ? (e.tagName + '.' + (e.className || '')).toString().slice(0, 60) : null; })(),
+          /* 문자열로 판정하지 않는다 — 그 지점의 최상단 요소가 **시트 안에 있는지**를 직접 본다.
+             바 버튼이 opacity:0 으로만 감춰져 있으면 탭을 가로채므로 여기서 잡힌다. */
+          hitInSheet: (() => { const e = document.elementFromPoint(
+              Math.round(br.left + br.width / 2), Math.round(br.top + br.height / 2));
+              return !!(e && sheet.contains(e)); })() });
+  }, 900);
+  }, 900));
 };
 
 const browser = await chromium.launch({ args: ['--force-color-profile=srgb', '--font-render-hinting=none'] });
@@ -427,6 +499,9 @@ for (const scen of cfg.scenarios) {
         window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 120));
       });
       await page.waitForTimeout(500);
+    }
+    if (scen.barbuy) {
+      rec.barbuy = await page.evaluate(BARBUY, scen.barbuy === 'top');
     }
     if (scen.untap) {
       rec.untap = await page.evaluate(UNTAP, scen.untap === 'nodel');

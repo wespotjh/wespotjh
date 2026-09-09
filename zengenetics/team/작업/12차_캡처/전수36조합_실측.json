@@ -1,0 +1,1454 @@
+[
+ {
+  "tag": "after",
+  "vp": 320,
+  "scroll": "top",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": false,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 113.3,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 157.8,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [
+   1
+  ],
+  "sheetOpenedAfterBuy": false,
+  "inlineVisibleAfterBuy": false,
+  "submit1VisibleAfterBuy": 0,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 320,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 113.3,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 157.8,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 320,
+  "scroll": "bottom",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 113.3,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 157.8,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 320,
+  "scroll": "mid",
+  "sheet": true,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": true,
+  "barVisible": true,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 2,
+  "submit1Visible": 1,
+  "submit2Visible": 1,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 112.9,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 158.1,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 320,
+  "scroll": "mid",
+  "sheet": false,
+  "option": true,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 113.3,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 157.8,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 320,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": true,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 114.1,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 390,
+  "scroll": "top",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": false,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 142.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 198.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [
+   1
+  ],
+  "sheetOpenedAfterBuy": false,
+  "inlineVisibleAfterBuy": false,
+  "submit1VisibleAfterBuy": 0,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 390,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 142.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 198.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 390,
+  "scroll": "bottom",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 142.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 198.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 390,
+  "scroll": "mid",
+  "sheet": true,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": true,
+  "barVisible": true,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 2,
+  "submit1Visible": 1,
+  "submit2Visible": 1,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 142.1,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 198.9,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 390,
+  "scroll": "mid",
+  "sheet": false,
+  "option": true,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 142.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 198.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 390,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": true,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 143.3,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 414,
+  "scroll": "top",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": false,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 152.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 212.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [
+   1
+  ],
+  "sheetOpenedAfterBuy": false,
+  "inlineVisibleAfterBuy": false,
+  "submit1VisibleAfterBuy": 0,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 414,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 152.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 212.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 414,
+  "scroll": "bottom",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 152.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 212.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 414,
+  "scroll": "mid",
+  "sheet": true,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": true,
+  "barVisible": true,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 2,
+  "submit1Visible": 1,
+  "submit2Visible": 1,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 152.1,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 212.9,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 414,
+  "scroll": "mid",
+  "sheet": false,
+  "option": true,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 152.4,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 212.6,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 414,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": true,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 153.3,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 768,
+  "scroll": "top",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": false,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 299.9,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 419.1,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [
+   1
+  ],
+  "sheetOpenedAfterBuy": false,
+  "inlineVisibleAfterBuy": false,
+  "submit1VisibleAfterBuy": 0,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 768,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 299.9,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 419.1,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 768,
+  "scroll": "bottom",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 299.9,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 419.1,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 768,
+  "scroll": "mid",
+  "sheet": true,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": true,
+  "barVisible": true,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 2,
+  "submit1Visible": 1,
+  "submit2Visible": 1,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 299.6,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 419.4,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 768,
+  "scroll": "mid",
+  "sheet": false,
+  "option": true,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": true,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 299.9,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 419.1,
+   "h": 54
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 768,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": true,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": true,
+  "barCartVisible": true,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 0,
+  "submit2Visible": 1,
+  "inlineVisible": false,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 300.8,
+   "h": 54
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1024,
+  "scroll": "top",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": false,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 2,
+  "submit1Visible": 1,
+  "submit2Visible": 1,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [
+   1
+  ],
+  "sheetOpenedAfterBuy": false,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 1110,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1024,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1024,
+  "scroll": "bottom",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1024,
+  "scroll": "mid",
+  "sheet": true,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": true,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1024,
+  "scroll": "mid",
+  "sheet": false,
+  "option": true,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1024,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": true,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1280,
+  "scroll": "top",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": false,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 2,
+  "submit1Visible": 1,
+  "submit2Visible": 1,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [
+   1
+  ],
+  "sheetOpenedAfterBuy": false,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 1222,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1280,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1280,
+  "scroll": "bottom",
+  "sheet": false,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1280,
+  "scroll": "mid",
+  "sheet": true,
+  "option": false,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": true,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1280,
+  "scroll": "mid",
+  "sheet": false,
+  "option": true,
+  "soldout": false,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ },
+ {
+  "tag": "after",
+  "vp": 1280,
+  "scroll": "mid",
+  "sheet": false,
+  "option": false,
+  "soldout": true,
+  "mlFixed": true,
+  "mlOn": false,
+  "barVisible": false,
+  "barCartVisible": false,
+  "barBuyVisible": false,
+  "reviewChipVisible": false,
+  "reviewHookInDom": 4,
+  "submitNodesInDom": 5,
+  "submitVisible": 1,
+  "submit1Visible": 1,
+  "submit2Visible": 0,
+  "inlineVisible": true,
+  "naver": 1,
+  "kakaoPay": 1,
+  "appPayInDom": 1,
+  "barBtnBox": {
+   "w": 0,
+   "h": 0
+  },
+  "barBuyBox": {
+   "w": 0,
+   "h": 0
+  },
+  "cartFired": [
+   2
+  ],
+  "buyFired": [],
+  "sheetOpenedAfterBuy": true,
+  "inlineVisibleAfterBuy": true,
+  "submit1VisibleAfterBuy": 1,
+  "scrollJump": 0,
+  "errs": 2
+ }
+]

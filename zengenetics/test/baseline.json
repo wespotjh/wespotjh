@@ -153,7 +153,7 @@
    "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
    "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
    "index.html": "4cb10827c82d552426d00993d7728cfa",
-   "ds/css/detail.css": "492bbe8ecf4ec2bffb2f2a09dec1a440",
+   "ds/css/detail.css": "7784f3c8185c9ed23456c18f4ad31544",
    "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
    "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
    "ds/js/detail-ui.js": "f62a2ce9bf4c3792c3d8c9af04c73192",
@@ -166,7 +166,7 @@
    "moa/import/product_detail/detail.html": 2632,
    "moa/layout/head.html": 3495,
    "index.html": 17281,
-   "ds/css/detail.css": 49186,
+   "ds/css/detail.css": 51470,
    "ds/css/price.css": 2271,
    "ds/css/home.css": 17294,
    "ds/js/detail-ui.js": 39376,
@@ -202,7 +202,8 @@
   "_note_h4": "2026-09-09 개발 홈 4차: 실기 신고(가루 시퀀스 버벅·번쩍) 수정 — home-hero.js 화면 밖 렌더 정지 + home-blocks.js 디코드 게이트. index.html·home.css 는 불변",
   "_note_h5": "2026-09-09 개발 홈 5차: home-blocks.js 게이트를 decode() 전량 → 도착(complete) 전량으로 완화(8초 만료로 열리던 문제) + prepare 거리 4,000px 상한. 다른 3파일 불변",
   "_note_10": "2026-09-09 개발 10차: detail-ui.js 의도적 변경(R-2 카드 재탭 해제) → md5/bytes 갱신. B3 토큰은 갱신하지 않는다(신규 유출 0 이어야 한다)",
-  "_note_11": "2026-09-09 개발 11차: detail.css 의도적 변경(R-7 추가구성상품 행 배경/레일 제거) → md5/bytes 갱신. 다른 구역 미변경 / B3 forbidden 은 10→9 로 **낮췄다**(R-7 로 주석 1블록이 사라져 유출이 1건 줄었다). 올린 것이 아니다 — 운영규칙 11 은 신규 유출을 baseline 으로 덮는 것을 금지하는 규칙이고, 줄어든 값을 반영하는 것은 그 취지에 맞다."
+  "_note_11": "2026-09-09 개발 11차: detail.css 의도적 변경(R-7 추가구성상품 행 배경/레일 제거) → md5/bytes 갱신. 다른 구역 미변경 / B3 forbidden 은 10→9 로 **낮췄다**(R-7 로 주석 1블록이 사라져 유출이 1건 줄었다). 올린 것이 아니다 — 운영규칙 11 은 신규 유출을 baseline 으로 덮는 것을 금지하는 규칙이고, 줄어든 값을 반영하는 것은 그 취지에 맞다.",
+  "_note_12": "2026-09-09 개발 12차: detail.css 의도적 변경(B안 인라인 숨김 · 리뷰칩 숨김 · 말풍선 line-height · 시트 열림 시 바 버튼 pointer-events:none) → md5/bytes 갱신"
  },
  "_meta": {
   "updated": "2026-09-09 02:58:06",
@@ -609,7 +610,7 @@
    "w": 22,
    "h": 2
   },
-  "third_party_errors": 62,
+  "third_party_errors": 66,
   "rows": {
    "stepper_w": {
     "320": 124,
@@ -619,7 +620,12 @@
    },
    "price_right_inset": 20
   },
-  "_note_rows": "2026-09-08 개발 8차: rows320/390/768 시나리오 3개 추가 → 시나리오당 남의 예외 2건(Kakao·AuthSSLManager 전역 미정의, 교차출처 차단 탓) × 3 = +6 (50→56) / 홈 3차: rows414 추가(신아린 지적, c_render.py VP_ROWS) → 56→58 / 10차: untap390_ok·untap390_nodel 2개 추가 → 58→62"
+  "_note_rows": "2026-09-08 개발 8차: rows320/390/768 시나리오 3개 추가 → 시나리오당 남의 예외 2건(Kakao·AuthSSLManager 전역 미정의, 교차출처 차단 탓) × 3 = +6 (50→56) / 홈 3차: rows414 추가(신아린 지적, c_render.py VP_ROWS) → 56→58 / 10차: untap390_ok·untap390_nodel 2개 추가 → 58→62 / 12차: barbuy390_mid·barbuy390_top 2개 추가 → 62→66",
+  "barbuy": {
+   "review_hook": 4,
+   "alpha_widget": 2,
+   "bubble_lh": "14.4px"
+  }
  },
  "D": {
   "scenarios": {

@@ -927,6 +927,11 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   margin-top: 37px;
 }
 .zg-detail .productAction .buy-btn-wrap { gap: 9px; }
+/* 혜택 말풍선(`.benefit-bubble > a`)은 스킨이 `height:26px` 만 주고 `line-height` 를 안 준다.
+   그래서 바로 위 버튼 규칙의 `line-height: var(--zg-bar-h)`(54px)를 **상속**해
+   26px 상자 안에 54px 줄상자가 들어가고, 글자가 상자 아래로 8px 내려앉아 잘려 보였다.
+   상속만 끊는다 — 스킨 규칙도 배너앱 산출물(`{#title}`·`style="{#html}"`)도 건드리지 않는다. */
+.zg-detail .benefit-bubble > a { line-height: 1.2; }
 .zg-detail .productAction [class^='btn'].sizeL.actionCart {
   height: var(--zg-bar-h);
   line-height: var(--zg-bar-h);
@@ -1173,6 +1178,21 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
     font-weight: 700;
     box-sizing: border-box;
   }
+  /* 하단 고정바에 같은 「장바구니·구매하기」가 있어 합계 아래 인라인 버튼이 중복이었다.
+     → **바텀시트가 닫혀 있을 때만** 인라인 블록을 감춘다. 시트를 열면 그 안에 다시 나타나
+     구매 경로가 유지된다(`.mobile-layer.on` 은 스킨 `mobileLayerOn()` 이 붙이는 클래스다).
+     ⚠ DOM 은 그대로다 — `onclick="product_submit(…)"` 두 개 모두 살아 있다.
+     ⚠ `.app-pay-wrap`(네이버·카카오페이)은 `#fixedActionButton` 의 **형제**라 함께 숨지 않는다.
+     ⚠ 말풍선(`.benefit-bubble`)은 인라인 「구매하기」 안이므로 평소에는 함께 감춰지고
+        시트를 열면 같이 보인다. 이동은 별도 결정 사항이다. */
+  .zg-detail .mobile-layer:not(.on) .infoArea-footer #fixedActionButton { display: none; }
+
+  /* 하단 고정바의 리뷰 칩 — **감춘다. 지우지 않는다.**
+     이 안에 알파리뷰 카운트 훅(리뷰수 클래스)이 있어 DOM 에서 빼면 알파리뷰가 끊긴다.
+     ⚠ 주석에 그 클래스명을 그대로 쓰지 않는다 — 보존 훅 개수 검사가 주석까지 세어 오탐이 난다.
+     감추기만 하면 위젯은 그대로 돌고, 남은 두 버튼이 그 폭을 나눠 갖는다. */
+  .zg-detail .mobile-fix-footer [class^='btn'].btnNormal.jsGoReview { display: none; }
+
   /* 품절 — 원본 노드는 삭제하지 않고 감춘다 (C6: 구매하기에는 품절 분기가 없다) */
   .zg-detail .zg-bar__soldout {
     display: none;
@@ -1198,6 +1218,10 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   .zg-detail.zg-sheet-open .mobile-fix-footer [class^='btn'].btnSubmit,
   .zg-detail.zg-sheet-open .mobile-fix-footer [class^='btn'].btnNormal.jsGoReview {
     opacity: 0;
+    /* 투명하기만 하면 **탭은 그대로 먹는다**. 바(z-index 10)가 시트(z-index auto)보다 위에
+       그려지므로, 시트가 열린 동안 바 자리를 누르면 보이지 않는 바 버튼이 탭을 가져간다.
+       실렌더에서 실제로 잡혔다(시트 열림 시 바 중앙의 최상단 요소 = 바 「구매하기」). */
+    pointer-events: none;
     height: 0;
     min-height: 0;
     padding: 0;
