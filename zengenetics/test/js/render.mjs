@@ -324,6 +324,53 @@ const BUBBLE = () => {
   return out;
 };
 
+/* --- R-2 재탭 해제 (대표님 요청 2026-09-09) --------------------------------
+ * 담긴 카드를 다시 누르면 그 구성이 빠지는가. 카페24가 만든 행의 **자기 삭제 컨트롤**을
+ * 프로그램으로 누르는 경로라, 그 컨트롤이 사라지면 기능이 조용히 죽는다
+ * → `nodel`(삭제 컨트롤 제거) 음성 대조군을 같이 돌려 검사 자체가 살아 있음을 증명한다. */
+const UNTAP = async (nodel) => {
+  const q = s => document.querySelector(s), qa = s => Array.from(document.querySelectorAll(s));
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  if (nodel) {
+    new MutationObserver(() => {
+      qa('#totalProducts tr.option_product a.delete, #totalProducts tr.option_product .option_box_del')
+        .forEach(e => e.remove());
+    }).observe(document.getElementById('totalProducts'), { childList: true, subtree: true });
+  }
+  const snap = () => {
+    const tot = q('#totalPrice .total strong, #totalPrice .total em');
+    const sum = q('.zg-bar__sum'), bar = q('.zg-bar__v');
+    return {
+      optRows: qa('#totalProducts tr.option_product').length,
+      addRows: qa('#totalProducts tr.add_product').length,
+      qtys: qa('#totalProducts tr.option_product input.quantity_opt').map(i => i.value),
+      total: (tot ? tot.textContent : '').replace(/\s+/g, ' ').trim(),
+      bar: (sum && sum.style.display === 'none') ? '(숨김)' : (bar ? bar.textContent : ''),
+      picked0: !!(q('.zg-detail') && q('.zg-detail').classList.contains('zg-picked-0')),
+      on: qa('.zg-opt').map(c => c.getAttribute('data-zg-on') || ''),
+      ariaTail: qa('.zg-opt').map(c => {
+        const a = c.getAttribute('aria-label') || '';
+        const i = a.lastIndexOf(', ');
+        return i < 0 ? a : a.slice(i + 2);
+      }),
+      toast: (() => { const t = q('.zg-toast');
+        return t && t.classList.contains('zg-on') ? t.textContent : ''; })(),
+    };
+  };
+  const tap = i => { const c = qa('.zg-opt')[i]; if (c) c.click(); };
+  const out = { cards: qa('.zg-opt').length };
+  out.start = snap();
+  tap(1); await wait(600); out.picked = snap();
+  const inp = q('#totalProducts tr.option_product input.quantity_opt');
+  if (inp) { inp.value = '3'; inp.dispatchEvent(new Event('change', { bubbles: true })); }
+  await wait(600); out.qty3 = snap();
+  tap(1); await wait(700); out.untapped = snap();          /* 수량 3 인 구성을 재탭 */
+  tap(0); tap(3); await wait(800); out.two = snap();        /* 복수 담기는 그대로인가 */
+  tap(0); await wait(700); out.oneLeft = snap();
+  tap(3); await wait(700); out.empty = snap();              /* 마지막 하나 해제 → 빈 상태 */
+  return out;
+};
+
 const SHEET = () => {
   const q = (s) => document.querySelector(s);
   const btn = q('.jsLayerBtn');
@@ -380,6 +427,9 @@ for (const scen of cfg.scenarios) {
         window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 120));
       });
       await page.waitForTimeout(500);
+    }
+    if (scen.untap) {
+      rec.untap = await page.evaluate(UNTAP, scen.untap === 'nodel');
     }
     if (scen.rows) {
       rec.rowsMade = await page.evaluate(MAKE_ROWS);

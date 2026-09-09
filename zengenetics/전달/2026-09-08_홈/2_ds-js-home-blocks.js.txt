@@ -142,21 +142,32 @@
     }
     for (i = 0; i < n; i++) {
       (function (im) {
-        function fin() { if (++done >= n) open('ready'); }
-        if (im.decode) { im.decode().then(fin, fin); }
-        else if (im.complete) { fin(); }
-        else { im.onload = fin; im.onerror = fin; }
+        var counted = false;
+        function fin() { if (counted) return; counted = true; if (++done >= n) open('ready'); }
+        /* 내려받기를 시작시키고, 되면 미리 디코드까지 해 둔다. 다만 그 완료를 기다리지는 않는다 —
+           겹쳐 쌓인 안 보이는 이미지의 디코드는 브라우저가 뒤로 미룬다(실측: 24장이 97ms 에 다 도착해도
+           decode() 는 7장만 확정, 나머지는 9초 뒤에도 대기). 게이트는 도착(complete)으로 연다.
+           빈 판은 게이트가 아니라 교체 직전 낱장 검사가 막는다. */
+        if (im.decode) { im.decode().then(noop, noop); }
+        if (ready(im)) { fin(); return; }
+        im.addEventListener('load', fin);
+        im.addEventListener('error', fin);
       })(b.imgs[i]);
     }
-    /* 영영 안 오는 경우 — 정지화면으로 남기지 않는다. 낱장 검사가 빈 판을 막는다. */
+    /* 도착 자체가 안 되는 경우 — 정지화면으로 남기지 않는다. 낱장 검사가 빈 판을 막는다. */
     setTimeout(function () { open('late'); }, 8000);
   }
 
   function ready(el) { return !!el && el.complete && el.naturalWidth > 0; }
+  function noop() {}
 
   function renderBlock(b) {
     var r = b.track.getBoundingClientRect(), vh = window.innerHeight;
-    if (r.top < vh * 3) prepare(b);
+    /* 미리 준비를 시작하는 거리 — 화면 3개분, 다만 4,000px 을 넘기지 않는다.
+       (아주 긴 뷰포트로 그리는 크롤러에서 3블록 72장을 한꺼번에 붙잡지 않게. 뷰포트가 그보다 크면
+        "화면에 들어왔을 때" 로 돌아간다 — 그때는 블록 간격도 같이 커져 여전히 한 블록씩이다) */
+    var lead = vh * 3 < 4000 ? vh * 3 : 4000;
+    if (r.top < (lead > vh ? lead : vh)) prepare(b);
     if (r.bottom < -vh || r.top > vh * 2) return;
     var total = b.track.offsetHeight - vh;
     var p = total > 0 ? clamp01(-r.top / total) : 0;

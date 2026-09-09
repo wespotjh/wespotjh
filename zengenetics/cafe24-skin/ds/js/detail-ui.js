@@ -473,11 +473,15 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var rows = pickedRows();
     var already = rows.some(function (r) { return rowMatches(r.key, key); });
 
-    if (already && modeEffective === 'multi') {
-      toast('이미 담겨 있어요. 수량은 아래에서 조절하세요.');
+    /* 담긴 카드를 다시 누르면 그 구성이 빠진다.
+     * 담기/빼기가 같은 조작점이라 「담을 땐 카드, 뺄 땐 아래 목록」이라는 이원화가 사라진다.
+     * 복수 담기(결정 #1 `multi`)는 그대로다 — 다른 카드는 계속 더 담을 수 있다. */
+    if (already) {
+      if (unpick(key)) { toast('구성을 뺐어요.'); return; }
+      /* 삭제 컨트롤을 못 찾은 상품 — 예전 동작(안내)으로 안전 폴백한다. DOM 을 직접 뜯지 않는다. */
+      if (modeEffective === 'multi') toast('이미 담겨 있어요. 빼시려면 아래 목록에서 지워 주세요.');
       return;
     }
-    if (already && modeEffective === 'single') return;
 
     try {
       optSel.value = val;
@@ -499,6 +503,36 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     }
   }
 
+  /* 카페24가 그 행에 직접 그려 넣은 **자기 삭제 컨트롤**을 찾는다.
+   * 스킨 원문(옵션 스크립트)의 위임 핸들러가 이 요소를 받는다:
+   *   `EC$(document).on('click', '#totalProducts a.delete', …)` → 내부 `.option_box_del` 클릭
+   *   `EC$(document).on('click', '.option_box_del', …)`          → 실제 삭제 + 데이터 정리
+   * 즉 **고객이 직접 누르는 그 버튼**을 누르는 것이지, 1.9MB 옵션 스크립트의 내부 상태를
+   * 우리가 뒤에서 고치는 것이 아니다.
+   * ⚠ `tr.option_product`(본품)에만 쓴다. 추가상품 행은 `.option_add_box_del` 로 경로가
+   *   달라 여기 걸리지 않으며, 카드는 본품 구성만 다룬다(설계 규칙). */
+  function delControl(row) {
+    return $('a.delete, .option_box_del, a[class*="delete"], a[class*="Del"]', row);
+  }
+
+  /* R-2 재탭 해제 — 그 구성의 행을 카페24 삭제 컨트롤로 지운다.
+   * 수량이 2 이상이어도 **그 구성 전체**를 뺀다. 근거: 카드는 담기/빼기 스위치이고,
+   * 수량 조절은 아래 「선택한 구성」의 스테퍼가 맡는다(조작점 이원화 금지 규칙).
+   * 컨트롤을 하나도 못 찾으면 아무것도 하지 않고 false 를 돌려 호출부가 폴백하게 한다. */
+  function unpick(key) {
+    var hits = pickedRows().filter(function (r) { return rowMatches(r.key, key); });
+    if (!hits.length) return false;
+    var done = 0;
+    hits.forEach(function (r) {
+      var del = delControl(r.el);
+      if (!del) return;
+      try { del.click(); done++; } catch (e) {}
+    });
+    if (!done) return false;
+    schedule();      /* 총액·무료배송·하단바·빈 상태 안내문을 즉시 다시 맞춘다 */
+    return true;
+  }
+
   /* 'single' 경로 — 카페24가 새 행을 만든 뒤, 남은 다른 행을 카페24 자신의
    * 삭제 컨트롤로 지운다. 삭제 컨트롤을 못 찾으면 multi 로 안전 폴백한다. */
   function pruneRows(keepKey) {
@@ -507,7 +541,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var kept = false, failed = false;
     rows.forEach(function (r) {
       if (!kept && rowMatches(r.key, keepKey)) { kept = true; return; }
-      var del = $('a.delete, .option_box_del, a[class*="delete"], a[class*="Del"]', r.el);
+      var del = delControl(r.el);
       if (del) { try { del.click(); } catch (e) { failed = true; } }
       else failed = true;
     });
@@ -761,20 +795,28 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     }
 
     /* 카드 상태 = tr.option_product 목록과 대조 (select.value 를 보지 않는다) */
-    var picked = 0;
+    var picked = 0, removable = 0;
     cards.forEach(function (c) {
       var key = c.getAttribute('data-zg-key');
       var hit = null;
       for (var i = 0; i < rows.length; i++) { if (rowMatches(rows[i].key, key)) { hit = rows[i]; break; } }
       c.setAttribute('data-zg-on', hit ? '1' : '');
+      /* 라벨의 마지막은 **이 버튼을 누르면 실제로 일어나는 일**이어야 한다 (R-2 로 담긴 카드의
+       * 동작이 「담기」에서 「해제」로 바뀌었다). 삭제 컨트롤이 없어 해제가 안 되는 상품에서는
+       * 「선택 해제」라고 말하지 않는다 — 되지 않는 일을 안내하지 않는다. */
+      var canRemove = !!(hit && delControl(hit.el));
+      if (canRemove) removable++;
       c.setAttribute('aria-label',
-        (hit ? '선택됨, ' + hit.qty + '개. ' : '') + (c._zgLabel || c._zgName || '') + ', 장바구니에 담기');
+        (hit ? '선택됨, ' + hit.qty + '개. ' : '') + (c._zgLabel || c._zgName || '') +
+        (hit ? (canRemove ? ', 선택 해제' : ', 이미 담김') : ', 장바구니에 담기'));
       if (c._zgState) c._zgState.textContent = hit ? ('선택됨 · ' + hit.qty + '개') : '';
       if (hit) picked++;
     });
 
     if (modeEffective === 'multi' && picked >= 2) {
-      showHint('구성 ' + picked + '개가 담겼어요. 필요 없는 구성은 아래에서 지워 주세요.');
+      showHint('구성 ' + picked + '개가 담겼어요. ' + (removable === picked
+        ? '카드를 다시 누르면 빠집니다.'
+        : '필요 없는 구성은 아래에서 지워 주세요.'));
     } else if (modeEffective === 'multi') {
       showHint('');
     }

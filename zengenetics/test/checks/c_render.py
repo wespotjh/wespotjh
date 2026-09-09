@@ -48,6 +48,10 @@ def scenarios():
         sc.append({'name': 'neg%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1100,
                    'stub': {'w': 400, 'h': 600}, 'expand': True})
     sc.append({'name': 'sheet390', 'vp': 390, 'safe': 0, 'settle': 1300, 'sheet': True})
+    # R-2 재탭 해제 (대표님 요청 2026-09-09) + 음성 대조군
+    for kind in ('ok', 'nodel'):
+        sc.append({'name': 'untap390_%s' % kind, 'vp': 390, 'safe': 0, 'settle': 1300,
+                   'untap': kind, 'sweep': False})
     # 선택 행 2유형 — 카페24 옵션 스크립트로 실제 생성 (대표님 실기 반려 2026-09-08)
     for vp in VP_ROWS:
         sc.append({'name': 'rows%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1300, 'rows': True,
@@ -230,6 +234,52 @@ def run(base, obs=None):
                  bub.get('textOverlapsHidden'), u'대표님 캡처 조건 — 여기서 .zg-sum__note 가 덮였다 (F-3)')
             s.ge('C7.bb.gap.%s' % tag, u'[%dpx] 말풍선 ↔ 안내문 간격(경고문 숨김 + 바운스 최고점)' % vp,
                  1, bub.get('noteGapHiddenBounce'))
+
+    # --- C8. 재탭 해제 (R-2, 대표님 요청 2026-09-09) -----------------------------
+    #   담긴 카드를 다시 누르면 그 구성이 빠진다. 카페24 **자기 삭제 컨트롤**을 누르는 경로라
+    #   그 컨트롤이 사라지면 조용히 죽는다 → `nodel` 음성 대조군으로 검사가 살아 있음을 증명한다.
+    r = res.get('untap390_ok')
+    if not r or not r.get('ok') or not r.get('untap'):
+        s.fail('C8.ok', u'재탭 해제 시나리오', (r or {}).get('error', 'no result'))
+    else:
+        u = r['untap']
+        s.probe('C8.cards', u'구성 카드 수', u.get('cards', 0))
+        s.eq('C8.picked.rows', u'카드 탭 → tr.option_product', 1, u['picked']['optRows'])
+        s.eq('C8.qty3', u'수량을 3 으로 바꾼 뒤 행 수량', ['3'], u['qty3']['qtys'],
+             u'수량 2 이상 케이스를 만들지 못하면 아래 전량 삭제 검사가 무의미하다')
+        s.eq('C8.untap.rows', u'수량 3 인 카드 재탭 → 그 구성 **전량** 삭제', 0, u['untapped']['optRows'],
+             u'카드는 담기/빼기 스위치다. 수량 조절은 아래 목록의 스테퍼가 맡는다')
+        s.eq('C8.untap.on', u'재탭 뒤 data-zg-on 전부 해제', [''] * u['cards'], u['untapped']['on'])
+        s.eq('C8.untap.picked0', u'재탭 뒤 빈 상태 클래스(zg-picked-0)', True, u['untapped']['picked0'])
+        s.eq('C8.untap.bar', u'재탭 뒤 하단바 문구', u'구성을 선택해 주세요', u['untapped']['bar'])
+        s.eq('C8.untap.toast', u'재탭 뒤 토스트', u'구성을 뺐어요.', u['untapped']['toast'])
+        s.eq('C8.untap.add', u'추가상품 행은 건드리지 않는다', 0, u['untapped']['addRows'])
+        s.eq('C8.multi', u'복수 담기(결정 #1)는 그대로 — 카드 2장 담김', 2, u['two']['optRows'])
+        s.eq('C8.one', u'한 장만 해제하면 나머지는 남는다', 1, u['oneLeft']['optRows'])
+        s.eq('C8.empty.rows', u'마지막 하나 해제 → 행 0', 0, u['empty']['optRows'])
+        s.eq('C8.empty.bar', u'마지막 하나 해제 → 하단바가 안내 문구로 복귀',
+             u'구성을 선택해 주세요', u['empty']['bar'])
+        s.eq('C8.empty.picked0', u'마지막 하나 해제 → 빈 상태 복귀', True, u['empty']['picked0'])
+        # aria-label 접미 = 그 버튼을 누르면 실제로 일어나는 일 (문가온 소관)
+        s.eq('C8.aria.picked', u'담긴 카드의 aria-label 접미', u'선택 해제',
+             (u['picked']['ariaTail'] or [''])[1] if len(u['picked']['ariaTail']) > 1 else None)
+        s.eq('C8.aria.empty', u'해제 뒤 aria-label 접미', [u'장바구니에 담기'] * u['cards'],
+             u['empty']['ariaTail'])
+
+    # C8-N. 음성 대조군 — 삭제 컨트롤이 없으면 **해제되지 않고** 안내로 폴백해야 한다.
+    #       (여기서 행이 0 이 되면 우리가 DOM 을 직접 뜯고 있다는 뜻이라 그것도 FAIL 이다)
+    r = res.get('untap390_nodel')
+    if not r or not r.get('ok') or not r.get('untap'):
+        s.fail('C8N', u'재탭 해제 음성 대조군', (r or {}).get('error', 'no result'))
+    else:
+        u = r['untap']
+        s.eq('C8N.rows', u'[삭제 컨트롤 없음] 재탭해도 행이 남는다(안전 폴백)', 1, u['untapped']['optRows'],
+             u'0 이면 우리가 DOM 을 직접 뜯은 것이다')
+        s.eq('C8N.toast', u'[삭제 컨트롤 없음] 폴백 안내 문구',
+             u'이미 담겨 있어요. 빼시려면 아래 목록에서 지워 주세요.', u['untapped']['toast'])
+        s.eq('C8N.aria', u'[삭제 컨트롤 없음] 담긴 카드 aria-label 접미 (되지 않는 일을 말하지 않는다)',
+             u'이미 담김',
+             (u['picked']['ariaTail'] or [''])[1] if len(u['picked']['ariaTail']) > 1 else None)
 
     # --- C6. pageerror 0 ---------------------------------------------------
     tot_ours = 0

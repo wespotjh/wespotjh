@@ -152,7 +152,7 @@ const SAFETY = async () => {
    MutationObserver 콜백은 그 프레임의 페인트 전에 돌기 때문에, 그 시점의 complete/naturalWidth 가
    "보여줄 때 이미 디코드돼 있었는가" 를 그대로 말해 준다. */
 const PROBE = () => {
-  window.__zg = { swaps: [], frames: [], long: [], mark: 0, swapMark: 0, longMark: 0, t0: performance.now() };
+  window.__zg = { swaps: [], frames: [], long: [], gate: [], mark: 0, swapMark: 0, longMark: 0, t0: performance.now() };
   const Z = window.__zg;
   const start = () => {
     document.querySelectorAll('.zg-plate').forEach((pl) => {
@@ -165,6 +165,14 @@ const PROBE = () => {
                          complete: el.complete, nw: el.naturalWidth });
         }
       }).observe(pl, { attributes: true, attributeFilter: ['class'], subtree: true });
+    });
+    /* 게이트(data-zg-fr) 전이 시각 — 언제 열렸는지, 얼마나 걸렸는지 */
+    document.querySelectorAll('.zg-plate').forEach((pl) => {
+      new MutationObserver((recs) => {
+        const key = (pl.closest('.zg-pblock') || {}).dataset.zgP || '?';
+        for (const r of recs) Z.gate.push({ key, from: r.oldValue, to: pl.getAttribute('data-zg-fr'),
+                                            t: Math.round(performance.now() - Z.t0) });
+      }).observe(pl, { attributes: true, attributeFilter: ['data-zg-fr'], attributeOldValue: true });
     });
     let prev = performance.now();
     const tick = () => { const n = performance.now(); Z.frames.push(Math.round((n - prev) * 10) / 10); prev = n; requestAnimationFrame(tick); };
@@ -200,6 +208,13 @@ for (const scen of cfg.scenarios) {
     }
     if (scen.kind === 'jank' || scen.kind === 'back') {
       const cdp = await ctx.newCDPSession(page);
+      if (scen.stallDecode) {
+        /* 보고된 병리의 통제 재현 — 겹쳐 쌓인 안 보이는 이미지의 decode() 가 끝내 확정되지 않는 상태 */
+        await page.addInitScript(() => {
+          Object.defineProperty(HTMLImageElement.prototype, 'decode', {
+            value: function () { return new Promise(function () {}); }, configurable: true, writable: true });
+        });
+      }
       await page.addInitScript(PROBE);
       /* 프레임 도착이 늦는 조건에서는 load 를 기다리지 않는다 — 기다리면 지연이 다 지나가 버린다 */
       await page.goto('https://zengenetics.co.kr' + cfg.docPath,
@@ -221,7 +236,8 @@ for (const scen of cfg.scenarios) {
         await page.evaluate((y) => window.scrollTo(0, y), geo.top - 40 + Math.round(span * i / STEPS));
         await page.waitForTimeout(DUR / STEPS);
       }
-      await page.waitForTimeout(400);
+      /* decode 무응답 조건에서는 8초 안전장치가 뜨는 시점까지 본다 — 반전본이 'late' 로 열리는 것을 잡으려면 필요하다 */
+      await page.waitForTimeout(scen.stallDecode ? 4000 : 400);
       rec.m.jank = await page.evaluate((bk) => {
         const Z = window.__zg;
         const fr = Z.frames.slice(Z.mark), sw = Z.swaps.slice(Z.swapMark), lt = Z.long.slice(Z.longMark);
@@ -233,7 +249,10 @@ for (const scen of cfg.scenarios) {
                  longN: lt.length, longMs: lt.reduce((a, b) => a + b, 0),
                  swaps: sw.length, uniq: new Set(sw.map(x => x.idx)).size,
                  notReady: sw.filter(x => !x.complete || !x.nw).length,
-                 state: pl ? (pl.getAttribute('data-zg-fr') || '-') : '?' };
+                 state: pl ? (pl.getAttribute('data-zg-fr') || '-') : '?',
+                 gate: Z.gate.filter(g => g.key === bk),
+                 imgLoaded: Array.from(document.querySelectorAll('.zg-pblock[data-zg-p="' + bk + '"] .zg-fr'))
+                   .filter(i => i.complete && i.naturalWidth).length };
       }, scen.block || 'pot');
       if (scen.kind === 'back') {
         /* 히어로로 되돌아왔을 때 다시 그리는가 — 캡션 argmax 로 확인한다(픽셀 비의존) */

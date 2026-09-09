@@ -156,6 +156,15 @@ def _variants():
     with open(fp2, 'wb') as f:
         f.write(c2.encode('utf-8'))
     out['blocks'] = {'file': fp2, 'applied': c2 != blk and 'b.ready) {' not in c2.split('function renderBlock')[1][:900]}
+
+    # 게이트를 decode() 완료로 되돌린 사본(4차판) — 게이트 개방시간 검사의 표본 반전용
+    src4 = ("""        if (im.decode) { im.decode().then(noop, noop); }\n        if (ready(im)) { fin(); return; }\n        im.addEventListener('load', fin);\n        im.addEventListener('error', fin);""")
+    dst4 = ("""        if (im.decode) { im.decode().then(fin, fin); }\n        else if (ready(im)) { fin(); }""")
+    c3 = blk.replace(src4, dst4, 1)
+    fp3 = os.path.join(BUILD, 'var-blocks-decodegate.js')
+    with open(fp3, 'wb') as f:
+        f.write(c3.encode('utf-8'))
+    out['decodegate'] = {'file': fp3, 'applied': c3 != blk}
     return out
 
 
@@ -183,6 +192,11 @@ def scenarios(fnew, fold, var):
                'imgDelay': 30000})
     sc.append({'name': 'imglateneg390', 'vp': 390, 'fixture': fnew, 'kind': 'jank', 'throttle': 4, 'block': 'pot',
                'imgDelay': 30000, 'oursOverride': {'/ds/js/home-blocks.js': var['blocks']['file']}})
+    # 게이트 개방 시간 — decode() 가 끝내 확정되지 않아도 열려야 한다(5차)
+    sc.append({'name': 'gatestall390', 'vp': 390, 'fixture': fnew, 'kind': 'jank', 'throttle': 4, 'block': 'pot',
+               'stallDecode': True})
+    sc.append({'name': 'gatestallneg390', 'vp': 390, 'fixture': fnew, 'kind': 'jank', 'throttle': 4, 'block': 'pot',
+               'stallDecode': True, 'oursOverride': {'/ds/js/home-blocks.js': var['decodegate']['file']}})
     return sc
 
 
@@ -220,6 +234,16 @@ def measure():
 
 def _pause_errors(r):
     return [e for e in (r.get('errors') or []) if "reading 'pause'" in e.get('msg', '')]
+
+
+def _gate_open_ms(m):
+    u"""data-zg-fr 전이 기록에서 wait → (ready|late) 까지 걸린 ms. 못 재면 None."""
+    g = m.get('gate') or []
+    t0 = next((x['t'] for x in g if not x.get('from')), None)
+    t1 = next((x['t'] for x in g if x.get('from') == 'wait'), None)
+    if t0 is None or t1 is None:
+        return None
+    return t1 - t0
 
 
 def _rel_errors(r):
@@ -407,6 +431,7 @@ def run(base, obs=None):
     s.truthy('H9.var.hero', u'표본 반전본(히어로 가드 제거) 생성', v.get('hero'),
              u'만들어지지 않으면 아래 음성 대조가 죽은 검사다')
     s.truthy('H9.var.blocks', u'표본 반전본(프레임 게이트 제거) 생성', v.get('blocks'))
+    s.truthy('H9.var.decodegate', u'표본 반전본(게이트를 decode 완료로 되돌린 4차판) 생성', v.get('decodegate'))
 
     r = res.get('jank390')
     if r and r.get('ok'):
@@ -439,6 +464,32 @@ def run(base, obs=None):
               u'안 걸리면 H9.p95/H9.long 은 죽은 검사다')
     else:
         s.fail('H9.neg', u'음성대조(가드 제거)', (r or {}).get('error', 'no result'))
+
+    # H9-G. 게이트 개방 시간 — 손님을 정지화면 앞에 세워 두지 않는다
+    #   4차는 decode() 전량 완료를 기다렸다. 겹쳐 쌓인 안 보이는 이미지의 decode 는 브라우저가 미뤄
+    #   확정이 오지 않는 경우가 있고, 그러면 8초 안전장치가 열 때까지 1번 컷이 고정된다(QA카페24 4차 §5).
+    for tag, what in (('jank390', u'정상망'), ('gatestall390', u'decode 무응답')):
+        r = res.get(tag)
+        if not r or not r.get('ok'):
+            s.fail('H9.gate.%s' % tag, u'게이트 개방(%s)' % what, (r or {}).get('error', 'no result')); continue
+        m = r['m']['jank']
+        ms = _gate_open_ms(m)
+        s.eq('H9.gate.%s.state' % tag, u'[%s] 게이트 최종 상태' % what, 'ready', m['state'],
+             u'late 면 8초 안전장치로 열린 것이다 — 그동안 가루가 멈춰 있다')
+        s.add('H9.gate.%s.ms' % tag, ms is not None and ms <= 1500,
+              u'[%s] wait → ready 까지 걸린 시간(ms)' % what, '<= 1500', ms,
+              u'이미지 24장 도착에 걸리는 시간 이상 기다릴 이유가 없다')
+        s.eq('H9.gate.%s.imgs' % tag, u'[%s] 열릴 때 받아 둔 프레임 수' % what, 24, m['imgLoaded'])
+    r = res.get('gatestallneg390')
+    if r and r.get('ok'):
+        m = r['m']['jank']
+        ms = _gate_open_ms(m)
+        s.add('H9.neg.gate', m['state'] != 'ready' or (ms is not None and ms >= 5000),
+              u'[음성대조] 게이트를 decode 완료로 되돌리면 실제로 늦게 열리는가',
+              u'late 또는 >= 5000ms', '%s / %sms' % (m['state'], ms),
+              u'안 걸리면 H9.gate.*.ms 는 죽은 검사다')
+    else:
+        s.fail('H9.neg.gate', u'음성대조(decode 게이트)', (r or {}).get('error', 'no result'))
 
     # 음성 대조 ②: 프레임이 늦게 도착하는 조건 — 게이트가 있으면 빈 판 0, 빼면 빈 판이 난다
     r = res.get('imglate390')
