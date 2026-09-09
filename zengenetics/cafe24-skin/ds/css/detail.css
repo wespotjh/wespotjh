@@ -919,18 +919,36 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 /* -------------------------------- 11. K-12a 인라인 구매 버튼 (레이어 안) */
 .zg-detail .infoArea-footer .productAction {
   padding: 0 var(--zg-pad-x);
-  /* 스킨의 혜택 말풍선(`.benefit-bubble > a { top:-28px; height:26px }`)이 「구매하기」 위 28px 를 쓴다.
-     라이브는 `#totalPrice { padding: 20px 0 30px }`(≤1024px 미디어) 의 아래 30px 이 그 자리를 비워 두었는데,
-     우리는 `#totalPrice` 를 시각적으로 접어(K-08) 그 여백까지 없앴다 → 말풍선이 `.zg-sum__note` 를 덮었다.
-     라이브가 비워 두던 30px + 말풍선 바운스 진폭(`bubbleBounce` translateY -5px) + 여유 2px 만큼 되돌린다
-     (말풍선 산출물 자체는 건드리지 않는다). */
-  margin-top: 37px;
+  /* 라이브는 `#totalPrice { padding: 20px 0 30px }`(≤1024px 미디어) 의 아래 30px 으로
+     합계와 버튼 사이를 띄워 두었는데, 우리는 `#totalPrice` 를 시각적으로 접어(K-08)
+     그 여백까지 없앴다 → 같은 30px 을 여기서 되돌린다.
+     ※ 13차 이전에는 37px 이었다. 나머지 7px 은 혜택 말풍선(`top:-28px`)의 바운스 진폭 5px
+        + 여유 2px 머리 공간이었는데, 운영 결정으로 말풍선을 끄면서(바로 아래 R-8)
+        그 몫이 필요 없어졌다. */
+  margin-top: 30px;
 }
 .zg-detail .productAction .buy-btn-wrap { gap: 9px; }
+
+/* R-8 카카오 혜택 배너 비노출 (운영 결정 2026-09-09) ------------------------
+   배송 안내는 관리자 값(`#freeShipGuide[data-delivery]`) 한 곳에서만 표시한다.
+   그래서 상세페이지의 배너 슬롯 2곳을 화면에서 내린다 — 말풍선(`.benefit-bubble`)과
+   가격 아래 띠(`.evt`).
+   ⚠ DOM 은 그대로 둔다. 두 노드 모두 카페24 배너앱이 배너를 끼워 넣는 자리다.
+      노드를 지우면 앱이 그 자리를 건너뛰어 그 배너를 영영 못 쓴다. **감추기만 한다.**
+   ⚠ 스킨 번들은 `.benefit-bubble > a` 만 스타일링하고 `.benefit-bubble` 자신에는
+      손대지 않는다(번들 원본 실측). 배너앱이 넣는 인라인 `style` 도 `<a>` 에만 붙는다
+      → 부모 노드를 내리면 자식의 인라인 style 로도 되살아나지 못한다. `!important` 불필요.
+   ↩ 되살리려면 아래 두 줄 중 해당하는 줄을 지우고, 말풍선 쪽은 위
+      `.productAction` 의 `margin-top` 을 **37px 로 되돌려야 한다**
+      (말풍선 머리 공간 7px. 안 되돌리면 8차 F-3 겹침이 재발한다). */
+.zg-detail .benefit-bubble { display: none; }
+.zg-detail .evt { display: none; }
+
 /* 혜택 말풍선(`.benefit-bubble > a`)은 스킨이 `height:26px` 만 주고 `line-height` 를 안 준다.
    그래서 바로 위 버튼 규칙의 `line-height: var(--zg-bar-h)`(54px)를 **상속**해
    26px 상자 안에 54px 줄상자가 들어가고, 글자가 상자 아래로 8px 내려앉아 잘려 보였다.
-   상속만 끊는다 — 스킨 규칙도 배너앱 산출물(`{#title}`·`style="{#html}"`)도 건드리지 않는다. */
+   상속만 끊는다 — 스킨 규칙도 배너앱 산출물(`{#title}`·`style="{#html}"`)도 건드리지 않는다.
+   ※ R-8 로 말풍선을 껐으니 지금은 잠자는 규칙이다. 되살릴 때 다시 필요해 남겨 둔다. */
 .zg-detail .benefit-bubble > a { line-height: 1.2; }
 .zg-detail .productAction [class^='btn'].sizeL.actionCart {
   height: var(--zg-bar-h);
@@ -1183,8 +1201,7 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
      구매 경로가 유지된다(`.mobile-layer.on` 은 스킨 `mobileLayerOn()` 이 붙이는 클래스다).
      ⚠ DOM 은 그대로다 — `onclick="product_submit(…)"` 두 개 모두 살아 있다.
      ⚠ `.app-pay-wrap`(네이버·카카오페이)은 `#fixedActionButton` 의 **형제**라 함께 숨지 않는다.
-     ⚠ 말풍선(`.benefit-bubble`)은 인라인 「구매하기」 안이므로 평소에는 함께 감춰지고
-        시트를 열면 같이 보인다. 이동은 별도 결정 사항이다. */
+     ⚠ 말풍선은 13차(R-8)에서 아예 껐다 — 시트를 열어도 나오지 않는다. */
   .zg-detail .mobile-layer:not(.on) .infoArea-footer #fixedActionButton { display: none; }
 
   /* 하단 고정바의 리뷰 칩 — **감춘다. 지우지 않는다.**

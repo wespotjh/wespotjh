@@ -317,7 +317,20 @@ const BUBBLE = () => {
      그 상태를 숨기지 말고 `hidden: true` 로 사실대로 보고한다. */
   const shown = (() => { const r = R(a); const c = getComputedStyle(a);
     return r.height > 0 && r.width > 0 && c.display !== 'none' && c.visibility !== 'hidden'; })();
+  /* R-8: 가격 아래 카카오 혜택 띠(`.evt`, 배너앱 슬롯 `detail-benefit`)도 함께 내렸다.
+     말풍선과 같은 방식으로 `hidden` 을 떼고도 화면에 안 나오는지 사실대로 보고한다. */
+  const evt = (() => {
+    const e = document.querySelector('.evt'); if (!e) return { found: false };
+    const had = e.hasAttribute('hidden');
+    e.removeAttribute('hidden');
+    const cs = getComputedStyle(e); const r = R(e);
+    const out = { found: true, display: cs.display,
+                  shown: r.width > 0 && r.height > 0 && cs.display !== 'none' && cs.visibility !== 'hidden' };
+    if (had) e.setAttribute('hidden', '');
+    return out;
+  })();
   const out = { found: true, hidden: !shown, warnDisplay: warn ? getComputedStyle(warn).display : null,
+                evt: evt,
                 textOverlaps: shown ? overlaps(R(a)) : [] };
   if (!shown) { bb.setAttribute('hidden', ''); return out; }
   if (warn) warn.style.display = 'none';
@@ -462,7 +475,25 @@ const SHEET = () => {
              바 버튼이 opacity:0 으로만 감춰져 있으면 탭을 가로채므로 여기서 잡힌다. */
           hitInSheet: (() => { const e = document.elementFromPoint(
               Math.round(br.left + br.width / 2), Math.round(br.top + br.height / 2));
-              return !!(e && sheet.contains(e)); })() });
+              return !!(e && sheet.contains(e)); })(),
+          /* R-8 혜택 말풍선 끄기 — 시트를 **연** 상태가 말풍선이 마지막으로 보이던 자리다.
+             배너앱은 `hidden` 속성을 떼고 배너를 채워 넣으므로, 여기서도 속성을 떼고
+             그래도 화면에 안 나오는지(=CSS 가 이긴다) 본다. 잰 뒤 속성을 원래대로 돌린다.
+             음성 대조: 규칙이 빠지면 빈 `<a>` 도 `padding:0 14px; height:26px` 으로
+             28×26 상자를 만들어 shown 이 true 가 된다 → 검사가 살아 있음이 증명된다. */
+          bubble: (() => {
+            const bb = q('.benefit-bubble'); if (!bb) return { found: false };
+            const had = bb.hasAttribute('hidden');
+            bb.removeAttribute('hidden');
+            const display = getComputedStyle(bb).display;
+            const a = bb.querySelector('a');
+            let shown = false;
+            if (a) { a.hidden = false; const r = a.getBoundingClientRect();
+                     const c = getComputedStyle(a);
+                     shown = r.width > 0 && r.height > 0 && c.visibility !== 'hidden'; }
+            if (had) bb.setAttribute('hidden', '');
+            return { found: true, shown: shown, display: display };
+          })() });
   }, 900);
   }, 900));
 };

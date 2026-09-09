@@ -202,6 +202,13 @@ def run(base, obs=None):
         s.truthy('C5.hit', u'하단바 위치의 최상단 요소가 시트 안 요소인가 (실제 포함관계로 판정)',
                  sh.get('hitInSheet'),
                  u'실제 최상단 요소: %s — 바 버튼이면 시트 위로 탭을 가로챈다' % sh.get('hitOnBar'))
+        # R-8 혜택 말풍선 끄기 — 시트를 연 상태가 말풍선이 마지막으로 보이던 자리다
+        bb = sh.get('bubble') or {}
+        s.probe('C5.bb.probe', u'혜택 말풍선 요소 탐지(시트 열림)', 1 if bb.get('found') else 0)
+        if bb.get('found'):
+            s.eq('C5.bb.display', u'`.benefit-bubble` 계산된 display (R-8)', 'none', bb.get('display'))
+            s.eq('C5.bb.shown', u'시트를 열어도 말풍선이 화면에 없다 (R-8)', False, bb.get('shown'),
+                 u'배너앱이 hidden 속성을 떼도 CSS 로 계속 감춰져 있어야 한다')
     else:
         s.fail('C5', u'바텀시트 시나리오', 'no result')
 
@@ -236,15 +243,21 @@ def run(base, obs=None):
         if bub.get('found'):
             s.eq('C7.bb.ov.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 표시 상태)' % vp, [], bub.get('textOverlaps'))
             if bub.get('hidden'):
-                # B안 — 시트가 닫혀 있는 동안 인라인 블록이 감춰져 말풍선이 화면에 없다.
-                # 덮을 대상이 없으므로 8차 F-3 의 겹침 조건은 구조적으로 해소된 상태다.
-                s.eq('C7.bb.hidden.%s' % tag, u'[%dpx] 시트 닫힘 상태에서 말풍선 비노출(B안)' % vp,
-                     True, True, u'말풍선은 시트를 열면 시트 안에서 보인다')
+                # R-8 이후 말풍선은 시트를 열어도 나오지 않는다.
+                # ⚠ 이 가지는 R-8 로 **항상 참**이다 — 아래 else 가지(F-3 겹침 재발 감지)는
+                #   말풍선을 되살리기 전까지 도달하지 않는다. 상태를 숨기지 않고 그대로 보고한다.
+                s.probe('C7.bb.hidden.%s' % tag, u'[%dpx] 말풍선 비노출(R-8 — 잠자는 검사)' % vp, 1)
             else:
                 s.eq('C7.bb.ovh.%s' % tag, u'[%dpx] 말풍선이 덮는 텍스트(경고문 숨김 + 바운스 최고점)' % vp, [],
                      bub.get('textOverlapsHidden'), u'대표님 캡처 조건 — 여기서 .zg-sum__note 가 덮였다 (F-3)')
                 s.ge('C7.bb.gap.%s' % tag, u'[%dpx] 말풍선 ↔ 안내문 간격(경고문 숨김 + 바운스 최고점)' % vp,
                      1, bub.get('noteGapHiddenBounce'))
+        # R-8 가격 아래 카카오 혜택 띠(`.evt`) — 배너앱이 hidden 을 떼도 화면에 없어야 한다
+        ev = bub.get('evt') or {}
+        s.probe('C7.evt.probe.%s' % tag, u'[%dpx] 혜택 띠 요소 탐지' % vp, 1 if ev.get('found') else 0)
+        if ev.get('found'):
+            s.eq('C7.evt.display.%s' % tag, u'[%dpx] `.evt` 계산된 display (R-8)' % vp, 'none', ev.get('display'))
+            s.eq('C7.evt.shown.%s' % tag, u'[%dpx] 혜택 띠가 화면에 없다 (R-8)' % vp, False, ev.get('shown'))
 
     # --- C8. 재탭 해제 (R-2, 대표님 요청 2026-09-09) -----------------------------
     #   담긴 카드를 다시 누르면 그 구성이 빠진다. 카페24 **자기 삭제 컨트롤**을 누르는 경로라
