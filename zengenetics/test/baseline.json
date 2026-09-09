@@ -153,7 +153,7 @@
    "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
    "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
    "index.html": "4cb10827c82d552426d00993d7728cfa",
-   "ds/css/detail.css": "e8e10b3f20218e70a0fc29d4b8443382",
+   "ds/css/detail.css": "492bbe8ecf4ec2bffb2f2a09dec1a440",
    "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
    "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
    "ds/js/detail-ui.js": "f62a2ce9bf4c3792c3d8c9af04c73192",
@@ -166,7 +166,7 @@
    "moa/import/product_detail/detail.html": 2632,
    "moa/layout/head.html": 3495,
    "index.html": 17281,
-   "ds/css/detail.css": 49280,
+   "ds/css/detail.css": 49186,
    "ds/css/price.css": 2271,
    "ds/css/home.css": 17294,
    "ds/js/detail-ui.js": 39376,
@@ -182,7 +182,7 @@
   "forbidden": {
    "ds/css/detail.css": {
     "검수 항목": 2,
-    "검수 근거": 10
+    "검수 근거": 9
    },
    "ds/js/detail-ui.js": {
     "검수 항목": 2,
@@ -201,7 +201,8 @@
   "_note_h3": "2026-09-08 개발 홈 3차: 홈 4파일 md5/bytes 갱신(F-1 접근자 스텁·F-2 승격 8px·F-3 np>0·F-4 hero-stage·P2-h) — --only B,H --files 로 범위 한정 갱신. 8차·9차 메모는 갱신 시 지워졌던 것을 되살림(run.py 가 이제 _note* 를 이월)",
   "_note_h4": "2026-09-09 개발 홈 4차: 실기 신고(가루 시퀀스 버벅·번쩍) 수정 — home-hero.js 화면 밖 렌더 정지 + home-blocks.js 디코드 게이트. index.html·home.css 는 불변",
   "_note_h5": "2026-09-09 개발 홈 5차: home-blocks.js 게이트를 decode() 전량 → 도착(complete) 전량으로 완화(8초 만료로 열리던 문제) + prepare 거리 4,000px 상한. 다른 3파일 불변",
-  "_note_10": "2026-09-09 개발 10차: detail-ui.js 의도적 변경(R-2 카드 재탭 해제) → md5/bytes 갱신. B3 토큰은 갱신하지 않는다(신규 유출 0 이어야 한다)"
+  "_note_10": "2026-09-09 개발 10차: detail-ui.js 의도적 변경(R-2 카드 재탭 해제) → md5/bytes 갱신. B3 토큰은 갱신하지 않는다(신규 유출 0 이어야 한다)",
+  "_note_11": "2026-09-09 개발 11차: detail.css 의도적 변경(R-7 추가구성상품 행 배경/레일 제거) → md5/bytes 갱신. 다른 구역 미변경 / B3 forbidden 은 10→9 로 **낮췄다**(R-7 로 주석 1블록이 사라져 유출이 1건 줄었다). 올린 것이 아니다 — 운영규칙 11 은 신규 유출을 baseline 으로 덮는 것을 금지하는 규칙이고, 줄어든 값을 반영하는 것은 그 취지에 맞다."
  },
  "_meta": {
   "updated": "2026-09-09 02:58:06",
