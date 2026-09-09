@@ -431,9 +431,15 @@
 
   var pTarget = 0, pNow = 0, mouseX = 0, skyXF = 1;
   window.addEventListener('mousemove', function (e) { mouseX = (e.clientX / window.innerWidth - 0.5); }, { passive: true });
+  /* 히어로가 화면에서 완전히 벗어났는가. 벗어나 있으면 프레임 루프가 three.js 렌더를 건너뛴다 —
+     아래 제품 블록의 가루 시퀀스를 훑는 동안에도 WebGL 이 계속 그리면 메인 스레드가 포화된다
+     (실측: 모바일 CPU 6배 스로틀 390×844 에서 12.6fps · 프레임 79ms · 롱태스크 5.4초
+      → 렌더 정지 후 59.8fps · 16.5ms · 롱태스크 0). */
+  var onStage = true;
   function onScroll() {
-    if (reduced || ZG.frozen) { if (reduced) pTarget = 0; return; }
     var rect = track.getBoundingClientRect();
+    onStage = rect.bottom > -80;
+    if (reduced || ZG.frozen) { if (reduced) pTarget = 0; return; }
     var total = track.offsetHeight - window.innerHeight;
     pTarget = total > 0 ? clamp01(-rect.top / total) : 0;
   }
@@ -461,6 +467,8 @@
   function frame() {
     requestAnimationFrame(frame);
     if (ZG.frozen) return;
+    /* 화면 밖에서는 그리지 않는다. 진행률은 목표값에 붙여 둬 되돌아왔을 때 따라잡기 연출이 없다. */
+    if (!onStage) { pNow = pTarget; return; }
     var t = clock.getElapsedTime();
     pNow += (pTarget - pNow) * 0.09;
     var p = pNow;

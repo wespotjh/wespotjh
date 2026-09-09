@@ -158,8 +158,8 @@
       "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
       "ds/js/detail-ui.js": "7044b38ec39d4670f3f0eab55f80569a",
       "ds/js/zg-ga4.js": "5dd8b791550484839402e4a52a4211cf",
-      "ds/js/home-blocks.js": "b22664e2119c6aa417bfe204a52e5907",
-      "ds/js/home-hero.js": "071f78c2f90fca8d50100ca7c2880968"
+      "ds/js/home-blocks.js": "9010d67767a7bb95385d67528a18c3e6",
+      "ds/js/home-hero.js": "91a0f4775daf7ec9b00228d9ce7a45dc"
     },
     "bytes": {
       "product/detail.html": 45879,
@@ -171,8 +171,8 @@
       "ds/css/home.css": 17294,
       "ds/js/detail-ui.js": 36541,
       "ds/js/zg-ga4.js": 42698,
-      "ds/js/home-blocks.js": 8800,
-      "ds/js/home-hero.js": 36509
+      "ds/js/home-blocks.js": 10463,
+      "ds/js/home-hero.js": 37189
     },
     "important": {
       "ds/css/detail.css": 0,
@@ -198,10 +198,11 @@
     "old_path": {},
     "_note_8": "2026-09-08 개발 8차: detail.css 의도적 변경(대표님 실기 반려 F-1·F-2·F-3 — 스테퍼 폭 고정·순서 클래스·가격 칸·말풍선 여백) → md5/bytes 갱신",
     "_note_9": "2026-09-08 개발 9차: detail.html 622행 #kakaoKey 실제 값(T-1, -37 B) · detail.css 주석 30px 정정(+34 B) · A.hooks 토큰 id=\"kakaoKey\" · E.kakao_preview_known",
-    "_note_h3": "2026-09-08 개발 홈 3차: 홈 4파일 md5/bytes 갱신(F-1 접근자 스텁·F-2 승격 8px·F-3 np>0·F-4 hero-stage·P2-h) — --only B,H --files 로 범위 한정 갱신. 8차·9차 메모는 갱신 시 지워졌던 것을 되살림(run.py 가 이제 _note* 를 이월)"
+    "_note_h3": "2026-09-08 개발 홈 3차: 홈 4파일 md5/bytes 갱신(F-1 접근자 스텁·F-2 승격 8px·F-3 np>0·F-4 hero-stage·P2-h) — --only B,H --files 로 범위 한정 갱신. 8차·9차 메모는 갱신 시 지워졌던 것을 되살림(run.py 가 이제 _note* 를 이월)",
+    "_note_h4": "2026-09-09 개발 홈 4차: 실기 신고(가루 시퀀스 버벅·번쩍) 수정 — home-hero.js 화면 밖 렌더 정지 + home-blocks.js 디코드 게이트. index.html·home.css 는 불변"
   },
   "_meta": {
-    "updated": "2026-09-08 08:09:56",
+    "updated": "2026-09-09 02:12:02",
     "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것"
   },
   "E": {
@@ -777,6 +778,7 @@
       "vp1023": 0,
       "vp1280": 0
     },
-    "_note_h3": "2026-09-08 개발 홈 3차: H8 회전 3경로(rot390·rot768·w768)+oldrot390 추가, errors_other 는 old390·oldrot390 등 변경 전 홈의 스킨 자체 오류 수(정보)"
+    "_note_h3": "2026-09-08 개발 홈 3차: H8 회전 3경로(rot390·rot768·w768)+oldrot390 추가, errors_other 는 old390·oldrot390 등 변경 전 홈의 스킨 자체 오류 수(정보)",
+    "_note_h4": "2026-09-09 개발 홈 4차: H9(스크럽 프레임타임·빈 판) + 음성대조 2종(가드/게이트 제거본) 추가 — 시나리오 jank390·jankneg390·imglate390·imglateneg390"
   }
 }

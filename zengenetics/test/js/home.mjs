@@ -39,9 +39,13 @@ async function makeContext(browser, scen) {
                              body: fs.readFileSync(scen.fixture, 'utf8') });
     }
     if (cfg.ours[key]) {
-      return route.fulfill({ status: 200, contentType: ctypeFor(key), body: fs.readFileSync(cfg.ours[key], 'utf8') });
+      /* 표본 반전: 시나리오가 지정한 대체본(가드 제거판)을 대신 내려 준다 */
+      const f = (scen.oursOverride && scen.oursOverride[key]) || cfg.ours[key];
+      return route.fulfill({ status: 200, contentType: ctypeFor(key), body: fs.readFileSync(f, 'utf8') });
     }
     if (u.pathname.startsWith('/ds/image/')) {
+      /* 프레임 이미지 도착이 늦는 실기 상황 — 게이트가 빈 판을 막는지 보는 조건 */
+      if (scen.imgDelay && /diss/.test(u.pathname)) await sleep(scen.imgDelay);
       const f = path.join(cfg.imgdir, path.basename(u.pathname));
       if (fs.existsSync(f)) return route.fulfill({ status: 200, contentType: MIME[path.extname(f)] || 'application/octet-stream', body: fs.readFileSync(f) });
       return route.fulfill({ status: 404, body: '' });
@@ -144,6 +148,33 @@ const SAFETY = async () => {
   return { frozenAt300ms: a, frozenAt3500ms: window.ZG_HOME.frozen, bodyStillHasClass: document.body.classList.contains('eMobilePopup') };
 };
 
+/* 스크럽 구간의 프레임타임·롱태스크·프레임 교체 준비상태를 페이지 안에서 모은다.
+   MutationObserver 콜백은 그 프레임의 페인트 전에 돌기 때문에, 그 시점의 complete/naturalWidth 가
+   "보여줄 때 이미 디코드돼 있었는가" 를 그대로 말해 준다. */
+const PROBE = () => {
+  window.__zg = { swaps: [], frames: [], long: [], mark: 0, swapMark: 0, longMark: 0, t0: performance.now() };
+  const Z = window.__zg;
+  const start = () => {
+    document.querySelectorAll('.zg-plate').forEach((pl) => {
+      new MutationObserver((recs) => {
+        for (const r of recs) {
+          const el = r.target;
+          if (!el.classList || !el.classList.contains('zg-fr') || !el.classList.contains('zg-on')) continue;
+          const par = el.parentNode;
+          Z.swaps.push({ idx: Array.prototype.indexOf.call(par.children, el),
+                         complete: el.complete, nw: el.naturalWidth });
+        }
+      }).observe(pl, { attributes: true, attributeFilter: ['class'], subtree: true });
+    });
+    let prev = performance.now();
+    const tick = () => { const n = performance.now(); Z.frames.push(Math.round((n - prev) * 10) / 10); prev = n; requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+    try { new PerformanceObserver((l) => { for (const e of l.getEntries()) Z.long.push(Math.round(e.duration)); })
+      .observe({ entryTypes: ['longtask'] }); } catch (e) {}
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+};
+
 const browser = await chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--force-color-profile=srgb'] });
 for (const scen of cfg.scenarios) {
   const ctx = await makeContext(browser, scen);
@@ -167,7 +198,65 @@ for (const scen of cfg.scenarios) {
         });
       });
     }
-    if (scen.kind === 'resize') {
+    if (scen.kind === 'jank' || scen.kind === 'back') {
+      const cdp = await ctx.newCDPSession(page);
+      await page.addInitScript(PROBE);
+      /* 프레임 도착이 늦는 조건에서는 load 를 기다리지 않는다 — 기다리면 지연이 다 지나가 버린다 */
+      await page.goto('https://zengenetics.co.kr' + cfg.docPath,
+                      { waitUntil: scen.imgDelay ? 'domcontentloaded' : 'load', timeout: 90000 });
+      await page.waitForTimeout(2500);
+      const geo = await page.evaluate((bk) => {
+        const el = document.querySelector('.zg-pblock[data-zg-p="' + bk + '"] .zg-track');
+        const hero = document.querySelector('.zg-hero-track');
+        return { top: el.getBoundingClientRect().top + window.pageYOffset, h: el.offsetHeight,
+                 vh: window.innerHeight, heroTop: hero.getBoundingClientRect().top + window.pageYOffset,
+                 heroH: hero.offsetHeight };
+      }, scen.block || 'pot');
+      await page.evaluate((y) => window.scrollTo(0, y - 40), geo.top);
+      await page.waitForTimeout(scen.imgDelay ? 1200 : 1500);
+      if (scen.throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: scen.throttle });
+      await page.evaluate(() => { const Z = window.__zg; Z.mark = Z.frames.length; Z.swapMark = Z.swaps.length; Z.longMark = Z.long.length; Z.t1 = performance.now(); });
+      const span = geo.h - geo.vh, STEPS = 40, DUR = 1600;
+      for (let i = 1; i <= STEPS; i++) {
+        await page.evaluate((y) => window.scrollTo(0, y), geo.top - 40 + Math.round(span * i / STEPS));
+        await page.waitForTimeout(DUR / STEPS);
+      }
+      await page.waitForTimeout(400);
+      rec.m.jank = await page.evaluate((bk) => {
+        const Z = window.__zg;
+        const fr = Z.frames.slice(Z.mark), sw = Z.swaps.slice(Z.swapMark), lt = Z.long.slice(Z.longMark);
+        const so = fr.slice().sort((a, b) => a - b);
+        const pct = (q) => so.length ? so[Math.min(so.length - 1, Math.floor(so.length * q))] : 0;
+        const pl = document.querySelector('.zg-pblock[data-zg-p="' + bk + '"] .zg-plate');
+        return { n: fr.length, p50: pct(0.5), p95: pct(0.95), max: Math.max(0, ...fr),
+                 over50: fr.filter(x => x > 50).length, over100: fr.filter(x => x > 100).length,
+                 longN: lt.length, longMs: lt.reduce((a, b) => a + b, 0),
+                 swaps: sw.length, uniq: new Set(sw.map(x => x.idx)).size,
+                 notReady: sw.filter(x => !x.complete || !x.nw).length,
+                 state: pl ? (pl.getAttribute('data-zg-fr') || '-') : '?' };
+      }, scen.block || 'pot');
+      if (scen.kind === 'back') {
+        /* 히어로로 되돌아왔을 때 다시 그리는가 — 캡션 argmax 로 확인한다(픽셀 비의존) */
+        if (scen.throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+        rec.m.back = await page.evaluate(async (g) => {
+          const wait = (ms) => new Promise(r => setTimeout(r, ms));
+          const caps = ['.zg-cap-a', '.zg-cap-m', '.zg-cap-e', '.zg-cap-n', '.zg-cap-s'].map(s => document.querySelector(s));
+          const read = () => caps.map(c => c ? Number(getComputedStyle(c).opacity) : -1);
+          const at = async (p) => {
+            window.scrollTo(0, Math.round(g.heroTop + (g.heroH - g.vh) * p));
+            let last = null, stable = 0;
+            for (let i = 0; i < 30; i++) {
+              await wait(100);
+              const o = read(), mx = Math.max(...o), am = o.indexOf(mx), key = am + ':' + mx.toFixed(2);
+              if (key === last && mx > 0.5) { if (++stable >= 3) return am; } else { stable = 0; last = key; }
+            }
+            const o = read(); return o.indexOf(Math.max(...o));
+          };
+          const a = await at(0.47), b = await at(0.02);
+          return { atMid: a, atTop: b, canvas: !!document.querySelector('.zg-hero-stage canvas') };
+        }, geo);
+      }
+    } else if (scen.kind === 'resize') {
       /* 회전·폭 전환: 실제 뷰포트를 바꿔 resize 이벤트를 낸다 (main_js.html 의 destroy → undefined 경로) */
       await page.goto('https://zengenetics.co.kr' + cfg.docPath, { waitUntil: 'load', timeout: 60000 });
       await page.waitForTimeout(1500);

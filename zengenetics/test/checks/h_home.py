@@ -136,7 +136,30 @@ def build_fixture():
     return fp, fo, diag
 
 
-def scenarios(fnew, fold):
+def _variants():
+    u"""표본 반전(negative control) 변이본 — 4차 가드를 한 줄씩 들어낸 사본.
+    변이가 안 만들어지면 그 자체가 FAIL 이다(검사가 죽은 것을 통과로 읽지 않는다)."""
+    os.makedirs(BUILD, exist_ok=True)
+    out = {}
+
+    hero = read(_p(JS[1]))
+    cut = re.sub(r"\n[ \t]*if \(!onStage\) \{ pNow = pTarget; return; \}", '', hero, count=1)
+    fp = os.path.join(BUILD, 'var-hero-noguard.js')
+    with open(fp, 'wb') as f:
+        f.write(cut.encode('utf-8'))
+    out['hero'] = {'file': fp, 'applied': cut != hero}
+
+    blk = read(_p(JS[0]))
+    c2 = blk.replace('if (b.imgs.length && b.ready) {', 'if (b.imgs.length) {', 1)
+    c2 = c2.replace('if (idx !== b.last && ready(nx)) {', 'if (idx !== b.last) {', 1)
+    fp2 = os.path.join(BUILD, 'var-blocks-nogate.js')
+    with open(fp2, 'wb') as f:
+        f.write(c2.encode('utf-8'))
+    out['blocks'] = {'file': fp2, 'applied': c2 != blk and 'b.ready) {' not in c2.split('function renderBlock')[1][:900]}
+    return out
+
+
+def scenarios(fnew, fold, var):
     sc = []
     for vp in VPS:
         sc.append({'name': 'vp%d' % vp, 'vp': vp, 'fixture': fnew, 'kind': 'full'})
@@ -152,11 +175,21 @@ def scenarios(fnew, fold):
     sc.append({'name': 'rot768', 'vp': 768, 'fixture': fnew, 'kind': 'resize', 'seq': [[1024, 768], [768, 1024]]})
     sc.append({'name': 'w768', 'vp': 768, 'fixture': fnew, 'kind': 'resize', 'seq': [[768, 1024], [768, 1000]]})
     sc.append({'name': 'oldrot390', 'vp': 390, 'fixture': fold, 'kind': 'resize', 'seq': [[844, 390], [390, 844]]})
+    # 가루 시퀀스 스크럽 — 실기 반려(4차): 모바일 CPU 6배 스로틀에서 프레임타임·빈 판을 잰다
+    sc.append({'name': 'jank390', 'vp': 390, 'fixture': fnew, 'kind': 'back', 'throttle': 6, 'block': 'pot'})
+    sc.append({'name': 'jankneg390', 'vp': 390, 'fixture': fnew, 'kind': 'jank', 'throttle': 6, 'block': 'pot',
+               'oursOverride': {'/ds/js/home-hero.js': var['hero']['file']}})
+    sc.append({'name': 'imglate390', 'vp': 390, 'fixture': fnew, 'kind': 'jank', 'throttle': 4, 'block': 'pot',
+               'imgDelay': 30000})
+    sc.append({'name': 'imglateneg390', 'vp': 390, 'fixture': fnew, 'kind': 'jank', 'throttle': 4, 'block': 'pot',
+               'imgDelay': 30000, 'oursOverride': {'/ds/js/home-blocks.js': var['blocks']['file']}})
     return sc
 
 
 def measure():
     obs = {'static': _static()}
+    var = _variants()
+    obs['variants'] = {k: v['applied'] for k, v in var.items()}
     fnew, fold, diag = build_fixture()
     three = fetch.fetch_asset(THREE)
     diag['three_status'] = three['status']
@@ -170,7 +203,7 @@ def measure():
                     '/ds/js/home-blocks.js': _p(JS[0]),
                     '/ds/js/home-hero.js': _p(JS[1])},
            'imgdir': IMG_DIR, 'three': three['file'] if three['status'] == 200 else None,
-           'scenarios': scenarios(fnew, fold)}
+           'scenarios': scenarios(fnew, fold, var)}
     os.makedirs(BUILD, exist_ok=True)
     cp = os.path.join(BUILD, 'cfg-home.json')
     with open(cp, 'wb') as f:
@@ -367,6 +400,63 @@ def run(base, obs=None):
               len(r.get('errors') or []))
     else:
         s.fail('H8.old', u'변경 전 회전 대조군', (r or {}).get('error', 'no result'))
+
+    # ---- H9. 가루 시퀀스 스크럽 — 실기 반려(대표님 4차): 「버벅」과 「빤짝」을 수치로 가른다
+    #        버벅 = 프레임타임(메인 스레드 포화) · 빤짝 = 준비 안 된 프레임을 켜서 생기는 빈 판
+    v = obs.get('variants') or {}
+    s.truthy('H9.var.hero', u'표본 반전본(히어로 가드 제거) 생성', v.get('hero'),
+             u'만들어지지 않으면 아래 음성 대조가 죽은 검사다')
+    s.truthy('H9.var.blocks', u'표본 반전본(프레임 게이트 제거) 생성', v.get('blocks'))
+
+    r = res.get('jank390')
+    if r and r.get('ok'):
+        m = r['m']['jank']
+        s.ge('H9.frames', u'[6배 스로틀 스크럽] 잰 프레임 수', 40, m['n'],
+             u'너무 적으면 측정 자체가 안 돈 것')
+        s.le('H9.p95', u'[6배 스로틀 스크럽] 프레임타임 p95(ms)', 45, m['p95'],
+             u'실기 반려 「버버버버벅」 — 3차 실측 p95 100ms')
+        s.eq('H9.over100', u'[스크럽] 100ms 넘는 프레임', 0, m['over100'])
+        s.le('H9.long', u'[스크럽] 롱태스크 합(ms)', 800, m['longMs'],
+             u'3차 실측 5,426ms (구간 내내 메인 스레드 포화)')
+        s.eq('H9.notReady', u'[스크럽] 아직 디코드 안 된 프레임을 켠 횟수', 0, m['notReady'],
+             u'>0 이면 빈 판이 번쩍인다 (실기 반려 「빤짝빤짝」)')
+        s.ge('H9.uniq', u'[스크럽] 실제로 보인 서로 다른 프레임 수', 20, m['uniq'])
+        s.eq('H9.state', u'[스크럽] 프레임 준비 상태', 'ready', m['state'])
+        b = r['m'].get('back') or {}
+        s.eq('H9.back.mid', u'히어로로 되돌아온 뒤 p=0.47 캡션', 2, b.get('atMid'),
+             u'화면 밖에서 렌더를 멈춘 뒤 복귀 시 다시 그리는가')
+        s.eq('H9.back.top', u'되돌아와 맨 위 캡션', 0, b.get('atTop'))
+    else:
+        s.fail('H9', u'스크럽 프레임타임 시나리오', (r or {}).get('error', 'no result'))
+
+    # 음성 대조 ①: 히어로 가드를 빼면 같은 검사가 반드시 걸려야 한다
+    r = res.get('jankneg390')
+    if r and r.get('ok'):
+        m = r['m']['jank']
+        s.add('H9.neg.jank', m['p95'] > 45 or m['longMs'] > 800,
+              u'[음성대조] 히어로 렌더 가드 제거 시 스크럽이 실제로 끊기는가', u'p95>45 또는 롱태스크>800',
+              'p95=%s long=%s' % (m['p95'], m['longMs']),
+              u'안 걸리면 H9.p95/H9.long 은 죽은 검사다')
+    else:
+        s.fail('H9.neg', u'음성대조(가드 제거)', (r or {}).get('error', 'no result'))
+
+    # 음성 대조 ②: 프레임이 늦게 도착하는 조건 — 게이트가 있으면 빈 판 0, 빼면 빈 판이 난다
+    r = res.get('imglate390')
+    if r and r.get('ok'):
+        m = r['m']['jank']
+        s.eq('H9.late.notReady', u'[프레임 9초 지연] 준비 안 된 프레임을 켠 횟수', 0, m['notReady'],
+             u'게이트가 1번 프레임을 고정한다')
+        s.add('H9.late.state', m['state'] in ('wait', 'late'), u'[프레임 9초 지연] 준비 상태', 'wait|late', m['state'])
+    else:
+        s.fail('H9.late', u'프레임 지연 시나리오', (r or {}).get('error', 'no result'))
+    r = res.get('imglateneg390')
+    if r and r.get('ok'):
+        m = r['m']['jank']
+        s.add('H9.neg.late', m['notReady'] > 0,
+              u'[음성대조] 게이트 제거 시 빈 판이 실제로 나는가', '> 0', m['notReady'],
+              u'안 나면 H9.late.notReady 는 죽은 검사다')
+    else:
+        s.fail('H9.neg.late', u'음성대조(게이트 제거)', (r or {}).get('error', 'no result'))
     return s.done()
 
 

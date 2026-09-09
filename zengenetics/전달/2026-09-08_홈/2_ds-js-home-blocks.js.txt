@@ -8,6 +8,7 @@
         문서가 흐름에서 떨어져 sticky 가 죽는다. 붙는 동안 렌더를 동결하고,
         떨어지면 스크롤 위치를 되돌린 뒤 강제 재계산한다. 3초 안전장치 포함.
      3) 제품 3블록의 프레임 이미지 부착과 스크롤 스크럽
+        — 프레임은 디코드가 끝난 뒤에만 켠다(준비 전에는 1번 프레임 고정)
 
    지키는 규칙
      - document.body 에 클래스를 붙이지 않는다. 상태는 .zg-home 에만 붙인다.
@@ -121,19 +122,53 @@
     }
   }
 
+  /* 프레임 준비 — 블록이 3화면 앞에 오면 24장을 미리 받아 디코드까지 끝낸다.
+     끝나기 전에는 1번 프레임을 고정한다(스크럽 시작 안 함). 아직 도착·디코드 전인 프레임을 켜면
+     빈 판이 한 프레임 번쩍인다 (실기 신고 — 재현: 이미지가 늦게 오면 교체 23회 중 23회가 빈 판).
+     decode() 는 지연로딩 중인 이미지의 내려받기도 함께 시작시킨다.
+     8초가 지나도 다 못 받으면 게이트를 열되, 낱장 검사(complete)로 빈 판만 계속 걸러 낸다. */
+  function prepare(b) {
+    if (b.prep) return;
+    b.prep = true;
+    var n = b.imgs.length, done = 0, i;
+    if (!n) return;
+    b.plate.setAttribute('data-zg-fr', 'wait');
+    function open(state) {
+      if (b.ready) return;
+      b.ready = true;
+      b.lastP = -1;
+      b.plate.setAttribute('data-zg-fr', state);
+      onScroll();
+    }
+    for (i = 0; i < n; i++) {
+      (function (im) {
+        function fin() { if (++done >= n) open('ready'); }
+        if (im.decode) { im.decode().then(fin, fin); }
+        else if (im.complete) { fin(); }
+        else { im.onload = fin; im.onerror = fin; }
+      })(b.imgs[i]);
+    }
+    /* 영영 안 오는 경우 — 정지화면으로 남기지 않는다. 낱장 검사가 빈 판을 막는다. */
+    setTimeout(function () { open('late'); }, 8000);
+  }
+
+  function ready(el) { return !!el && el.complete && el.naturalWidth > 0; }
+
   function renderBlock(b) {
     var r = b.track.getBoundingClientRect(), vh = window.innerHeight;
+    if (r.top < vh * 3) prepare(b);
     if (r.bottom < -vh || r.top > vh * 2) return;
     var total = b.track.offsetHeight - vh;
     var p = total > 0 ? clamp01(-r.top / total) : 0;
     if (Math.abs(p - b.lastP) < 0.0015) return;
     b.lastP = p;
 
-    if (b.imgs.length) {
+    if (b.imgs.length && b.ready) {
       var idx = Math.min(b.imgs.length - 1, Math.floor(p * b.imgs.length));
-      if (idx !== b.last) {
+      var nx = frameEl(b, idx);
+      if (idx !== b.last && ready(nx)) {
         if (b.last >= 0 && frameEl(b, b.last)) frameEl(b, b.last).classList.remove('zg-on');
-        if (frameEl(b, idx)) frameEl(b, idx).classList.add('zg-on');
+        nx.classList.add('zg-on');
         b.last = idx;
       }
     }
@@ -196,7 +231,7 @@
         v1: el.querySelector('.zg-v1'),
         n0: parseFloat(el.getAttribute('data-zg-n0')) || 0,
         n1: parseFloat(el.getAttribute('data-zg-n1')) || 0,
-        caps: caps, last: -1, lastCap: -1, lastP: -1
+        caps: caps, last: -1, lastCap: -1, lastP: -1, prep: false, ready: false
       };
       buildFrames(b);
       B.push(b);
