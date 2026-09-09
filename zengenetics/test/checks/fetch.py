@@ -19,7 +19,11 @@ UA = {
     'desktop': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
 }
 
-PRODUCTS = [11, 13, 16, 61, 62, 63, 64, 71, 98]     # 배시우 3차 §4-2 의 상품 9종
+# 라이브 판매·노출 중인 상품 **전 13종**. 같은 `product/detail.html` 하나가 13개를 다 렌더한다
+# → 한 곳을 고치면 13개가 동시에 바뀐다. 9종만 보던 시절에 34·60·91·93 이 사각지대였다.
+#   A군(옵션+추가상품) 11 13 16 63 64 71 98 · B군(옵션 없음, 단가 있음) 60 61 62
+#   C군(판매 상품 아님 — 이벤트·혜택 안내) 34 91 93
+PRODUCTS = [11, 13, 16, 34, 60, 61, 62, 63, 64, 71, 91, 93, 98]
 PAGES = ([('p%d' % n, '/product/detail.html?product_no=%d' % n) for n in PRODUCTS]
          + [('home', '/'),
             ('orderform', '/order/orderform.html'),
@@ -53,6 +57,14 @@ def fetch_page(ua, name, url, refresh=False, timeout=60):
     return meta
 
 
+# 우리 파일의 **라이브 단독본**. 2026-09-09 배포로 이 파일들이 optimizer_user.php 번들 안에
+# 들어갔고, fixture.py 는 번들에서 우리 구간을 찾을 때 이 원문을 기준 참조본으로 쓴다.
+# → 페이지 캐시를 새로 받을 때 **같이** 새로 받아야 번들과 어긋나지 않는다.
+OURS_LIVE = ['/ds/css/detail.css', '/ds/css/price.css',
+             '/ds/js/detail-ui.js', '/ds/js/zg-ga4.js',
+             '/ds/css/home.css', '/ds/js/home-blocks.js', '/ds/js/home-hero.js']
+
+
 def fetch_all(refresh=False, uas=('iphone', 'android', 'desktop'), log=print):
     got = {}
     for ua in uas:
@@ -61,6 +73,10 @@ def fetch_all(refresh=False, uas=('iphone', 'android', 'desktop'), log=print):
             got[(ua, name)] = m
             if refresh:
                 log('  fetch %-8s %-14s -> %s (%s B)' % (ua, name, m['status'], m['bytes']))
+    if refresh:
+        for u in OURS_LIVE:
+            m = fetch_asset(u, refresh=True)
+            log('  fetch ours    %-22s -> %s' % (u, m['status']))
     return got
 
 

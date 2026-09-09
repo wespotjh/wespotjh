@@ -19,6 +19,9 @@ UAS = ('iphone', 'android', 'desktop')
 IMG_RE = re.compile(r'ec-data-src="([^"]+)"|<img[^>]+src="(/web/upload/NNEditor/[^"]+)"')
 
 
+CSS_MIN_W = 640   # ds/css/detail.css 의 `min-width: min(100%, 640px)` 상수와 같아야 한다
+
+
 def measure(refresh=False, log=print):
     fetch.fetch_all(refresh=refresh, uas=UAS, log=log)
     obs = {'pages': {}, 'assets404': {}, 'ihdr': {}}
@@ -135,12 +138,18 @@ def run(base, obs=None, refresh=False):
         s.probe('E3.probe.%s' % name, u'[%s] IHDR 을 읽은 이미지 수' % name, r['n_read'],
                 u'0이면 이미지 URL 추출이 깨진 것')
         if r['min'] is not None:
-            # 하한선: 신아린 4차 §4 가 실측·승인한 바닥값. 라이브 101장이 전부 639~640px 이고
-            # 639 는 640 으로 +0.16% 늘어 육안 식별 불가라 그대로 수용했다.
-            # 그 아래로 내려가면 `min-width: min(100%,640px)` 이 확대를 만든다.
-            s.ge('E3.%s' % name, u'[%s] 상세 이미지 최소 원본 폭' % name,
-                 b['ihdr_min'], r['min'],
-                 u'하한 미만이면 768~1023px 뷰포트에서 확대가 재발한다(신아린 4차 §4)')
+            # 절대 하한(639px) 대신 **확대율**로 본다 — 13종으로 넓히니 34(637px)·93(635px)이
+            # 하한을 2~4px 밑돌았는데, 그건 결함이 아니라 하한이 9종 표본에 맞춰져 있었던 것이다.
+            # 이 검사가 원래 막으려던 것은 신아린 4차 §4 의 **+55% 확대**(400px 원본이 640 으로
+            # 늘어 흐려지던 사건)다. 그래서 우리 CSS 상수(`min-width: min(100%,640px)`)가
+            # 원본을 몇 % 늘리는지를 직접 재고 **1% 를 상한**으로 둔다.
+            #   639→640 +0.16% · 637→640 +0.47% · 635→640 +0.79%  (전부 육안 식별 불가)
+            #   400→640 +60%   ← 이건 걸린다
+            # 상품이 늘어도 하한을 손볼 필요가 없다.
+            ratio = round(float(CSS_MIN_W) / r['min'], 4)
+            s.le('E3.%s' % name, u'[%s] 우리 CSS 상수(%dpx)가 원본을 늘리는 비율' % (name, CSS_MIN_W),
+                 1.01, ratio,
+                 u'원본 최소 폭 %spx. 1.01 초과면 768~1023px 뷰포트에서 확대가 눈에 보인다' % r['min'])
             # 상품별 실측값 자체도 고정한다 — 이미지를 바꿔 끼우면 여기서 잡힌다
             exp = (b.get('ihdr_by_product') or {}).get(name)
             if exp:

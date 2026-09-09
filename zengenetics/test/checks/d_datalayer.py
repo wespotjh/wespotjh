@@ -25,26 +25,28 @@ PII = re.compile(r'[\w.+-]+@[\w-]+\.[\w.]+|01[016-9]-?\d{3,4}-?\d{4}')
 
 
 def scenarios():
-    f11, _ = fixture.build('iphone', 'p11', with_ga4=True)
-    f61, _ = fixture.build('iphone', 'p61', with_ga4=True)
-    fbk, _ = fixture.build('iphone', 'basket', with_ga4=True, delta=False, with_ui=False)
-    fhm, _ = fixture.build('iphone', 'home', with_ga4=True, delta=False, with_ui=False)
+    # 자산 지도는 **그 픽스처를 만든 build() 가 돌려준 것**을 쓴다. 따로 부르면
+    # with_ga4/with_ui 가 어긋나 번들 소독이 픽스처와 갈릴 수 있다.
+    f11, d11 = fixture.build('iphone', 'p11', with_ga4=True)
+    f61, d61 = fixture.build('iphone', 'p61', with_ga4=True)
+    fbk, dbk = fixture.build('iphone', 'basket', with_ga4=True, delta=False, with_ui=False)
+    fhm, dhm = fixture.build('iphone', 'home', with_ga4=True, delta=False, with_ui=False)
     # 주문서(/order/orderform.html)·주문완료는 **비로그인·빈 장바구니면 홈으로 리다이렉트**된다.
     # 세션 없이 curl 로 받은 HTML 은 로드 즉시 location 이 '/' 로 바뀌어 측정 자체가 불가능하다.
     # → `begin_checkout` / `purchase` 는 실주문이 필요한 **실기 항목**으로 남긴다(README §자동화 못 한 것).
     #   대신 그 두 페이지에 계측 3줄이 실려 있는지는 E4(라이브 대조)가 정적으로 본다.
     return [
         {'name': 'p11_load', 'vp': 390, 'docPath': '/product/detail.html?product_no=11',
-         'fixture': f11, 'settle': 1600, 'assets': fixture.asset_map('iphone', 'p11')},
+         'fixture': f11, 'settle': 1600, 'assets': d11['assets']},
         {'name': 'p11_interact', 'vp': 390, 'docPath': '/product/detail.html?product_no=11',
          'fixture': f11, 'settle': 1600, 'steps': ['.zg-opt', '.zg-more', '__scroll__'],
-         'assets': fixture.asset_map('iphone', 'p11')},
+         'assets': d11['assets']},
         {'name': 'p61_load', 'vp': 390, 'docPath': '/product/detail.html?product_no=61',
-         'fixture': f61, 'settle': 1600, 'assets': fixture.asset_map('iphone', 'p61')},
+         'fixture': f61, 'settle': 1600, 'assets': d61['assets']},
         {'name': 'basket', 'vp': 390, 'docPath': '/order/basket.html',
-         'fixture': fbk, 'settle': 1400, 'assets': fixture.asset_map('iphone', 'basket')},
+         'fixture': fbk, 'settle': 1400, 'assets': dbk['assets']},
         {'name': 'home', 'vp': 390, 'docPath': '/', 'steps': ['__scroll__'],
-         'fixture': fhm, 'settle': 1400, 'assets': fixture.asset_map('iphone', 'home')},
+         'fixture': fhm, 'settle': 1400, 'assets': dhm['assets']},
     ]
 
 
@@ -90,7 +92,7 @@ def _shape(dl):
 def measure():
     sc = scenarios()
     cfg = {'ua': fixture.fetch.UA['iphone'], 'ours': fixture.OURS,
-           'assets': fixture.asset_map('iphone', 'p11'), 'scenarios': sc}
+           'assets': sc[0]['assets'], 'scenarios': sc}
     p = os.path.join(os.path.dirname(sc[0]['fixture']), 'cfg-datalayer.json')
     with open(p, 'wb') as f:
         f.write(json.dumps(cfg, ensure_ascii=False).encode('utf-8'))

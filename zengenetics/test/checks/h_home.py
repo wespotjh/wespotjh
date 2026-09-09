@@ -16,7 +16,7 @@ H. 홈(index.html) 검사 — 정적 + Chromium 실렌더.
 """
 import json, os, re
 from .common import Suite, ROOT, SKIN, PROJ, BUILD, OUT, read, node, strip_comments
-from . import fetch
+from . import fetch, fixture
 
 TEMPLATE = 'index.html'
 CSS      = 'ds/css/home.css'
@@ -92,6 +92,11 @@ def build_fixture():
     doc = fetch.html('iphone', 'home')
     if doc is None:
         raise RuntimeError(u'라이브 캐시 없음: iphone/home — ./run.sh --refresh')
+    # 홈 3종은 아직 라이브에 없어서 **주입**으로 검사한다. 배포되어 번들에 실리는 순간
+    # 주입본과 번들본이 겹쳐(JS 2회 실행 · CSS 는 라이브본이 이김) 검사가 거짓이 된다.
+    # 상세(C·D)가 2026-09-09 에 당한 사고다 — 여기서는 미리 큰 소리로 막는다.
+    fixture.assert_not_bundled('iphone', 'home',
+                               ['/ds/css/home.css', '/ds/js/home-blocks.js', '/ds/js/home-hero.js'])
     diag = {'src_bytes': len(doc)}
     mainjs = _mainjs_inline(doc)
     diag['mainjs_bytes'] = len(mainjs) if mainjs else 0

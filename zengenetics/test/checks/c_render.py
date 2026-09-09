@@ -65,7 +65,8 @@ def scenarios():
 
 def measure():
     f, diag = fixture.build('iphone', 'p11')
-    cfg = fixture.write_cfg('render', '/product/detail.html?product_no=11', f, scenarios())
+    cfg = fixture.write_cfg('render', '/product/detail.html?product_no=11', f, scenarios(),
+                            assets=diag['assets'])
     rc, out, data = node(os.path.join(ROOT, 'js', 'render.mjs'), cfg, timeout=1800)
     if data is None:
         raise RuntimeError(u'렌더 하네스 실패(rc=%s):\n%s' % (rc, out[-2500:]))
@@ -98,6 +99,21 @@ def run(base, obs=None):
     s.truthy('C0.fixture.css', u'픽스처: 사용자 CSS 번들 앵커', obs['diag']['css_anchor'])
     s.truthy('C0.fixture.js', u'픽스처: 사용자 JS 번들 앵커', obs['diag']['js_anchor'])
     s.probe('C0.scenarios', u'실행한 렌더 시나리오 수', len(res))
+
+    # 2026-09-09 — 우리 파일이 라이브 번들 안에 들어간 뒤로, 하네스가 그걸 안 걷어내면
+    # ① 우리 코드가 두 번 실행되고 ② 뒤에 오는 번들(=라이브본)이 작업본을 이긴다.
+    # fixture.build() 가 번들을 소독하고 아래 수치를 남긴다. 하나라도 틀리면 결과 전체가 무의미하다.
+    srv = obs['diag'].get('served') or {}
+    s.eq('C0.fixture.served', u'픽스처: 우리 파일 적재 횟수 (중복 0 · 누락 0)',
+         {'/ds/css/detail.css': 1, '/ds/js/detail-ui.js': 1, '/ds/js/zg-ga4.js': 0},
+         {k: srv.get(k) for k in ('/ds/css/detail.css', '/ds/js/detail-ui.js', '/ds/js/zg-ga4.js')},
+         u'2 면 라이브본과 작업본이 동시에 걸린 것 — 그 실행은 작업본을 검사한 게 아니다')
+    s.probe('C0.fixture.price', u'번들 안 price.css 구간(작업본으로 교체)',
+            srv.get('/ds/css/price.css') or 0,
+            u'0 이면 price.css 가 어디에도 안 실린 것 — 그 규칙들을 안 보고 통과한다')
+    s.probe('C0.fixture.desanitize', u'번들에서 갈아끼우거나 들어낸 우리 파일 수',
+            len(obs['diag'].get('inbundle') or {}),
+            u'0 이면 라이브 배포가 되돌아갔거나 위치 탐지가 죽은 것이다')
 
     # --- C1. 가로 넘침 0 --------------------------------------------------
     for vp in VP_OVERFLOW:
