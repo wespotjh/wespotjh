@@ -237,6 +237,30 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     return !/(^|\s)displaynone(\s|$)/.test(s.className || '');
   }
 
+  /* [13종] 「살 수 없는 페이지」인가 — 34(증정 이벤트 안내) · 91(네이버페이 즉시할인 안내) ·
+   * 93(멤버십 혜택 안내)은 상품 상세 템플릿으로 렌더되지만 **판매 상품이 아니다.**
+   * 카페24는 이 경우 인라인 「장바구니」에 `displaynone` 과 빈 `onclick` 을 준다.
+   *   <div class="btnNormal sizeL displaynone" onclick="">장바구니</div>
+   *   <div class="btnSubmit gFull sizeL relative displaynone" onclick="">구매하기</div>
+   * 그런데 **하단 고정바의 「구매하기」에는 그 표시를 안 준다** (라이브 실측).
+   * 12차 B안으로 리뷰 칩과 장바구니가 빠지면서, 지금은 화면 하단을 가득 채운
+   * 커다란 버튼이 눌러도 아무 일도 안 하는 상태가 된다.
+   * → 인라인 두 버튼이 **둘 다** 죽어 있으면 바 자체를 내린다. 되는 일만 보여준다.
+   * ⚠ 품절(`isSoldout`)과는 다른 상태다 — 품절은 SOLD OUT 을 보여줘야 하지만
+   *   여기는 애초에 팔지 않는 페이지라 살 수 있다는 신호 자체를 내린다.
+   * ⚠ 카페24가 나중에 `onclick` 을 채워 주면 이 판정은 저절로 false 가 된다. */
+  function isUnsellable() {
+    var wrap = $('.buy-btn-wrap');
+    if (!wrap) return false;
+    var dead = function (el) {
+      if (!el) return true;
+      if (/(^|\s)displaynone(\s|$)/.test(el.className || '')) return true;
+      var oc = el.getAttribute('onclick');
+      return !oc || !oc.replace(/\s/g, '');
+    };
+    return dead($('#actionCart', wrap)) && dead($('.btnSubmit.gFull', wrap));
+  }
+
   /* --------------------------------------------------------------- 토스트 */
   var toastEl = null, toastTimer = null;
   function toast(msg) {
@@ -800,6 +824,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
      * (이전 판에서는 `.zg-detail` 에 `zg-soldout` 이라 AC 문언과 어긋나 있었다). */
     var bar = $('.mobile-fix-footer');
     if (bar) bar.classList.toggle('zg-bar--soldout', isSoldout());
+    if (bar) bar.classList.toggle('zg-bar--dead', isUnsellable());
 
     if (sumItemV) sumItemV.textContent = num > 0 ? t : '—';
     if (sumTotV) sumTotV.textContent = num > 0 ? t : '0원';
