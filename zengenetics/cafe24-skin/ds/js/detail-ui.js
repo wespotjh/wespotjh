@@ -56,7 +56,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   function on(node, ev, fn) { if (node && node.addEventListener) node.addEventListener(ev, fn, false); }
 
   /* ================================================================== *
-   * 검수 항목 · K-09 SEO 하드가드 (QA 검수)
+   * [중요] · K-09 SEO 하드가드 (QA 지적 반영)
    * ------------------------------------------------------------------
    * `.zg-fold` 는 overflow:hidden 이라 `CAFE24.lazyload()` 의 IntersectionObserver 가
    * 접힌 구간의 <img> 와 **영원히 교차하지 않는다**. IO 의 교차 사각형은 조상의 클립
@@ -83,7 +83,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
         var img = imgs[i], real = img.getAttribute('ec-data-src');
         if (!real) continue;
         img.removeAttribute('ec-data-src');          /* CAFE24.lazyload() 대상에서 제외 */
-        /* [검수 근거] 첫 2장은 즉시(LCP 후보), 나머지는 지연.
+        /* [근거] 첫 2장은 즉시(LCP 후보), 나머지는 지연.
          * 로드 전 높이 0 문제는 ds/css/detail.css 의 `aspect-ratio`/`min-width` 가 막는다 —
          * 자리를 차지해야 `loading="lazy"` 가 실제로 동작한다. */
         img.setAttribute('loading', n < 2 ? 'eager' : 'lazy');
@@ -125,7 +125,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   /* moa/js/product/detail.js 는 초기화가 끝나면
    *   $('#freeShipGuide').removeAttr('data-delivery');  $('.delivery_price_css').remove();
    * 를 실행한다. 둘 다 사라지기 전에 문자열만 복사해 둔다(숫자를 파싱하지 않는다). */
-  /* 한 번이라도 읽히면 기억한다. 로드 순서가 바뀌어도(검수 항목 로 @js 번들로 이동) 어느 한
+  /* 한 번이라도 읽히면 기억한다. 로드 순서가 바뀌어도(이 파일을 @js 번들로 옮기면 바뀐다) 어느 한
    * 시점에서든 읽히면 되고, 끝내 못 읽으면 **숫자를 지어내지 않고** 안내 문구로 대체한다. */
   var CAPTURED = { delivery: '' };
   function captureDelivery() {
@@ -335,7 +335,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   var pickedHead = null, pickedEmpty = null, tpNode = null, tpAnchor = null;
   var sumItemV = null, sumShipV = null, sumTotV = null;
   var barV = null, barSum = null;
-  var pendingSingle = null, pendingTimer = null;
+  var pendingSingle = null, pendingTimer = null, pickedTimer = null;
   var modeEffective = (ZG_OPT_MODE === 'single') ? 'single' : 'multi';
 
   ready(function () { try { init(); } catch (e) { /* 절대 페이지를 죽이지 않는다 */ } });
@@ -389,9 +389,14 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
       var p = parseOptionText(o.text);
       var b = el('button', 'zg-opt');
       b.type = 'button';
-      /* [검수 근거] `aria-pressed` 는 "다시 누르면 해제된다"는 토글 약속이다.
-       * multi 모드는 재탭해도 해제하지 않으므로 그 약속을 지킬 수 없다 → 상태는
-       * data 속성(CSS 후크) + 눈에 보이는 텍스트 + aria-label 로만 사실대로 알린다.
+      /* [근거] `aria-pressed` 는 "다시 누르면 해제된다"는 토글 약속이다.
+       * R-2 이후 담긴 카드를 다시 누르면 실제로 그 구성이 빠진다 — 다만 그것은
+       * 카페24가 그 행에 그려 준 **자기 삭제 컨트롤**을 누르는 경로라, 컨트롤이 없는
+       * 상품에서는 해제되지 않고 안내로 폴백한다(`unpick()` → false). 즉 약속이
+       * **상품에 따라 지켜지기도 하고 안 지켜지기도 한다** → 고정 속성으로 걸지 않는다.
+       * 상태와 "누르면 일어날 일"은 data 속성(CSS 후크) + 눈에 보이는 텍스트 +
+       * `refresh()` 가 매번 다시 쓰는 aria-label 로 사실대로 알린다
+       * (「선택 해제」/「이미 담김」/「장바구니에 담기」 — 아래 `refresh()` 참조).
        * <button> 의 암묵 role 이 이미 button 이라 role="button" 도 넣지 않는다. */
       b.setAttribute('data-zg-on', '');
       b.setAttribute('data-zg-value', o.value);
@@ -432,6 +437,10 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     });
 
     var hint = el('p', 'zg-opt-hint');
+    /* `role="status"`(= `aria-live="polite"`)를 붙여 담긴 개수 안내가 낭독되게 한다.
+     * 시각 결과는 0 — 원래 화면에 보이던 문장을 보조기술에도 같은 시점에 전달할 뿐이다.
+     * polite 라 읽던 것을 가로채지 않는다. */
+    hint.setAttribute('role', 'status');
     hint.hidden = true;
 
     /* (검수 설계서에 없던 UI 「옵션을 직접 선택」 버튼은 삭제했다.
@@ -472,6 +481,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var key = card.getAttribute('data-zg-key');
     var rows = pickedRows();
     var already = rows.some(function (r) { return rowMatches(r.key, key); });
+    clearTimeout(pickedTimer);   /* 새 조작이 들어오면 직전 담기 알림 예약은 취소한다 */
 
     /* 담긴 카드를 다시 누르면 그 구성이 빠진다.
      * 담기/빼기가 같은 조작점이라 「담을 땐 카드, 뺄 땐 아래 목록」이라는 이원화가 사라진다.
@@ -495,6 +505,17 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
         optSel.dispatchEvent(ev);
       } catch (e2) { return; }
     }
+
+    /* 담기 성공도 알린다. 해제(`구성을 뺐어요.`)에만 토스트가 있어 알림이 비대칭이었고,
+     * 보조기술 사용자는 "빠졌다"는 알지만 "담겼다"는 알 수 없었다.
+     * 토스트 노드에는 이미 `role="status"` 가 붙어 있다.
+     * ⚠ 카페24가 행을 만드는 것은 비동기다 → **행이 실제로 생긴 것을 확인한 뒤에만** 알린다.
+     *   (지어낸 성공을 말하지 않는다. 실패하면 아무 말도 하지 않는다.) */
+    pickedTimer = setTimeout(function () {
+      if (pickedRows().some(function (r) { return rowMatches(r.key, key); })) {
+        toast('구성을 담았어요.');
+      }
+    }, 400);
 
     if (modeEffective === 'single') {
       pendingSingle = key;
@@ -660,14 +681,14 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var fold = $('.zg-fold');
     var more = $('.zg-more');
     if (!fold || !more) return;
-    /* [검수 근거] 펼침 상태를 보조기술에 알린다 */
+    /* [근거] 펼침 상태를 보조기술에 알린다 */
     if (!fold.id) fold.id = 'zgFold';
     more.setAttribute('aria-expanded', 'false');
     more.setAttribute('aria-controls', fold.id);
     on(more, 'click', function () {
       fold.classList.add('zg-open');
       more.setAttribute('aria-expanded', 'true');
-      /* [검수 근거] 이전 판의 scroll/resize 재발사 완화책은 삭제했다 — IO 는 scroll 을
+      /* [근거] 이전 판의 scroll/resize 재발사 완화책은 삭제했다 — IO 는 scroll 을
        * 구독하지 않아 무효였다. 이미지 승격은 unlazyDetailImages() 가 담당한다. */
     });
   }
@@ -761,8 +782,20 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var num = totalNum();
     var rows = pickedRows();
 
-    /* [검수 근거] 추가상품 행도 "담긴 것"이다. 여기서 0 이어야만 안내문을 보여준다. */
+    /* [근거] 추가상품 행도 "담긴 것"이다. 여기서 0 이어야만 안내문을 보여준다. */
     root.classList.toggle('zg-picked-0', visibleRows().length === 0);
+
+    /* 추가상품 행의 「추가」 구분은 CSS 생성 콘텐츠(`tr.add_product td .product::before`)
+     * 하나뿐이다. CSS 가 적용되지 않는 조건(리더 모드·고대비·스타일 차단)에서는
+     * 본품과 추가상품이 완전히 같아 보이고 같이 읽힌다 — 결제 직전 목록에서 오해가 된다.
+     * → 같은 뜻의 **실텍스트**를 클립 유틸로 넣어 이중화한다. 시각 결과 변화 0
+     *   (칩은 계속 `::before` 가 그린다). 중복 삽입은 클래스로 막는다. */
+    $$('#totalProducts tr.add_product').forEach(function (r) {
+      if (r.id === 'totalProductsOption') return;
+      var pd = $('td .product', r);
+      if (!pd || $('.zg-add-flag', pd)) return;
+      pd.insertBefore(el('span', 'zg-add-flag zg-a11y-hide', '추가 구성 상품, '), pd.firstChild);
+    });
     /* K-12 AC7 문언대로 `.mobile-fix-footer` 에 `zg-bar--soldout` 을 붙인다
      * (이전 판에서는 `.zg-detail` 에 `zg-soldout` 이라 AC 문언과 어긋나 있었다). */
     var bar = $('.mobile-fix-footer');

@@ -369,10 +369,29 @@ def run(base, obs=None):
         for nm, box in (('cart', u['barCartBox']), ('buy', u['barBuyBox'])):
             s.ge('C9.%s.tap.%s' % (tag, nm), u'[%s] 바 %s 높이 ≥ 44px' % (kind, nm), 44, (box or {}).get('h', 0))
             s.ge('C9.%s.tapw.%s' % (tag, nm), u'[%s] 바 %s 폭 ≥ 44px' % (kind, nm), 44, (box or {}).get('w', 0))
-        # R-4 말풍선 — 줄상자 상속을 끊었는가
+        # R-4 말풍선 — 줄상자 상속을 끊었는가 (규칙값)
         s.eq('C9.%s.bubble' % tag, u'[%s] 말풍선 line-height (54px 상속을 끊었는가)' % kind,
              b['barbuy']['bubble_lh'], u['bubbleLineHeight'],
              u'54px 면 글자가 노란 상자 아래로 8px 내려앉는다 (R-4)')
+        # ↑ 는 규칙이 살아 있는지만 본다. R-8 로 말풍선이 `display:none` 이라
+        #   **그려지지 않는 요소의 계산값**이고, 버튼 line-height 나 말풍선 font-size/height 가
+        #   바뀌면 14.4px 은 그대로 통과하면서 되살렸을 때 여전히 깨진다.
+        #   → 아래는 **강제로 띄워 실제 기하를 잰 것**이다(측정 후 원상복구). 이쪽이 본검사다.
+        bf = u.get('bubbleFit') or {}
+        s.eq('C9.%s.bfit.found' % tag, u'[%s] 말풍선 요소 탐지(기하 측정)' % kind, True, bf.get('found'),
+             u'False 면 클래스명이 바뀐 것 = 아래 검사들이 통째로 사라진다')
+        if bf.get('found'):
+            s.eq('C9.%s.bfit.render' % tag, u'[%s] 강제 노출하면 실제로 그려진다' % kind,
+                 True, bf.get('renderable'),
+                 u'0 이면 조상이 계속 숨어 있어 측정이 무의미하다(거짓 통과)')
+            s.eq('C9.%s.bfit.h' % tag, u'[%s] 말풍선 상자 높이(px) — 스킨 `height:26px`' % kind,
+                 b['barbuy']['bubble_h'], bf.get('boxH'))
+            s.le('C9.%s.bfit.ovf' % tag, u'[%s] 글자가 상자를 넘친 높이(px)' % kind,
+                 1, bf.get('overflowPx'),
+                 u'줄상자가 상자보다 크면 글자가 잘려 보인다 (R-4). 음성 대조군 실측 28px')
+            s.le('C9.%s.bfit.out' % tag, u'[%s] 글자 상자가 26px 상자 밖으로 나간 양(px)' % kind,
+                 1, bf.get('textOutsidePx'),
+                 u'위·아래로 삐져나온 합계. 음성 대조군(규칙 삭제=54px 상속) 실측 8px')
 
     # --- C6. pageerror 0 ---------------------------------------------------
     tot_ours = 0
@@ -407,6 +426,7 @@ def to_baseline(obs):
             'review_hook': res['barbuy390_mid']['barbuy']['reviewHookInDom'],
             'alpha_widget': res['barbuy390_mid']['barbuy']['alphaWidgetInDom'],
             'bubble_lh': res['barbuy390_mid']['barbuy']['bubbleLineHeight'],
+            'bubble_h': (res['barbuy390_mid']['barbuy'].get('bubbleFit') or {}).get('boxH'),
         },
         'rows': {
             'stepper_w': dict((str(vp), (res['rows%d' % vp]['rows'] or [{}])[0].get('stepperW'))

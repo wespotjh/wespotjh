@@ -31,6 +31,14 @@ HOOKS = [
     'alpha_widget', 'alpha_review_count', 'df-banner-code', 'df-banner-clone',
     'NaverChk_Button', '{$app_payment_button_box_id}', 'id="kakaoKey"',
     'facebook-domain-verification',
+    # 배너 슬롯 2곳의 **클래스명**. `df-banner-code`/`df-banner-clone` 만 지키면
+    # 클래스명만 바꿔도 이 표를 통과한다 — 그러면
+    #   ① `.benefit-bubble{display:none}` · `.evt{display:none}` 두 줄이 조용히 무력화되어
+    #      운영에서 내린 배너가 되살아나고,
+    #   ② 실렌더 쪽 `C5.bb.*` · `C7.evt.*` 가 대상을 못 찾아 그 검사들이 통째로 사라진다.
+    # 클래스명 자체를 계약으로 고정한다. (검사 토큰에 `class="` 를 포함하므로
+    #  CSS/JS 주석에 클래스명이 나와도 오탐하지 않는다.)
+    'class="benefit-bubble"', 'class="evt"',
 ]
 # ⚠ 토큰은 '#kakaoKey' 가 아니라 'id="kakaoKey"' 다 — 전자는 zg-ga4.js 의 **주석**에만 맞고
 #   detail.html 에는 0건이라 div 가 사라져도 PASS 했다 (팀장 결정 T-3 · 오세진 ⓓ, 2026-09-08).

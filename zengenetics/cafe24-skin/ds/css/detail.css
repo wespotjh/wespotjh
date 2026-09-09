@@ -49,7 +49,7 @@
   --zg-t-slow: .3s ease;
 
   /* 레이어 — 스킨 실측: .mobile-layer-bg 11 / .mobile-layer.fixed 11 / .mobile-fix-footer 10.
-     [검수 근거] 스킨 원값 10 을 그대로 쓴다. 11 이상이면 바가 바텀시트·딤 위로 올라온다. */
+     [근거] 스킨 원값 10 을 그대로 쓴다. 11 이상이면 바가 바텀시트·딤 위로 올라온다. */
   --zg-z-bar: 10;
   --zg-z-toast: 13;
 
@@ -76,7 +76,7 @@
   -webkit-text-size-adjust: 100%;
 }
 
-/* [검수 근거] 하단 고정바 예약.
+/* [근거] 하단 고정바 예약.
    경위 3단계를 그대로 남긴다 — 같은 함정을 다음 사람이 다시 밟지 않도록.
      시도 1: `.zg-detail{padding-bottom}` → `.zg-detail` 은 푸터를 포함하지 않아 무효 + 엉뚱한 여백.
      시도 2: `.footer{margin-bottom}`     → **스크롤 가능 영역은 자손의 보더박스로만 정해지고
@@ -303,6 +303,10 @@
 }
 
 /* ------------------------------------- 4. K-13 이벤트배너 / K-14 오늘출발 */
+/* ※ 아래 `.evt__*` 세 규칙은 R-8 로 `.evt` 를 내리면서 지금은 잠자는 규칙이다
+      (`.zg-detail .evt { display: none }` — 파일 뒤쪽 R-8 블록).
+      **지우지 마라.** 지우면 되살릴 때 스킨 기본값(높이 56px · 회색 `#f7f8fa`)으로
+      조용히 퇴화한다. 되살릴 때 다시 필요해 남겨 둔다. */
 .zg-detail .evt__item {
   background: var(--zg-bg-2);
   border: 1px solid var(--zg-hair);
@@ -505,7 +509,7 @@
   border: 1px dashed var(--zg-hair-2);
   border-radius: var(--zg-r-xl);
 }
-/* [검수 근거] `#totalProducts` 를 숨기면 `tr.add_product` 까지 함께 사라져
+/* [근거] `#totalProducts` 를 숨기면 `tr.add_product` 까지 함께 사라져
    추가상품만 고른 고객이 자기가 담은 것을 보지도 지우지도 못했다.
    → 행 은닉을 없애고 **안내문 토글**만 남긴다. 빈 상태 판정에는 add_product 도 포함한다(JS). */
 .zg-detail.zg-picked-0 .zg-picked-head__empty { display: block; }
@@ -553,7 +557,7 @@
 }
 
 /* ── K-05 수량 스테퍼 ─────────────────────────────────────────────────────
-   [검수 근거] 카페24는 `#totalProducts` 행을 **UA 로 갈라 두 마크업**으로 만든다
+   [근거] 카페24는 `#totalProducts` 행을 **UA 로 갈라 두 마크업**으로 만든다
    (`optimizer.php` : bIsMobile = EC_MOBILE || EC_MOBILE_DEVICE).
 
      iPhone UA  → buildMobileSoldInCells : `.quantity` 래퍼 **없음**
@@ -718,7 +722,7 @@ body:not(#userStyle) .zg-detail #totalProducts .quantity .up::after {
   background: var(--zg-ink);
 }
 
-/* [검수 근거] 삭제 컨트롤이 12×12px 이었다.
+/* [근거] 삭제 컨트롤이 12×12px 이었다.
    설계 규칙상 카드에는 삭제를 두지 않으므로 이것이 **유일한 취소 경로**다.
    스킨 `body:not(#userStyle) #totalProducts .delete`(2,1,0) 를 같은 앞부분 + `.zg-detail`(2,2,0) 로 이긴다. */
 body:not(#userStyle) .zg-detail #totalProducts .delete {
@@ -946,9 +950,14 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   /* 라이브는 `#totalPrice { padding: 20px 0 30px }`(≤1024px 미디어) 의 아래 30px 으로
      합계와 버튼 사이를 띄워 두었는데, 우리는 `#totalPrice` 를 시각적으로 접어(K-08)
      그 여백까지 없앴다 → 같은 30px 을 여기서 되돌린다.
-     ※ 13차 이전에는 37px 이었다. 나머지 7px 은 혜택 말풍선(`top:-28px`)의 바운스 진폭 5px
-        + 여유 2px 머리 공간이었는데, 운영 결정으로 말풍선을 끄면서(바로 아래 R-8)
-        그 몫이 필요 없어졌다. */
+     ※ 13차 이전에는 37px 이었다. 그 7px 을 「말풍선 머리 공간」이라고 적어 두었으나
+        **사실이 아니다.** 12차 B안 레이아웃에서 ≤1023px 은 두 상태뿐이고 둘 다 이 값을 안 쓴다:
+          · 시트 닫힘 : `#fixedActionButton` 이 `display:none`(이 파일 ≤1023 미디어) → 상자가 안 그려진다
+          · 시트 열림 : 스킨 `.mobile-layer.fixed .productAction{position:absolute;bottom:0}`
+                       (번들 원문 실측) → 위치를 `bottom` 이 정하므로 `margin-top` 이 무효다
+        값이 실제로 렌더에 반영되는 곳은 **≥1024px 뿐**이다(QA 실측: 1280px 에서 −7px 이동).
+        즉 30px 으로 내린 것은 데스크탑 간격을 라이브 원값에 맞춘 것이고,
+        ≤1023px 에서는 37px 이든 30px 이든 화면이 같다. */
   margin-top: 30px;
 }
 .zg-detail .productAction .buy-btn-wrap { gap: 9px; }
@@ -962,9 +971,18 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
    ⚠ 스킨 번들은 `.benefit-bubble > a` 만 스타일링하고 `.benefit-bubble` 자신에는
       손대지 않는다(번들 원본 실측). 배너앱이 넣는 인라인 `style` 도 `<a>` 에만 붙는다
       → 부모 노드를 내리면 자식의 인라인 style 로도 되살아나지 못한다. `!important` 불필요.
-   ↩ 되살리려면 아래 두 줄 중 해당하는 줄을 지우고, 말풍선 쪽은 위
-      `.productAction` 의 `margin-top` 을 **37px 로 되돌려야 한다**
-      (말풍선 머리 공간 7px. 안 되돌리면 8차 F-3 겹침이 재발한다). */
+   ⚠ 캐스케이드가 안전한 이유는 **순서가 아니라 경쟁자가 없기 때문**이다.
+      라이브 번들 실측: 이 파일은 번들 오프셋 **1**, 스킨의 `.benefit-bubble` 규칙은 **84,704** —
+      즉 우리가 **먼저** 오고 스킨이 나중이다. 동일 특정도면 스킨이 이긴다.
+      지금 이 두 줄이 먹히지 않는 것은 스킨이 `display` 를 아예 선언하지 않았기 때문이다.
+      스킨에 `display` 선언이 생기면 이 규칙은 조용히 진다. → 그때는 특정도를 올려서 막는다.
+   ↩ 되살리기 — **한 줄 지우는 것으로는 끝나지 않는다.**
+      말풍선 줄을 지우면 ≤1023 시트 열림 상태(말풍선이 보이는 유일한 상태)에서
+      말풍선과 안내문(`.zg-sum__note`)이 **겹친다**. QA 실측(320–1023px):
+        · `.productAction` 이 30px 일 때도, 37px 로 되돌려도 간격은 **−85.9 ∼ −116.9px(=겹침)**
+        · 37px 로 되돌릴 때 간격이 움직이는 폭은 **0.0–0.2px** (위 `margin-top` 주석의 이유)
+      즉 `margin-top` 을 어떻게 두든 겹침은 남는다. 되살리려면 진짜 수정이 필요하다 —
+      ≤1023 시트 열림에서 `.zg-sum__note` 를 감추거나, 말풍선 위치 자체를 옮겨야 한다. */
 .zg-detail .benefit-bubble { display: none; }
 .zg-detail .evt { display: none; }
 
@@ -1031,7 +1049,7 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   background: linear-gradient(to bottom, rgb(255 255 255 / 0), var(--zg-bg) 72%);
 }
 .zg-detail .zg-fold.zg-open .zg-veil { display: none; }
-/* [검수 근거] 베일이 상세 하단 190px 을 덮어 그 안의 링크 클릭을 막는다 → 버튼만 살린다 */
+/* [근거] 베일이 상세 하단 190px 을 덮어 그 안의 링크 클릭을 막는다 → 버튼만 살린다 */
 .zg-detail .zg-veil { pointer-events: none; }
 .zg-detail .zg-veil .zg-more { pointer-events: auto; }
 .zg-detail .zg-more {
@@ -1050,9 +1068,9 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
    원본 폭(639~640px) + max-width:100% 로 이미 의도한 결과가 나온다. 정렬만 잡는다. */
 .zg-detail #prdDetail .zg-fold img { display: block; margin: 0 auto; }
 
-/* [검수 근거] 검수 항목 이 `ec-data-src` 를 `src` 로 승격하면서 `width`/`height` 가 없어
+/* [근거] `ds/js/detail-ui.js` 의 K-09 하드가드가 `ec-data-src` 를 `src` 로 승격하면서 `width`/`height` 가 없어
    **로드 전 높이가 0** 이 된다 → 브라우저가 14장을 전부 "뷰포트 근처"로 판정해 한꺼번에 받는다.
-   검수 항목(색인)은 되돌리지 않고, **로드 전에도 자리를 차지하게** 만들어 `loading="lazy"` 를 살린다.
+   그 하드가드(색인 보전)는 되돌리지 않고, **로드 전에도 자리를 차지하게** 만들어 `loading="lazy"` 를 살린다.
    `aspect-ratio: auto <ratio>` 의 `auto` 키워드가 핵심이다 —
      · 로드 전(자연 치수 없음) : 아래 비율로 자리를 잡는다
      · 로드 후(자연 치수 있음) : **자연 비율이 우선**이라 왜곡이 없다
@@ -1134,7 +1152,7 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 
 /* --------------------------------------- 16. K-12b 하단 고정바 (≤1023) */
 @media (max-width: 1023px) {
-  /* [검수 근거] 명세 높이 82px = 금액줄 28px + 버튼 54px.
+  /* [근거] 명세 높이 82px = 금액줄 28px + 버튼 54px.
      실측 92px 의 원인 2가지를 여기서 없앤다.
        ① `gap:9px` 은 `flex-wrap:wrap` 컨테이너에서 **row-gap 으로도** 작동해
           금액줄과 버튼줄 사이에 9px 을 넣었다 → `column-gap` 만 남기고 `row-gap:0`.
@@ -1304,13 +1322,12 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
     padding: 0;
     margin: 0;
     line-height: 0;
-    pointer-events: none;
     overflow: hidden;
     border-width: 0;
   }
 }
 
-/* [검수 근거] 검정 CTA 위에서 UA 기본 포커스 링의 대비가 나쁘다 */
+/* [근거] 검정 CTA 위에서 UA 기본 포커스 링의 대비가 나쁘다 */
 .zg-detail .zg-opt:focus-visible,
 .zg-detail .zg-chip:focus-visible,
 .zg-detail .zg-more:focus-visible {

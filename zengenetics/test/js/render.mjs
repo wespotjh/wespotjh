@@ -465,6 +465,51 @@ const BARBUY = async (atTop) => {
   out.inlineVisibleAfterBuy = vis(q('#fixedActionButton'));
   out.submit1VisibleAfterBuy = subs().filter(e => /product_submit\(\s*1/.test(e.getAttribute('onclick')) && vis(e)).length;
   out.buyPathOk = !!(out.sheetOpened || out.buyFired.indexOf(1) >= 0);
+  /* 혜택 말풍선 — **실제로 그려 놓고** 글자가 26px 상자 안에 들어가는지 잰다.
+   * `line-height` 계산값만 보면 버튼 쪽 값이나 말풍선의 font-size/height 가 바뀌어도
+   * 14.4px 은 그대로라 계속 통과한다 = 고객이 보게 될 것을 하나도 지키지 못한다.
+   * R-8 로 지금은 `display:none` 이라 그냥 재면 0 이 나오므로 강제로 띄운다.
+   * 인라인 style 은 우리 비-important 규칙을 이긴다(실증). 조상(`#fixedActionButton`)도
+   * 시트가 닫히면 `display:none` 이라 같이 띄운다. 잰 뒤 **전부 원상복구**한다. */
+  out.bubbleFit = await (async () => {
+    const bb = q('.benefit-bubble'); if (!bb) return { found: false };
+    const a = bb.querySelector('a'); if (!a) return { found: false };
+    const fab = q('#fixedActionButton');
+    const sav = { fab: fab ? fab.style.display : null, bbD: bb.style.display,
+                  bbH: bb.hasAttribute('hidden'), aH: a.hasAttribute('hidden'), aT: a.textContent };
+    if (fab) fab.style.display = 'block';
+    bb.hidden = false; bb.style.display = 'block';
+    a.hidden = false;
+    /* 문구가 비어 있으면(배너앱 미가동) 잴 것이 없다 → 대표 길이의 문구를 넣고 나중에 되돌린다.
+     * ⚠ `textContent` 를 쓰면 자식 노드가 날아가므로, 넣은 경우에만 되돌린다. */
+    const putText = !(a.textContent || '').trim();
+    if (putText) a.textContent = '카카오로 구매하고 평생 무료배송 받기';
+    /* 스킨은 `<a>` 안에 꼬리 삼각형용 빈 <span>(`bottom:-5px`, border 5px)을 둔다.
+     * 그 5px 은 **의도된 장식**이라 글자 넘침과 섞이면 안 된다 → 재는 동안만 감춘다. */
+    const kids = Array.from(a.children);
+    const kidD = kids.map(k => k.style.display);
+    kids.forEach(k => { k.style.display = 'none'; });
+    await wait(80);
+    const r = a.getBoundingClientRect(), cs = getComputedStyle(a);
+    let outside = null;
+    try {
+      const rg = document.createRange(); rg.selectNodeContents(a);
+      const tr = rg.getBoundingClientRect();
+      outside = +(Math.max(0, tr.bottom - r.bottom) + Math.max(0, r.top - tr.top)).toFixed(1);
+    } catch (e) {}
+    const m = { found: true, renderable: r.width > 0 && r.height > 0,
+                lineHeight: cs.lineHeight, fontSize: cs.fontSize,
+                boxH: +r.height.toFixed(1),
+                overflowPx: Math.max(0, a.scrollHeight - a.clientHeight),
+                textOutsidePx: outside };
+    kids.forEach((k, i) => { k.style.display = kidD[i]; });
+    if (putText) a.textContent = sav.aT;
+    if (sav.aH) a.setAttribute('hidden', ''); else a.removeAttribute('hidden');
+    bb.style.display = sav.bbD;
+    if (sav.bbH) bb.setAttribute('hidden', ''); else bb.removeAttribute('hidden');
+    if (fab) fab.style.display = sav.fab;
+    return m;
+  })();
   return out;
 };
 
