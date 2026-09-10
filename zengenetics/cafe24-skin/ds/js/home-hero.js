@@ -52,10 +52,13 @@
     barCheck();
   }
 
-  /* 히어로 안의 앵커 두 개는 스토어 섹션으로 부드럽게 내린다. */
+  /* 히어로 안의 앵커 두 개는 아래 상품 구간으로 부드럽게 내린다.
+     .zg-store 는 홈 전용 스토어 섹션이다. 인트로만 얹고 그 아래를 기존 홈으로 두는 구성에는
+     그 섹션이 없으므로, 인트로 바로 뒤에 놓인 #zgHomeJump 앵커를 대신 쓴다.
+     둘 다 없으면 아무것도 걸지 않는다 — 버튼은 type="button" 이라 그대로 무동작이다. */
   function initJump() {
     var list = root.querySelectorAll('[data-zg-jump]');
-    var store = root.querySelector('.zg-store');
+    var store = root.querySelector('.zg-store') || document.getElementById('zgHomeJump');
     if (!store) return;
     for (var i = 0; i < list.length; i++) {
       list[i].addEventListener('click', function (e) {

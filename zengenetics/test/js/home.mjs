@@ -69,8 +69,29 @@ const FULL = async () => {
   const wait = (ms) => new Promise(r => setTimeout(r, ms));
   const dt = (el) => el.getBoundingClientRect().top + window.pageYOffset;
   const out = {};
-  out.landmark = { pblock: qa('.zg-pblock').length, frames: qa('.zg-fr').length,
-                   thumbs: qa('.zg-thumbs a').length, h1: qa('h1').length, ctabar: qa('.zg-ctabar').length };
+  /* 랜드마크 — 인트로(우리 것)와 기존 홈(건드리지 않은 것)을 같이 센다.
+     기존 홈 쪽이 0 이 되면 인트로를 얹다가 홈을 덮은 것이다. 그 뷰포트는 신뢰하지 않는다. */
+  out.landmark = { hero: qa('.zg-hero-skin').length, bigword: qa('.zg-bigword').length,
+                   hcap: qa('.zg-hcap').length, h1: qa('h1').length,
+                   ctabar: qa('.zg-ctabar').length, pblock: qa('.zg-pblock').length,
+                   jump: qa('#zgHomeJump').length,
+                   bannerMob: qa('.main-banner--mobile .main-banner__item').length,
+                   bannerPc: qa('.main-banner--pc .main-banner__item').length,
+                   best: qa('.xans-product-listmain-1 .prdList > li').length,
+                   mid2: qa('.mid-banner2').length,
+                   newlist: qa('.xans-product-listmain-2 .prdList > li').length,
+                   legalnote: qa('.zg-legalnote').length };
+  /* 인트로가 기존 홈보다 위에 있는가 — 문서 좌표로 직접 확인한다.
+     기존 홈 쪽은 "실제로 보이는" 구간의 최상단을 쓴다. 폭에 따라 PC/모바일 배너 중 한쪽은
+     display:none 이고, 그 요소의 rect 는 전부 0 이라 그대로 쓰면 항상 0 이 나온다. */
+  const _hero = q('.zg-hero-skin');
+  const _olds = qa('.main-banner, .xans-product-listmain-1, .mid-banner2, .xans-product-listmain-2')
+                  .filter(e => e.getBoundingClientRect().height > 0);
+  out.order = (_hero && _olds.length)
+    ? { heroTop: Math.round(dt(_hero)), heroH: Math.round(_hero.getBoundingClientRect().height),
+        oldTop: Math.round(Math.min(..._olds.map(dt))), oldN: _olds.length,
+        jumpTop: q('#zgHomeJump') ? Math.round(dt(q('#zgHomeJump'))) : null }
+    : null;
   out.overflow = { scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth };
   const root = q('.zg-home');
   const cs = root ? getComputedStyle(root) : null;
@@ -102,11 +123,17 @@ const FULL = async () => {
   out.progressArgmax = argmax;
   window.scrollTo(0, Math.round(dt(track) + track.offsetHeight * 0.5)); await wait(300);
   out.sticky = { stageTop: Math.round(stage.getBoundingClientRect().top), cs: getComputedStyle(stage).position };
-  const b = q('.zg-pblock[data-zg-p="pot"]'); const bt = b.querySelector('.zg-track');
-  const idxOf = () => Array.from(b.querySelectorAll('.zg-fr')).findIndex(x => x.classList.contains('zg-on'));
-  const idx = [];
-  for (const f of [0.02, 0.5, 0.95]) { window.scrollTo(0, Math.round(dt(bt) + bt.offsetHeight * f)); await wait(320); idx.push(idxOf()); }
-  out.scrub = { frames: b.querySelectorAll('.zg-fr').length, idx, v0: b.querySelector('.zg-v0')?.textContent, v1: b.querySelector('.zg-v1')?.textContent };
+  /* 가루 용해 블록(.zg-pblock)은 홈에서 뺐다. 남아 있는 구성에서만 스크럽을 잰다. */
+  const b = q('.zg-pblock[data-zg-p="pot"]');
+  if (b) {
+    const bt = b.querySelector('.zg-track');
+    const idxOf = () => Array.from(b.querySelectorAll('.zg-fr')).findIndex(x => x.classList.contains('zg-on'));
+    const idx = [];
+    for (const f of [0.02, 0.5, 0.95]) { window.scrollTo(0, Math.round(dt(bt) + bt.offsetHeight * f)); await wait(320); idx.push(idxOf()); }
+    out.scrub = { frames: b.querySelectorAll('.zg-fr').length, idx, v0: b.querySelector('.zg-v0')?.textContent, v1: b.querySelector('.zg-v1')?.textContent };
+  } else {
+    out.scrub = null;
+  }
   /* 조건 ④ */
   window.scrollTo(0, Math.round(dt(track) + track.offsetHeight * 0.5)); await wait(320);
   const before = Math.round(window.pageYOffset);
@@ -143,9 +170,14 @@ const SAFETY = async () => {
   const dt = (el) => el.getBoundingClientRect().top + window.pageYOffset;
   const t = document.querySelector('.zg-hero-track');
   window.scrollTo(0, Math.round(dt(t) + t.offsetHeight * 0.5)); await wait(300);
-  document.body.classList.add('eMobilePopup'); await wait(300);
+  /* body 가 아니라 html 에 붙인다. 스킨 인라인 스크립트가 body 의 class 속성을 통째로 지우는
+     경로가 있어(그래서 H2.bodywipe 가 따로 있다) body 로는 "떼는 코드 없음" 조건을 못 만든다.
+     감시자는 body 와 html 양쪽의 eMobilePopup|scroll-disabled 를 본다. */
+  const H = document.documentElement;
+  H.classList.add('scroll-disabled'); await wait(300);
   const a = window.ZG_HOME.frozen; await wait(3200);
-  return { frozenAt300ms: a, frozenAt3500ms: window.ZG_HOME.frozen, bodyStillHasClass: document.body.classList.contains('eMobilePopup') };
+  return { frozenAt300ms: a, frozenAt3500ms: window.ZG_HOME.frozen,
+           bodyStillHasClass: H.classList.contains('scroll-disabled') };
 };
 
 /* 스크럽 구간의 프레임타임·롱태스크·프레임 교체 준비상태를 페이지 안에서 모은다.
@@ -220,13 +252,25 @@ for (const scen of cfg.scenarios) {
       await page.goto('https://zengenetics.co.kr' + cfg.docPath,
                       { waitUntil: scen.imgDelay ? 'domcontentloaded' : 'load', timeout: 90000 });
       await page.waitForTimeout(2500);
-      const geo = await page.evaluate((bk) => {
-        const el = document.querySelector('.zg-pblock[data-zg-p="' + bk + '"] .zg-track');
+      /* 스크럽 대상. 가루 블록을 홈에서 뺀 뒤로는 히어로 트랙 자체가 스크럽 구간이다.
+         scen.target === 'hero' 면 히어로를, 아니면 예전처럼 가루 블록을 잰다. */
+      const geo = await page.evaluate((a) => {
         const hero = document.querySelector('.zg-hero-track');
+        const heroTop = hero.getBoundingClientRect().top + window.pageYOffset;
+        const vh = window.innerHeight;
+        if (a.target === 'below') {
+          /* 인트로를 지나 기존 홈을 훑는 구간. 히어로가 화면 밖으로 나간 뒤에도
+             렌더를 계속하면 여기서 메인 스레드가 막힌다 — 히어로 렌더 가드가 지키는 지점이다. */
+          const top = heroTop + hero.offsetHeight;
+          const h = Math.max(vh + 1, document.documentElement.scrollHeight - top);
+          return { top, h, vh, heroTop, heroH: hero.offsetHeight };
+        }
+        const el = a.target === 'hero' ? hero
+                 : document.querySelector('.zg-pblock[data-zg-p="' + a.bk + '"] .zg-track');
+        if (!el) throw new Error('스크럽 대상 없음: ' + (a.target || a.bk));
         return { top: el.getBoundingClientRect().top + window.pageYOffset, h: el.offsetHeight,
-                 vh: window.innerHeight, heroTop: hero.getBoundingClientRect().top + window.pageYOffset,
-                 heroH: hero.offsetHeight };
-      }, scen.block || 'pot');
+                 vh, heroTop, heroH: hero.offsetHeight };
+      }, { bk: scen.block || 'pot', target: scen.target || 'block' });
       await page.evaluate((y) => window.scrollTo(0, y - 40), geo.top);
       await page.waitForTimeout(scen.imgDelay ? 1200 : 1500);
       if (scen.throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: scen.throttle });
@@ -238,7 +282,8 @@ for (const scen of cfg.scenarios) {
       }
       /* decode 무응답 조건에서는 8초 안전장치가 뜨는 시점까지 본다 — 반전본이 'late' 로 열리는 것을 잡으려면 필요하다 */
       await page.waitForTimeout(scen.stallDecode ? 4000 : 400);
-      rec.m.jank = await page.evaluate((bk) => {
+      rec.m.jank = await page.evaluate((a) => {
+        const bk = a.bk;
         const Z = window.__zg;
         const fr = Z.frames.slice(Z.mark), sw = Z.swaps.slice(Z.swapMark), lt = Z.long.slice(Z.longMark);
         const so = fr.slice().sort((a, b) => a - b);
@@ -253,7 +298,7 @@ for (const scen of cfg.scenarios) {
                  gate: Z.gate.filter(g => g.key === bk),
                  imgLoaded: Array.from(document.querySelectorAll('.zg-pblock[data-zg-p="' + bk + '"] .zg-fr'))
                    .filter(i => i.complete && i.naturalWidth).length };
-      }, scen.block || 'pot');
+      }, { bk: scen.block || 'pot', target: scen.target || 'block' });
       if (scen.kind === 'back') {
         /* 히어로로 되돌아왔을 때 다시 그리는가 — 캡션 argmax 로 확인한다(픽셀 비의존) */
         if (scen.throttle) await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });

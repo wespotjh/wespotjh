@@ -14,7 +14,7 @@
 <!--@css(/ds/css/main.css)-->
 <!--@js(/ds/js/price-config.js)-->
 
-<!-- 홈 전용 스타일·스크립트.
+<!-- 홈 인트로 전용 스타일·스크립트.
      @css 는 반드시 위의 기존 선언들 "뒤"에 온다 — 앞에 두면 묶음 순서에서 1번이 되어
      같은 구체도의 기존 규칙에 밀린다. 뒤에 두면 이긴다.
      home-blocks.js 가 먼저다: 공용 런타임(window.ZG_HOME)과 상태 감시자를 그쪽이 만든다. -->
@@ -39,28 +39,14 @@
 </style>
 <!-- /알파리뷰 -->
 
-<!-- 홈 이미지 경로는 여기 한 곳에만 있다.
-     CSS·JS 어디에도 이미지 URL 이 없다 — 경로가 바뀌면 아래 base 한 줄만 고친다. -->
+<!-- 인트로 이미지 경로는 여기 한 곳에만 있다.
+     CSS·JS 어디에도 이미지 URL 이 없다 — 경로가 바뀌면 아래 base 한 줄만 고친다.
+     bg  : 히어로 배경 사진 5장 (home-hero.js)
+     tex : 3D 스틱에 입히는 라벨 텍스처 3장 (home-hero.js · 3장 미만이면 폴백으로 내려간다) -->
 <script>
 window.ZG_HOME_IMG={base:"/ds/image/",
 bg:["zg-home-bg-dawn.jpg","zg-home-bg-morning.jpg","zg-home-bg-evening.jpg","zg-home-bg-night.jpg","zg-home-bg-finale.jpg"],
-tex:["zg-home-tex-vitaminb.webp","zg-home-tex-potassium.webp","zg-home-tex-magnesium.webp"],
-stick:{pot:["zg-home-stick-pot-h.webp","zg-home-stick-pot-v.webp"],mag:["zg-home-stick-mag-h.webp","zg-home-stick-mag-v.webp"],vitb:["zg-home-stick-vitb-h.webp","zg-home-stick-vitb-v.webp"]},
-diss:{pot:["zg-home-diss-pot-01.webp","zg-home-diss-pot-02.webp","zg-home-diss-pot-03.webp","zg-home-diss-pot-04.webp","zg-home-diss-pot-05.webp","zg-home-diss-pot-06.webp","zg-home-diss-pot-07.webp","zg-home-diss-pot-08.webp","zg-home-diss-pot-09.webp","zg-home-diss-pot-10.webp","zg-home-diss-pot-11.webp","zg-home-diss-pot-12.webp","zg-home-diss-pot-13.webp","zg-home-diss-pot-14.webp","zg-home-diss-pot-15.webp","zg-home-diss-pot-16.webp","zg-home-diss-pot-17.webp","zg-home-diss-pot-18.webp","zg-home-diss-pot-19.webp","zg-home-diss-pot-20.webp","zg-home-diss-pot-21.webp","zg-home-diss-pot-22.webp","zg-home-diss-pot-23.webp","zg-home-diss-pot-24.webp"],
-mag:["zg-home-diss-mag-01.webp","zg-home-diss-mag-02.webp","zg-home-diss-mag-03.webp","zg-home-diss-mag-04.webp","zg-home-diss-mag-05.webp","zg-home-diss-mag-06.webp","zg-home-diss-mag-07.webp","zg-home-diss-mag-08.webp","zg-home-diss-mag-09.webp","zg-home-diss-mag-10.webp","zg-home-diss-mag-11.webp","zg-home-diss-mag-12.webp","zg-home-diss-mag-13.webp","zg-home-diss-mag-14.webp","zg-home-diss-mag-15.webp","zg-home-diss-mag-16.webp","zg-home-diss-mag-17.webp","zg-home-diss-mag-18.webp","zg-home-diss-mag-19.webp","zg-home-diss-mag-20.webp","zg-home-diss-mag-21.webp","zg-home-diss-mag-22.webp","zg-home-diss-mag-23.webp","zg-home-diss-mag-24.webp"],
-vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb-03.webp","zg-home-diss-vitb-04.webp","zg-home-diss-vitb-05.webp","zg-home-diss-vitb-06.webp","zg-home-diss-vitb-07.webp","zg-home-diss-vitb-08.webp","zg-home-diss-vitb-09.webp","zg-home-diss-vitb-10.webp","zg-home-diss-vitb-11.webp","zg-home-diss-vitb-12.webp","zg-home-diss-vitb-13.webp","zg-home-diss-vitb-14.webp","zg-home-diss-vitb-15.webp","zg-home-diss-vitb-16.webp","zg-home-diss-vitb-17.webp","zg-home-diss-vitb-18.webp","zg-home-diss-vitb-19.webp","zg-home-diss-vitb-20.webp","zg-home-diss-vitb-21.webp","zg-home-diss-vitb-22.webp","zg-home-diss-vitb-23.webp","zg-home-diss-vitb-24.webp"]}};
-
-/* 아래 세 변수는 이 파일이 import 하는 기존 메인 스크립트(수정 금지)가 배너 슬라이드를 담던 자리다.
-   메인·서브 배너를 홈에서 뺐으므로 그 스크립트는 슬라이드를 만들지 못한 채 .autoplay.pause() 를 호출해
-   TypeError 를 낸다. 미리 무해한 빈 객체를 두면 그 스크립트의 "이미 만들어졌다" 분기를 타서
-   슬라이드 생성 자체를 건너뛴다. 슬라이더를 흉내내지 않는다 — 실제로 불리는 두 멤버만 no-op 이다.
-   접근자로 두는 이유: 그 스크립트가 폭이 768 을 넘을 때 destroy() 뒤 변수를 undefined 로 되돌리고,
-   폰 회전·창 크기 변경으로 폭이 돌아오면 다시 만들다 던진다. setter 를 비워 두면 그 대입이 무시되어
-   스텁이 영구히 유지된다. var 재선언은 기존 전역 접근자를 지우지 않는다. */
-['runMainBannerSlidePC', 'runMainBannerSlideMobile', 'runSubBannerSlide'].forEach(function (k) {
-  var stub = { autoplay: { pause: function () {} }, destroy: function () {} };
-  Object.defineProperty(window, k, { get: function () { return stub; }, set: function () {}, configurable: true });
-});
+tex:["zg-home-tex-vitaminb.webp","zg-home-tex-potassium.webp","zg-home-tex-magnesium.webp"]};
 </script>
 
 <!-- 첫 화면 배경 1장만 즉시 칠한다. 나머지 4장은 home-hero.js 가 첫 스크롤 뒤에 넣는다.
@@ -72,8 +58,11 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
      home-hero.js 가 이 태그의 load 를 받아 3D 를 뒤늦게 켠다. 그 전까지는 폴백 히어로가 보인다. -->
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" data-zg-three></script>
 
+<!-- ==========================================================================
+     1. 인트로 — 하루(새벽) → MORNING → EVENING → NIGHT → ALL DAY
+     기존 홈 맨 위에 얹는 구간이다. 이 아래는 손대지 않은 기존 홈 그대로다.
+     ========================================================================== -->
 <div class="zg-home">
-
   <div class="zg-hero-skin">
     <div class="zg-hero-track">
       <div class="zg-hero-stage">
@@ -161,101 +150,69 @@ vitb:["zg-home-diss-vitb-01.webp","zg-home-diss-vitb-02.webp","zg-home-diss-vitb
         <div class="zg-scroll-hint">SCROLL</div>
       </div>
     </div>
-    <a class="zg-ctabar" href="/product/detail.html?product_no=71"><span>첫 구매 데이팩</span><b>8,900원 →</b></a>
   </div>
+</div>
 
-  <div class="zg-hero2">
-    <div class="zg-w">
-      <div class="zg-eyebrow">Reset · Recover · Recharge</div>
-      <h2>물 없이도, OK</h2>
-      <p class="zg-sub">물도 컵도 필요 없는 분말 스틱</p>
-    </div>
-    <div class="zg-trio">
-      <div class="zg-glow"></div>
-      <img class="zg-a" src="/ds/image/zg-home-stick-pot-v.webp" alt="젠제네틱스 칼륨 분말 스틱" loading="lazy" decoding="async">
-      <img class="zg-c" src="/ds/image/zg-home-stick-vitb-v.webp" alt="젠제네틱스 비타민B 컴플렉스 분말 스틱" loading="lazy" decoding="async">
-      <img class="zg-b" src="/ds/image/zg-home-stick-mag-v.webp" alt="젠제네틱스 마그네슘 분말 스틱" loading="lazy" decoding="async">
-    </div>
-  </div>
+<!-- 인트로가 끝나는 지점. 히어로 안의 [data-zg-jump] 버튼이 여기로 내려온다
+     (home-hero.js initJump — .zg-store 가 없는 구성에서 쓰는 앵커). -->
+<div id="zgHomeJump" aria-hidden="true"></div>
 
-  <div class="zg-pblock" data-zg-p="pot" data-zg-n0="525" data-zg-n1="20">
-    <div class="zg-divider"></div>
-    <div class="zg-phead zg-w">
-      <div class="zg-eyebrow">젠제네틱스 칼륨</div>
-      <h2>칼륨 525mg, 하루 두 포</h2>
-      <p class="zg-sub">상큼한 라임향으로, 나트륨 배출과 체내 수분 밸런스를 가볍게.</p>
-      <p class="zg-fine">*칼륨 스틱은 당류가공품입니다</p>
-    </div>
-    <div class="zg-track"><div class="zg-stage">
-      <div class="zg-plate"></div>
-      <div class="zg-bcap"><div class="zg-t" data-zg-cap0="물한잔" data-zg-cap1="한포를 털어넣으면" data-zg-cap2="구연산 칼륨 단일성분" data-zg-cap3="하루의 나트륨 밸런스를 RESET">물한잔</div></div>
-      <div class="zg-band"><div class="zg-in">
-        <div class="zg-c"><div class="zg-n zg-v0">525</div><div class="zg-u">mg · 하루 2포 기준</div></div>
-        <div class="zg-c"><div class="zg-n zg-v1">20</div><div class="zg-u">포 · 한 상자</div></div>
-      </div></div>
-      <div class="zg-hint">↓ 스크롤</div>
-    </div></div>
-    <div class="zg-w zg-cta-wrap"><a class="zg-cta" href="/product/detail.html?product_no=11"><span>칼륨 보러 가기</span> <span aria-hidden="true">→</span></a></div>
-  </div>
+<!-- ==========================================================================
+     2. 기존 홈 — 아래는 2026-09-09 복구본과 동일하다.
+     한 줄짜리 주석(<!-@import)은 오타가 아니라 "그 구간을 끄는" 표기다. 고치지 마라.
+     ========================================================================== -->
 
-  <div class="zg-pblock" data-zg-p="mag" data-zg-n0="400" data-zg-n1="20">
-    <div class="zg-divider"></div>
-    <div class="zg-phead zg-w">
-      <div class="zg-eyebrow">젠제네틱스 마그네슘</div>
-      <h2>마그네슘 400mg, 자기 전 한 포</h2>
-      <p class="zg-sub">은은한 포도향으로, 신경과 근육 기능 유지에 필요한 마그네슘을 간편하게.</p>
-      <p class="zg-fine">건강기능식품 · 질병의 예방 및 치료를 위한 의약품이 아닙니다</p>
-    </div>
-    <div class="zg-track"><div class="zg-stage">
-      <div class="zg-plate"></div>
-      <div class="zg-bcap"><div class="zg-t" data-zg-cap0="자기 전, 물 한잔" data-zg-cap1="포도향 한 포를 넣으면" data-zg-cap2="마그네슘 400mg" data-zg-cap3="하루의 끝을 편안하게 OFF">자기 전, 물 한잔</div></div>
-      <div class="zg-band"><div class="zg-in">
-        <div class="zg-c"><div class="zg-n zg-v0">400</div><div class="zg-u">mg · 마그네슘 함량</div></div>
-        <div class="zg-c"><div class="zg-n zg-v1">20</div><div class="zg-u">포 · 한 상자</div></div>
-      </div></div>
-      <div class="zg-hint">↓ 스크롤</div>
-    </div></div>
-    <div class="zg-w zg-cta-wrap"><a class="zg-cta" href="/product/detail.html?product_no=16"><span>마그네슘 보러 가기</span> <span aria-hidden="true">→</span></a></div>
-  </div>
+<!-- 메인 배너 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!--@import(/moa/import/main/main_banner.html)-->
 
-  <div class="zg-pblock" data-zg-p="vitb" data-zg-n0="4" data-zg-n1="20">
-    <div class="zg-divider"></div>
-    <div class="zg-phead zg-w">
-      <div class="zg-eyebrow">젠제네틱스 비타민B 컴플렉스</div>
-      <h2>비타민B 4종, 아침 한 포</h2>
-      <p class="zg-sub">상큼한 사과향으로, 하루의 에너지 생성을 활기차게.</p>
-      <p class="zg-fine">비타민B1 : 탄수화물과 에너지 대사에 필요 · 비타민B2 : 체내 에너지 생성에 필요 / 건강기능식품 · 질병의 예방 및 치료를 위한 의약품이 아닙니다</p>
-    </div>
-    <div class="zg-track"><div class="zg-stage">
-      <div class="zg-plate"></div>
-      <div class="zg-bcap"><div class="zg-t" data-zg-cap0="아침, 물 한잔" data-zg-cap1="사과향 한 포를 넣으면" data-zg-cap2="B1·B2·B6·B12 네 가지" data-zg-cap3="하루의 활력을 ON">아침, 물 한잔</div></div>
-      <div class="zg-band"><div class="zg-in">
-        <div class="zg-c"><div class="zg-n zg-v0">4</div><div class="zg-u">종 · B1·B2·B6·B12</div></div>
-        <div class="zg-c"><div class="zg-n zg-v1">20</div><div class="zg-u">포 · 한 상자</div></div>
-      </div></div>
-      <div class="zg-hint">↓ 스크롤</div>
-    </div></div>
-    <div class="zg-w zg-cta-wrap"><a class="zg-cta" href="/product/detail.html?product_no=13"><span>비타민B 보러 가기</span> <span aria-hidden="true">→</span></a></div>
-  </div>
+<!-- 원형 카테고리 배너 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!-@import(/moa/import/main/category_banner.html)-->
 
-  <section class="zg-w zg-store">
-    <h2>*처음이라면, 첫 구매 EVENT!</h2>
-    <p class="zg-lede">칼륨 · 마그네슘 · 비타민B 중 지금 나에게 필요한 루틴을 골라 특별한 첫 구매 혜택으로 만나보세요.</p>
+<!-- 서브 배너1 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!-@import(/moa/import/main/sub_banner1.html)-->
 
-    <div class="zg-thumbs">
-      <a href="/product/detail.html?product_no=11"><span class="zg-im"><img src="/ds/image/zg-home-stick-pot-v.webp" alt="" loading="lazy" decoding="async"></span><span class="zg-nm">칼륨</span></a>
-      <a href="/product/detail.html?product_no=16"><span class="zg-im"><img src="/ds/image/zg-home-stick-mag-v.webp" alt="" loading="lazy" decoding="async"></span><span class="zg-nm">마그네슘</span></a>
-      <a href="/product/detail.html?product_no=13"><span class="zg-im"><img src="/ds/image/zg-home-stick-vitb-v.webp" alt="" loading="lazy" decoding="async"></span><span class="zg-nm">비타민B</span></a>
-    </div>
+<!-- BEST 상품 리스트 : '관리자 > 상품관리 > 상품진열 > 메인상품진열' 메뉴에서 관리 -->
+<!--@import(/moa/import/main/product_list_slide.html)-->
 
-    <p class="zg-ship">배송비 3,500원, 5만원 이상 무료입니다.<br>평일 오후 2시까지 결제하시면 당일 출고됩니다.</p>
-  </section>
+<!--
+    [페럴랙스 배너]
+    -배너 수정 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리
+    -텍스트 수정 : '파일열기' 버튼 클릭하여 관리
+-->
+<!--@import(/moa/import/main/mid_banner2.html)-->
 
-  <div class="zg-w zg-cta-wrap"><a class="zg-cta" href="/category/store/42/"><span>전체 상품 보기</span> <span aria-hidden="true">→</span></a></div>
+<!-- 서브 배너2 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!-@import(/moa/import/main/sub_banner2.html)-->
 
+<!-- TIME SALE 상품 리스트 : '관리자 > 상품관리 > 상품진열 > 메인상품진열' 메뉴에서 관리 -->
+<!-@import(/moa/import/main/product_list_timesale.html)-->
+
+<!-- 신상품 리스트 : '관리자 > 상품관리 > 상품진열 > 메인상품진열' 메뉴에서 관리 -->
+<!--@import(/moa/import/main/product_list_new.html)-->
+
+<!-- 유튜브 영상 배너 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리 -->
+<!-@import(/moa/import/main/main_video.html)-->
+
+<!--
+    [페럴랙스 배너]
+    -배너 수정 : '관리자 > 앱스토어 > 배너매니저' 앱에서 관리
+    -텍스트 수정 : '파일열기' 버튼 클릭하여 관리
+-->
+<!-@import(/moa/import/main/mid_banner.html)-->
+
+<!-- 포토리뷰 : 상품 리뷰 게시판의 게시글과 자동 연동 -->
+<!-@import(/moa/import/main/main_review.html)-->
+
+<!-- 인스타그램 -->
+<!-@import(/moa/import/main/instagram_feed.html)-->
+
+<!-- ==========================================================================
+     3. 고지 문구 — 인트로가 연출 영상이라 페이지 맨 아래에 둔다.
+     .zg-home 래퍼를 다시 쓰는 이유는 home.css 의 .zg-legalnote 규칙을 그대로 받기 위해서다.
+     JS 두 파일 모두 document.querySelector('.zg-home') 로 첫 번째(=위의 인트로)만 잡는다.
+     ========================================================================== -->
+<div class="zg-home">
   <div class="zg-w zg-legalnote"><p class="zg-note">*화면 연출은 제품 이미지이며, 섭취에 따른 효과를 나타내지 않습니다<br>*건강기능식품은 질병의 예방 및 치료를 위한 의약품이 아닙니다</p></div>
-
-  <div class="zg-tail-pad" aria-hidden="true"></div>
 </div>
 
 <!-- 삭제 금지 : 삭제하실 경우 메인페이지 노출이 원활하지 않을 수 있습니다.
