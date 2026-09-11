@@ -154,10 +154,10 @@
       "moa/import/product_detail/detail.html": "689b086ecb7cb4bd72b68899d3b2b1b3",
       "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
       "index.html": "4cb10827c82d552426d00993d7728cfa",
-      "ds/css/detail.css": "bc44b28550115b6596d7ad30cf71a764",
+      "ds/css/detail.css": "4acb8ace1ecbd7b6b5a465769a256b44",
       "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
       "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
-      "ds/js/detail-ui.js": "50f1a34d5c6eb90df0de9c5fd25c4de6",
+      "ds/js/detail-ui.js": "2405b289f4ee9dd4674ae61e75ac9828",
       "ds/js/zg-ga4.js": "74408e1c9a77f3f747c734d3aea628a3",
       "ds/js/home-blocks.js": "48213a6ea556521a9d03514d113c89af",
       "ds/js/home-hero.js": "e56e9964d79e81b5ec41ad3a470fafde"
@@ -167,10 +167,10 @@
       "moa/import/product_detail/detail.html": 2521,
       "moa/layout/head.html": 3495,
       "index.html": 17281,
-      "ds/css/detail.css": 66609,
+      "ds/css/detail.css": 67242,
       "ds/css/price.css": 2271,
       "ds/css/home.css": 17294,
-      "ds/js/detail-ui.js": 66088,
+      "ds/js/detail-ui.js": 66424,
       "ds/js/zg-ga4.js": 42659,
       "ds/js/home-blocks.js": 11521,
       "ds/js/home-hero.js": 37575
@@ -2408,6 +2408,6 @@
     "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것",
     "note_format": "updated 는 갱신 시각(YYYY-MM-DD HH:MM:SS)만 넣는다. 판 번호·설명은 revision 에.",
     "revision": "16차 — R-8 주석 정정 · 보존훅 2종 · 말풍선 기하검사 · 공개소스 용어 중립화",
-    "updated": "2026-09-11 21:38:34"
+    "updated": "2026-09-11 23:39:49"
   }
 }

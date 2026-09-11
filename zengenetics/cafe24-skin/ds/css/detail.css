@@ -902,6 +902,14 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   padding-top: 16px;
   border-top: 1px solid var(--zg-ink);
 }
+/* R-17 (2026-09-11) `[hidden]` 이 먹히게 한다 — **이 줄이 없으면 숨기라는 지시가 무시된다.**
+   브라우저 기본값은 `[hidden]{display:none}`(0,1,0) 인데 바로 아래 규칙이 (0,2,0) 이라
+   이겨 버린다. 그래서 `row.hidden = true` 를 걸어도 줄이 그대로 보였고,
+   구성을 골랐다 취소하면 **정가 196,000 · 할인 −68,000 이 남아 있었다**
+   (상품 금액은 「—」, 총 결제금액은 0원인데). 실기기 지적 2026-09-11.
+   ⚠ 이 규칙을 지우면 그 증상이 그대로 돌아온다. */
+.zg-detail .zg-sum__row[hidden] { display: none; }
+
 .zg-detail .zg-sum__row {
   display: flex;
   justify-content: space-between;

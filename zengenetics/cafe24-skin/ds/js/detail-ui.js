@@ -1221,12 +1221,14 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     /* 정가·할인금액 — 정확히 계산되는 경우에만 보여준다 */
     var listSum = num > 0 ? listTotal() : 0;
     var save = listSum > num ? listSum - num : 0;
-    if (sumListRow) sumListRow.hidden = !(save > 0);
-    if (sumSaveRow) sumSaveRow.hidden = !(save > 0);
-    if (save > 0) {
-      if (sumListV) sumListV.textContent = won(listSum);
-      if (sumSaveV) sumSaveV.textContent = '-' + won(save);
-    }
+    var show = save > 0;
+    if (sumListRow) sumListRow.hidden = !show;
+    if (sumSaveRow) sumSaveRow.hidden = !show;
+    /* R-17 숨길 때 **값도 지운다.** 숨김이 어떤 이유로든 풀려도 지난 금액이
+     * 남아 있으면 안 된다 — 구성을 취소했는데 정가·할인이 그대로 남아 있던 사고가
+     * 바로 그것이었다(CSS 가 `[hidden]` 을 이겨 숨김 자체가 안 먹혔다). */
+    if (sumListV) sumListV.textContent = show ? won(listSum) : '\u2014';
+    if (sumSaveV) sumSaveV.textContent = show ? ('-' + won(save)) : '\u2014';
 
     if (sumItemV) sumItemV.textContent = num > 0 ? t : '—';
     /* R-12 「총 결제금액」은 **고객이 실제로 내는 돈**이어야 한다.

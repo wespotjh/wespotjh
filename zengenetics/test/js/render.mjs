@@ -397,10 +397,31 @@ const UNTAP = async (nodel) => {
       }),
       toast: (() => { const t = q('.zg-toast');
         return t && t.classList.contains('zg-on') ? t.textContent : ''; })(),
+      /* R-17 합계 줄 중 **실제로 화면에 보이는 것**만 담는다.
+         ⚠ `hidden` 속성으로 세면 안 된다 — CSS 가 그것을 이기면 속성은 붙어 있어도
+           줄은 그대로 보인다. 실제로 그랬고, 구성을 취소해도 지난 금액이 남아 있었다
+           (`.zg-sum__row{display:flex}` 가 `[hidden]{display:none}` 을 이겼다). */
+      sumVisible: qa('.zg-sum__row').filter((r) => {
+        const cs = getComputedStyle(r);
+        return cs.display !== 'none' && cs.visibility !== 'hidden'
+            && r.getBoundingClientRect().height > 0;
+      }).map((r) => r.textContent.replace(/\s+/g, ' ').trim()),
     };
   };
   const tap = i => { const c = qa('.zg-opt')[i]; if (c) c.click(); };
-  const out = { cards: qa('.zg-opt').length };
+  /* R-17 ≤767px 에서는 상단 구매 블록이 통째로 감춰져 있다(2026-09-11 개편).
+     시트를 열지 않고 재면 카드도 합계도 **숨은 조상 안**이라, 「보이는가」를 묻는
+     검사가 전부 공허하게 통과한다(실제로 `C8.sum.live` 탐지가 0 으로 잡아냈다).
+     고객이 실제로 거치는 경로대로 시트를 먼저 연다. */
+  if (window.innerWidth <= 767) {
+    window.scrollTo(0, Math.round(document.documentElement.scrollHeight * 0.45));
+    await wait(450);
+    const bar = q('.mobile-fix-footer .jsLayerBtn');
+    if (bar) bar.click();
+    await wait(900);
+  }
+  const out = { cards: qa('.zg-opt').length,
+                sheetOpen: !!(q('.mobile-layer') && q('.mobile-layer').classList.contains('on')) };
   out.start = snap();
   tap(1); await wait(600); out.picked = snap();
   const inp = q('#totalProducts tr.option_product input.quantity_opt');

@@ -457,6 +457,26 @@ def run(base, obs=None):
         s.eq('C8.empty.bar', u'마지막 하나 해제 → 하단바가 안내 문구로 복귀',
              u'구성을 선택해 주세요', u['empty']['bar'])
         s.eq('C8.empty.picked0', u'마지막 하나 해제 → 빈 상태 복귀', True, u['empty']['picked0'])
+        # R-17 (2026-09-11) **취소하면 지난 금액이 남으면 안 된다.**
+        #   구성을 골랐다 취소했는데 「정가 196,000 · 할인 −68,000」 이 그대로 박혀 있었다
+        #   (상품 금액은 「—」, 총 결제금액은 0원인데). 실기기 지적.
+        #   원인은 `.zg-sum__row{display:flex}` 가 `[hidden]{display:none}` 을 이겨
+        #   **숨기라는 지시가 한 번도 먹히지 않은 것**이었다. 라이브 7개 상품 전부 해당.
+        #   ⚠ `hidden` 속성이 아니라 **실제로 보이는지**로 본다 — 속성으로 세면 이 결함이
+        #     그대로 통과한다(내 감사 스크립트가 실제로 그렇게 통과시켰다).
+        for st, nm in (('start', u'아무것도 안 골랐을 때'),
+                       ('untapped', u'재탭으로 해제한 뒤'),
+                       ('empty', u'마지막 하나까지 해제한 뒤')):
+            vis = (u.get(st) or {}).get('sumVisible')
+            if vis is None:
+                s.fail('C8.sum.%s' % st, u'%s 합계 줄 수집' % nm, 'no data'); continue
+            money = [t for t in vis if t.startswith(u'정가') or t.startswith(u'할인금액')]
+            s.eq('C8.sum.%s' % st, u'%s 화면에 보이는 정가·할인금액 줄' % nm, [], money,
+                 u'비어 있지 않으면 고르지도 않은 할인 금액이 화면에 떠 있는 것이다')
+        # 검사가 살아 있는가 — 골랐을 때는 반드시 보여야 한다
+        picked_money = [t for t in ((u.get('picked') or {}).get('sumVisible') or [])
+                        if t.startswith(u'정가')]
+        s.probe('C8.sum.live', u'[탐지] 구성을 골랐을 때 정가 줄 노출', len(picked_money))
         # aria-label 접미 = 그 버튼을 누르면 실제로 일어나는 일 (문가온 소관)
         s.eq('C8.aria.picked', u'담긴 카드의 aria-label 접미', u'선택 해제',
              (u['picked']['ariaTail'] or [''])[1] if len(u['picked']['ariaTail']) > 1 else None)
