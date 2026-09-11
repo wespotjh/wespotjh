@@ -443,6 +443,18 @@ const BARBUY = async (atTop) => {
     appPayInDom: qa('.app-pay-wrap').length,
     naverInDom: qa('#NaverChk_Button').length,
     kakaoPayInDom: qa('#appPaymentButtonBox').length,
+    /* 2026-09-11 개편 이후 이 셋은 **개수가 아니라 보이는지**가 계약이다.
+       · `.app-pay-wrap` 은 마크업에서 걷어냈다(요건: 네이버페이·카카오페이 제거)
+       · 나머지 둘은 앱이 런타임에 만든다 — 지우면 다시 생기므로 **감춘다**.
+         실측상 상자가 3벌까지 생기는데(앱 스크립트가 여러 번 돈다) 전부 감춰야 한다. */
+    payVisible: (() => {
+      const sel = '.app-pay-wrap, [id^="NaverChk"], #appPaymentButtonBox, #kakao-checkout-button';
+      return qa(sel).filter((e) => {
+        const cs = getComputedStyle(e);
+        return cs.display !== 'none' && cs.visibility !== 'hidden'
+            && e.getBoundingClientRect().height > 0;
+      }).length;
+    })(),
     bubbleLineHeight: (() => { const a = q('.benefit-bubble > a'); return a ? getComputedStyle(a).lineHeight : null; })(),
     barCartBox: (() => { const b = qa('.mobile-fix-footer [onclick*="product_submit"]')[0];
       if (!b) return null; const r = b.getBoundingClientRect(); return { w: +r.width.toFixed(1), h: +r.height.toFixed(1) }; })(),
@@ -555,6 +567,99 @@ const SHEET_TOP = () => {
    이 검사가 없어서 실기기에서 「할인금액」 줄이 잘린 채 배포됐다.
    같이 잰다: 카페24 간편결제 앱이 런타임에 넣는 결제/찜 블록이 내려가 있는가.
    ⚠ 노드 존재 검사(C9)는 그대로다 — 우리는 **지우지 않고 감춘다**. */
+/* R-13 (2026-09-11) 시트를 연 채 **손가락으로 끌었을 때** 뒤 본문이 같이 밀리는가.
+   ⚠ `mouse.wheel` 로는 못 잡는다 — `touch-action` 은 휠에 적용되지 않고, 아이폰에는 휠이 없다.
+   ⚠ JS 로 만든 TouchEvent 로도 못 잡는다 — 합성 이벤트는 네이티브 스크롤을 일으키지 않는다.
+   → CDP `Input.dispatchTouchEvent` 로 **진짜 터치 입력**을 넣는다.
+   네 자리를 각각 끌어 본다. 통 안에서만 움직이고 나머지는 본문이 1px 도 움직이면 안 된다.
+     · 딤(뒤 흐린 곳)        → 아무 일도 없어야 한다
+     · 스크롤 통             → 통만 움직여야 한다
+     · 고정된 합계 · 버튼    → `position:absolute` 라 통 바깥으로 취급돼 본문으로 새던 자리다 */
+async function touchDrag(ctx, page, x, y, dy) {
+  const cdp = await ctx.newCDPSession(page);
+  const STEPS = 24;
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  await page.waitForTimeout(30);
+  for (let i = 1; i <= STEPS; i++) {
+    await cdp.send('Input.dispatchTouchEvent',
+      { type: 'touchMove', touchPoints: [{ x, y: Math.round(y + dy * i / STEPS) }] });
+    await page.waitForTimeout(24);
+  }
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await page.waitForTimeout(700);
+  try { await cdp.detach(); } catch (e) {}
+}
+
+/* R-13/R-15 열린 시트의 **스크롤 격리 계약**.
+   손가락이 닿는 네 곳의 `touch-action` 과 스크롤 통의 연쇄 차단을 그대로 읽는다.
+   ⚠ 왜 「끌어 보고」 판정하지 않는가 — CDP `Input.dispatchTouchEvent` 는 합성 입력이라
+     `touch-action` 을 제대로 타지 않는다. 차단이 걸린 요소(TA=none)에서 끌어도 본문이
+     밀리는 것이 실측으로 확인됐다(2026-09-11). 그 결과로 판정하면 거짓 합격·거짓 불합격이
+     둘 다 난다. → 동작을 만드는 **CSS 속성 자체**를 계약으로 고정하고,
+     실제 끌기는 라이브 미러에서 사람이 확인한다(그쪽은 통 130px 스크롤·누출 0 확인). */
+const TOUCH_CONTRACT = () => {
+  const q = (s) => document.querySelector(s);
+  const ta = (el) => (el ? getComputedStyle(el).touchAction : null);
+  const tub = q('.mobile-layer__inner');
+  const sumRow = q('.mobile-layer .infoArea-footer .zg-sum .zg-sum__row');
+  const actKid = q('.mobile-layer .infoArea-footer .productAction .buy-btn-wrap');
+  return {
+    layer: ta(q('.mobile-layer')),
+    dim: ta(q('.mobile-layer-bg')),
+    tub: ta(tub),
+    tubOverflowY: tub ? getComputedStyle(tub).overflowY : null,
+    tubOverscroll: tub ? getComputedStyle(tub).overscrollBehaviorY : null,
+    tubScrollable: tub ? (tub.scrollHeight - tub.clientHeight) : -1,
+    sum: ta(q('.mobile-layer .infoArea-footer .zg-sum')),
+    sumRow: ta(sumRow),
+    act: ta(q('.mobile-layer .infoArea-footer .productAction')),
+    actKid: ta(actKid),
+  };
+};
+
+const SPOTS = () => {
+  const q = (s) => document.querySelector(s);
+  const ml = q('.mobile-layer'); if (!ml) return null;
+  const mr = ml.getBoundingClientRect();
+  const sum = q('.mobile-layer .infoArea-footer .zg-sum');
+  const act = q('.mobile-layer .infoArea-footer .productAction');
+  const y = {
+    dim: Math.max(30, Math.round(mr.top) - 60),
+    tub: Math.round(mr.top) + 300,
+    sum: sum ? Math.round(sum.getBoundingClientRect().top) + 20 : null,
+    act: act ? Math.round(act.getBoundingClientRect().top) + 30 : null,
+  };
+  /* 각 지점이 **의도한 것에 실제로 닿는가** — 엉뚱한 데를 끌고 「안 움직인다」고
+     보고하면 검사가 거짓말을 한다. 최상단 요소를 같이 남긴다. */
+  const x = Math.round(innerWidth / 2);
+  y.hit = {};
+  for (const k of ['dim', 'tub', 'sum', 'act']) {
+    if (y[k] == null) { y.hit[k] = null; continue; }
+    const e = document.elementFromPoint(x, y[k]);
+    y.hit[k] = e ? {
+      tag: e.tagName + '.' + (e.className || '').toString().split(' ')[0],
+      inTub: !!(e.closest && e.closest('.mobile-layer__inner')),
+      inSum: !!(e.closest && e.closest('.zg-sum')),
+      inAct: !!(e.closest && e.closest('.productAction')),
+      inLayer: !!(e.closest && e.closest('.mobile-layer')),
+    } : null;
+  }
+  return y;
+};
+
+const SCROLLPOS = () => {
+  const t = document.querySelector('.mobile-layer__inner');
+  const d = document.documentElement;
+  return {
+    page: Math.round(window.pageYOffset || 0),
+    tub: Math.round(t ? t.scrollTop : -1),
+    /* **검사가 살아 있는지**를 같이 기록한다 — 움직일 수 없는 상태에서 잰
+       「0px 움직였다」는 통과가 아니라 무의미다(거짓 통과 방지). */
+    pageRoom: Math.max(0, Math.round(d.scrollHeight - window.innerHeight)),
+    tubRoom: t ? Math.max(0, Math.round(t.scrollHeight - t.clientHeight)) : 0,
+  };
+};
+
 const SHEET_SUM = () => {
   const q = (s) => document.querySelector(s);
   const ml = q('.mobile-layer');
@@ -576,12 +681,29 @@ const SHEET_SUM = () => {
     r.top < Math.round(mr.top) - 1);
   const off = (sel) => { const e = q(sel); if (!e) return 'absent';
     return getComputedStyle(e).display === 'none' ? 'hidden' : 'SHOWN'; };
+  /* R-14 정가는 **옵션 이름에 적힌 박스 수**로만 계산할 수 있다(시중가는 1박스 기준).
+     한 줄이라도 박스 수를 못 읽으면 정가를 낼 수 없다 — 그때 정가 줄이 보이면
+     그 숫자는 지어낸 것이다(실제로 product_no=104 에서 가짜 39,000원이 떴다). */
+  const listDerivable = (() => {
+    const rows = [...document.querySelectorAll('#totalProducts tr.option_product, #totalProducts tr.add_product')]
+      .filter((r) => r.offsetParent !== null || r.getBoundingClientRect().height > 0);
+    if (!rows.length) return false;
+    return rows.every((r) => {
+      const pd = r.querySelector('p.product');
+      return /(\d+)\s*(?:box|박스)/i.test(pd ? pd.textContent : '');
+    });
+  })();
+  const listShown = (() => {
+    const r = [...document.querySelectorAll('.mobile-layer .zg-sum__row--list')][0];
+    return !!(r && !r.hidden && getComputedStyle(r).display !== 'none');
+  })();
   return {
     ok: true,
     open: !!(ml.classList.contains('fixed') && ml.classList.contains('on')),
     actH: ar ? Math.round(ar.height) : null,
     rowCount: rows.length,
     covered,
+    listDerivable, listShown,
     appBox: off('#appPaymentButtonBox'),
     naver: off('#NaverChk_Button'),
     kakao: off('#kakao-checkout-button'),
@@ -721,6 +843,55 @@ for (const scen of cfg.scenarios) {
       rec.sheetOpen = await page.evaluate(OPEN_SHEET);
       await page.waitForTimeout(700);
       rec.sheetSum = await page.evaluate(SHEET_SUM);
+    }
+    if (scen.sheetDrag) {
+      rec.rowsMade = await page.evaluate(MAKE_ROWS);
+      await page.waitForTimeout(700);
+      rec.sheetOpen = await page.evaluate(OPEN_SHEET);
+      await page.waitForTimeout(700);
+      const spots = await page.evaluate(SPOTS);
+      rec.dragSpots = spots;
+      rec.touch = await page.evaluate(TOUCH_CONTRACT);
+      rec.drag = {};
+      if (spots) {
+        /* 본문이 **움직일 수 있는 자리**로 한 번 내려놓는다 — 맨 위면 위로 끌어도
+           움직일 데가 없어 무엇을 해도 0 이 나와 검사가 거짓 통과한다. */
+        await page.evaluate(() => {
+          const d = document.documentElement;
+          window.scrollTo(0, Math.round((d.scrollHeight - window.innerHeight) * 0.4));
+        });
+        await page.waitForTimeout(500);
+        for (const name of ['dim', 'tub', 'sum', 'act']) {
+          if (spots[name] == null) { rec.drag[name] = null; continue; }
+          /* ⚠ 끌기 **직전에** 페이지를 스크롤하면 그 관성이 이어지는 터치를 삼켜
+             통이 안 움직인다(실측: tubMoved 0). 스크롤은 루프 **앞에서 한 번만** 한다. */
+          const before = await page.evaluate(SCROLLPOS);
+          /* 끌기 **그 시점의 상태**를 남긴다 — 왜 새는지 추측하지 않기 위해서다 */
+          const state = await page.evaluate((y) => {
+            const ml = document.querySelector('.mobile-layer');
+            const sum = document.querySelector('.mobile-layer .infoArea-footer .zg-sum');
+            const e = document.elementFromPoint(Math.round(innerWidth / 2), y);
+            return {
+              layer: ml ? ml.className.trim() : null,
+              sumPos: sum ? getComputedStyle(sum).position : null,
+              hit: e ? (e.tagName + '.' + (e.className || '').toString().split(' ')[0]) : null,
+              hitTA: e ? getComputedStyle(e).touchAction : null,
+              inSum: !!(e && e.closest && e.closest('.zg-sum')),
+              inTub: !!(e && e.closest && e.closest('.mobile-layer__inner')),
+            };
+          }, spots[name]);
+          await touchDrag(ctx, page, Math.round(scen.vp / 2), spots[name], -200);
+          const after = await page.evaluate(SCROLLPOS);
+          rec.drag[name] = {
+            pageMoved: after.page - before.page,
+            tubMoved: after.tub - before.tub,
+            pageRoom: before.pageRoom, tubRoom: before.tubRoom,
+            pageAt: before.page,
+            tubAt: before.tub,
+            state: state,
+          };
+        }
+      }
     }
     if (scen.sheetTop) {
       const before = dialogs.length;

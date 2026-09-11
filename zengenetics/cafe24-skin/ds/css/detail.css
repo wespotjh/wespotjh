@@ -1291,6 +1291,14 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
+  /* 통 안에 있지만 `position:absolute` 로 **바닥에 고정된** 두 블록(고정 합계·버튼)은
+     통과 함께 스크롤되지 않아 브라우저가 통을 스크롤 대상에서 빼 버린다 —
+     그 위에서 끌면 손가락이 곧장 본문으로 간다(실측: 그 자리에서만 본문 1200→1417).
+     통에서 물려받은 `pan-y` 를 여기서 끊는다. 탭·클릭은 영향 없다. */
+  .zg-detail .mobile-layer.fixed.on .infoArea-footer .zg-sum,
+  .zg-detail .mobile-layer.fixed.on .infoArea-footer .zg-sum *,
+  .zg-detail .mobile-layer.fixed.on .infoArea-footer .productAction,
+  .zg-detail .mobile-layer.fixed.on .infoArea-footer .productAction * { touch-action: none; }
 
   /* 하단 고정바에 같은 「장바구니·구매하기」가 있어 합계 아래 인라인 버튼이 중복이었다.
      → **바텀시트가 닫혀 있을 때만** 인라인 블록을 감춘다. 시트를 열면 그 안에 다시 나타나

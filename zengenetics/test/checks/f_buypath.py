@@ -78,6 +78,12 @@ SAMPLE = [
     ('p34', 1280, ['top']),
     # 93: C군 2번째 — 「과소 판정」(dead 가 안 붙는 것)을 한 상품에만 걸지 않기 위한 이중화.
     ('p93', 390,  ['top', 'bnd+3']),
+    # 104: 2026-09-11 신규(추석 감사제). 지금은 카페24 관리자에서 **품절**이라 버튼이
+    #   `displaynone` 으로 내려와 C군으로 분류되지만, 이벤트 페이지(34·91·93)와 달리
+    #   `onclick` 이 살아 있어 그룹 대표와 모양이 다르다 → 직접 렌더해서 본다.
+    #   ⚠ 관리자에서 품절을 풀면 A군으로 바뀌며 F0 가 FAIL 한다. **그게 정상 신호다** —
+    #     그때 baseline 을 갱신한다(무심코 갱신하지 말고 판매 재개를 확인한 뒤).
+    ('p104', 390, ['top', 'bnd+3']),
 ]
 
 # 그룹 — F0 이 지문에서 직접 유도한 것과 대조한다 (여기 값은 "기대"가 아니라 "표기"다)
@@ -361,8 +367,16 @@ def run(base, obs=None):
         s.eq('F1.dead.%s' % tag, u'[%s] `.zg-bar--dead` 부착 (C군만 True)' % tag,
              exp['dead'], p['dom']['deadFlag'],
              u'A·B군에서 True 면 팔 수 있는 상품의 바가 사라진 것 = 매출 정지')
-        s.eq('F1.soldout.%s' % tag, u'[%s] `.zg-bar--soldout` 부착' % tag, False, p['dom']['soldoutFlag'],
-             u'라이브 13종에 품절 상품은 없다 — True 면 라이브가 바뀐 것')
+        # 2026-09-11 — **품절 상품이 처음 생겼다**(104 추석 감사제).
+        #   예전에는 「라이브에 품절은 없다」고 False 를 박아 뒀는데, 품절이 생기자
+        #   우리 SOLD OUT 표시가 제대로 붙는 것을 **실패로 잡았다.** 지문에서 유도한다.
+        #   판정 근거: 카페24는 품절이면 `.soldout` 블록을 **숨기지 않고** 내려보낸다
+        #   (이벤트 안내 페이지는 `displaynone` 이라 `soldout_hidden` 이 True 다).
+        fp_i = fps.get('iphone/' + name) or {}
+        is_soldout = (fp_i.get('soldout_hidden') is False)
+        s.eq('F1.soldout.%s' % tag, u'[%s] `.zg-bar--soldout` 부착 (품절 상품만 True)' % tag,
+             is_soldout, p['dom']['soldoutFlag'],
+             u'품절인데 False 면 SOLD OUT 이 안 뜬다 · 품절이 아닌데 True 면 팔 수 있는 상품이 막힌다')
 
         for st in states:
             v = p['states'].get(st)
@@ -395,10 +409,21 @@ def run(base, obs=None):
                 s.eq('F3.%s.%s' % (sid, k), u'[%s %s] 「%s」를 눌렀을 때 발사된 것' % (tag, st, k),
                      want, _fired(v['taps'].get(k)),
                      u'A·B군은 반드시 발사돼야 하고 C군은 반드시 비어 있어야 한다')
-                if grp == 'C':
+                # C군에는 성격이 다른 두 가지가 섞여 있다:
+                #   ① 이벤트·안내 페이지(34·91·93) — 카페24가 `onclick` 을 **비워서** 준다.
+                #      눌러도 어디로도 가지 않아야 한다.
+                #   ② 품절 상품(104) — `onclick` 은 **살아 있고** 버튼만 감춰진다.
+                #      여기서 「발사 0」을 요구하면 있지도 않은 결함을 만든다.
+                #      대신 **고객이 누를 수 있는 구매 컨트롤이 하나도 없어야** 한다
+                #      (바로 위 `F2.ctl` 이 그것을 본다) + SOLD OUT 이 떠야 한다(F1.soldout).
+                if grp == 'C' and not is_soldout:
                     s.eq('F3.dead.%s.%s' % (sid, k), u'[%s %s] 「%s」 탭이 아무 데도 안 간다' % (tag, st, k),
                          [], _fired(v['taps'].get(k)),
                          u'「안 보인다」가 아니라 「어디로도 가지 않는다」를 본다')
+                elif grp == 'C':
+                    s.eq('F3.hidden.%s.%s' % (sid, k), u'[%s %s] 품절 — 화면에 보이는 구매 컨트롤' % (tag, st),
+                         [], v.get('visibleBuyControls'),
+                         u'품절 상품에 누를 수 있는 구매 버튼이 남아 있으면 안 된다')
             if 'sheetOpened' in e:
                 s.eq('F3.sheet.%s' % sid, u'[%s %s] 바 「구매하기」가 시트를 여는가' % (tag, st),
                      e['sheetOpened'], (v.get('taps', {}).get('barBuy') or {}).get('sheetOpened'),

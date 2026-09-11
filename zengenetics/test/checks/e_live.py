@@ -61,6 +61,7 @@ def measure(refresh=False, log=print):
     for extra in ('/ds/css/detail.css', '/ds/js/detail-ui.js', '/ds/js/zg-ga4.js',
                   '/ds/css/price.css', '/ds/css/basket.css', '/ds/js/basket.js'):
         urls.add(extra)
+    obs['assets_scanned'] = len(urls)
     for u in sorted(urls):
         m = fetch.fetch_asset(u, refresh=refresh)
         if m['status'] != 200:
@@ -127,7 +128,11 @@ def run(base, obs=None, refresh=False):
     fixed = sorted(u for u in allow if u not in got)
     s.eq('E2.new404', u'예상 밖 @css/@js 404', {}, new404,
          u'라이브에서 파일이 사라진 것 = 전 페이지 사고 위험')
-    s.probe('E2.probe', u'상태 확인한 자산 수', len(allow) + len(got))
+    # ⚠ 예전에는 `len(allow) + len(got)` 를 탐지값으로 썼다 — **404 개수**다.
+    #   라이브에 404 가 하나도 없으면(정상 상태!) 0 이 되어 검사가 스스로 FAIL 했다
+    #   (basket.css/js 가 배포되면서 실제로 그렇게 됐다, 2026-09-11).
+    #   탐지값은 「훑은 자산 수」여야 한다 — 그게 0 이어야만 검사가 헛돈 것이다.
+    s.probe('E2.probe', u'상태를 확인한 자산 수', obs.get('assets_scanned', 0))
     if fixed:
         s.add('E2.fixed', True, u'404 였다가 200 이 된 자산(정보)', '-', fixed,
               u'배포가 됐다는 뜻 — baseline 갱신 시점')

@@ -59,6 +59,13 @@ def scenarios():
     for vp in (320, 360, 390, 414, 768):
         sc.append({'name': 'sheetsum%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1300,
                    'sheetSum': True})
+    # R-13 (2026-09-11) 시트를 연 채 **손가락으로 끌었을 때** 뒤 본문이 밀리는가.
+    # 실기기 지적으로 드러났다 — 딤에서 끌면 본문이 800px 움직였고, 화면에 고정된
+    # 합계·버튼 위에서 끌면 그 자리에서만 본문이 새어 나갔다(1200→1417).
+    # CDP 로 진짜 터치를 넣어 잰다(휠·합성 이벤트로는 재현되지 않는다).
+    for vp in (360, 390):
+        sc.append({'name': 'sheetdrag%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1300,
+                   'sheetDrag': True})
     # B안 하단바 구매 경로 — .fixed 인 상태(mid)와 아닌 상태(top) 둘 다
     for kind in ('mid', 'top'):
         sc.append({'name': 'barbuy390_%s' % kind, 'vp': 390, 'safe': 0, 'settle': 1300,
@@ -323,6 +330,11 @@ def run(base, obs=None):
         s.ge('C13.%s.rows' % tag, u'[%dpx] 보이는 합계 줄 수 (정가·할인금액 포함 5줄)' % vp, 5,
              ss.get('rowCount', 0),
              u'5 미만이면 정가·할인금액이 안 나오는 것이다')
+        # R-14 정가를 **계산할 수 있을 때만** 보여야 한다 — 못 읽으면 추측해서 만들지 않는다.
+        s.eq('C14b.%s.list' % tag,
+             u'[%dpx] 정가 줄 노출 == 정가를 계산할 수 있는가' % vp,
+             ss.get('listDerivable'), ss.get('listShown'),
+             u'계산 못 하는데 보이면 그 숫자는 지어낸 것이다 (104 가짜 할인 39,000원)')
         s.eq('C13.%s.covered' % tag, u'[%dpx] 구매 버튼 블록에 깔리거나 시트 밖으로 나간 합계 줄' % vp,
              [], ss.get('covered'),
              u'비어 있지 않으면 결제 직전 숫자가 잘려 보인다 (대표님 실기기 반려 2026-09-11)')
@@ -332,6 +344,40 @@ def run(base, obs=None):
                       ('kakao', u'#kakao-checkout-button')):
             s.ne('C13.%s.%s' % (tag, k), u'[%dpx] %s 노출' % (vp, nm), 'SHOWN', ss.get(k),
                  u'런타임 주입이라 마크업에서 지워도 되살아난다 — JS 로 내려야 한다')
+
+    # --- C14. 열린 시트의 스크롤 격리 계약 (R-13/R-15) ------------------------
+    # 시트를 연 채 스와이프하면 뒤 상세페이지가 같이 밀렸다(실기기 지적 2026-09-11).
+    # ⚠ 「끌어 보고」 판정하지 않는다 — CDP 합성 터치는 `touch-action` 을 제대로 타지 않아
+    #   차단된 요소에서도 본문이 밀린다(실측). 거짓 합격·거짓 불합격이 둘 다 난다.
+    #   → 동작을 만드는 **CSS 속성**을 계약으로 고정한다. 끌기 결과는 참고로만 남긴다.
+    for vp in (360, 390):
+        tag = 'sheetdrag%d' % vp
+        r = res.get(tag)
+        if not r or not r.get('ok'):
+            s.fail('C14.%s' % tag, u'%s 렌더' % tag, (r or {}).get('error', 'no result')); continue
+        t = r.get('touch') or {}
+        s.probe('C14.%s.probe' % tag, u'[%dpx] 시트 요소 탐지' % vp,
+                len([k for k in ('layer', 'dim', 'tub') if t.get(k)]))
+        # 손가락이 닿아도 아무 일이 없어야 하는 곳
+        for k, nm in (('layer', u'시트 뼈대'), ('dim', u'딤(뒤 흐린 곳)'),
+                      ('sum', u'고정된 합계'), ('sumRow', u'고정된 합계의 줄'),
+                      ('act', u'고정된 구매 버튼'), ('actKid', u'구매 버튼 안쪽')):
+            s.eq('C14.%s.%s' % (tag, k), u'[%dpx] %s 의 touch-action' % (vp, nm),
+                 'none', t.get(k),
+                 u'none 이 아니면 그 자리를 끌 때 뒤 본문이 같이 밀린다')
+        # 스크롤돼야 하는 곳 — 막기만 하고 기능을 죽이지 않았는가
+        s.eq('C14.%s.tub' % tag, u'[%dpx] 스크롤 통의 touch-action' % vp, 'pan-y', t.get('tub'),
+             u'none 이면 시트 안에서 스크롤이 아예 안 된다')
+        s.eq('C14.%s.tubov' % tag, u'[%dpx] 스크롤 통의 overflow-y' % vp, 'auto', t.get('tubOverflowY'))
+        s.eq('C14.%s.tubchain' % tag, u'[%dpx] 스크롤 통의 연쇄 차단' % vp,
+             'contain', t.get('tubOverscroll'),
+             u'contain 이 아니면 통 끝에 닿는 순간 뒤 본문으로 넘어간다')
+        s.ge('C14.%s.tubroom' % tag, u'[%dpx] 스크롤 통이 실제로 넘친 px' % vp, 1,
+             t.get('tubScrollable', 0),
+             u'0 이면 스크롤할 것이 없어 위 계약이 아무것도 지키지 않는다')
+        # 참고값 — 판정하지 않는다 (합성 터치라 신뢰할 수 없다)
+        dg = r.get('drag') or {}
+        s.probe('C14.%s.dragprobe' % tag, u'[%dpx] 끌기 계측 지점 수(참고)' % vp, len(dg))
 
     # --- C7. 선택 행 2유형 — 스테퍼·가격·말풍선 (실기 반려 2026-09-08) ---------
     for vp in VP_ROWS:
@@ -343,7 +389,13 @@ def run(base, obs=None):
         rows = r.get('rows') or []
         # 탐지: 카페24 스크립트가 실제로 두 유형을 만들었는가 (안 만들어지면 검사할 것이 없다)
         s.probe('C7.%s.opt' % tag, u'[%dpx] tr.option_product 생성' % vp, made.get('optionRows', 0))
-        s.probe('C7.%s.add' % tag, u'[%dpx] tr.add_product 생성' % vp, made.get('addRows', 0))
+        # 2026-09-11 개편으로 **추가 구성 상품 블록을 마크업에서 걷어냈다**(기획 요건 3).
+        # 그래서 `tr.add_product` 는 더 이상 만들어지지 않는다 — 0 이 정상이다.
+        # ⚠ probe 로 두면 「대상을 못 찾았다」로 FAIL 한다. 없어진 것이 맞으므로 eq 로 바꾼다.
+        #   추가상품을 되살리면 이 줄을 probe 로 되돌려야 한다.
+        s.eq('C7.%s.add' % tag, u'[%dpx] tr.add_product 생성 (개편으로 폐지 — 0 이 정상)' % vp,
+             0, made.get('addRows', 0),
+             u'0 이 아니면 추가 구성 상품이 되살아난 것이다')
         for i, row in enumerate(rows):
             rid = '%s.%d.%s' % (tag, i, row.get('type'))
             s.truthy('C7.st.%s' % rid, u'[%dpx %s#%d] 스테퍼 컨테이너 존재' % (vp, row.get('type'), i), row.get('stepper'))
@@ -453,10 +505,15 @@ def run(base, obs=None):
              b['barbuy']['review_hook'], u['reviewHookInDom'], u'0이면 알파리뷰가 끊긴다')
         s.eq('C9.%s.alpha' % tag, u'[%s] `alpha_widget` DOM 잔존' % kind,
              b['barbuy']['alpha_widget'], u['alphaWidgetInDom'])
-        # 결제수단 블록은 함께 숨지 않는다
-        s.eq('C9.%s.apppay' % tag, u'[%s] `.app-pay-wrap` DOM' % kind, 1, u['appPayInDom'])
-        s.eq('C9.%s.naver' % tag, u'[%s] `#NaverChk_Button` DOM' % kind, 1, u['naverInDom'])
-        s.eq('C9.%s.kakao' % tag, u'[%s] `#appPaymentButtonBox` DOM' % kind, 1, u['kakaoPayInDom'])
+        # 2026-09-11 개편: 네이버페이·카카오페이·찜은 **화면에 없어야 한다.**
+        #   예전 기대값(각 1개)은 「마크업 훅을 지우지 않았다」는 뜻이었다. 이제
+        #   `.app-pay-wrap` 은 요건대로 마크업에서 걷어냈고(0), 나머지 둘은 앱이
+        #   런타임에 만들어 최대 3벌까지 생긴다 → **개수가 아니라 노출**을 계약으로 둔다.
+        s.eq('C9.%s.payvis' % tag, u'[%s] 화면에 보이는 간편결제·찜 블록 수' % kind,
+             0, u['payVisible'],
+             u'0 이 아니면 걷어내기로 한 결제 UI 가 다시 보이는 것이다')
+        s.probe('C9.%s.paydom' % tag, u'[%s] 간편결제 블록 DOM 탐지(감춤 대상이 실재하는가)' % kind,
+                (u['naverInDom'] or 0) + (u['kakaoPayInDom'] or 0))
         # 리뷰 칩이 빠진 만큼 넓어진 두 버튼의 터치 타깃
         for nm, box in (('cart', u['barCartBox']), ('buy', u['barBuyBox'])):
             s.ge('C9.%s.tap.%s' % (tag, nm), u'[%s] 바 %s 높이 ≥ 44px' % (kind, nm), 44, (box or {}).get('h', 0))

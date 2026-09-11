@@ -768,22 +768,147 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     return d ? parseInt(d, 10) : 0;
   }
 
+  /* ═══════════════════════════════════════════════════════════════════════
+   *  R-15 (2026-09-11) 정가 · 할인금액 — **검산에 통과한 값만 보여준다**
+   *
+   *  카페24가 주는 것은 이것뿐이다:
+   *    · 시중가(`#span_product_price_custom`)  — **기본 구성 1개 기준**
+   *    · 행 가격(`td.right .price`)            — 판매가 + 옵션 추가금
+   *  옵션별 시중가는 어디에도 없다. 그래서 정가는 **추정**할 수밖에 없고,
+   *  추정한 값은 **반드시 검산해서 맞을 때만** 화면에 올린다.
+   *
+   *  검산 기준은 **페이지가 스스로 광고하는 할인율**이다
+   *  (옵션 이름 안의 「25%할인」·「22%▼」). 시중가 × N 으로 잡은 정가가
+   *  그 할인율을 **그대로 재현**해야 통과다.
+   *
+   *  앞선 두 번의 오류가 전부 「검산 없이 추정」 때문이었다:
+   *    ① 배수를 못 읽으면 조용히 1 로 가정 → 104 에서 단위가 다른 두 값을 빼
+   *       가짜 할인 39,000원(정가 294,000 은 1개분, 상품금액 255,000 은 6set분).
+   *    ② 배수를 행 **전체 텍스트**에서 찾아 **상품명**의 「칼륨(2box)」를 집음
+   *       → 63 에서 정가 278,000(=139,000×2) · 할인 −174,000.
+   *         실제는 정가 139,000 · 할인 35,000.
+   *  이제 배수는 이름에서 읽지 않는다. 1..20 을 넣어 보고 **할인율이 맞는 N** 만 쓴다.
+   *
+   *  ⚠ 옵션 이름은 행 전체 텍스트가 아니라 `p.product span` 이다 —
+   *    전체 텍스트에는 상품명이 앞에 붙어 상품명 속 숫자를 집는다(②의 원인).
+   *  ⚠ 맞는 N 이 없으면 **모른다**. 두 줄을 접는다. 지어내지 않는다.
+   * ═══════════════════════════════════════════════════════════════════════ */
+
+  var LIST_N_MAX = 20;
+
+  /* ── R-16 (2026-09-11) 옵션별 정상가 표 ──────────────────────────────────
+   * 어떤 상품은 옵션 정가가 **시중가의 배수가 아니다.** 그런 상품은 위 검산으로
+   * 아무 N 도 못 찾아 정가·할인을 못 보여준다. 그때만 이 표를 쓴다.
+   *
+   * 값의 출처는 **확정 가격표(운영 제공) + 상세페이지 안내 문구**다(둘을 대조해 일치 확인).
+   * 페이지에서 읽을 수 없는 값이라 여기에 적는 수밖에 없다.
+   *
+   * ⚠ 이 표를 **믿고 쓰지 않는다.** 표의 `sale`(장바구니에 담기는 금액)이 라이브
+   *   실제 행 가격과 **한 원이라도 다르면 그 옵션은 정가·할인을 감춘다.**
+   *   가격이 바뀌었는데 표만 남아 옛 정가를 보여주는 사고를 막는다.
+   *   (실제로 잡혔다 — 104 「붓기 파우더 6set」 은 안내 138,900원인데 옵션 추가금이
+   *    12set 값(+162,300)으로 들어가 있어 255,000원이 담긴다. 관리자 수정 전까지 감춘다.)
+   * ⚠ `list` 는 **정상가**다. 쿠폰(주문서에서 고객이 직접 적용)은 넣지 않는다 —
+   *   합계의 「총 결제금액」은 지금 실제로 결제되는 금액이어야 한다.
+   * ⚠ 행사 종료 시 이 블록을 지운다. 지워도 다른 상품은 영향이 없다. */
+  var LIST_TABLE = {
+    104: [
+      { k: '\uBD93\uAE30\uD30C\uC6B0\uB3546set',        sale: 138900, list: 270000 },
+      { k: '\uBD93\uAE30\uD30C\uC6B0\uB35412set',       sale: 255000, list: 540000 },
+      { k: '\uB9C8\uADF8\uB124\uC2984set',               sale:  92700, list: 196000 },
+      { k: '\uBE44\uD0C0\uBBFCB\uCEF4\uD50C\uB809\uC2A44set', sale: 92700, list: 196000 },
+      { k: '\uBD93\uAE30\uBD80\uC2A4\uD1303set',        sale: 212400, list: 417000 },
+      { k: '\uBD93\uAE30\uBD80\uC2A4\uD1305set',        sale: 324900, list: 695000 },
+      { k: '\uD37C\uD3EC\uBA3C\uC2A4\uBD80\uC2A4\uD1303set', sale: 92700, list: 294000 },
+      { k: '\uCE7C+\uB9C8+\uBE443set',                    sale: 212700, list: 429000 }
+    ]
+  };
+
+  function productNo() {
+    if (typeof window.iProductNo === 'number' && window.iProductNo > 0) return window.iProductNo;
+    var m = String(location.search || '').match(/product_no=(\d+)/);
+    if (m) return parseInt(m[1], 10);
+    m = String(location.pathname || '').match(/\/(\d+)\/?$/);
+    return m ? parseInt(m[1], 10) : 0;
+  }
+
+  /* 표에서 이 옵션을 찾는다. 못 찾으면 null, 찾았지만 가격이 다르면 'stale' */
+  function tableList(optName, perPrice) {
+    var t = LIST_TABLE[productNo()];
+    if (!t) return null;
+    var key = String(optName || '').replace(/\s+/g, '');
+    for (var i = 0; i < t.length; i++) {
+      if (key.indexOf(t[i].k) < 0) continue;
+      return (Math.round(perPrice) === t[i].sale) ? t[i].list : 'stale';
+    }
+    return null;
+  }
+
+
+  function rateOf(name) {
+    var m = String(name || '').match(/(\d{1,2})\s*%/);
+    if (!m) return -1;
+    var v = parseInt(m[1], 10);
+    return (v >= 1 && v <= 99) ? v : -1;
+  }
+
+  function rowPrice(r) {
+    var e = $('td.right strong.price', r) || $('td.right .price', r) || $('td.right', r);
+    if (!e) return 0;
+    var d = String(e.textContent || '').replace(/[^0-9]/g, '');
+    return d ? parseInt(d, 10) : 0;
+  }
+
+  function rowQty(r) {
+    var qi = $('input.quantity_opt, input[name^="quantity_opt"]', r);
+    var d = qi ? String(qi.value || '').replace(/[^0-9]/g, '') : '';
+    var q = d ? parseInt(d, 10) : 1;
+    return q > 0 ? q : 1;
+  }
+
+  function rowListPrice(r, unit) {
+    var price = rowPrice(r);
+    if (!price) return 0;
+
+    /* 추가 구성 상품은 시중가가 따로 없다 → 정가 = 판매가(할인 0)로 넣는다.
+     * 그래야 추가상품을 담았다고 본품 할인 표시가 통째로 사라지지 않는다. */
+    if (/(^|\s)add_product(\s|$)/.test(r.className || '')) return price;
+
+    var sp = $('p.product span', r);
+    var qty = rowQty(r);
+    var per = price / qty;
+
+    /* 표에 있는 상품이면 표가 우선한다 — 단, 가격이 어긋나면 감춘다 */
+    var tl = tableList(sp ? sp.textContent : '', per);
+    if (tl === 'stale') return 0;
+    if (tl) return tl * qty;
+
+    var rate = rateOf(sp ? sp.textContent : '');
+    if (rate < 0 || !unit) return 0;
+    var best = 0;
+    for (var n = 1; n <= LIST_N_MAX; n++) {
+      var list = unit * n;
+      if (list <= per) continue;
+      if (Math.round((1 - per / list) * 100) !== rate) continue;
+      if (best) return 0;            /* 후보가 둘이면 확정 못 한다 */
+      best = list;
+    }
+    return best ? best * qty : 0;
+  }
+
   function listTotal() {
     var unit = listUnitPrice();
-    if (!unit) return 0;
-    var sum = 0;
-    visibleRows().forEach(function (r) {
-      var pd = $('p.product', r);
-      var nm = pd ? (pd.textContent || '') : '';
-      var m = nm.match(/(\d+)\s*box/i);
-      var packs = m ? parseInt(m[1], 10) : 1;
-      var qi = $('input.quantity_opt, input[name^="quantity_opt"]', r);
-      var qd = qi ? String(qi.value || '').replace(/[^0-9]/g, '') : '';
-      var qty = qd ? parseInt(qd, 10) : 1;
-      if (packs > 0 && qty > 0) sum += unit * packs * qty;
+    var rows = visibleRows();
+    if (!rows.length) return 0;
+    var sum = 0, ok = true;
+    rows.forEach(function (r) {
+      var v = rowListPrice(r, unit);
+      if (!v) { ok = false; return; }
+      sum += v;
     });
-    return sum;
+    return ok ? sum : 0;
   }
+
 
   function buildSum() {
     var tp = document.getElementById('totalPrice');
