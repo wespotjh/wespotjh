@@ -958,6 +958,11 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 /* -------------------------------- 11. K-12a 인라인 구매 버튼 (레이어 안) */
 .zg-detail .infoArea-footer .productAction {
   padding: 0 var(--zg-pad-x);
+  /* R-13 (2026-09-11 실측) 이 상자는 `left:0; right:0` 로 폭이 정해지는데 기본이
+     content-box 라 좌우 패딩 40px 이 **폭에 더해졌다** — 390px 화면에서 상자가 430px.
+     그만큼 버튼 두 개가 통째로 오른쪽으로 밀려 「구매하기」가 화면 밖으로 4px 나갔다.
+     (실측 390px: 왼쪽 여백 36px · 오른쪽 −4px → 고친 뒤 20px/20px 대칭) */
+  box-sizing: border-box;
   /* 라이브는 `#totalPrice { padding: 20px 0 30px }`(≤1024px 미디어) 의 아래 30px 으로
      합계와 버튼 사이를 띄워 두었는데, 우리는 `#totalPrice` 를 시각적으로 접어(K-08)
      그 여백까지 없앴다 → 같은 30px 을 여기서 되돌린다.
@@ -1268,6 +1273,24 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
      → 값을 굳히지 않는다. `detail-ui.js` 의 `fitSheet()` 가 `.productAction` 실측 높이를
        `--zg-act-h` 로, 「버튼블록+합계」 를 `--zg-tub-pb` 로 넣는다. 아래는 그 폴백값이다. */
   .zg-detail .mobile-layer.fixed.on .mobile-layer__inner { padding-bottom: var(--zg-tub-pb, 204px); }
+  /* R-13 시트를 연 채 스와이프하면 **뒤 상세페이지가 같이 밀렸다**
+     (실측 390px: 딤 위에서 스와이프 → 본문 800px 이동. 통이 끝까지 내려가면
+      그 뒤부터도 본문으로 넘어갔다.) 그 스와이프가 탭을 삼켜
+     「딤을 눌러도 안 닫힌다」로도 보였다.
+
+     ⚠ 본문을 `position:fixed` 로 잠그는 방법은 쓰지 않는다 — 잠그는 순간
+       `scrollY` 가 0 이 되어 스킨 `checkScroll` 의 `.fixed` 경계 판정이 흔들리고,
+       경계 직전(−3px)에서 시트가 아예 안 열렸다 (회귀 F3 3건으로 잡혔다).
+     → 손가락을 받는 쪽에서 끊는다. 본문 스크롤 위치는 건드리지 않는다.
+        · 딤·시트 뼈대  : `touch-action: none`  — 끌어도 아무 일이 없다
+        · 스크롤 통     : `pan-y` 로 되돌리고 `overscroll-behavior: contain` 으로 연쇄 차단 */
+  .zg-detail .mobile-layer.fixed.on,
+  .mobile-layer-bg.on { touch-action: none; }
+  .zg-detail .mobile-layer.fixed.on .mobile-layer__inner {
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
 
   /* 하단 고정바에 같은 「장바구니·구매하기」가 있어 합계 아래 인라인 버튼이 중복이었다.
      → **바텀시트가 닫혀 있을 때만** 인라인 블록을 감춘다. 시트를 열면 그 안에 다시 나타나

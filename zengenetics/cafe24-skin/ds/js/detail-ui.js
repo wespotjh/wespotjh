@@ -878,8 +878,24 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
    *   접두사 선택자로 같은 노드를 잡는다. */
   var APPPAY_SEL = '#appPaymentButtonBox, [id^="NaverChk"], #kakao-checkout-button';
 
+  /* R-13 「친구 초대」·「적립금혜택 6,000원」 배지 — 외부 추천 앱이 `body` 에 붙이는
+   * 떠 있는 런처다. 화면 오른쪽 아래에 뜨는데 그 자리가 하필 구매 버튼·합계 위라
+   * 「할인금액」·「상품 금액」 숫자를 덮었다(실기기 확인 2026-09-11).
+   * → **상세페이지에서만** 내린다. 다른 페이지에서는 그대로 뜬다.
+   * ⚠ 여기서도 노드를 지우지 않는다 — 앱이 자기 노드를 다시 찾는다. */
+  var OVERLAY_SEL = '#incento-launcher, #incento-widget, [class*="incento_widget__launcher"]';
+
   function killAppPay() {
     var box = root ? root : document;
+    /* 추천 앱 런처는 `body` 직속이라 `.zg-detail` 안에서 못 찾는다 — 문서 전체에서 잡되,
+     * 이 스크립트는 상세페이지에서만 도므로 다른 페이지에는 영향이 없다. */
+    if (root) {
+      $$(OVERLAY_SEL, document).forEach(function (n) {
+        if (n.getAttribute('data-zg-off') === '1') return;
+        try { n.style.setProperty('display', 'none', 'important'); } catch (e) { n.style.display = 'none'; }
+        n.setAttribute('data-zg-off', '1');
+      });
+    }
     $$(APPPAY_SEL, box).forEach(function (n) {
       if (n.getAttribute('data-zg-off') === '1') return;
       try { n.style.setProperty('display', 'none', 'important'); } catch (e) { n.style.display = 'none'; }
@@ -895,6 +911,8 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     if (!host) return;
     var mo = new MO(function () { killAppPay(); fitSheet(); });
     try { mo.observe(host, { childList: true, subtree: true }); } catch (e) {}
+    /* 추천 앱 런처는 `body` 직속으로 늦게 붙는다 — 자식 추가만 본다(subtree 아님, 가볍게) */
+    try { mo.observe(document.body, { childList: true }); } catch (e) {}
     /* 앱 스크립트는 로드가 늦다 — 초반 몇 초는 확인 사살한다(폴링 아님, 유한 회수) */
     [200, 600, 1200, 2500, 5000].forEach(function (ms) {
       setTimeout(function () { killAppPay(); fitSheet(); }, ms);
