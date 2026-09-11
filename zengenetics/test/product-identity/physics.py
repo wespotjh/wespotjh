@@ -47,6 +47,25 @@ def frames(src, out):
     return sorted(glob.glob(out + '/*.png'))
 
 
+def water_top(path):
+    u"""수면(또는 유리 림)이 화면 세로 몇 %에 있는지.
+
+    공중 검사는 '화면 위쪽 = 공중'을 전제한다. 그런데 수면 근처를 타이트하게
+    잡은 컷은 상단이 공중이 아니라 **물속**이다. 그대로 재면 물에 퍼지는 색을
+    연기로 오인해 멀쩡한 컷을 떨어뜨린다(실측: 정상 컷 4편이 20/20 오탐).
+
+    잔 안쪽 세로 밝기의 가장 큰 단차를 수면으로 본다.
+    """
+    a = np.asarray(Image.open(path).convert('L')).astype(np.float32)
+    H, W = a.shape
+    col = a[:, int(W * 0.35):int(W * 0.65)].mean(1)
+    g = np.abs(np.diff(col))
+    hi = int(H * 0.55)
+    if hi < 4:
+        return 0.0
+    return float(np.argmax(g[:hi])) / H
+
+
 def airborne(path):
     u"""화면 위쪽 '공중' 구역의 이물 비율.
 
@@ -79,11 +98,19 @@ def plume(path):
 def check(src, tmp):
     fs = frames(src, tmp)
     rows = [(i / FPS,) + plume(p) for i, p in enumerate(fs)]
-    air = [airborne(p) for p in fs]
-    nbad = sum(1 for a in air if a > TOP_MAX)
-    if nbad:
-        return ('FAIL', rows,
-                u'수면 위에 연기 기둥/분진 — %d/%d 프레임, 최대 %.3f' % (nbad, len(air), max(air)))
+
+    # 공중 구역이 실제로 공중인지 먼저 본다. 수면이 상단 띠 안에 있으면
+    # 그 띠는 물속이라 이 검사는 성립하지 않는다 — 눈으로 판정하라.
+    surf = water_top(fs[0])
+    if surf < TOP_BAND * 1.2:
+        air_note = u'공중 검사 해당없음 (수면이 화면 %.0f%% 지점 — 상단이 물속이다)' % (surf * 100)
+    else:
+        air = [airborne(p) for p in fs]
+        nbad = sum(1 for a in air if a > TOP_MAX)
+        if nbad:
+            return ('FAIL', rows,
+                    u'수면 위에 연기 기둥/분진 — %d/%d 프레임, 최대 %.3f' % (nbad, len(air), max(air)))
+        air_note = u'공중 비어 있음 (최대 %.3f)' % max(air)
     live = [(t, y, a) for t, y, a in rows if y is not None]
     if len(live) < 4:
         return 'JUDGE_FAIL', rows, u'가루가 잡히지 않는다 — 해당없음이거나 소재가 잘못됐다'
@@ -101,7 +128,7 @@ def check(src, tmp):
         return 'FAIL', rows, u'가라앉지 않는다 (하강 %+.3f)' % drop
     if rise > 0.06:
         return 'FAIL', rows, u'중간에 되올라간다 (최대 상승 %.3f)' % rise
-    return 'PASS', rows, u'하강 %+.3f' % drop
+    return 'PASS', rows, u'하강 %+.3f · %s' % (drop, air_note)
 
 
 def main(argv):
