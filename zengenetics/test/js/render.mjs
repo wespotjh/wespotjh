@@ -513,6 +513,20 @@ const BARBUY = async (atTop) => {
   return out;
 };
 
+/* 2026-09-11 개편 — 인라인 상단에서 구매 블록을 감췄다.
+   옵션·수량 스테퍼는 **구매 시트 안**에서만 보이므로, 기하를 재려면 시트를 먼저 열어야 한다.
+   검사를 없애는 게 아니라 **고객이 실제로 보는 자리**로 옮기는 것이다.
+   여는 방법은 SHEET 과 동일하게 실제 경로(스크롤 → 하단바 클릭)를 쓴다. */
+const OPEN_SHEET = () => {
+  const btn = document.querySelector('.jsLayerBtn');
+  if (!btn) return Promise.resolve({ opened: false, reason: 'no .jsLayerBtn' });
+  window.scrollTo(0, Math.round(document.documentElement.scrollHeight * 0.45));
+  return new Promise((res) => setTimeout(() => {
+    btn.click();
+    setTimeout(() => res({ opened: !!document.querySelector('.mobile-layer.on') }), 700);
+  }, 450));
+};
+
 const SHEET = () => {
   const q = (s) => document.querySelector(s);
   const btn = q('.jsLayerBtn');
@@ -624,6 +638,8 @@ for (const scen of cfg.scenarios) {
       rec.untap = await page.evaluate(UNTAP, scen.untap === 'nodel');
     }
     if (scen.rows) {
+      /* 모바일은 시트를 열어야 스테퍼가 보인다 (2026-09-11 개편) */
+      if (scen.vp <= 767) rec.rowsSheet = await page.evaluate(OPEN_SHEET);
       rec.rowsMade = await page.evaluate(MAKE_ROWS);
       await page.waitForTimeout(600);
       rec.rows = await page.evaluate(ROWS);

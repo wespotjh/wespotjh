@@ -114,8 +114,8 @@
         "div_close": 104
       },
       "ds/css/detail.css": {
-        "brace_open": 229,
-        "brace_close": 229
+        "brace_open": 231,
+        "brace_close": 231
       },
       "ds/css/price.css": {
         "brace_open": 26,
@@ -154,7 +154,7 @@
       "moa/import/product_detail/detail.html": "689b086ecb7cb4bd72b68899d3b2b1b3",
       "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
       "index.html": "4cb10827c82d552426d00993d7728cfa",
-      "ds/css/detail.css": "83204f6d67371330f713e9dbdb26beec",
+      "ds/css/detail.css": "5096ad53a226442d6ae364ea394b7b58",
       "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
       "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
       "ds/js/detail-ui.js": "0ef17d188e1142c5105266768ba7a612",
@@ -167,7 +167,7 @@
       "moa/import/product_detail/detail.html": 2521,
       "moa/layout/head.html": 3495,
       "index.html": 17281,
-      "ds/css/detail.css": 61605,
+      "ds/css/detail.css": 62665,
       "ds/css/price.css": 2271,
       "ds/css/home.css": 17294,
       "ds/js/detail-ui.js": 47654,
@@ -203,7 +203,7 @@
     "_note_18": "18차 — QA 지적 반영: 품절 우선(dead 판정 제외) · onclick 관찰 추가 · 팔지 않는 페이지의 결제 UI(.zg-sum/.zg-picked-head) 동반 비노출."
   },
   "_meta": {
-    "updated": "2026-09-11 09:33:36",
+    "updated": "2026-09-11 11:00:08",
     "revision": "16차 — R-8 주석 정정 · 보존훅 2종 · 말풍선 기하검사 · 공개소스 용어 중립화",
     "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것",
     "note_format": "updated 는 갱신 시각(YYYY-MM-DD HH:MM:SS)만 넣는다. 판 번호·설명은 revision 에."

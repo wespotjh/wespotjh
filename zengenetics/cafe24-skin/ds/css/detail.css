@@ -32,7 +32,7 @@
 
   /* 서체 — 한글은 스킨이 자체 호스팅 중인 Pretendard Variable 재사용.
      IBM Plex Sans KR 은 로드하지 않는다(한글 웹폰트 2벌 = LCP 붕괴). */
-  --zg-f-b: "Pretendard Variable", "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont, "맑은 고딕", sans-serif;
+  --zg-f-b: "Pretendard Variable", "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
   --zg-f-d: "Archivo", "Pretendard Variable", system-ui, sans-serif;
   --zg-f-m: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -542,7 +542,7 @@
    절대배치되기 때문이다(8차에 실측으로 확인). 배경·테두리 계열만 다룬다.
    이전 판의 배경 톤(`--zg-bg-2`)과 좌측 레일(`inset 3px`)은 뺐다 — 다른 구성처럼 보였다. */
 .zg-detail #totalProducts > table tbody tr.add_product td .product::before {
-  content: "추가";
+  content: "\CD94\AC00";   /* 추가 — CSS 유니코드 이스케이프. 인코딩 사고에도 안 깨진다 */
   display: inline-block;
   margin-right: 6px;
   padding: 2px 7px;
@@ -1392,13 +1392,27 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
      그래서 **인라인 상태에서만** 감춘다.
    ══════════════════════════════════════════════════════════════════════════ */
 @media screen and (max-width: 767px) {
-  .zg-detail .mobile-layer:not(.on):not(.fixed) .opt-content__pc,
+  /* ⚠ 감출 노드는 `.opt-content` 다 — `.opt-content__pc` 가 아니다.
+     `.opt-content__pc`(제목·가격·리뷰)는 `.productOption`(옵션 카드)·
+     `.zg-picked-head`(선택한 구성)와 **형제**라, 그것만 감추면 옵션이 상단에 남는다.
+     실제 구조:
+       .opt-content > .opt-content__payment > .fix-pc-l
+         ├ .opt-content__pc   제목·가격·리뷰
+         ├ .productOption     옵션 카드
+         ├ .zg-picked-head    선택한 구성
+         └ #totalProducts     선택 목록
+     ⚠ `.opt-content` 도 쓸 수 없다 — 스킨이 두 곳에서 important 로 잠갔다
+       (`.opt-content{display:block!important}` · `.mobile-layer:not(.fixed) .opt-content{...!important}`).
+       이 파일은 새 important 를 쓰지 않는 것이 설계 규칙이라, 잠기지 않은
+       **`.fix-pc-l`** 을 감춘다. 네 덩어리가 전부 그 안에 있다. */
+  .zg-detail .mobile-layer:not(.on):not(.fixed) .fix-pc-l,
   .zg-detail .mobile-layer:not(.on):not(.fixed) .infoArea-footer {
     display: none;
   }
   /* 시트·하단바에서는 원래대로 되돌린다 */
-  .zg-detail .mobile-layer.on .opt-content__pc,
+  .zg-detail .mobile-layer.on .fix-pc-l,
   .zg-detail .mobile-layer.on .infoArea-footer,
+  .zg-detail .mobile-layer.fixed .fix-pc-l,
   .zg-detail .mobile-layer.fixed .infoArea-footer {
     display: block;
   }

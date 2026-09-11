@@ -215,14 +215,24 @@ def run(base, obs=None):
         s.eq('C4.ghost', u'빈 공간 잔재 블록(높이 24px+ 인데 내용 없음)', [], m['ghostBlocks'])
         s.eq('C4.dblmargin', u'이중 여백(인접 형제 margin 24px+ 양쪽)', [], m['doubleMargins'])
         # a11y 숨김 select
-        a = m.get('a11ySelect')
+        # 2026-09-11 개편 — 인라인 상단을 감췄으므로 이 select 도 닫힌 상태에서는
+        # 조상이 display:none 이라 기하가 0 이 된다. 카페24 옵션 검증이 실제로 도는
+        # 자리는 **시트 안**이므로, 시트를 연 rows390 시나리오에서 잰다.
+        _r390 = res.get('rows390') or {}
+        a = ((_r390.get('m') or {}) if _r390.get('ok') else {}).get('a11ySelect') or m.get('a11ySelect')
         s.probe('C4.a11y.probe', u'숨김 select 탐지', 1 if a else 0)
         if a:
             s.eq('C4.a11y.w', u'숨김 select 폭 (=2*padding10 + 2*border1)', b['a11y_select']['w'], a['w'])
             s.eq('C4.a11y.h', u'숨김 select 높이', b['a11y_select']['h'], a['h'])
             s.eq('C4.a11y.display', u'숨김 select display (none 이면 카페24 검증이 깨진다)',
                  'block', a['display'])
-            s.eq('C4.a11y.hit', u'숨김 select 가 클릭을 가로채는가', None, a['hit'])
+            # 이 검사의 뜻은 「**숨김 select 가** 클릭을 가로채면 안 된다」이지
+            # 「그 자리에 아무것도 없어야 한다」가 아니다. 시트를 열고 재면서
+            # 같은 좌표에 안내문(`p.ec-base-help`)이 정상적으로 놓이게 됐다.
+            # select 가 아니기만 하면 통과다 — select 가 잡히면 그때가 진짜 결함이다.
+            s.add('C4.a11y.hit', not str(a['hit'] or '').upper().startswith('SELECT'),
+                  u'숨김 select 가 클릭을 가로채는가', 'SELECT 아님', a['hit'],
+                  u'SELECT 가 잡히면 1px 클립이 풀려 실제 클릭을 먹는다')
     else:
         s.fail('C4', u'390px 기준 렌더', 'no result')
 
