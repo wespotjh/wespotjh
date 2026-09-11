@@ -527,6 +527,30 @@ const OPEN_SHEET = () => {
   }, 450));
 };
 
+/* 2026-09-11 — **페이지 최상단**에서 하단바 「구매하기」 를 누르는 경로.
+   스킨 `mobileLayerOn()` 은 `.fixed` 가 없으면 시트를 열지 않고 인라인 구매
+   버튼을 대신 누른다. 상단 블록을 감춘 뒤로 그 버튼이 숨어 있어 옵션이 안 골라진
+   채 결제가 시도되고 「옵션을 선택해 주세요」 만 떴다. 여기서 그 경로를 잡는다. */
+const SHEET_TOP = () => {
+  const q = (s) => document.querySelector(s);
+  const btn = q('.mobile-fix-footer .jsLayerBtn');
+  if (!btn) return Promise.resolve({ btn: false });
+  window.scrollTo(0, 0);
+  return new Promise((res) => setTimeout(() => {
+    btn.click();
+    setTimeout(() => {
+      const ml = q('.mobile-layer');
+      const opts = q('.zg-opts');
+      const vis = (e) => { if (!e) return false; const cs = getComputedStyle(e);
+        const r = e.getBoundingClientRect(); return cs.display !== 'none' && r.height > 0; };
+      res({ btn: true,
+            opened: !!(ml && ml.classList.contains('on')),
+            optsVisible: vis(opts),
+            cls: ml ? ml.className.trim() : '' });
+    }, 1200);
+  }, 400));
+};
+
 const SHEET = () => {
   const q = (s) => document.querySelector(s);
   const btn = q('.jsLayerBtn');
@@ -603,7 +627,10 @@ const browser = await chromium.launch({ args: ['--force-color-profile=srgb', '--
 for (const scen of cfg.scenarios) {
   const { ctx, blocked } = await makeContext(browser, scen.vp, scen.safe, scen.stub);
   const page = await ctx.newPage();
-  const errors = [], consoleErr = [];
+  const errors = [], consoleErr = [], dialogs = [];
+  /* 알럿을 닫아 주지 않으면 이후 evaluate 가 전부 멈춘다.
+     「옵션을 선택해 주세요」 같은 결제 차단 알럿을 세기 위해 모은다. */
+  page.on('dialog', d => { dialogs.push(String(d.message()).slice(0, 120)); d.dismiss().catch(() => {}); });
   page.on('pageerror', e => errors.push({ msg: String(e.message).slice(0, 200), stack: String(e.stack || '').slice(0, 400) }));
   page.on('console', m => { if (m.type() === 'error') consoleErr.push(String(m.text()).slice(0, 160)); });
   let rec = { name: scen.name, vp: scen.vp, safe: scen.safe, stub: scen.stub || cfg.stub, ok: true };
@@ -647,6 +674,11 @@ for (const scen of cfg.scenarios) {
     }
     rec.m = await page.evaluate(MEASURE);
     if (scen.sheet) rec.sheet = await page.evaluate(SHEET);
+    if (scen.sheetTop) {
+      const before = dialogs.length;
+      rec.sheetTop = await page.evaluate(SHEET_TOP);
+      rec.sheetTop.alerts = dialogs.length - before;
+    }
     /* 에러 분류 — 우리 파일(/ds/) 에서 난 것만이 우리 책임이다.
      * 교차출처 차단으로 Kakao/AuthSSLManager 같은 남의 전역이 없어 나는 것은 하네스 환경 탓. */
     rec.errors = errors;

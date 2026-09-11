@@ -917,6 +917,17 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   color: var(--zg-ink);
 }
 .zg-detail .zg-sum__v--free { color: var(--zg-ok); font-weight: 700; }
+
+/* 정가 · 할인금액 (2026-09-11) — 얼마나 아꼈는지 보이게 한다.
+   정가는 취소선으로 낮춰 두고, 할인금액만 강조색으로 올린다.
+   ⚠ 두 줄은 정확히 계산될 때만 JS 가 `hidden` 을 푼다. 없는 할인을 만들지 않는다. */
+.zg-detail .zg-sum__row--list .zg-sum__v {
+  font-weight: 500;
+  color: var(--zg-ink-3);
+  text-decoration: line-through;
+}
+.zg-detail .zg-sum__row--save > span:first-child { color: var(--zg-acc-deep); font-weight: 600; }
+.zg-detail .zg-sum__row--save .zg-sum__v { color: var(--zg-acc-deep); font-weight: 700; }
 .zg-detail .zg-sum__row--tot {
   margin-top: 9px;
   padding-top: 15px;

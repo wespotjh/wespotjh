@@ -23,7 +23,15 @@ F. 구매 경로 검사 — 13종 전수. **「보이는가」가 아니라 「�
       top = $('.infoArea').offset().top + $('.infoArea').outerHeight()
       scrollTop > top → `.mobile-layer.fixed`  → 바 「구매하기」가 **시트를 연다**
       그 이하                                  → `mobileLayerOn()` 이 인라인 버튼에 **위임**한다
-  두 분기는 발사되는 함수가 다르므로 둘 다 잰다.
+
+  ⚠ 2026-09-11 개편으로 **위임 분기는 폐기됐다.**
+     상단 구매 블록을 감췄기 때문에 위임할 인라인 버튼이 화면에 없다. 그 상태로 두면
+     최상단에서 「구매하기」를 눌렀을 때 옵션이 안 골라진 채 결제가 시도돼
+     「옵션을 선택해 주세요」 만 뜨고 끝난다 — 실제로 구매 경로가 막혔다.
+     → `detail-ui.js` 의 `armSheetOpen()` 이 바 클릭을 캡처 단계에서 받아
+       `.fixed` 를 먼저 붙인다. 이제 **어느 스크롤 위치에서든 시트가 열린다.**
+     그래서 `top`·`bnd-3` 의 기대값은 「시트 열림 True · barBuy 발사 없음」 이다.
+     판매 상품이 아닌 페이지(C군)에서는 `zg-bar--dead` 가드로 열지 않는다.
 
 왜 13종 × 6폭 × 6상태를 매번 돌리지 않나 (표본 축소의 근거)
   전수(13종 × 6폭 × 6상태 = 468셀)를 2026-09-09 에 **한 번 실측**했다. 결과:
@@ -418,8 +426,13 @@ def run(base, obs=None):
             s.eq('F5.title.%s' % tag, u'[%s] 「몇 박스로 하시겠어요?」 제목 잔존' % tag, 0, d['optsTitle'],
                  u'`buildOptionCards()` 가 일찍 반환하는데 제목만 남으면 빈 제목이 덩그러니 남는다')
             s.eq('F5.wrap.%s' % tag, u'[%s] `.zg-opts` 래퍼 잔존' % tag, 0, d['optsWrap'])
-            s.eq('F5.sumrows.%s' % tag, u'[%s] 합계 줄 수(상품금액·배송비·총액)' % tag, 3, d['sumRows'])
-            s.eq('F5.sum.%s' % tag, u'[%s] 합계 3줄 내용' % tag, exp['sumTexts'], d['sumTexts'])
+            # 2026-09-11 — 정가·할인금액 2줄이 늘어 5줄이다.
+            # 숫자만 세면 어느 줄이 빠졌는지 못 잡으므로, 바로 아래 `F5.sum` 이
+            # 줄 **내용**을 통째로 대조한다. 여기서는 개수만 고정한다.
+            s.eq('F5.sumrows.%s' % tag,
+                 u'[%s] 합계 줄 수(정가·할인금액·상품금액·배송비·총결제금액)' % tag,
+                 5, d['sumRows'])
+            s.eq('F5.sum.%s' % tag, u'[%s] 합계 줄 내용' % tag, exp['sumTexts'], d['sumTexts'])
             s.eq('F5.barsum.%s' % tag, u'[%s] 하단바 금액 줄' % tag, exp['barSum'],
                  [d['barSumDisplay'], d['barSumText']],
                  u'B군은 단가가 있으므로 금액 줄을 접지 않는다')

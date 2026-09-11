@@ -48,6 +48,11 @@ def scenarios():
         sc.append({'name': 'neg%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1100,
                    'stub': {'w': 400, 'h': 600}, 'expand': True})
     sc.append({'name': 'sheet390', 'vp': 390, 'safe': 0, 'settle': 1300, 'sheet': True})
+    # 2026-09-11 — **페이지 최상단**에서 하단바 「구매하기」 를 누르는 경로.
+    # 기존 `sheet390` 은 먼저 스크롤해 `.fixed` 를 만든 뒤 열기 때문에 이 경우를
+    # 한 번도 검사한 적이 없었다. 상단 구매 블록을 감춘 뒤 실제로 여기서 막혔다 —
+    # 스킨 `mobileLayerOn()` 이 `.fixed` 가 없으면 숨은 인라인 버튼을 대신 누른다.
+    sc.append({'name': 'sheettop390', 'vp': 390, 'safe': 0, 'settle': 1300, 'sheetTop': True})
     # B안 하단바 구매 경로 — .fixed 인 상태(mid)와 아닌 상태(top) 둘 다
     for kind in ('mid', 'top'):
         sc.append({'name': 'barbuy390_%s' % kind, 'vp': 390, 'safe': 0, 'settle': 1300,
@@ -194,6 +199,18 @@ def run(base, obs=None):
         s.add('C3N.%d' % vp, isinstance(z['max'], float) and z['max'] > 1.05,
               u'[음성대조 %dpx] 원본 400px 이면 확대가 발생해야 한다' % vp, '> 1.05', z['max'],
               u'확대가 안 잡히면 C3 전체가 죽은 검사다 (신아린 4차 §4 반례)')
+
+    # --- C4b. 최상단에서 시트 열기 (2026-09-11) ---------------------------
+    r = res.get('sheettop390')
+    if r and r.get('ok') and r.get('sheetTop'):
+        st = r['sheetTop']
+        s.truthy('C4b.top.btn', u'최상단에 하단바 「구매하기」 가 있다', st.get('btn'))
+        s.eq('C4b.top.opened', u'최상단에서 눌러도 구매 시트가 열린다', True, st.get('opened'),
+             u'False 면 스킨이 숨은 인라인 버튼을 대신 눌러 「옵션을 선택해 주세요」 만 뜬다')
+        s.eq('C4b.top.opts', u'열린 시트에 옵션 카드가 보인다', True, st.get('optsVisible'))
+        s.eq('C4b.top.alert', u'알럿이 뜨지 않는다', 0, st.get('alerts'))
+    else:
+        s.fail('C4b.top', u'최상단 시트 열기 측정', (r or {}).get('error', 'no result'))
 
     # --- C4. 갤러리 / 지연로딩 / 접기 -------------------------------------
     r = res.get('bar390_s0')
@@ -423,21 +440,16 @@ def run(base, obs=None):
         bf = u.get('bubbleFit') or {}
         s.eq('C9.%s.bfit.found' % tag, u'[%s] 말풍선 요소 탐지(기하 측정)' % kind, True, bf.get('found'),
              u'False 면 클래스명이 바뀐 것 = 아래 검사들이 통째로 사라진다')
-        # 2026-09-11 개편 — 인라인(top) 구간은 상단 구매 블록 자체를 감췄다
-        # (`.mobile-layer:not(.on):not(.fixed) .infoArea-footer{display:none}`).
-        # 조상이 숨어 있어 기하를 못 재는 게 **정상**이다. 시트(`.on`)·고정바(`.fixed`)
-        # 구간에서는 그대로 재고, 거기서 깨지면 잡힌다.
-        if kind == 'top':
-            s.eq('C9.%s.bfit.render' % tag, u'[%s] 상단 구매 블록은 숨어 있다' % kind,
-                 False, bool(bf.get('renderable')),
-                 u'True 면 상단 구매 블록이 되살아난 것이다')
-        elif bf.get('found'):
+        # 2026-09-11 — `BARBUY` 는 재기 전에 하단바 「구매하기」 를 누른다.
+        # 그 클릭이 이제 **제대로 시트를 열므로**(armSheetOpen) 구매 블록이 보이는 게 맞다.
+        # 개편 직후 한때 이 항목을 「숨어 있어야 한다」 로 두었는데, 그건 클릭해도
+        # 아무 일이 없던 고장난 상태를 기준으로 삼은 것이었다 — 일반 검사로 되돌린다.
+        if bf.get('found'):
             s.eq('C9.%s.bfit.render' % tag, u'[%s] 강제 노출하면 실제로 그려진다' % kind,
                  True, bf.get('renderable'),
                  u'0 이면 조상이 계속 숨어 있어 측정이 무의미하다(거짓 통과)')
-            if kind != 'top':
-                s.eq('C9.%s.bfit.h' % tag, u'[%s] 말풍선 상자 높이(px) — 스킨 `height:26px`' % kind,
-                     b['barbuy']['bubble_h'], bf.get('boxH'))
+            s.eq('C9.%s.bfit.h' % tag, u'[%s] 말풍선 상자 높이(px) — 스킨 `height:26px`' % kind,
+                 b['barbuy']['bubble_h'], bf.get('boxH'))
             s.le('C9.%s.bfit.ovf' % tag, u'[%s] 글자가 상자를 넘친 높이(px)' % kind,
                  1, bf.get('overflowPx'),
                  u'줄상자가 상자보다 크면 글자가 잘려 보인다 (R-4). 음성 대조군 실측 28px')

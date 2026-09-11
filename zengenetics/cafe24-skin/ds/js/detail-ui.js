@@ -53,7 +53,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     if (text != null) n.textContent = text;
     return n;
   }
-  function on(node, ev, fn) { if (node && node.addEventListener) node.addEventListener(ev, fn, false); }
+  function on(node, ev, fn, cap) { if (node && node.addEventListener) node.addEventListener(ev, fn, !!cap); }
 
   /* ================================================================== *
    * [중요] · K-09 SEO 하드가드 (QA 지적 반영)
@@ -412,6 +412,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
   var root, optSel, cards = [], cardWrap = null;
   var pickedHead = null, pickedEmpty = null, tpNode = null, tpAnchor = null;
   var sumItemV = null, sumShipV = null, sumTotV = null;
+  var sumListV = null, sumSaveV = null, sumListRow = null, sumSaveRow = null;
   var barV = null, barSum = null;
   var pendingSingle = null, pendingTimer = null, pickedTimer = null;
   var modeEffective = (ZG_OPT_MODE === 'single') ? 'single' : 'multi';
@@ -436,6 +437,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     buildSum();
     buildBar();
     armKeyboard();
+    armSheetOpen();
     bindFold();
     bindChips();
     bindAddProduct();
@@ -720,16 +722,70 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     return { row: row, v: v };
   }
 
+  /* ------------------------------------------------ K-08b 정가 · 할인금액
+   * 2026-09-11 개편: "정가 > 할인금액(마이너스) > 총 결제금액" 으로 보여
+   * 고객이 얼마나 이득인지 느끼게 한다.
+   *
+   * ⚠ **추정하지 않는다.** 할인율(`지금 24%▼`)에서 역산하면 원 단위가 안 맞는다
+   *    (실측: 2box 68,000 / 0.76 = 89,473 ≠ 정가 90,000 — 527원 오차).
+   *    가격을 틀리게 보여주느니 안 보여주는 게 낫다.
+   *
+   * 정확히 맞는 경로만 쓴다 — 카페24 시중가(`#span_product_price_custom`) × 수량.
+   *    실측(칼륨 11): 시중가 45,000
+   *      1box 34,900  정가  45,000  할인 10,100 = 22%  ✓ 화면 표기 22%
+   *      2box 68,000  정가  90,000  할인 22,000 = 24%  ✓ 24%
+   *      3box 97,000  정가 135,000  할인 38,000 = 28%  ✓ 28%
+   *      5box 149,000 정가 225,000  할인 76,000 = 34%  ✓ 34%
+   *    네 옵션 전부 표기 할인율과 정확히 일치한다.
+   *
+   * 한 행이 몇 개 묶음인지는 행 이름의 `N box` 로 읽는다. 못 읽으면 1 로 본다.
+   * 시중가가 없거나 할인이 0 이하이면 두 줄을 **감춘다** — 없는 할인을 만들지 않는다. */
+  /* 숫자 → "12,345원". `toLocaleString` 은 구형 웹뷰에서 구분자를 안 넣는 경우가 있어 직접 넣는다. */
+  function won(n) {
+    var v = Math.round(Number(n) || 0);
+    return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '\uC6D0';
+  }
+
+  function listUnitPrice() {
+    var e = document.getElementById('span_product_price_custom');
+    if (!e) return 0;
+    var d = String(e.textContent || '').replace(/[^0-9]/g, '');
+    return d ? parseInt(d, 10) : 0;
+  }
+
+  function listTotal() {
+    var unit = listUnitPrice();
+    if (!unit) return 0;
+    var sum = 0;
+    visibleRows().forEach(function (r) {
+      var pd = $('p.product', r);
+      var nm = pd ? (pd.textContent || '') : '';
+      var m = nm.match(/(\d+)\s*box/i);
+      var packs = m ? parseInt(m[1], 10) : 1;
+      var qi = $('input.quantity_opt, input[name^="quantity_opt"]', r);
+      var qd = qi ? String(qi.value || '').replace(/[^0-9]/g, '') : '';
+      var qty = qd ? parseInt(qd, 10) : 1;
+      if (packs > 0 && qty > 0) sum += unit * packs * qty;
+    });
+    return sum;
+  }
+
   function buildSum() {
     var tp = document.getElementById('totalPrice');
     if (!tp || !tp.parentNode) return;
     var box = el('div', 'zg-sum');
 
+    var L = sumRow('정가', 'zg-sum__row--list');
+    var S = sumRow('할인금액', 'zg-sum__row--save');
     var a = sumRow('상품 금액');
     var b = sumRow('배송비');
-    var c = sumRow('총 구매 금액', 'zg-sum__row--tot');
+    var c = sumRow('총 결제금액', 'zg-sum__row--tot');
+    sumListV = L.v; sumSaveV = S.v;
+    sumListRow = L.row; sumSaveRow = S.row;
     sumItemV = a.v; sumShipV = b.v; sumTotV = c.v;
 
+    box.appendChild(L.row);
+    box.appendChild(S.row);
     box.appendChild(a.row);
     box.appendChild(b.row);
     box.appendChild(c.row);
@@ -753,6 +809,38 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var so = el('span', 'zg-bar__soldout', 'SOLD OUT');
     so.setAttribute('aria-disabled', 'true');
     bar.appendChild(so);
+  }
+
+  /* --------------------------------------------- K-12c 시트 열기 보정
+   * 2026-09-11 개편으로 상단 인라인 구매 블록을 감췄다. 그런데 스킨의
+   * `mobileLayerOn()`(moa/js/product/detail.js) 은 이렇게 생겼다:
+   *
+   *     if ($('.jsMobileLayer').hasClass('fixed')) { 시트를 연다 }
+   *     else { $('.buy-btn-wrap').find('.btnSubmit.gFull.sizeL').trigger('click'); }
+   *
+   * 페이지 상단에는 `.fixed` 가 없어 **인라인 구매 버튼을 대신 누른다.**
+   * 그 버튼이 이제 숨어 있으니 옵션이 안 골라진 채로 결제가 시도돼
+   * 「옵션을 선택해 주세요」 만 뜨고 끝난다 — 구매 경로가 막힌다.
+   *
+   * → 하단바 클릭이 **스킨 핸들러에 닿기 전에**(캡처 단계) `.fixed` 를 붙여
+   *   스킨이 스스로 시트 경로를 타게 한다. 스킨 코드는 건드리지 않는다. */
+  function armSheetOpen() {
+    var bar = $('.mobile-fix-footer');
+    if (!bar) return;
+    on(bar, 'click', function (e) {
+      var t = e.target;
+      var btn = t && t.closest ? t.closest('.jsLayerBtn') : null;
+      if (!btn) return;
+      /* 판매 상품이 아닌 페이지(34·91·93 등)에서는 열지 않는다 —
+       * 그 페이지의 바는 `zg-bar--dead` 로 이미 내려가 있고, 시트를 열면
+       * 팔지 않는 상품에 결제 UI 만 띄우게 된다. */
+      if (bar.classList.contains('zg-bar--dead') ||
+          (root && root.classList.contains('zg-unsellable'))) return;
+      var layer = $('.mobile-layer');
+      if (layer && layer.classList && !layer.classList.contains('fixed')) {
+        layer.classList.add('fixed');
+      }
+    }, true);
   }
 
   /* ------------------------------------------------- K-09 상세 펼침 (접기 폐지)
@@ -891,6 +979,16 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     if (root) root.classList.toggle('zg-unsellable', dead);
     armKeyboard();          /* 바가 나중에 그려지는 경우 대비 */
     setKeyboardReach(dead);
+
+    /* 정가·할인금액 — 정확히 계산되는 경우에만 보여준다 */
+    var listSum = num > 0 ? listTotal() : 0;
+    var save = listSum > num ? listSum - num : 0;
+    if (sumListRow) sumListRow.hidden = !(save > 0);
+    if (sumSaveRow) sumSaveRow.hidden = !(save > 0);
+    if (save > 0) {
+      if (sumListV) sumListV.textContent = won(listSum);
+      if (sumSaveV) sumSaveV.textContent = '-' + won(save);
+    }
 
     if (sumItemV) sumItemV.textContent = num > 0 ? t : '—';
     if (sumTotV) sumTotV.textContent = num > 0 ? t : '0원';
