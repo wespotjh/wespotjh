@@ -551,6 +551,43 @@ const SHEET_TOP = () => {
   }, 400));
 };
 
+/* R-12 (2026-09-11) 열린 시트의 합계가 **구매 버튼 블록에 깔리지 않는가**.
+   이 검사가 없어서 실기기에서 「할인금액」 줄이 잘린 채 배포됐다.
+   같이 잰다: 카페24 간편결제 앱이 런타임에 넣는 결제/찜 블록이 내려가 있는가.
+   ⚠ 노드 존재 검사(C9)는 그대로다 — 우리는 **지우지 않고 감춘다**. */
+const SHEET_SUM = () => {
+  const q = (s) => document.querySelector(s);
+  const ml = q('.mobile-layer');
+  if (!ml) return { ok: false, reason: 'no .mobile-layer' };
+  const act = q('.mobile-layer .infoArea-footer .productAction');
+  const mr = ml.getBoundingClientRect();
+  const ar = act ? act.getBoundingClientRect() : null;
+  const rows = [...document.querySelectorAll('.mobile-layer .zg-sum__row')]
+    .filter((r) => getComputedStyle(r).display !== 'none' && !r.hidden)
+    .map((r) => {
+      const b = r.getBoundingClientRect();
+      return { t: r.textContent.replace(/\s+/g, ' ').trim().slice(0, 24),
+               top: Math.round(b.top), bot: Math.round(b.bottom) };
+    });
+  /* 가림/잘림: 버튼 블록 위로 넘어갔거나 시트 밖으로 나간 줄 */
+  const covered = rows.filter((r) =>
+    (ar && r.bot > Math.round(ar.top) + 1) ||
+    r.bot > Math.round(mr.bottom) + 1 ||
+    r.top < Math.round(mr.top) - 1);
+  const off = (sel) => { const e = q(sel); if (!e) return 'absent';
+    return getComputedStyle(e).display === 'none' ? 'hidden' : 'SHOWN'; };
+  return {
+    ok: true,
+    open: !!(ml.classList.contains('fixed') && ml.classList.contains('on')),
+    actH: ar ? Math.round(ar.height) : null,
+    rowCount: rows.length,
+    covered,
+    appBox: off('#appPaymentButtonBox'),
+    naver: off('#NaverChk_Button'),
+    kakao: off('#kakao-checkout-button'),
+  };
+};
+
 const SHEET = () => {
   const q = (s) => document.querySelector(s);
   const btn = q('.jsLayerBtn');
@@ -674,6 +711,17 @@ for (const scen of cfg.scenarios) {
     }
     rec.m = await page.evaluate(MEASURE);
     if (scen.sheet) rec.sheet = await page.evaluate(SHEET);
+    if (scen.sheet) { await page.waitForTimeout(400); rec.sheetSum = await page.evaluate(SHEET_SUM); }
+    /* R-12 **구성을 고른 뒤** 시트를 여는 경로 — 고객이 실제로 거치는 순서다.
+     * 고르지 않으면 정가·할인금액 줄이 숨어 있어 합계가 짧고, 가림이 드러나지 않는다.
+     * 이 시나리오가 없어서 「할인금액」 잘림이 검사를 통과해 버렸다 (2026-09-11). */
+    if (scen.sheetSum) {
+      rec.rowsMade = await page.evaluate(MAKE_ROWS);
+      await page.waitForTimeout(700);
+      rec.sheetOpen = await page.evaluate(OPEN_SHEET);
+      await page.waitForTimeout(700);
+      rec.sheetSum = await page.evaluate(SHEET_SUM);
+    }
     if (scen.sheetTop) {
       const before = dialogs.length;
       rec.sheetTop = await page.evaluate(SHEET_TOP);

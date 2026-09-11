@@ -46,6 +46,9 @@ class Suite(object):
     def eq(self, cid, what, expect, actual, note='', known=False):
         return self.add(cid, expect == actual, what, expect, actual, note, known)
 
+    def ne(self, cid, what, forbidden, actual, note='', known=False):
+        return self.add(cid, forbidden != actual, what, '!= %s' % forbidden, actual, note, known)
+
     def truthy(self, cid, what, actual, note='', known=False):
         return self.add(cid, bool(actual), what, 'truthy', actual, note, known)
 

@@ -74,6 +74,12 @@ def measure():
         rc, out = sh(['node', '--check', _p(rel)])
         obs['jscheck'][rel] = {'rc': rc, 'out': out.strip()[:400]}
 
+    obs['bom'] = {}
+    for rel in ALL:
+        raw = open(_p(rel), 'rb').read()
+        obs['bom'][rel] = {'head': raw[:3] == b'\xef\xbb\xbf',
+                           'inside': raw.count(b'\xef\xbb\xbf')}
+
     for rel in ALL:
         t = read(_p(rel))
         hit = {}
@@ -124,6 +130,18 @@ def run(base, obs=None):
     self_ok = read(_p('ds/css/detail.css')).count(u'젠제네틱스') > 0
     s.truthy('B3.selftest', u'토큰 스캐너 자가검증(한글 매칭 동작)', self_ok,
              u'실패면 인코딩 문제로 B3 전체가 거짓 통과 중')
+
+    # B5. 저장소 파일에 BOM 0개 (2026-09-11 회귀) ---------------------------
+    #  대표 전달본(메모장용)에는 BOM 을 붙이지만, **저장소 파일에는 붙이면 안 된다.**
+    #  카페24는 이 파일들을 하나의 번들로 이어 붙인다 — 파일 머리의 BOM 이 번들 **중간**에
+    #  들어가고, U+FEFF 는 CSS 에서 공백이 아니라 문법 오류라 그 뒤 규칙이 통째로 깨진다.
+    #  실제로 이 한 글자 때문에 하단바·스테퍼·접근성 검사 39건이 한꺼번에 무너졌다.
+    for rel in ALL:
+        g = obs['bom'][rel]
+        s.eq('B5.head.%s' % rel, u'%s 머리 BOM' % rel, False, g['head'],
+             u'전달본에만 붙인다 — 저장소 파일에 붙으면 번들 중간에서 CSS 가 깨진다')
+        s.eq('B5.any.%s' % rel, u'%s 안의 U+FEFF 개수' % rel, 0, g['inside'])
+    s.probe('B5.probe', u'BOM 검사 대상 파일 수', len(ALL))
 
     # B4. HTML 주석 안 `{$` 0건 — 카페24 주석 내 변수 치환 함정
     for rel in TEMPLATES:

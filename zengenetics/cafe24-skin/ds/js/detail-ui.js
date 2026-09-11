@@ -227,6 +227,19 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     if (!rowKey || !cardKey) return false;
     return rowKey.indexOf(cardKey) >= 0 || cardKey.indexOf(rowKey) >= 0;
   }
+  /* R-12 배송비 금액 — **관리자 값에서 읽는다. 코드에 금액을 박지 않는다.**
+   * (CLAUDE.md 배송 정책: 「3,500원 · 50,000원 이상 구매 시 무료」 하나뿐이고,
+   *  카페24 스킨이 그 값을 관리자에서 읽어 `#freeShipGuide[data-delivery]` 로 내린다)
+   *   0  = 무료  ·  양수 = 그 금액  ·  -1 = 못 읽었다(모른다) */
+  function shipFee() {
+    if (isFreeShip()) return 0;
+    var d = captureDelivery();
+    var m = String(d || '').match(/([0-9][0-9,]*)\s*\uC6D0/);
+    if (!m) return -1;
+    var v = parseInt(m[1].replace(/,/g, ''), 10);
+    return isNaN(v) ? -1 : v;
+  }
+
   function isFreeShip() {
     var f = document.getElementById('levelLineActive');
     return !!(f && f.classList && f.classList.contains('full'));
@@ -438,6 +451,8 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     buildBar();
     armKeyboard();
     armSheetOpen();
+    watchAppPay();
+    watchSheet();
     bindFold();
     bindChips();
     bindAddProduct();
@@ -843,6 +858,86 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     }, true);
   }
 
+  /* ------------------------------------------- R-12 간편결제 앱 블록 차단
+   * 카페24 「네이버페이 구매」·「카카오 톡체크아웃」 앱은 마크업이 아니라
+   * **런타임 스크립트**로 버튼을 만든다 (실측, 라이브 소스):
+   *     EC_CHECKOUT_TARGET_DIV.parent().append('<div id="appPaymentButtonBox" …>')
+   *     $("#appPaymentButtonBox").append(<div id="kakao-checkout-button">)
+   *     EC$("#NaverChk…").length == 0  →  다시 append
+   * 그래서 `product/detail.html` 에서 훅을 지워도 **페이지가 뜨면 되살아난다.**
+   * 2026-09-11 개편 요건(네이버페이·카카오페이·찜 제거)을 만족시키려면 여기서 막아야 한다.
+   *
+   * ⚠ 노드를 **지우지 않는다** — 앱 스크립트가 자기 노드를 다시 찾으므로 지우면
+   *   위 `length == 0` 분기가 매번 다시 돌아 무한 재생성이 된다. 인라인 스타일로 내린다.
+   * ⚠ 앱이 자기 display 를 다시 쓰는 경우가 있어 `important` 로 박는다 —
+   *   이건 스타일시트가 아니라 **인라인 우선순위**라 detail.css 의 "새 important 금지"
+   *   설계 규칙과 무관하다.
+   * ⚠ 주입 시점이 비동기라 한 번만 훑으면 놓친다 — MutationObserver 로 계속 지킨다. */
+  /* ⚠ 셀렉터에 네이버 버튼 **id 전체를 리터럴로 쓰지 않는다** — 그 문자열은 A군
+   *   「플러그인 훅 보존」 계약 토큰이라, 스킨 파일에 나타나면 훅 개수 검사가 오탐한다.
+   *   접두사 선택자로 같은 노드를 잡는다. */
+  var APPPAY_SEL = '#appPaymentButtonBox, [id^="NaverChk"], #kakao-checkout-button';
+
+  function killAppPay() {
+    var box = root ? root : document;
+    $$(APPPAY_SEL, box).forEach(function (n) {
+      if (n.getAttribute('data-zg-off') === '1') return;
+      try { n.style.setProperty('display', 'none', 'important'); } catch (e) { n.style.display = 'none'; }
+      n.setAttribute('data-zg-off', '1');
+    });
+  }
+
+  function watchAppPay() {
+    killAppPay();
+    var MO = window.MutationObserver || window.WebKitMutationObserver;
+    if (!MO) return;
+    var host = $('.infoArea-footer') || root;
+    if (!host) return;
+    var mo = new MO(function () { killAppPay(); fitSheet(); });
+    try { mo.observe(host, { childList: true, subtree: true }); } catch (e) {}
+    /* 앱 스크립트는 로드가 늦다 — 초반 몇 초는 확인 사살한다(폴링 아님, 유한 회수) */
+    [200, 600, 1200, 2500, 5000].forEach(function (ms) {
+      setTimeout(function () { killAppPay(); fitSheet(); }, ms);
+    });
+  }
+
+  /* ------------------------------------------------- R-12 시트 바닥 실측
+   * 열린 시트에서 합계는 `position:absolute; bottom:<구매 버튼 블록 높이>` 로 얹힌다.
+   * 그 높이를 86px 로 굳혀 뒀었는데, 합계가 5줄로 늘고 앱 블록이 주입되면서 전제가 깨졌다
+   * (2026-09-11 실기기 확인: 「할인금액」 줄이 버튼 패널에 잘려 있었다).
+   * → 굳히지 않고 잰다. 값은 `.mobile-layer` 의 CSS 변수로 내려보낸다. */
+  function fitSheet() {
+    var layer = $('.mobile-layer');
+    if (!layer || !layer.classList) return;
+    var open = layer.classList.contains('fixed') && layer.classList.contains('on');
+    if (!open) {
+      layer.style.removeProperty('--zg-act-h');
+      layer.style.removeProperty('--zg-tub-pb');
+      return;
+    }
+    var act = $('.infoArea-footer .productAction', layer);
+    if (!act) return;
+    var ah = Math.round(act.getBoundingClientRect().height);
+    if (!(ah > 0)) return;
+    var sum = $('.infoArea-footer .zg-sum', layer);
+    var sh = sum ? Math.round(sum.getBoundingClientRect().height) : 0;
+    layer.style.setProperty('--zg-act-h', ah + 'px');
+    layer.style.setProperty('--zg-tub-pb', (ah + sh + 18) + 'px');
+  }
+
+  function watchSheet() {
+    var layer = $('.mobile-layer');
+    if (!layer) return;
+    var MO = window.MutationObserver || window.WebKitMutationObserver;
+    if (MO) {
+      var mo = new MO(function () { fitSheet(); });
+      try { mo.observe(layer, { attributes: true, attributeFilter: ['class'] }); } catch (e) {}
+    }
+    on(window, 'resize', fitSheet);
+    on(window, 'orientationchange', fitSheet);
+    fitSheet();
+  }
+
   /* ------------------------------------------------- K-09 상세 펼침 (접기 폐지)
    * 2026-09-11 개편: 상세페이지는 기본값으로 모두 펼친다.
    * 「상세 정보 모두 보기」 버튼은 마크업에서 제거했다. 여기서는 캐시된 예전
@@ -991,7 +1086,16 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     }
 
     if (sumItemV) sumItemV.textContent = num > 0 ? t : '—';
-    if (sumTotV) sumTotV.textContent = num > 0 ? t : '0원';
+    /* R-12 「총 결제금액」은 **고객이 실제로 내는 돈**이어야 한다.
+     * 카페24 `#totalPrice` 는 상품 금액만 담는다 — 배송비가 붙는 주문에서
+     * 그 값을 그대로 쓰면 결제 직전 화면이 실제 결제액보다 적은 금액을 말하게 된다
+     * (34,900원 표시 / 실제 38,400원). 배송비를 아는 경우에만 더한다. */
+    var fee = shipFee();
+    if (sumTotV) {
+      sumTotV.textContent = (num > 0)
+        ? (fee > 0 ? won(num + fee) : t)
+        : '0원';
+    }
     if (sumShipV) {
       var free = isFreeShip();
       var dtxt = captureDelivery();      /* 아직 못 읽었으면 이 시점에 한 번 더 시도 */
@@ -1042,5 +1146,9 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     } else if (modeEffective === 'multi') {
       showHint('');
     }
+
+    /* R-12 합계 줄 수가 바뀌면(정가·할인금액 노출/은닉) 고정 합계의 높이가 달라진다 —
+     * 시트 바닥 실측을 다시 돌려 버튼 블록에 깔리지 않게 한다. */
+    fitSheet();
   }
 })();

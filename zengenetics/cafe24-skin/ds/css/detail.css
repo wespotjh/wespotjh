@@ -1244,7 +1244,7 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 86px;
+    bottom: var(--zg-act-h, 86px);   /* 실측값 주입 — 아래 R-12 주석 */
     margin: 0;
     padding: 9px var(--zg-pad-x) 0;
     box-sizing: border-box;
@@ -1258,7 +1258,16 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   .zg-detail .mobile-layer.fixed.on .infoArea-footer .zg-sum .zg-sum__note { display: none; }
   /* 스크롤 통 바닥을 「버튼 블록 + 고정된 합계」 만큼 비운다 — 마지막 구성 카드가 안 깔리게.
      값은 아래 실측으로 확정한다(임시값이 아니라 측정치다). */
-  .zg-detail .mobile-layer.fixed.on .mobile-layer__inner { padding-bottom: 204px; }
+  /* R-12 (2026-09-11 실측) 86·204 는 「구매 버튼 블록 = 86px」 을 전제로 굳힌 값이었다.
+     그 전제가 두 번 깨진다:
+       ① 합계가 3줄 → 5줄(정가·할인금액 추가)로 늘었다.
+       ② 카페24 간편결제 앱이 **런타임에** 간편결제 버튼 상자(`#appPaymentButtonBox` 등)를
+          `.productAction` 안에 append 한다. 마크업에 없으니 템플릿에서 지워도 다시 생긴다.
+          → `.productAction` 이 86px 이 아니게 되고, 고정된 합계가 그 밑에 깔려 잘린다.
+     ⚠ 실렌더 하네스는 이걸 못 봤다 — 미러에서 jQuery 가 안 붙어 앱 주입이 아예 안 돌았다.
+     → 값을 굳히지 않는다. `detail-ui.js` 의 `fitSheet()` 가 `.productAction` 실측 높이를
+       `--zg-act-h` 로, 「버튼블록+합계」 를 `--zg-tub-pb` 로 넣는다. 아래는 그 폴백값이다. */
+  .zg-detail .mobile-layer.fixed.on .mobile-layer__inner { padding-bottom: var(--zg-tub-pb, 204px); }
 
   /* 하단 고정바에 같은 「장바구니·구매하기」가 있어 합계 아래 인라인 버튼이 중복이었다.
      → **바텀시트가 닫혀 있을 때만** 인라인 블록을 감춘다. 시트를 열면 그 안에 다시 나타나

@@ -53,6 +53,12 @@ def scenarios():
     # 한 번도 검사한 적이 없었다. 상단 구매 블록을 감춘 뒤 실제로 여기서 막혔다 —
     # 스킨 `mobileLayerOn()` 이 `.fixed` 가 없으면 숨은 인라인 버튼을 대신 누른다.
     sc.append({'name': 'sheettop390', 'vp': 390, 'safe': 0, 'settle': 1300, 'sheetTop': True})
+    # R-12 (2026-09-11) 구성을 **고른 뒤** 시트를 여는 경로. 기존 `sheet390` 은
+    # 아무것도 고르지 않고 열어서 합계가 3줄(정가·할인금액 숨김)이었다 —
+    # 5줄이 되는 실제 상태를 한 번도 재본 적이 없어 「할인금액」 잘림을 놓쳤다.
+    for vp in (320, 360, 390, 414, 768):
+        sc.append({'name': 'sheetsum%d' % vp, 'vp': vp, 'safe': 0, 'settle': 1300,
+                   'sheetSum': True})
     # B안 하단바 구매 경로 — .fixed 인 상태(mid)와 아닌 상태(top) 둘 다
     for kind in ('mid', 'top'):
         sc.append({'name': 'barbuy390_%s' % kind, 'vp': 390, 'safe': 0, 'settle': 1300,
@@ -300,6 +306,32 @@ def run(base, obs=None):
                  u'배너앱이 hidden 속성을 떼도 CSS 로 계속 감춰져 있어야 한다')
     else:
         s.fail('C5', u'바텀시트 시나리오', 'no result')
+
+    # --- C13. 열린 시트의 합계 (R-12) ----------------------------------------
+    # 고객이 **구성을 고른 뒤** 시트를 연 상태. 합계는 5줄이 되고, 카페24 간편결제 앱이
+    # 런타임에 `#appPaymentButtonBox`·`#NaverChk_Button` 을 `.productAction` 안에 넣어
+    # 버튼 블록이 86px 을 넘긴다. 두 가지가 겹쳐 「할인금액」 줄이 잘렸다(실기기 2026-09-11).
+    for vp in (320, 360, 390, 414, 768):
+        tag = 'sheetsum%d' % vp
+        r = res.get(tag)
+        if not r or not r.get('ok'):
+            s.fail('C13.%s' % tag, u'%s 렌더' % tag, (r or {}).get('error', 'no result')); continue
+        ss = r.get('sheetSum') or {}
+        if not ss.get('ok'):
+            s.fail('C13.%s.probe' % tag, u'[%dpx] 시트 합계 탐지' % vp, ss.get('reason', 'no data')); continue
+        s.truthy('C13.%s.open' % tag, u'[%dpx] 구성 선택 후 시트 열림' % vp, ss.get('open'))
+        s.ge('C13.%s.rows' % tag, u'[%dpx] 보이는 합계 줄 수 (정가·할인금액 포함 5줄)' % vp, 5,
+             ss.get('rowCount', 0),
+             u'5 미만이면 정가·할인금액이 안 나오는 것이다')
+        s.eq('C13.%s.covered' % tag, u'[%dpx] 구매 버튼 블록에 깔리거나 시트 밖으로 나간 합계 줄' % vp,
+             [], ss.get('covered'),
+             u'비어 있지 않으면 결제 직전 숫자가 잘려 보인다 (대표님 실기기 반려 2026-09-11)')
+        # 2026-09-11 개편 요건: 네이버페이·카카오페이·찜 은 보이지 않는다.
+        # **지우는 게 아니라 감춘다** — 앱 스크립트가 자기 노드를 다시 찾는다.
+        for k, nm in (('appBox', u'#appPaymentButtonBox'), ('naver', u'#NaverChk_Button'),
+                      ('kakao', u'#kakao-checkout-button')):
+            s.ne('C13.%s.%s' % (tag, k), u'[%dpx] %s 노출' % (vp, nm), 'SHOWN', ss.get(k),
+                 u'런타임 주입이라 마크업에서 지워도 되살아난다 — JS 로 내려야 한다')
 
     # --- C7. 선택 행 2유형 — 스테퍼·가격·말풍선 (실기 반려 2026-09-08) ---------
     for vp in VP_ROWS:
