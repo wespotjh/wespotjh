@@ -1,2291 +1,2280 @@
 {
- "A": {
-  "preserve": {
-   "product/detail.html": {
-    "module=": 39,
-    "{$": 231,
-    "onclick=\"{$action_": 8,
-    "{$form.": 17,
-    "id=\"{$": 32,
-    "{$total.": 7,
-    "{$soldout_display": 4,
-    "{$basket_display": 3,
-    "displaynone": 14,
-    "selectButton": 3,
-    "ec-base-qty": 6,
-    "id=\"": 42,
-    "<!--@import(": 28,
-    "<!--@css(": 4,
-    "<!--@js(": 4
-   },
-   "moa/import/product_detail/detail.html": {
-    "module=": 2,
-    "{$": 1,
-    "onclick=\"{$action_": 0,
-    "{$form.": 0,
-    "id=\"{$": 0,
-    "{$total.": 0,
-    "{$soldout_display": 0,
-    "{$basket_display": 0,
-    "displaynone": 0,
-    "selectButton": 0,
-    "ec-base-qty": 0,
-    "id=\"": 3,
-    "<!--@import(": 4,
-    "<!--@css(": 1,
-    "<!--@js(": 1
-   },
-   "moa/layout/head.html": {
-    "module=": 0,
-    "{$": 0,
-    "onclick=\"{$action_": 0,
-    "{$form.": 0,
-    "id=\"{$": 0,
-    "{$total.": 0,
-    "{$soldout_display": 0,
-    "{$basket_display": 0,
-    "displaynone": 0,
-    "selectButton": 0,
-    "ec-base-qty": 0,
-    "id=\"": 0,
-    "<!--@import(": 1,
-    "<!--@css(": 17,
-    "<!--@js(": 6
-   },
-   "index.html": {
-    "module=": 0,
-    "{$": 0,
-    "onclick=\"{$action_": 0,
-    "{$form.": 0,
-    "id=\"{$": 0,
-    "{$total.": 0,
-    "{$soldout_display": 0,
-    "{$basket_display": 0,
-    "displaynone": 0,
-    "selectButton": 0,
-    "ec-base-qty": 0,
-    "id=\"": 0,
-    "<!--@import(": 2,
-    "<!--@css(": 6,
-    "<!--@js(": 9
-   }
-  },
-  "hooks": {
-   "alpha_widget": {
-    "product/detail.html": 1
-   },
-   "alpha_review_count": {
-    "product/detail.html": 2
-   },
-   "df-banner-code": {
-    "product/detail.html": 2
-   },
-   "df-banner-clone": {
-    "product/detail.html": 2
-   },
-   "NaverChk_Button": {
-    "product/detail.html": 1
-   },
-   "{$app_payment_button_box_id}": {
-    "product/detail.html": 1
-   },
-   "facebook-domain-verification": {},
-   "id=\"kakaoKey\"": {
-    "product/detail.html": 1
-   },
-   "class=\"benefit-bubble\"": {
-    "product/detail.html": 1
-   },
-   "class=\"evt\"": {
-    "product/detail.html": 1
-   }
-  },
-  "balance": {
-   "product/detail.html": {
-    "div_open": 114,
-    "div_close": 114
-   },
-   "moa/import/product_detail/detail.html": {
-    "div_open": 12,
-    "div_close": 12
-   },
-   "moa/layout/head.html": {
-    "div_open": 0,
-    "div_close": 0
-   },
-   "index.html": {
-    "div_open": 104,
-    "div_close": 104
-   },
-   "ds/css/detail.css": {
-    "brace_open": 207,
-    "brace_close": 207
-   },
-   "ds/css/price.css": {
-    "brace_open": 26,
-    "brace_close": 26
-   },
-   "ds/css/home.css": {
-    "brace_open": 143,
-    "brace_close": 143
-   }
-  },
-  "paths_missing_ok": [
-   "/coupon/coupon_productdetail.html",
-   "/moa/icon/icon_arrow_left.html",
-   "/moa/icon/icon_arrow_left_wb.html",
-   "/moa/icon/icon_arrow_right.html",
-   "/moa/icon/icon_arrow_right_wb.html",
-   "/moa/icon/icon_download.html",
-   "/moa/icon/icon_heart_detail.html",
-   "/moa/icon/icon_review_star.html",
-   "/moa/icon/icon_review_star_empty.html",
-   "/moa/icon/icon_share.html",
-   "/moa/import/board/rv_frame.html",
-   "/moa/import/product/interest_free.html",
-   "/moa/import/product/product_form_related.html",
-   "/moa/import/product/tvc.html",
-   "/moa/import/product_detail/purchase_info.html",
-   "/moa/import/product_detail/qna.html",
-   "/moa/js/lib/share_sns.html",
-   "/moa/js/main_js.html",
-   "/moa/layout/fonts.html",
-   "/product/shoppQ/searchContent.html"
-  ]
- },
- "B": {
-  "md5": {
-   "product/detail.html": "50f2c98988c5892f0b028d8559fc3787",
-   "moa/import/product_detail/detail.html": "0f392522d53e3e381e6a1b0d83ceb41d",
-   "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
-   "index.html": "4cb10827c82d552426d00993d7728cfa",
-   "ds/css/detail.css": "8248196a511bc0102891339ef4778393",
-   "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
-   "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
-   "ds/js/detail-ui.js": "4f02eaa3e3194b6fe4743e4cd42e06d4",
-   "ds/js/zg-ga4.js": "5dd8b791550484839402e4a52a4211cf",
-   "ds/js/home-blocks.js": "48213a6ea556521a9d03514d113c89af",
-   "ds/js/home-hero.js": "91a0f4775daf7ec9b00228d9ce7a45dc"
-  },
-  "bytes": {
-   "product/detail.html": 45879,
-   "moa/import/product_detail/detail.html": 2632,
-   "moa/layout/head.html": 3495,
-   "index.html": 17281,
-   "ds/css/detail.css": 60489,
-   "ds/css/price.css": 2271,
-   "ds/css/home.css": 17294,
-   "ds/js/detail-ui.js": 44840,
-   "ds/js/zg-ga4.js": 42698,
-   "ds/js/home-blocks.js": 11521,
-   "ds/js/home-hero.js": 37189
-  },
-  "important": {
-   "ds/css/detail.css": 0,
-   "ds/css/price.css": 0,
-   "ds/css/home.css": 0
-  },
-  "forbidden": {},
-  "comment_vars": {
-   "product/detail.html": [
-    "product/detail.html:122",
-    "product/detail.html:529"
-   ]
-  },
-  "old_path": {},
-  "_note_8": "2026-09-08 개발 8차: detail.css 의도적 변경(대표님 실기 반려 F-1·F-2·F-3 — 스테퍼 폭 고정·순서 클래스·가격 칸·말풍선 여백) → md5/bytes 갱신",
-  "_note_9": "2026-09-08 개발 9차: detail.html 622행 #kakaoKey 실제 값(T-1, -37 B) · detail.css 주석 30px 정정(+34 B) · A.hooks 토큰 id=\"kakaoKey\" · E.kakao_preview_known",
-  "_note_h3": "2026-09-08 개발 홈 3차: 홈 4파일 md5/bytes 갱신(F-1 접근자 스텁·F-2 승격 8px·F-3 np>0·F-4 hero-stage·P2-h) — --only B,H --files 로 범위 한정 갱신. 8차·9차 메모는 갱신 시 지워졌던 것을 되살림(run.py 가 이제 _note* 를 이월)",
-  "_note_h4": "2026-09-09 개발 홈 4차: 실기 신고(가루 시퀀스 버벅·번쩍) 수정 — home-hero.js 화면 밖 렌더 정지 + home-blocks.js 디코드 게이트. index.html·home.css 는 불변",
-  "_note_h5": "2026-09-09 개발 홈 5차: home-blocks.js 게이트를 decode() 전량 → 도착(complete) 전량으로 완화(8초 만료로 열리던 문제) + prepare 거리 4,000px 상한. 다른 3파일 불변",
-  "_note_10": "2026-09-09 개발 10차: detail-ui.js 의도적 변경(R-2 카드 재탭 해제) → md5/bytes 갱신. B3 토큰은 갱신하지 않는다(신규 유출 0 이어야 한다)",
-  "_note_11": "2026-09-09 개발 11차: detail.css 의도적 변경(R-7 추가구성상품 행 배경/레일 제거) → md5/bytes 갱신. 다른 구역 미변경 / B3 forbidden 은 10→9 로 **낮췄다**(R-7 로 주석 1블록이 사라져 유출이 1건 줄었다). 올린 것이 아니다 — 운영규칙 11 은 신규 유출을 baseline 으로 덮는 것을 금지하는 규칙이고, 줄어든 값을 반영하는 것은 그 취지에 맞다.",
-  "_note_12": "2026-09-09 개발 12차: detail.css 의도적 변경(B안 인라인 숨김 · 리뷰칩 숨김 · 말풍선 line-height · 시트 열림 시 바 버튼 pointer-events:none) → md5/bytes 갱신",
-  "_note_13": "13/14차 R-8 — 카카오 혜택 배너 2슬롯 비노출(.benefit-bubble, .evt) + .productAction margin-top 37→30px. md5/bytes 만 갱신.",
-  "_note_14": "14차 R-9/R-10 — 좌측 썸네일 object-fit:contain + 갤러리 4장 동일 규칙(.thumbnail__list > li). md5/bytes 만 갱신.",
-  "_note_15": "15차 R-11 — 시트 열림 상태에서 합계를 버튼 블록 위에 함께 고정. md5/bytes 만 갱신.",
-  "_note_17": "17차 — 판매 상품이 아닌 페이지(34·91·93)에서 하단 고정바 비노출(zg-bar--dead). md5/bytes 만 갱신.",
-  "_note_18": "18차 — QA 지적 반영: 품절 우선(dead 판정 제외) · onclick 관찰 추가 · 팔지 않는 페이지의 결제 UI(.zg-sum/.zg-picked-head) 동반 비노출."
- },
- "_meta": {
-  "updated": "2026-09-09 18:05:07",
-  "revision": "16차 — R-8 주석 정정 · 보존훅 2종 · 말풍선 기하검사 · 공개소스 용어 중립화",
-  "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것",
-  "note_format": "updated 는 갱신 시각(YYYY-MM-DD HH:MM:SS)만 넣는다. 판 번호·설명은 revision 에."
- },
- "E": {
-  "pages": {
-   "iphone/p11": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 329372,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
-   },
-   "iphone/p13": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 321884,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
-   },
-   "iphone/p16": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 322182,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
-   },
-   "iphone/p34": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 258475,
-    "canonical_href": "https://zengenetics.co.kr/product/공홈에서-구매하고-데이팩-받자-증정-이벤트/34/"
-   },
-   "iphone/p60": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 298467,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-데이팩6ea/60/"
-   },
-   "iphone/p61": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 297557,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
-   },
-   "iphone/p62": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 297158,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
-   },
-   "iphone/p63": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 331538,
-    "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
-   },
-   "iphone/p64": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 331386,
-    "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
-   },
-   "iphone/p71": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 338293,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
-   },
-   "iphone/p91": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 263675,
-    "canonical_href": "https://zengenetics.co.kr/product/4월-네이버페이-즉시할인-이벤트/91/"
-   },
-   "iphone/p93": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 264262,
-    "canonical_href": "https://zengenetics.co.kr/product/benefit-멤버십-혜택/93/"
-   },
-   "iphone/p98": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 308913,
-    "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
-   },
-   "iphone/home": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 279498,
-    "canonical_href": "https://zengenetics.co.kr/"
-   },
-   "iphone/orderform": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 265734,
-    "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
-   },
-   "iphone/order_result": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 107904,
-    "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
-   },
-   "iphone/basket": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 199520,
-    "canonical_href": "https://zengenetics.co.kr/order/basket.html"
-   },
-   "android/p11": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 329372,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
-   },
-   "android/p13": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 321884,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
-   },
-   "android/p16": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 322182,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
-   },
-   "android/p34": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 258475,
-    "canonical_href": "https://zengenetics.co.kr/product/공홈에서-구매하고-데이팩-받자-증정-이벤트/34/"
-   },
-   "android/p60": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 298467,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-데이팩6ea/60/"
-   },
-   "android/p61": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 297557,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
-   },
-   "android/p62": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 297158,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
-   },
-   "android/p63": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 331538,
-    "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
-   },
-   "android/p64": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 331386,
-    "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
-   },
-   "android/p71": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 338293,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
-   },
-   "android/p91": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 263675,
-    "canonical_href": "https://zengenetics.co.kr/product/4월-네이버페이-즉시할인-이벤트/91/"
-   },
-   "android/p93": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 264262,
-    "canonical_href": "https://zengenetics.co.kr/product/benefit-멤버십-혜택/93/"
-   },
-   "android/p98": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 308913,
-    "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
-   },
-   "android/home": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 279498,
-    "canonical_href": "https://zengenetics.co.kr/"
-   },
-   "android/orderform": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 265734,
-    "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
-   },
-   "android/order_result": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 107904,
-    "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
-   },
-   "android/basket": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 199520,
-    "canonical_href": "https://zengenetics.co.kr/order/basket.html"
-   },
-   "desktop/p11": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 331622,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
-   },
-   "desktop/p13": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 325184,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
-   },
-   "desktop/p16": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 325438,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
-   },
-   "desktop/p34": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 260304,
-    "canonical_href": "https://zengenetics.co.kr/product/공홈에서-구매하고-데이팩-받자-증정-이벤트/34/"
-   },
-   "desktop/p60": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 301168,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-데이팩6ea/60/"
-   },
-   "desktop/p61": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 301241,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
-   },
-   "desktop/p62": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 307596,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
-   },
-   "desktop/p63": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 336223,
-    "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
-   },
-   "desktop/p64": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 336972,
-    "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
-   },
-   "desktop/p71": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 348292,
-    "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
-   },
-   "desktop/p91": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 263750,
-    "canonical_href": "https://zengenetics.co.kr/product/4월-네이버페이-즉시할인-이벤트/91/"
-   },
-   "desktop/p93": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 266088,
-    "canonical_href": "https://zengenetics.co.kr/product/benefit-멤버십-혜택/93/"
-   },
-   "desktop/p98": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 311965,
-    "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
-   },
-   "desktop/home": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 279495,
-    "canonical_href": "https://zengenetics.co.kr/"
-   },
-   "desktop/orderform": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 265634,
-    "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
-   },
-   "desktop/order_result": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 107804,
-    "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
-   },
-   "desktop/basket": {
-    "title": 1,
-    "canonical": 1,
-    "fbdv": 1,
-    "basic_layout": 0,
-    "bytes": 199485,
-    "canonical_href": "https://zengenetics.co.kr/order/basket.html"
-   }
-  },
-  "assets404_ok": [
-   "/ds/css/basket.css",
-   "/ds/js/basket.js"
-  ],
-  "ihdr_min": 639,
-  "ihdr_by_product": {
-   "p11": [
-    639,
-    640
-   ],
-   "p13": [
-    639,
-    640
-   ],
-   "p16": [
-    639,
-    640
-   ],
-   "p34": [
-    637,
-    640
-   ],
-   "p60": [
-    639,
-    640
-   ],
-   "p61": [
-    639,
-    640
-   ],
-   "p62": [
-    639,
-    640
-   ],
-   "p63": [
-    639,
-    640
-   ],
-   "p64": [
-    639,
-    640
-   ],
-   "p71": [
-    640,
-    640
-   ],
-   "p91": [
-    640,
-    640
-   ],
-   "p93": [
-    635,
-    640
-   ],
-   "p98": [
-    640,
-    640
-   ]
-  },
-  "order_ga4": {
-   "iphone/orderform": {
-    "measurement_id": 2,
-    "zg_ga4_js": 1
-   },
-   "iphone/order_result": {
-    "measurement_id": 2,
-    "zg_ga4_js": 1
-   },
-   "android/orderform": {
-    "measurement_id": 2,
-    "zg_ga4_js": 1
-   },
-   "android/order_result": {
-    "measurement_id": 2,
-    "zg_ga4_js": 1
-   },
-   "desktop/orderform": {
-    "measurement_id": 2,
-    "zg_ga4_js": 1
-   },
-   "desktop/order_result": {
-    "measurement_id": 2,
-    "zg_ga4_js": 1
-   }
-  },
-  "kakao_preview_known": false
- },
- "C": {
-  "bar_height": {
-   "0": 82,
-   "34": 116
-  },
-  "gallery_li": 4,
-  "detail_imgs": 14,
-  "fold_max_mobile": "1700px",
-  "a11y_select": {
-   "w": 22,
-   "h": 2
-  },
-  "third_party_errors": 66,
-  "rows": {
-   "stepper_w": {
-    "320": 124,
-    "390": 134,
-    "414": 134,
-    "768": 134
-   },
-   "price_right_inset": 20
-  },
-  "_note_rows": "2026-09-08 개발 8차: rows320/390/768 시나리오 3개 추가 → 시나리오당 남의 예외 2건(Kakao·AuthSSLManager 전역 미정의, 교차출처 차단 탓) × 3 = +6 (50→56) / 홈 3차: rows414 추가(신아린 지적, c_render.py VP_ROWS) → 56→58 / 10차: untap390_ok·untap390_nodel 2개 추가 → 58→62 / 12차: barbuy390_mid·barbuy390_top 2개 추가 → 62→66",
-  "barbuy": {
-   "review_hook": 4,
-   "alpha_widget": 2,
-   "bubble_lh": "14.4px",
-   "bubble_h": 26
-  }
- },
- "D": {
-  "scenarios": {
-   "p11_load": {
-    "events": {
-     "view_item": 1
-    },
-    "keys": {
-     "view_item": [
-      "currency",
-      "items",
-      "send_to",
-      "value",
-      "zg_ver"
-     ]
-    },
-    "zg_ver": [
-     "2.003"
-    ],
-    "critical": {
-     "view_item": [
-      {
-       "currency": "KRW",
-       "value": 34900,
-       "item_id": "11",
-       "item_name": "젠제네틱스 포타슘 칼륨 (20ea)"
+  "A": {
+    "preserve": {
+      "product/detail.html": {
+        "module=": 28,
+        "{$": 168,
+        "onclick=\"{$action_": 7,
+        "{$form.": 7,
+        "id=\"{$": 19,
+        "{$total.": 7,
+        "{$soldout_display": 4,
+        "{$basket_display": 3,
+        "displaynone": 14,
+        "selectButton": 1,
+        "ec-base-qty": 2,
+        "id=\"": 27,
+        "<!--@import(": 27,
+        "<!--@css(": 4,
+        "<!--@js(": 4
+      },
+      "moa/import/product_detail/detail.html": {
+        "module=": 2,
+        "{$": 1,
+        "onclick=\"{$action_": 0,
+        "{$form.": 0,
+        "id=\"{$": 0,
+        "{$total.": 0,
+        "{$soldout_display": 0,
+        "{$basket_display": 0,
+        "displaynone": 0,
+        "selectButton": 0,
+        "ec-base-qty": 0,
+        "id=\"": 3,
+        "<!--@import(": 4,
+        "<!--@css(": 1,
+        "<!--@js(": 1
+      },
+      "moa/layout/head.html": {
+        "module=": 0,
+        "{$": 0,
+        "onclick=\"{$action_": 0,
+        "{$form.": 0,
+        "id=\"{$": 0,
+        "{$total.": 0,
+        "{$soldout_display": 0,
+        "{$basket_display": 0,
+        "displaynone": 0,
+        "selectButton": 0,
+        "ec-base-qty": 0,
+        "id=\"": 0,
+        "<!--@import(": 1,
+        "<!--@css(": 17,
+        "<!--@js(": 6
+      },
+      "index.html": {
+        "module=": 0,
+        "{$": 0,
+        "onclick=\"{$action_": 0,
+        "{$form.": 0,
+        "id=\"{$": 0,
+        "{$total.": 0,
+        "{$soldout_display": 0,
+        "{$basket_display": 0,
+        "displaynone": 0,
+        "selectButton": 0,
+        "ec-base-qty": 0,
+        "id=\"": 0,
+        "<!--@import(": 2,
+        "<!--@css(": 6,
+        "<!--@js(": 9
       }
-     ]
-    }
-   },
-   "p11_interact": {
-    "events": {
-     "view_item": 1,
-     "zg_option_select": 1,
-     "zg_scroll_depth": 6,
-     "zg_detail_expand": 1
     },
-    "keys": {
-     "view_item": [
-      "currency",
-      "items",
-      "send_to",
-      "value",
-      "zg_ver"
-     ],
-     "zg_option_select": [
-      "item_id",
-      "item_name",
-      "item_variant",
-      "send_to",
-      "zg_ver"
-     ],
-     "zg_scroll_depth": [
-      "detail_expanded",
-      "item_id",
-      "page_kind",
-      "percent",
-      "seconds",
-      "send_to",
-      "zg_ver"
-     ],
-     "zg_detail_expand": [
-      "item_id",
-      "send_to",
-      "zg_ver"
-     ]
-    },
-    "zg_ver": [
-     "2.003"
-    ],
-    "critical": {
-     "view_item": [
-      {
-       "currency": "KRW",
-       "value": 34900,
-       "item_id": "11",
-       "item_name": "젠제네틱스 포타슘 칼륨 (20ea)"
+    "hooks": {
+      "alpha_widget": {
+        "product/detail.html": 1
+      },
+      "alpha_review_count": {
+        "product/detail.html": 2
+      },
+      "df-banner-code": {
+        "product/detail.html": 2
+      },
+      "df-banner-clone": {
+        "product/detail.html": 2
+      },
+      "NaverChk_Button": {},
+      "{$app_payment_button_box_id}": {},
+      "id=\"kakaoKey\"": {
+        "product/detail.html": 1
+      },
+      "facebook-domain-verification": {},
+      "class=\"benefit-bubble\"": {
+        "product/detail.html": 1
+      },
+      "class=\"evt\"": {
+        "product/detail.html": 1
       }
-     ],
-     "zg_option_select": [
-      {
-       "item_id": "11"
+    },
+    "balance": {
+      "product/detail.html": {
+        "div_open": 99,
+        "div_close": 99
+      },
+      "moa/import/product_detail/detail.html": {
+        "div_open": 11,
+        "div_close": 11
+      },
+      "moa/layout/head.html": {
+        "div_open": 0,
+        "div_close": 0
+      },
+      "index.html": {
+        "div_open": 104,
+        "div_close": 104
+      },
+      "ds/css/detail.css": {
+        "brace_open": 229,
+        "brace_close": 229
+      },
+      "ds/css/price.css": {
+        "brace_open": 26,
+        "brace_close": 26
+      },
+      "ds/css/home.css": {
+        "brace_open": 143,
+        "brace_close": 143
       }
-     ]
-    }
-   },
-   "p61_load": {
-    "events": {
-     "view_item": 1
     },
-    "keys": {
-     "view_item": [
-      "currency",
-      "items",
-      "send_to",
-      "value",
-      "zg_ver"
-     ]
-    },
-    "zg_ver": [
-     "2.003"
-    ],
-    "critical": {
-     "view_item": [
-      {
-       "currency": "KRW",
-       "value": 15000,
-       "item_id": "61",
-       "item_name": "젠제네틱스 마그네슘 데이팩 (6ea)"
-      }
-     ]
-    }
-   },
-   "basket": {
-    "events": {
-     "zg_cart_unreadable": 1
-    },
-    "keys": {
-     "zg_cart_unreadable": [
-      "link_count",
-      "row_count",
-      "send_to",
-      "zg_ver"
-     ]
-    },
-    "zg_ver": [
-     "2.003"
-    ],
-    "critical": {}
-   },
-   "home": {
-    "events": {
-     "zg_scroll_depth": 6
-    },
-    "keys": {
-     "zg_scroll_depth": [
-      "hero_mode",
-      "item_id",
-      "page_kind",
-      "percent",
-      "seconds",
-      "send_to",
-      "zg_ver"
-     ]
-    },
-    "zg_ver": [
-     "2.003"
-    ],
-    "critical": {}
-   }
-  }
- },
- "H": {
-  "errors_other": {
-   "vp390": 0,
-   "vp360": 0,
-   "vp414": 0,
-   "vp768": 0,
-   "vp1023": 0,
-   "vp1280": 0
-  },
-  "_note_h3": "2026-09-08 개발 홈 3차: H8 회전 3경로(rot390·rot768·w768)+oldrot390 추가, errors_other 는 old390·oldrot390 등 변경 전 홈의 스킨 자체 오류 수(정보)",
-  "_note_h4": "2026-09-09 개발 홈 4차: H9(스크럽 프레임타임·빈 판) + 음성대조 2종(가드/게이트 제거본) 추가 — 시나리오 jank390·jankneg390·imglate390·imglateneg390",
-  "_note_h5": "2026-09-09 개발 홈 5차: H9-G(게이트 개방 시간·decode 무응답 조건) + 표본 반전(decode 게이트 복원본) 추가 — 시나리오 gatestall390·gatestallneg390"
- },
- "F": {
-  "fp": {
-   "iphone/p11": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "iphone/p13": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "iphone/p16": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "iphone/p34": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "iphone/p60": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "iphone/p61": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "iphone/p62": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "iphone/p63": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "iphone/p64": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "iphone/p71": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "sendLoginPage",
-    "buy_fn": "sendLoginPage",
-    "bar_cart_fn": "sendLoginPage",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "iphone/p91": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "iphone/p93": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "iphone/p98": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p11": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p13": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p16": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p34": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "android/p60": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "android/p61": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "android/p62": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "android/p63": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p64": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p71": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "sendLoginPage",
-    "buy_fn": "sendLoginPage",
-    "bar_cart_fn": "sendLoginPage",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "android/p91": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "android/p93": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "android/p98": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p11": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p13": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p16": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p34": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "desktop/p60": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "desktop/p61": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "desktop/p62": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "B"
-   },
-   "desktop/p63": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p64": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p71": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "sendLoginPage",
-    "buy_fn": "sendLoginPage",
-    "bar_cart_fn": "sendLoginPage",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   },
-   "desktop/p91": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "desktop/p93": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": true,
-    "buy_dead": true,
-    "cart_fn": "",
-    "buy_fn": "",
-    "bar_cart_fn": "",
-    "bar_cart_dead": true,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 0,
-    "add_set": 0,
-    "soldout_hidden": true,
-    "group": "C"
-   },
-   "desktop/p98": {
-    "cart_found": true,
-    "buy_found": true,
-    "bar_found": true,
-    "cart_dead": false,
-    "buy_dead": false,
-    "cart_fn": "product_submit(2)",
-    "buy_fn": "product_submit(1)",
-    "bar_cart_fn": "product_submit(2)",
-    "bar_cart_dead": false,
-    "bar_layer_btn": 1,
-    "bar_review_hook": 1,
-    "opt_selects": 1,
-    "add_set": 1,
-    "soldout_hidden": true,
-    "group": "A"
-   }
-  },
-  "groups": {
-   "A": [
-    "p11",
-    "p13",
-    "p16",
-    "p63",
-    "p64",
-    "p71",
-    "p98"
-   ],
-   "C": [
-    "p34",
-    "p91",
-    "p93"
-   ],
-   "B": [
-    "p60",
-    "p61",
-    "p62"
-   ]
-  },
-  "render": {
-   "p11@390": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "flex",
-    "galleryLi": 4,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "(기본)",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd-3": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": true
-     },
-     "sheet": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "sheetCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "sheetBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetVisibleBuyControls": [
-       "inlineCart",
-       "inlineBuy"
-      ]
-     }
-    }
-   },
-   "p11@1023": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "flex",
-    "galleryLi": 4,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "(기본)",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": true
-     }
-    }
-   },
-   "p11@1280": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "none",
-    "galleryLi": 4,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "(기본)",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": false,
-      "visibleBuyControls": [
-       "inlineCart",
-       "inlineBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     }
-    }
-   },
-   "p71@390": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "flex",
-    "galleryLi": 4,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "(기본)",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "barBuy": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "inlineCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "inlineBuy": [
-        "sendLoginPage(undefined,\"M\")"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd-3": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "barBuy": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "inlineCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "inlineBuy": [
-        "sendLoginPage(undefined,\"M\")"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "barBuy": [],
-       "inlineCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "inlineBuy": [
-        "sendLoginPage(undefined,\"M\")"
-       ]
-      },
-      "sheetOpened": true
-     },
-     "sheet": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "sheetCart": [
-        "sendLoginPage(undefined,\"M\")"
-       ],
-       "sheetBuy": [
-        "sendLoginPage(undefined,\"M\")"
-       ]
-      },
-      "sheetVisibleBuyControls": [
-       "inlineCart",
-       "inlineBuy"
-      ]
-     }
-    }
-   },
-   "p61@390": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "flex",
-    "galleryLi": 3,
-    "sumTexts": [
-     "상품 금액15,000원",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액15,000원"
-    ],
-    "barSum": [
-     "(기본)",
-     "15,000원"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd-3": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": true
-     },
-     "sheet": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "sheetCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "sheetBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetVisibleBuyControls": [
-       "inlineCart",
-       "inlineBuy"
-      ]
-     }
-    }
-   },
-   "p98@390": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "flex",
-    "galleryLi": 7,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "(기본)",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": true,
-      "visibleBuyControls": [
-       "barCart",
-       "barBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": true
-     }
-    }
-   },
-   "p98@1280": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": false,
-    "barDisplay": "none",
-    "galleryLi": 7,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "(기본)",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": false,
-      "visibleBuyControls": [
-       "inlineCart",
-       "inlineBuy"
-      ],
-      "fired": {
-       "barCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "barBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ],
-       "inlineCart": [
-        "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
-       ],
-       "inlineBuy": [
-        "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
-       ]
-      },
-      "sheetOpened": false
-     }
-    }
-   },
-   "p34@390": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": true,
-    "barDisplay": "none",
-    "galleryLi": 1,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "none",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "barCart": [],
-       "barBuy": [],
-       "inlineCart": [],
-       "inlineBuy": []
-      },
-      "sheetOpened": false
-     },
-     "bnd-3": {
-      "fixed": false,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "barCart": [],
-       "barBuy": [],
-       "inlineCart": [],
-       "inlineBuy": []
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "barCart": [],
-       "barBuy": [],
-       "inlineCart": [],
-       "inlineBuy": []
-      },
-      "sheetOpened": true
-     },
-     "sheet": {
-      "fixed": true,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "sheetCart": [],
-       "sheetBuy": []
-      },
-      "sheetVisibleBuyControls": []
-     }
-    }
-   },
-   "p34@1280": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": true,
-    "barDisplay": "none",
-    "galleryLi": 1,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "none",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "barCart": [],
-       "barBuy": [],
-       "inlineCart": [],
-       "inlineBuy": []
-      },
-      "sheetOpened": false
-     }
-    }
-   },
-   "p93@390": {
-    "reviewHook": 1,
-    "reviewHookAll": 4,
-    "dead": true,
-    "barDisplay": "none",
-    "galleryLi": 1,
-    "sumTexts": [
-     "상품 금액—",
-     "배송비3,500원 (50,000원 이상 구매 시 무료)",
-     "총 구매 금액0원"
-    ],
-    "barSum": [
-     "none",
-     "구성을 선택해 주세요"
-    ],
-    "states": {
-     "top": {
-      "fixed": false,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "barCart": [],
-       "barBuy": [],
-       "inlineCart": [],
-       "inlineBuy": []
-      },
-      "sheetOpened": false
-     },
-     "bnd+3": {
-      "fixed": true,
-      "barVisible": false,
-      "visibleBuyControls": [],
-      "fired": {
-       "barCart": [],
-       "barBuy": [],
-       "inlineCart": [],
-       "inlineBuy": []
-      },
-      "sheetOpened": true
-     }
-    }
-   }
-  },
-  "edge": {
-   "edge_soldout_wrap": [
-    false,
-    true,
-    "flex",
-    true
-   ],
-   "edge_soldout_kids": [
-    false,
-    true,
-    "flex",
-    true
-   ],
-   "edge_fill_late": [
-    false,
-    false,
-    "flex",
-    false
-   ],
-   "edge_fill_touch": [
-    false,
-    false,
-    "flex",
-    false
-   ]
-  },
-  "edge_steps": {
-   "edge_fill_late": [
-    [
-     "displaynone 제거 후",
-     true,
-     "none"
+    "paths_missing_ok": [
+      "/coupon/coupon_productdetail.html",
+      "/moa/icon/icon_arrow_left.html",
+      "/moa/icon/icon_arrow_left_wb.html",
+      "/moa/icon/icon_arrow_right.html",
+      "/moa/icon/icon_arrow_right_wb.html",
+      "/moa/icon/icon_download.html",
+      "/moa/icon/icon_review_star.html",
+      "/moa/icon/icon_review_star_empty.html",
+      "/moa/icon/icon_share.html",
+      "/moa/import/board/rv_frame.html",
+      "/moa/import/product/interest_free.html",
+      "/moa/import/product/product_form_related.html",
+      "/moa/import/product/tvc.html",
+      "/moa/import/product_detail/purchase_info.html",
+      "/moa/import/product_detail/qna.html",
+      "/moa/js/lib/share_sns.html",
+      "/moa/js/main_js.html",
+      "/moa/layout/fonts.html",
+      "/product/shoppQ/searchContent.html"
     ]
-   ]
   },
-  "_note_edge": "edge 값은 [dead, soldout, display, SOLD OUT 노출] 이다. 둘 다 QA 지적을 고친 뒤의 **바른 동작**이다 — edge_soldout_kids: 품절이면 dead 로 보지 않아 SOLD OUT 이 보인다(false,true,flex,true). edge_fill_late: 카페24가 onclick 만 채워도 판정이 풀린다(false,false,flex,false). 고치기 전에는 각각 (true,true,none,false)·(true,false,none,false) 로 바가 통째로 내려가 있었다."
- }
+  "B": {
+    "md5": {
+      "product/detail.html": "25fcc3eec3645876792f442c6484244c",
+      "moa/import/product_detail/detail.html": "689b086ecb7cb4bd72b68899d3b2b1b3",
+      "moa/layout/head.html": "2a64e772c804cb64eb6a58bb8ac09d1f",
+      "index.html": "4cb10827c82d552426d00993d7728cfa",
+      "ds/css/detail.css": "83204f6d67371330f713e9dbdb26beec",
+      "ds/css/price.css": "8d6f577ca46cda69d059a079a9e46186",
+      "ds/css/home.css": "c88028de1a6b64e6814f8817b8c385bf",
+      "ds/js/detail-ui.js": "0ef17d188e1142c5105266768ba7a612",
+      "ds/js/zg-ga4.js": "74408e1c9a77f3f747c734d3aea628a3",
+      "ds/js/home-blocks.js": "48213a6ea556521a9d03514d113c89af",
+      "ds/js/home-hero.js": "e56e9964d79e81b5ec41ad3a470fafde"
+    },
+    "bytes": {
+      "product/detail.html": 34476,
+      "moa/import/product_detail/detail.html": 2521,
+      "moa/layout/head.html": 3495,
+      "index.html": 17281,
+      "ds/css/detail.css": 61605,
+      "ds/css/price.css": 2271,
+      "ds/css/home.css": 17294,
+      "ds/js/detail-ui.js": 47654,
+      "ds/js/zg-ga4.js": 42659,
+      "ds/js/home-blocks.js": 11521,
+      "ds/js/home-hero.js": 37575
+    },
+    "important": {
+      "ds/css/detail.css": 0,
+      "ds/css/price.css": 0,
+      "ds/css/home.css": 0
+    },
+    "forbidden": {},
+    "comment_vars": {
+      "product/detail.html": [
+        "product/detail.html:122",
+        "product/detail.html:410"
+      ]
+    },
+    "old_path": {},
+    "_note_8": "2026-09-08 개발 8차: detail.css 의도적 변경(대표님 실기 반려 F-1·F-2·F-3 — 스테퍼 폭 고정·순서 클래스·가격 칸·말풍선 여백) → md5/bytes 갱신",
+    "_note_9": "2026-09-08 개발 9차: detail.html 622행 #kakaoKey 실제 값(T-1, -37 B) · detail.css 주석 30px 정정(+34 B) · A.hooks 토큰 id=\"kakaoKey\" · E.kakao_preview_known",
+    "_note_h3": "2026-09-08 개발 홈 3차: 홈 4파일 md5/bytes 갱신(F-1 접근자 스텁·F-2 승격 8px·F-3 np>0·F-4 hero-stage·P2-h) — --only B,H --files 로 범위 한정 갱신. 8차·9차 메모는 갱신 시 지워졌던 것을 되살림(run.py 가 이제 _note* 를 이월)",
+    "_note_h4": "2026-09-09 개발 홈 4차: 실기 신고(가루 시퀀스 버벅·번쩍) 수정 — home-hero.js 화면 밖 렌더 정지 + home-blocks.js 디코드 게이트. index.html·home.css 는 불변",
+    "_note_h5": "2026-09-09 개발 홈 5차: home-blocks.js 게이트를 decode() 전량 → 도착(complete) 전량으로 완화(8초 만료로 열리던 문제) + prepare 거리 4,000px 상한. 다른 3파일 불변",
+    "_note_10": "2026-09-09 개발 10차: detail-ui.js 의도적 변경(R-2 카드 재탭 해제) → md5/bytes 갱신. B3 토큰은 갱신하지 않는다(신규 유출 0 이어야 한다)",
+    "_note_11": "2026-09-09 개발 11차: detail.css 의도적 변경(R-7 추가구성상품 행 배경/레일 제거) → md5/bytes 갱신. 다른 구역 미변경 / B3 forbidden 은 10→9 로 **낮췄다**(R-7 로 주석 1블록이 사라져 유출이 1건 줄었다). 올린 것이 아니다 — 운영규칙 11 은 신규 유출을 baseline 으로 덮는 것을 금지하는 규칙이고, 줄어든 값을 반영하는 것은 그 취지에 맞다.",
+    "_note_12": "2026-09-09 개발 12차: detail.css 의도적 변경(B안 인라인 숨김 · 리뷰칩 숨김 · 말풍선 line-height · 시트 열림 시 바 버튼 pointer-events:none) → md5/bytes 갱신",
+    "_note_13": "13/14차 R-8 — 카카오 혜택 배너 2슬롯 비노출(.benefit-bubble, .evt) + .productAction margin-top 37→30px. md5/bytes 만 갱신.",
+    "_note_14": "14차 R-9/R-10 — 좌측 썸네일 object-fit:contain + 갤러리 4장 동일 규칙(.thumbnail__list > li). md5/bytes 만 갱신.",
+    "_note_15": "15차 R-11 — 시트 열림 상태에서 합계를 버튼 블록 위에 함께 고정. md5/bytes 만 갱신.",
+    "_note_17": "17차 — 판매 상품이 아닌 페이지(34·91·93)에서 하단 고정바 비노출(zg-bar--dead). md5/bytes 만 갱신.",
+    "_note_18": "18차 — QA 지적 반영: 품절 우선(dead 판정 제외) · onclick 관찰 추가 · 팔지 않는 페이지의 결제 UI(.zg-sum/.zg-picked-head) 동반 비노출."
+  },
+  "_meta": {
+    "updated": "2026-09-11 09:33:36",
+    "revision": "16차 — R-8 주석 정정 · 보존훅 2종 · 말풍선 기하검사 · 공개소스 용어 중립화",
+    "note": "의도적 변경으로 갱신했다면 커밋 메시지에 무엇을 왜 바꿨는지 남길 것",
+    "note_format": "updated 는 갱신 시각(YYYY-MM-DD HH:MM:SS)만 넣는다. 판 번호·설명은 revision 에."
+  },
+  "E": {
+    "pages": {
+      "iphone/p11": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 329372,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
+      },
+      "iphone/p13": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 321884,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
+      },
+      "iphone/p16": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 322182,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
+      },
+      "iphone/p34": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 258475,
+        "canonical_href": "https://zengenetics.co.kr/product/공홈에서-구매하고-데이팩-받자-증정-이벤트/34/"
+      },
+      "iphone/p60": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 298467,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-데이팩6ea/60/"
+      },
+      "iphone/p61": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 297557,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
+      },
+      "iphone/p62": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 297158,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
+      },
+      "iphone/p63": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331538,
+        "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
+      },
+      "iphone/p64": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331386,
+        "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
+      },
+      "iphone/p71": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 338293,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
+      },
+      "iphone/p91": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 263675,
+        "canonical_href": "https://zengenetics.co.kr/product/4월-네이버페이-즉시할인-이벤트/91/"
+      },
+      "iphone/p93": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 264262,
+        "canonical_href": "https://zengenetics.co.kr/product/benefit-멤버십-혜택/93/"
+      },
+      "iphone/p98": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 308913,
+        "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
+      },
+      "iphone/home": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 279498,
+        "canonical_href": "https://zengenetics.co.kr/"
+      },
+      "iphone/orderform": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 265734,
+        "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
+      },
+      "iphone/order_result": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 107904,
+        "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
+      },
+      "iphone/basket": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 199520,
+        "canonical_href": "https://zengenetics.co.kr/order/basket.html"
+      },
+      "android/p11": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 329372,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
+      },
+      "android/p13": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 321884,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
+      },
+      "android/p16": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 322182,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
+      },
+      "android/p34": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 258475,
+        "canonical_href": "https://zengenetics.co.kr/product/공홈에서-구매하고-데이팩-받자-증정-이벤트/34/"
+      },
+      "android/p60": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 298467,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-데이팩6ea/60/"
+      },
+      "android/p61": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 297557,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
+      },
+      "android/p62": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 297158,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
+      },
+      "android/p63": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331538,
+        "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
+      },
+      "android/p64": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331386,
+        "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
+      },
+      "android/p71": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 338293,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
+      },
+      "android/p91": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 263675,
+        "canonical_href": "https://zengenetics.co.kr/product/4월-네이버페이-즉시할인-이벤트/91/"
+      },
+      "android/p93": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 264262,
+        "canonical_href": "https://zengenetics.co.kr/product/benefit-멤버십-혜택/93/"
+      },
+      "android/p98": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 308913,
+        "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
+      },
+      "android/home": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 279498,
+        "canonical_href": "https://zengenetics.co.kr/"
+      },
+      "android/orderform": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 265734,
+        "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
+      },
+      "android/order_result": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 107904,
+        "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
+      },
+      "android/basket": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 199520,
+        "canonical_href": "https://zengenetics.co.kr/order/basket.html"
+      },
+      "desktop/p11": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 331622,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-20ea/11/"
+      },
+      "desktop/p13": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 325184,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-20ea/13/"
+      },
+      "desktop/p16": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 325438,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-20ea/16/"
+      },
+      "desktop/p34": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 260304,
+        "canonical_href": "https://zengenetics.co.kr/product/공홈에서-구매하고-데이팩-받자-증정-이벤트/34/"
+      },
+      "desktop/p60": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 301168,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-포타슘-칼륨-데이팩6ea/60/"
+      },
+      "desktop/p61": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 301241,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-마그네슘-데이팩-6ea/61/"
+      },
+      "desktop/p62": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 307596,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-비타민b컴플렉스-데이팩-6ea/62/"
+      },
+      "desktop/p63": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 336223,
+        "canonical_href": "https://zengenetics.co.kr/product/설인아-pick-붓기-부스터-젠제네틱스-칼륨2box-비타민b컴플렉스1box-set/63/"
+      },
+      "desktop/p64": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 336972,
+        "canonical_href": "https://zengenetics.co.kr/product/퍼포먼스-부스터-젠제네틱스-마그네슘1box-비타민b컴플렉스1box-set/64/"
+      },
+      "desktop/p71": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 348292,
+        "canonical_href": "https://zengenetics.co.kr/product/젠제네틱스-칼륨마그네슘비타민b컴플렉스-생애-첫-구매-event/71/"
+      },
+      "desktop/p91": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 263750,
+        "canonical_href": "https://zengenetics.co.kr/product/4월-네이버페이-즉시할인-이벤트/91/"
+      },
+      "desktop/p93": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 266088,
+        "canonical_href": "https://zengenetics.co.kr/product/benefit-멤버십-혜택/93/"
+      },
+      "desktop/p98": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 311965,
+        "canonical_href": "https://zengenetics.co.kr/product/칼마비-건강루틴-젠제네틱스-칼륨-마그네슘-비타민b컴플렉스-set/98/"
+      },
+      "desktop/home": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 279495,
+        "canonical_href": "https://zengenetics.co.kr/"
+      },
+      "desktop/orderform": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 265634,
+        "canonical_href": "https://zengenetics.co.kr/order/orderform.html"
+      },
+      "desktop/order_result": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 107804,
+        "canonical_href": "https://zengenetics.co.kr/order/order_result.html"
+      },
+      "desktop/basket": {
+        "title": 1,
+        "canonical": 1,
+        "fbdv": 1,
+        "basic_layout": 0,
+        "bytes": 199485,
+        "canonical_href": "https://zengenetics.co.kr/order/basket.html"
+      }
+    },
+    "assets404_ok": [
+      "/ds/css/basket.css",
+      "/ds/js/basket.js"
+    ],
+    "ihdr_min": 639,
+    "ihdr_by_product": {
+      "p11": [
+        639,
+        640
+      ],
+      "p13": [
+        639,
+        640
+      ],
+      "p16": [
+        639,
+        640
+      ],
+      "p34": [
+        637,
+        640
+      ],
+      "p60": [
+        639,
+        640
+      ],
+      "p61": [
+        639,
+        640
+      ],
+      "p62": [
+        639,
+        640
+      ],
+      "p63": [
+        639,
+        640
+      ],
+      "p64": [
+        639,
+        640
+      ],
+      "p71": [
+        640,
+        640
+      ],
+      "p91": [
+        640,
+        640
+      ],
+      "p93": [
+        635,
+        640
+      ],
+      "p98": [
+        640,
+        640
+      ]
+    },
+    "order_ga4": {
+      "iphone/orderform": {
+        "measurement_id": 2,
+        "zg_ga4_js": 1
+      },
+      "iphone/order_result": {
+        "measurement_id": 2,
+        "zg_ga4_js": 1
+      },
+      "android/orderform": {
+        "measurement_id": 2,
+        "zg_ga4_js": 1
+      },
+      "android/order_result": {
+        "measurement_id": 2,
+        "zg_ga4_js": 1
+      },
+      "desktop/orderform": {
+        "measurement_id": 2,
+        "zg_ga4_js": 1
+      },
+      "desktop/order_result": {
+        "measurement_id": 2,
+        "zg_ga4_js": 1
+      }
+    },
+    "kakao_preview_known": false
+  },
+  "C": {
+    "bar_height": {
+      "0": 82,
+      "34": 116
+    },
+    "gallery_li": 4,
+    "detail_imgs": 14,
+    "fold_max_mobile": "1700px",
+    "a11y_select": {
+      "w": 22,
+      "h": 2
+    },
+    "third_party_errors": 66,
+    "rows": {
+      "stepper_w": {
+        "320": 124,
+        "390": 134,
+        "414": 134,
+        "768": 134
+      },
+      "price_right_inset": 20
+    },
+    "_note_rows": "2026-09-08 개발 8차: rows320/390/768 시나리오 3개 추가 → 시나리오당 남의 예외 2건(Kakao·AuthSSLManager 전역 미정의, 교차출처 차단 탓) × 3 = +6 (50→56) / 홈 3차: rows414 추가(신아린 지적, c_render.py VP_ROWS) → 56→58 / 10차: untap390_ok·untap390_nodel 2개 추가 → 58→62 / 12차: barbuy390_mid·barbuy390_top 2개 추가 → 62→66",
+    "barbuy": {
+      "review_hook": 4,
+      "alpha_widget": 2,
+      "bubble_lh": "14.4px",
+      "bubble_h": 26
+    }
+  },
+  "D": {
+    "scenarios": {
+      "p11_load": {
+        "events": {
+          "view_item": 1
+        },
+        "keys": {
+          "view_item": [
+            "currency",
+            "items",
+            "send_to",
+            "value",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.003"
+        ],
+        "critical": {
+          "view_item": [
+            {
+              "currency": "KRW",
+              "value": 34900,
+              "item_id": "11",
+              "item_name": "젠제네틱스 포타슘 칼륨 (20ea)"
+            }
+          ]
+        }
+      },
+      "p11_interact": {
+        "events": {
+          "view_item": 1,
+          "zg_option_select": 1,
+          "zg_scroll_depth": 6
+        },
+        "keys": {
+          "view_item": [
+            "currency",
+            "items",
+            "send_to",
+            "value",
+            "zg_ver"
+          ],
+          "zg_option_select": [
+            "item_id",
+            "item_name",
+            "item_variant",
+            "send_to",
+            "zg_ver"
+          ],
+          "zg_scroll_depth": [
+            "detail_expanded",
+            "item_id",
+            "page_kind",
+            "percent",
+            "seconds",
+            "send_to",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.003"
+        ],
+        "critical": {
+          "view_item": [
+            {
+              "currency": "KRW",
+              "value": 34900,
+              "item_id": "11",
+              "item_name": "젠제네틱스 포타슘 칼륨 (20ea)"
+            }
+          ],
+          "zg_option_select": [
+            {
+              "item_id": "11"
+            }
+          ]
+        }
+      },
+      "p61_load": {
+        "events": {
+          "view_item": 1
+        },
+        "keys": {
+          "view_item": [
+            "currency",
+            "items",
+            "send_to",
+            "value",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.003"
+        ],
+        "critical": {
+          "view_item": [
+            {
+              "currency": "KRW",
+              "value": 15000,
+              "item_id": "61",
+              "item_name": "젠제네틱스 마그네슘 데이팩 (6ea)"
+            }
+          ]
+        }
+      },
+      "basket": {
+        "events": {
+          "zg_cart_unreadable": 1
+        },
+        "keys": {
+          "zg_cart_unreadable": [
+            "link_count",
+            "row_count",
+            "send_to",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.003"
+        ],
+        "critical": {}
+      },
+      "home": {
+        "events": {
+          "zg_scroll_depth": 6
+        },
+        "keys": {
+          "zg_scroll_depth": [
+            "hero_mode",
+            "item_id",
+            "page_kind",
+            "percent",
+            "seconds",
+            "send_to",
+            "zg_ver"
+          ]
+        },
+        "zg_ver": [
+          "2.003"
+        ],
+        "critical": {}
+      }
+    }
+  },
+  "H": {
+    "errors_other": {
+      "vp390": 0,
+      "vp360": 0,
+      "vp414": 0,
+      "vp768": 0,
+      "vp1023": 0,
+      "vp1280": 0
+    },
+    "_note_h3": "2026-09-08 개발 홈 3차: H8 회전 3경로(rot390·rot768·w768)+oldrot390 추가, errors_other 는 old390·oldrot390 등 변경 전 홈의 스킨 자체 오류 수(정보)",
+    "_note_h4": "2026-09-09 개발 홈 4차: H9(스크럽 프레임타임·빈 판) + 음성대조 2종(가드/게이트 제거본) 추가 — 시나리오 jank390·jankneg390·imglate390·imglateneg390",
+    "_note_h5": "2026-09-09 개발 홈 5차: H9-G(게이트 개방 시간·decode 무응답 조건) + 표본 반전(decode 게이트 복원본) 추가 — 시나리오 gatestall390·gatestallneg390"
+  },
+  "F": {
+    "fp": {
+      "iphone/p11": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "iphone/p13": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "iphone/p16": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "iphone/p34": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "iphone/p60": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "iphone/p61": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "iphone/p62": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "iphone/p63": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "iphone/p64": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "iphone/p71": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "sendLoginPage",
+        "buy_fn": "sendLoginPage",
+        "bar_cart_fn": "sendLoginPage",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "iphone/p91": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "iphone/p93": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "iphone/p98": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p11": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p13": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p16": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p34": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "android/p60": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "android/p61": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "android/p62": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "android/p63": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p64": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p71": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "sendLoginPage",
+        "buy_fn": "sendLoginPage",
+        "bar_cart_fn": "sendLoginPage",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "android/p91": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "android/p93": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "android/p98": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p11": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p13": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p16": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p34": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "desktop/p60": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "desktop/p61": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "desktop/p62": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "B"
+      },
+      "desktop/p63": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p64": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p71": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "sendLoginPage",
+        "buy_fn": "sendLoginPage",
+        "bar_cart_fn": "sendLoginPage",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      },
+      "desktop/p91": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "desktop/p93": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": true,
+        "buy_dead": true,
+        "cart_fn": "",
+        "buy_fn": "",
+        "bar_cart_fn": "",
+        "bar_cart_dead": true,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 0,
+        "add_set": 0,
+        "soldout_hidden": true,
+        "group": "C"
+      },
+      "desktop/p98": {
+        "cart_found": true,
+        "buy_found": true,
+        "bar_found": true,
+        "cart_dead": false,
+        "buy_dead": false,
+        "cart_fn": "product_submit(2)",
+        "buy_fn": "product_submit(1)",
+        "bar_cart_fn": "product_submit(2)",
+        "bar_cart_dead": false,
+        "bar_layer_btn": 1,
+        "bar_review_hook": 1,
+        "opt_selects": 1,
+        "add_set": 1,
+        "soldout_hidden": true,
+        "group": "A"
+      }
+    },
+    "groups": {
+      "A": [
+        "p11",
+        "p13",
+        "p16",
+        "p63",
+        "p64",
+        "p71",
+        "p98"
+      ],
+      "C": [
+        "p34",
+        "p91",
+        "p93"
+      ],
+      "B": [
+        "p60",
+        "p61",
+        "p62"
+      ]
+    },
+    "render": {
+      "p11@390": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "flex",
+        "galleryLi": 4,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "(기본)",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd-3": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": true
+          },
+          "sheet": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "sheetCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "sheetBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetVisibleBuyControls": [
+              "inlineCart",
+              "inlineBuy"
+            ]
+          }
+        }
+      },
+      "p11@1023": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "flex",
+        "galleryLi": 4,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "(기본)",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": true
+          }
+        }
+      },
+      "p11@1280": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "none",
+        "galleryLi": 4,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "(기본)",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": false,
+            "visibleBuyControls": [
+              "inlineCart",
+              "inlineBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          }
+        }
+      },
+      "p71@390": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "flex",
+        "galleryLi": 4,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "(기본)",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "barBuy": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "inlineCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "inlineBuy": [
+                "sendLoginPage(undefined,\"M\")"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd-3": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "barBuy": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "inlineCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "inlineBuy": [
+                "sendLoginPage(undefined,\"M\")"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "barBuy": [],
+              "inlineCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "inlineBuy": [
+                "sendLoginPage(undefined,\"M\")"
+              ]
+            },
+            "sheetOpened": true
+          },
+          "sheet": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "sheetCart": [
+                "sendLoginPage(undefined,\"M\")"
+              ],
+              "sheetBuy": [
+                "sendLoginPage(undefined,\"M\")"
+              ]
+            },
+            "sheetVisibleBuyControls": [
+              "inlineCart",
+              "inlineBuy"
+            ]
+          }
+        }
+      },
+      "p61@390": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "flex",
+        "galleryLi": 3,
+        "sumTexts": [
+          "상품 금액15,000원",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액15,000원"
+        ],
+        "barSum": [
+          "(기본)",
+          "15,000원"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd-3": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": true
+          },
+          "sheet": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "sheetCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "sheetBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetVisibleBuyControls": [
+              "inlineCart",
+              "inlineBuy"
+            ]
+          }
+        }
+      },
+      "p98@390": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "flex",
+        "galleryLi": 7,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "(기본)",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": true,
+            "visibleBuyControls": [
+              "barCart",
+              "barBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": true
+          }
+        }
+      },
+      "p98@1280": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": false,
+        "barDisplay": "none",
+        "galleryLi": 7,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "(기본)",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": false,
+            "visibleBuyControls": [
+              "inlineCart",
+              "inlineBuy"
+            ],
+            "fired": {
+              "barCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "barBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ],
+              "inlineCart": [
+                "product_submit(2,\"/exec/front/order/basket/\",[BUTTON])"
+              ],
+              "inlineBuy": [
+                "product_submit(1,\"/exec/front/order/basket/\",[DIV])"
+              ]
+            },
+            "sheetOpened": false
+          }
+        }
+      },
+      "p34@390": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": true,
+        "barDisplay": "none",
+        "galleryLi": 1,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "none",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "barCart": [],
+              "barBuy": [],
+              "inlineCart": [],
+              "inlineBuy": []
+            },
+            "sheetOpened": false
+          },
+          "bnd-3": {
+            "fixed": false,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "barCart": [],
+              "barBuy": [],
+              "inlineCart": [],
+              "inlineBuy": []
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "barCart": [],
+              "barBuy": [],
+              "inlineCart": [],
+              "inlineBuy": []
+            },
+            "sheetOpened": true
+          },
+          "sheet": {
+            "fixed": true,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "sheetCart": [],
+              "sheetBuy": []
+            },
+            "sheetVisibleBuyControls": []
+          }
+        }
+      },
+      "p34@1280": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": true,
+        "barDisplay": "none",
+        "galleryLi": 1,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "none",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "barCart": [],
+              "barBuy": [],
+              "inlineCart": [],
+              "inlineBuy": []
+            },
+            "sheetOpened": false
+          }
+        }
+      },
+      "p93@390": {
+        "reviewHook": 1,
+        "reviewHookAll": 4,
+        "dead": true,
+        "barDisplay": "none",
+        "galleryLi": 1,
+        "sumTexts": [
+          "상품 금액—",
+          "배송비3,500원 (50,000원 이상 구매 시 무료)",
+          "총 구매 금액0원"
+        ],
+        "barSum": [
+          "none",
+          "구성을 선택해 주세요"
+        ],
+        "states": {
+          "top": {
+            "fixed": false,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "barCart": [],
+              "barBuy": [],
+              "inlineCart": [],
+              "inlineBuy": []
+            },
+            "sheetOpened": false
+          },
+          "bnd+3": {
+            "fixed": true,
+            "barVisible": false,
+            "visibleBuyControls": [],
+            "fired": {
+              "barCart": [],
+              "barBuy": [],
+              "inlineCart": [],
+              "inlineBuy": []
+            },
+            "sheetOpened": true
+          }
+        }
+      }
+    },
+    "edge": {
+      "edge_soldout_wrap": [
+        false,
+        true,
+        "flex",
+        true
+      ],
+      "edge_soldout_kids": [
+        false,
+        true,
+        "flex",
+        true
+      ],
+      "edge_fill_late": [
+        false,
+        false,
+        "flex",
+        false
+      ],
+      "edge_fill_touch": [
+        false,
+        false,
+        "flex",
+        false
+      ]
+    },
+    "edge_steps": {
+      "edge_fill_late": [
+        [
+          "displaynone 제거 후",
+          true,
+          "none"
+        ]
+      ]
+    },
+    "_note_edge": "edge 값은 [dead, soldout, display, SOLD OUT 노출] 이다. 둘 다 QA 지적을 고친 뒤의 **바른 동작**이다 — edge_soldout_kids: 품절이면 dead 로 보지 않아 SOLD OUT 이 보인다(false,true,flex,true). edge_fill_late: 카페24가 onclick 만 채워도 판정이 풀린다(false,false,flex,false). 고치기 전에는 각각 (true,true,none,false)·(true,false,none,false) 로 바가 통째로 내려가 있었다."
+  }
 }

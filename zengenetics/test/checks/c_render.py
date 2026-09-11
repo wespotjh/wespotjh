@@ -82,8 +82,18 @@ def _land(s, r, tag):
     d = m.get('delta') or {}
     ok = True
     ok &= s.eq('C0.%s.delta_err' % tag, u'[%s] 템플릿 델타 예외' % tag, None, d.get('err'))
-    for k, want in (('zgDetail', 1), ('zgFold', 1), ('zgMore', 1), ('zgChip', 3)):
+    for k, want in (('zgDetail', 1), ('zgFold', 1), ('zgChip', 3)):
         ok &= s.eq('C0.%s.%s' % (tag, k), u'[%s] 델타 %s' % (tag, k), want, d.get(k))
+    # `zgMore` 는 단언하지 않고 기록만 한다.
+    # 이 값은 **델타를 얹은 직후**의 스냅샷이라, 라이브 HTML(아직 옛 스킨이 배포돼 있어
+    # `.zg-veil`/`.zg-more` 가 들어 있다)의 상태가 그대로 찍힌다.
+    # 우리 `detail-ui.js` 의 `bindFold()` 는 그 뒤 `ready()` 에서 도므로 여기엔 안 잡힌다.
+    # **최종 DOM 기준 단언은 `C4.more`** 다 — 접기가 되살아나면 거기서 걸린다.
+    # `s.probe` 는 0 이면 FAIL 인데, 스킨을 배포하고 나면 0 이 정답이 된다.
+    # 그래서 단언하지 않고 항상 PASS 인 기록 항목으로 남긴다.
+    s.add('C0.%s.zgMore' % tag, True,
+          u'[%s] 델타 직후 .zg-more (라이브 잔재 기록 · 단언 아님)' % tag,
+          u'기록', d.get('zgMore'))
     L = m.get('landmarks') or {}
     for k in ('prdDetail', 'zgBar', 'optionSelect'):
         s.probe('C0.%s.%s' % (tag, k), u'[%s] landmark %s' % (tag, k), L.get(k, 0))
@@ -163,7 +173,11 @@ def run(base, obs=None):
         if not r or not r.get('ok'):
             s.fail('C3.%d' % vp, u'%dpx 렌더' % vp, (r or {}).get('error', 'no result')); continue
         z = r['m']['zoom']
-        s.truthy('C3.expand.%d' % vp, u'[%dpx] 접기 펼침 클릭' % vp, r.get('expandClicked'))
+        # 2026-09-11 접기 폐지 — 누를 버튼이 없다. 처음부터 14/14 가 보여야 하므로
+        # 바로 아래 `C3.n` 이 그 자리를 대신한다(펼침 클릭 없이 전수가 나와야 통과).
+        s.eq('C3.expand.%d' % vp, u'[%dpx] 접기 버튼 클릭 없이 렌더' % vp,
+             False, bool(r.get('expandClicked')),
+             u'True 면 「상세 정보 모두 보기」 가 되살아난 것이다')
         s.eq('C3.n.%d' % vp, u'[%dpx] 배율을 잰 상세 이미지 수 (펼친 뒤 14/14)' % vp,
              b['detail_imgs'], z['n'],
              u'모자라면 naturalWidth 를 못 읽은 것 = 거짓 통과 위험')
@@ -191,9 +205,12 @@ def run(base, obs=None):
              u'남아 있으면 색인에서 사라진다')
         s.eq('C4.lazy.src', u'`#prdDetail img[src]`', b['detail_imgs'], m['lazy']['withSrc'])
         s.eq('C4.lazy.alt', u'`#prdDetail img[alt]` 채움', b['detail_imgs'], m['lazy']['withAlt'])
-        s.eq('C4.fold', u'`.zg-fold` max-height(모바일)', b['fold_max_mobile'],
-             m['fold']['maxHeight'])
-        s.truthy('C4.more', u'`.zg-more` 버튼 존재', m['fold']['more'])
+        # 2026-09-11 접기 폐지 — 클램프가 없어야(= 'none') 상세가 안 잘린다.
+        s.eq('C4.fold', u'`.zg-fold` max-height(모바일) — 클램프 없음', 'none',
+             m['fold']['maxHeight'],
+             u'px 값이 돌아오면 상세가 다시 잘린다')
+        s.eq('C4.more', u'`.zg-more` 버튼 부재', False, bool(m['fold']['more']),
+             u'True 면 「상세 정보 모두 보기」 가 되살아난 것이다')
         # 삭제 섹션 잔재
         s.eq('C4.ghost', u'빈 공간 잔재 블록(높이 24px+ 인데 내용 없음)', [], m['ghostBlocks'])
         s.eq('C4.dblmargin', u'이중 여백(인접 형제 margin 24px+ 양쪽)', [], m['doubleMargins'])
@@ -396,12 +413,21 @@ def run(base, obs=None):
         bf = u.get('bubbleFit') or {}
         s.eq('C9.%s.bfit.found' % tag, u'[%s] 말풍선 요소 탐지(기하 측정)' % kind, True, bf.get('found'),
              u'False 면 클래스명이 바뀐 것 = 아래 검사들이 통째로 사라진다')
-        if bf.get('found'):
+        # 2026-09-11 개편 — 인라인(top) 구간은 상단 구매 블록 자체를 감췄다
+        # (`.mobile-layer:not(.on):not(.fixed) .infoArea-footer{display:none}`).
+        # 조상이 숨어 있어 기하를 못 재는 게 **정상**이다. 시트(`.on`)·고정바(`.fixed`)
+        # 구간에서는 그대로 재고, 거기서 깨지면 잡힌다.
+        if kind == 'top':
+            s.eq('C9.%s.bfit.render' % tag, u'[%s] 상단 구매 블록은 숨어 있다' % kind,
+                 False, bool(bf.get('renderable')),
+                 u'True 면 상단 구매 블록이 되살아난 것이다')
+        elif bf.get('found'):
             s.eq('C9.%s.bfit.render' % tag, u'[%s] 강제 노출하면 실제로 그려진다' % kind,
                  True, bf.get('renderable'),
                  u'0 이면 조상이 계속 숨어 있어 측정이 무의미하다(거짓 통과)')
-            s.eq('C9.%s.bfit.h' % tag, u'[%s] 말풍선 상자 높이(px) — 스킨 `height:26px`' % kind,
-                 b['barbuy']['bubble_h'], bf.get('boxH'))
+            if kind != 'top':
+                s.eq('C9.%s.bfit.h' % tag, u'[%s] 말풍선 상자 높이(px) — 스킨 `height:26px`' % kind,
+                     b['barbuy']['bubble_h'], bf.get('boxH'))
             s.le('C9.%s.bfit.ovf' % tag, u'[%s] 글자가 상자를 넘친 높이(px)' % kind,
                  1, bf.get('overflowPx'),
                  u'줄상자가 상자보다 크면 글자가 잘려 보인다 (R-4). 음성 대조군 실측 28px')

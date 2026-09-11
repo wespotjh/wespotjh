@@ -10,8 +10,10 @@ u"""
     ② `.name-top` 앞에 `<div class="zg-brand"></div>`
     ③ `.summary-info` 뒤에 `<ul class="zg-badges"></ul>`
   `git diff … cafe24-skin/moa/import/product_detail/detail.html`
-    ④ `#prdDetail` 의 상세설명 div 를 `.zg-fold`(+`.zg-veil`/`.zg-more`) 로 감싸고
+    ④ `#prdDetail` 의 상세설명 div 를 `.zg-fold` 로 감싸고
        앞에 `.zg-dh`, `#related` 앞에 `.zg-guide` · `.zg-note` 를 넣는다
+       (2026-09-11: 접기 폐지. `.zg-veil`/`.zg-more` 는 더 이상 없다 —
+        래퍼는 `.zg-open` 을 달고 태어난다)
 
 ④ 의 마크업 조각은 **하드코딩하지 않고 실제 템플릿 파일에서 잘라 온다.**
 템플릿이 바뀌면 하네스도 따라 바뀐다. 잘라내기에 실패하면 예외를 던져 C 스위트가
@@ -37,9 +39,10 @@ def _fragments():
     dh = re.search(r'(<div class="zg-dh">(?:(?!<div\b).)*?</div>)', inner, re.S)
     if not dh:
         raise RuntimeError(u'델타④: .zg-dh 조각을 못 찾았다')
-    veil = re.search(r'(<div class="zg-veil">.*?</div>)', inner, re.S)
-    if not veil:
-        raise RuntimeError(u'델타④: .zg-veil 조각을 못 찾았다')
+    # 접기 폐지(2026-09-11) — `.zg-veil` 이 **없어야** 정상이다.
+    # 되살아나면 상세가 다시 접힌다는 뜻이므로 여기서 잡는다.
+    if re.search(r'<div class="zg-veil">', inner):
+        raise RuntimeError(u'델타④: .zg-veil 이 되살아났다 — 상세 접기는 폐지됐다')
     guide = re.search(r'(<div class="zg-guide">(?:(?!<div\b).)*?</div>)', inner, re.S)
     if not guide:
         raise RuntimeError(u'델타④: .zg-guide 조각을 못 찾았다')
@@ -47,7 +50,7 @@ def _fragments():
     if not note:
         raise RuntimeError(u'델타④: .zg-note 조각을 못 찾았다')
 
-    frag = {'dh': dh.group(1), 'veil': veil.group(1),
+    frag = {'dh': dh.group(1),
             'guide': guide.group(1), 'note': note.group(1)}
     for k, v in frag.items():
         if not v.strip():
@@ -91,10 +94,10 @@ def _delta_script():
       }
       if (first) {
         var fold = document.createElement('div');
-        fold.className = 'zg-fold'; fold.id = 'zgFold';
+        /* 2026-09-11: 접기 폐지 — 래퍼는 처음부터 펼쳐진 상태다 */
+        fold.className = 'zg-fold zg-open'; fold.id = 'zgFold';
         host.insertBefore(fold, first);
         fold.appendChild(first);
-        fold.insertAdjacentHTML('beforeend', D.veil);
         fold.insertAdjacentHTML('beforebegin', D.dh);
         var rel = document.getElementById('related');
         if (rel) rel.insertAdjacentHTML('beforebegin', D.guide + D.note);
@@ -108,6 +111,7 @@ def _delta_script():
     zgBrand:  document.querySelectorAll('.zg-brand').length,
     zgBadges: document.querySelectorAll('.zg-badges').length,
     zgFold:   document.querySelectorAll('.zg-fold').length,
+    /* 접기 폐지(2026-09-11) — 0 이어야 정상이다 */
     zgMore:   document.querySelectorAll('.zg-more').length,
     zgChip:   document.querySelectorAll('.zg-chip').length
   };

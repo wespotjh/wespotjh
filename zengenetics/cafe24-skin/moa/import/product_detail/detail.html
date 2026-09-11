@@ -5,10 +5,10 @@
         <h2>상세 정보</h2>
     </div>
 
-    <!-- 접기 래퍼는 상세설명 1개만 감싼다. 연관상품은 밖에 남긴다. 주석에 치환변수 표기 금지 -->
-    <div class="zg-fold" id="zgFold">
+    <!-- 2026-09-11 개편: 상세페이지는 기본값으로 모두 펼친다.
+         접기 래퍼와 「상세 정보 모두 보기」 버튼을 제거했다. -->
+    <div class="zg-fold zg-open" id="zgFold">
         <div>{$product_detail}</div>
-        <div class="zg-veil"><button type="button" class="zg-more" aria-expanded="false" aria-controls="zgFold">상세 정보 모두 보기</button></div>
     </div>
 
     <!-- 안내 칩. 법정고지 본문을 옮겨 적지 않는다. 탭 인덱스 때문에 반드시 이 컨테이너 안 -->

@@ -1035,37 +1035,12 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 }
 .zg-detail .zg-dh h2 { font-size: 20px; font-weight: 700; letter-spacing: -.02em; margin: 0; }
 
-.zg-detail .zg-fold { position: relative; max-height: 1700px; overflow: hidden; }
-.zg-detail .zg-fold.zg-open { max-height: none; overflow: visible; }
-.zg-detail .zg-veil {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 190px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 14px;
-  box-sizing: border-box;
-  background: linear-gradient(to bottom, rgb(255 255 255 / 0), var(--zg-bg) 72%);
-}
-.zg-detail .zg-fold.zg-open .zg-veil { display: none; }
-/* [근거] 베일이 상세 하단 190px 을 덮어 그 안의 링크 클릭을 막는다 → 버튼만 살린다 */
-.zg-detail .zg-veil { pointer-events: none; }
-.zg-detail .zg-veil .zg-more { pointer-events: auto; }
-.zg-detail .zg-more {
-  min-height: 48px;
-  padding: 13px 30px;
-  background: var(--zg-bg);
-  color: var(--zg-ink);
-  border: 1px solid var(--zg-ink);
-  border-radius: var(--zg-r-pill);
-  font-family: var(--zg-f-b);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-/* 상세 이미지: `.productDetail img{width:auto important-플래그}` 는 이기지 않는다.
-   원본 폭(639~640px) + max-width:100% 로 이미 의도한 결과가 나온다. 정렬만 잡는다. */
+/* 2026-09-11 개편 — 상세는 기본값으로 모두 펼친다. 클램프 없음.
+   `.zg-open` 은 마크업에 고정으로 붙어 있고, 예전 판이 캐시된 경우에도
+   접히지 않도록 `.zg-fold` 자체에서 클램프를 뺀다. */
+.zg-detail .zg-fold { position: relative; max-height: none; overflow: visible; }
+/* `.zg-veil` / `.zg-more` 규칙 — 접기 폐지(2026-09-11)로 함께 제거 */
+
 .zg-detail #prdDetail .zg-fold img { display: block; margin: 0 auto; }
 
 /* [근거] `ds/js/detail-ui.js` 의 K-09 하드가드가 `ec-data-src` 를 `src` 로 승격하면서 `width`/`height` 가 없어
@@ -1339,9 +1314,11 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
 }
 
 /* [근거] 검정 CTA 위에서 UA 기본 포커스 링의 대비가 나쁘다 */
+/* 구매 컨트롤은 `<div>`/`<span>` 이라 UA 기본 포커스 링이 약하거나 없다.
+   런타임에 `tabindex` 를 얹었으므로(detail-ui.js) 링도 같이 보장한다. */
 .zg-detail .zg-opt:focus-visible,
 .zg-detail .zg-chip:focus-visible,
-.zg-detail .zg-more:focus-visible {
+.zg-detail [data-zg-kb]:focus-visible {
   outline: 2px solid var(--zg-acc-deep);
   outline-offset: 2px;
 }
@@ -1386,7 +1363,7 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   .zg-detail .infoArea-footer .productAction { padding: 0; }
   .zg-detail .zg-guide { max-width: 760px; }
   .zg-detail .zg-note { max-width: 760px; }
-  .zg-detail .zg-fold { max-height: 2200px; }
+  /* 접기 클램프 제거됨 (2026-09-11) */
 
   /* 스크롤이 .infoArea 를 지나면 스킨이 .mobile-layer 를 화면 하단 가로 바로 바꾼다.
      그 안에서도 합계가 한 줄로 들어가도록 압축한다 (원본 #totalPrice 는 계속 클립). */
@@ -1401,4 +1378,30 @@ body:not(#userStyle) .zg-detail #totalProducts .delete img {
   .zg-detail .mobile-layer.fixed .infoArea-footer .zg-sum .zg-sum__row--tot .zg-sum__v { font-size: 19px; }
   .zg-detail .mobile-layer.fixed .infoArea-footer .zg-sum .zg-sum__note { display: none; }
   /* 데스크톱 하단 고정바는 만들지 않는다 — 스킨 `.mobile-layer.fixed` 가 그 역할이다 */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   상단 구매 블록 — 인라인에서는 숨기고 구매 시트에서만 보인다
+   2026-09-11 개편 요건:
+     썸네일 > 리뷰 > 제목 > 옵션 > 추가 옵션 > 총구매금액 > 네이버페이 >
+     카카오페이 순서를 상단에서 걷어내고, 썸네일 다음 바로 상세페이지를 둔다.
+
+   ⚠ 지우면 안 된다. `.mobile-layer` 는 인라인 블록과 구매 시트가 **같은 DOM** 이다
+     (스킨이 스크롤에 맞춰 `.fixed` / `.on` 을 붙여 시트로 바꾼다).
+     마크업에서 제거하면 시트에도 옵션이 사라져 결제가 불가능해진다.
+     그래서 **인라인 상태에서만** 감춘다.
+   ══════════════════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 767px) {
+  .zg-detail .mobile-layer:not(.on):not(.fixed) .opt-content__pc,
+  .zg-detail .mobile-layer:not(.on):not(.fixed) .infoArea-footer {
+    display: none;
+  }
+  /* 시트·하단바에서는 원래대로 되돌린다 */
+  .zg-detail .mobile-layer.on .opt-content__pc,
+  .zg-detail .mobile-layer.on .infoArea-footer,
+  .zg-detail .mobile-layer.fixed .infoArea-footer {
+    display: block;
+  }
+  /* 상단이 비므로 썸네일과 상세 사이 여백만 남긴다 */
+  .zg-detail .mobile-layer:not(.on):not(.fixed) { margin: 0; padding: 0; }
 }

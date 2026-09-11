@@ -39,7 +39,9 @@ def scenarios():
         {'name': 'p11_load', 'vp': 390, 'docPath': '/product/detail.html?product_no=11',
          'fixture': f11, 'settle': 1600, 'assets': d11['assets']},
         {'name': 'p11_interact', 'vp': 390, 'docPath': '/product/detail.html?product_no=11',
-         'fixture': f11, 'settle': 1600, 'steps': ['.zg-opt', '.zg-more', '__scroll__'],
+         'fixture': f11, 'settle': 1600, # 2026-09-11 접기 폐지 — `.zg-more` 는 더 이상 없다.
+         # 상세는 처음부터 펼쳐져 있으므로 누를 것도, 발사될 `zg_detail_expand` 도 없다.
+         'steps': ['.zg-opt', '__scroll__'],
          'assets': d11['assets']},
         {'name': 'p61_load', 'vp': 390, 'docPath': '/product/detail.html?product_no=61',
          'fixture': f61, 'settle': 1600, 'assets': d61['assets']},

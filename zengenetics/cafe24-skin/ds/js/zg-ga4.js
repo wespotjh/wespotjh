@@ -732,14 +732,9 @@
     sendAlways('login', { method: 'kakao' });
   }, true);
 
-  /* ================================================================== *
-   * 6-B. 상세 접기 펼침
-   * ================================================================== */
-  document.addEventListener('click', function (e) {
-    var m = e.target && e.target.closest ? e.target.closest('.zg-more') : null;
-    if (!m) return;
-    send('zg_detail_expand', { item_id: currentPrdNo() });
-  }, true);
+  /* 6-B. 상세 접기 펼침 — 2026-09-11 로 접기 자체가 폐지됐다.
+   * 「상세 정보 모두 보기」 버튼이 없으므로 zg_detail_expand 는 더 이상 발생하지 않는다.
+   * 개편 전후 비교가 필요하면 zg_scroll_depth 의 detail_expanded 를 보면 된다. */
 
   /* ================================================================== *
    * 6-C. 홈 → 제품 이동 (select_item) · 히어로 구간 도달 (zg_hero_stage)
@@ -791,7 +786,8 @@
             page_kind: isProduct ? 'product' : 'home',
             item_id: isProduct ? currentPrdNo() : ''
           };
-          if (isProduct) sp.detail_expanded = document.querySelector('.zg-fold.zg-open') ? 1 : 0;
+          /* 상세는 항상 펼쳐져 있다(2026-09-11). 개편 경계를 남기려 필드는 유지한다. */
+          if (isProduct) sp.detail_expanded = 1;
           if (isHome) sp.hero_mode = document.querySelector('.zg-home.zg-no3d') ? 'no3d'
                                    : document.querySelector('.zg-home.zg-reduced') ? 'reduced' : '3d';
           sendAlways('zg_scroll_depth', sp);

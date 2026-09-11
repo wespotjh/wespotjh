@@ -267,6 +267,54 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     return dead($('#actionCart', wrap)) && dead($('.btnSubmit.gFull', wrap));
   }
 
+  /* -------------------------------------------- 접근성: 구매 동선 키보드 도달
+   * 실측 문제: 구매 동선에서 키보드로 닿는 컨트롤이 **0개**였다.
+   *   인라인 장바구니만 진짜 `<button>` 이고 나머지는 전부 클릭 전용 요소다 —
+   *   인라인 구매하기 `<div onclick>` · 바 장바구니 `<div onclick>` · 바 구매하기 `<span>`.
+   *   게다가 12차 B안에서 시트가 닫혀 있으면 인라인 블록이 `display:none` 이라
+   *   그 유일한 `<button>` 마저 포커스를 못 받는다 → 도달 가능 컨트롤 0.
+   * → 마크업은 건드리지 않고(스킨 템플릿의 `onclick="{$action_*}"` 는 절대 손대지 않는다)
+   *   런타임에 `role="button"` · `tabindex` 와 Enter/Space 핸들러만 얹는다.
+   *   실제 동작은 기존 `onclick` 이 그대로 한다 — 우리가 구매 로직을 새로 만들지 않는다.
+   * ⚠ 팔 수 없는 페이지(34·91·93)에서는 tabindex 를 떼어 **죽은 버튼에 포커스가 가지 않게** 한다.
+   * ⚠ `display:none` 인 요소는 tabindex 가 있어도 포커스를 못 받는다(브라우저 규칙) —
+   *   시트가 닫혀 있으면 바 「구매하기」로 들어가 시트를 열고, 그 안에서 이어서 도달한다. */
+  var KB_SEL = [
+    '.buy-btn-wrap .btnSubmit.gFull',
+    '.mobile-fix-footer [class^="btn"].btnNormal:not(.jsGoReview)',
+    '.mobile-fix-footer [class^="btn"].btnSubmit.jsLayerBtn'
+  ];
+  function kbTargets() {
+    var out = [];
+    KB_SEL.forEach(function (sel) {
+      $$(sel).forEach(function (e) {
+        if (!e || e.tagName === 'BUTTON' || e.tagName === 'A') return;  /* 이미 포커스 가능 */
+        if (out.indexOf(e) < 0) out.push(e);
+      });
+    });
+    return out;
+  }
+  function armKeyboard() {
+    kbTargets().forEach(function (e) {
+      if (e.getAttribute('data-zg-kb')) return;
+      e.setAttribute('data-zg-kb', '1');
+      if (!e.getAttribute('role')) e.setAttribute('role', 'button');
+      on(e, 'keydown', function (ev) {
+        var k = ev.key;
+        if (k === 'Enter' || k === ' ' || k === 'Spacebar' || ev.keyCode === 13 || ev.keyCode === 32) {
+          ev.preventDefault();
+          try { e.click(); } catch (x) {}
+        }
+      });
+    });
+  }
+  function setKeyboardReach(dead) {
+    kbTargets().forEach(function (e) {
+      if (dead) e.removeAttribute('tabindex');
+      else e.setAttribute('tabindex', '0');
+    });
+  }
+
   /* --------------------------------------------------------------- 토스트 */
   var toastEl = null, toastTimer = null;
   function toast(msg) {
@@ -387,6 +435,7 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     buildPickedHead();
     buildSum();
     buildBar();
+    armKeyboard();
     bindFold();
     bindChips();
     bindAddProduct();
@@ -706,21 +755,24 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     bar.appendChild(so);
   }
 
-  /* ------------------------------------------------- K-09 상세 접기·펼치기 */
+  /* ------------------------------------------------- K-09 상세 펼침 (접기 폐지)
+   * 2026-09-11 개편: 상세페이지는 기본값으로 모두 펼친다.
+   * 「상세 정보 모두 보기」 버튼은 마크업에서 제거했다. 여기서는 캐시된 예전
+   * 마크업이 남아 있는 경우까지 확실히 펼치고, 남은 버튼이 있으면 치운다. */
   function bindFold() {
     var fold = $('.zg-fold');
-    var more = $('.zg-more');
-    if (!fold || !more) return;
-    /* [근거] 펼침 상태를 보조기술에 알린다 */
+    if (!fold) return;
     if (!fold.id) fold.id = 'zgFold';
-    more.setAttribute('aria-expanded', 'false');
-    more.setAttribute('aria-controls', fold.id);
-    on(more, 'click', function () {
-      fold.classList.add('zg-open');
-      more.setAttribute('aria-expanded', 'true');
-      /* [근거] 이전 판의 scroll/resize 재발사 완화책은 삭제했다 — IO 는 scroll 을
-       * 구독하지 않아 무효였다. 이미지 승격은 unlazyDetailImages() 가 담당한다. */
-    });
+    fold.classList.add('zg-open');
+
+    var veil = $('.zg-veil');
+    if (veil && veil.parentNode) veil.parentNode.removeChild(veil);
+
+    /* [근거] 접힌 동안 지연 로딩이 멈춰 있던 이미지를 바로 올린다 —
+     * 예전 판은 버튼 클릭이 그 시점이었다. */
+    if (typeof unlazyDetailImages === 'function') {
+      try { unlazyDetailImages(); } catch (e) {}
+    }
   }
 
   /* ---------------------------------------------------- K-10 바로가기 칩 */
@@ -736,11 +788,10 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     });
   }
 
-  /* -------------------------------------------------- K-06 추가 구성 상품 */
+  /* -------------------------------------------------- K-06 세트 구성 상품
+   * 추가 구성 상품(`.productSet.additional`)은 2026-09-11 로 마크업에서 제거됐다.
+   * 남은 세트상품(`module="product_setproduct"`)에는 같은 표시 규칙이 필요하다. */
   function bindAddProduct() {
-    var set = $('.productSet.additional');
-    if (set && set.classList && !set.classList.contains('on')) set.classList.add('on');
-
     on(document, 'change', function (e) {
       var t = e.target;
       if (!t || t.tagName !== 'SELECT') return;
@@ -838,6 +889,8 @@ var ZG_MOVE_TOTALPRODUCTS = true; /* true = ≤767px 에서 선택목록(#totalP
     var dead = isUnsellable();
     if (bar) bar.classList.toggle('zg-bar--dead', dead);
     if (root) root.classList.toggle('zg-unsellable', dead);
+    armKeyboard();          /* 바가 나중에 그려지는 경우 대비 */
+    setKeyboardReach(dead);
 
     if (sumItemV) sumItemV.textContent = num > 0 ? t : '—';
     if (sumTotV) sumTotV.textContent = num > 0 ? t : '0원';
